@@ -1,14 +1,14 @@
 {
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js"
   },
   "dependencies": {
     "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "mysql2": "^3.17.2",
     "nodemon": "^3.1.11"
   }
 }
-
