@@ -123,5 +123,17 @@ nav button {
 
 .card{
     background-color: var(--cor03);
-    border-radius: 10px;
+}
+
+/*Início Footer*/
+ footer{
+ background-color: var(--cor02);
+}
+
+footer .col-md-4{
+    color: var(--cor01);
+}
+
+.containerfooter .nav-item a{
+    color: var(--cor01);
 }
