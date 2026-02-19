@@ -99,7 +99,18 @@ nav button {
     margin-bottom: -30px;
 }
 
+/* INICIO CARDS */
 
+.texto-cards p{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-body{
+    background-color: var(--cor03);
+}
 
 /*Início Footer*/
  footer{
