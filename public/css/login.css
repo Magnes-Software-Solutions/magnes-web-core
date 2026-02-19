@@ -67,3 +67,29 @@ nav .line {
 nav button {
     background-color: var(--cor02) !important;
 }
+
+/* FIM NAVBAR */
+
+.container-form {
+    background-color: #477DBF;
+    min-height: calc(100vh - 69.09px);
+}
+
+form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+form div {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    width: 100%;
+    padding: 0px 60px;
+}
+
+#inputEmail, #inputPassword {
+
+}
