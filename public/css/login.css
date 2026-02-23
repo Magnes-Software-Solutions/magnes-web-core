@@ -70,6 +70,13 @@ nav button {
 
 /* FIM NAVBAR */
 
+.div-banner {
+    background-image: linear-gradient(rgba(4,9,30,0.3),rgba(4,9,30,0.3)),url(../assets/imgs/rm2.png);
+    background-position: center;
+    background-size: cover;
+    position: relative;
+}
+
 .container-form {
     background-color: #477DBF;
     min-height: calc(100vh - 69.09px);
@@ -82,12 +89,41 @@ form {
     justify-content: space-around;
     align-items: center;
 }
+
+form h1 {
+    font-family: "Poppins", sans-serif;
+    color: #124685;
+    font-weight: 600;
+}
+
+form label {
+    color: #124685;
+    padding: 0px 0px 0px 10px;
+    font-weight: bolder;
+}
+
 form div {
     display: flex;
     flex-direction: column;
     gap: 50px;
     width: 100%;
     padding: 0px 60px;
+}
+
+form button {
+    border: 3px solid #FBFBFB;
+    background-color: #477DBF;
+    border-radius: 20px;
+    font-size: 25px;
+    font-weight: 500;
+    padding: 5px 30px;
+    font-family: Orbitron;
+    color: #FFFFFF;
+}
+
+form button:hover {
+    background-color: #3069b0;
+    transition: 1s;
 }
 
 #inputEmail, #inputPassword {
