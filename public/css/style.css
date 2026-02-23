@@ -145,23 +145,24 @@ nav button {
     margin-top: 2vw;
 }
 
-.container_alltext_us {
+/* .container_alltext_us {
     display: flex;
     flex-direction: row;
     margin-top: 3vw;
     justify-content: center;
     align-items: center;
-}
+} */
 
-.container_img_us {
+/* .container_img_us {
     margin-right: 40px;
-}
+} */
 
-.container_img_us img {
+.img_us img {
     width: 100%;
     height: auto;
     border-radius: 20px;
     max-width: 420px;
+    display: block;
 }
 
 
