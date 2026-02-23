@@ -107,7 +107,7 @@ nav button {
 
 .container_cards {
     width: 100%;
-    height: 40vw;
+    height: auto;
     margin-top: 5vw;
 }
 
@@ -141,7 +141,7 @@ nav button {
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 50vw;
+    height: auto;
     margin-top: 2vw;
 }
 
@@ -161,6 +161,7 @@ nav button {
     width: 100%;
     height: auto;
     border-radius: 20px;
+    max-width: 420px;
 }
 
 
