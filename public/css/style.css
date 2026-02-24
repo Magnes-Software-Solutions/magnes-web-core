@@ -14,8 +14,9 @@ body {
 
 
 nav {
-    background-color: rgba(0, 0, 0, 0.315);
+    background-color: rgba(0, 0, 0, 0.823);
     font-family: "Poppins", sans-serif;
+    
 }
 
 
@@ -56,7 +57,7 @@ nav {
 
 nav .line {
 
-    background-color: var(--cor02);
+    background-color: var(--cor00);
     width: 3px;
     height: 25px;
     border-radius: 5px;
@@ -65,7 +66,8 @@ nav .line {
 }
 
 nav button {
-    background-color: var(--cor02) !important;
+    background-color: var(--cor00) !important;
+    border-color:  var(--cor00) !important;
 }
 
 /* fim da navbar  */
@@ -109,6 +111,22 @@ nav button {
     width: 100%;
     height: auto;
     margin-top: 5vw;
+    
+}
+.container_cards .card{
+    animation: scroll linear;
+    animation-timeline: view();
+    animation-range: entry 30% cover 40%;
+    transition: 0.2s ease-in-out;
+}
+
+.container_cards .text{
+    animation: scroll2 linear;
+    animation-timeline: view();
+    animation-range: entry 30% cover 40%;
+}
+.container_cards .card:hover{
+    transform: scale(1.2);
 }
 
 .texto-cards h1 {
@@ -181,6 +199,94 @@ nav button {
 
 
 /* FIM SOBRE NÓS */
+
+/*On Scroll*/
+
+
+
+.text-mission{
+    animation: scroll2 linear;
+    animation-timeline: view();
+    animation-range: entry 40% cover 40%;
+}
+@keyframes scroll {
+   from{
+    opacity: 0;
+    scale: 0.5;
+    /* transform: translateX(-100px); */
+    /*clip-path: inset(100% 100% 0 0)*/
+   }
+   to{
+    opacity: 1;
+    scale: 1;
+    /* transform: translateX(0px); */
+    /*clip-path: inset(0 0 0 0)*/
+   }
+}
+
+@keyframes scroll2 {
+   from{
+    opacity: 0;
+    /* scale: 0.5; */
+    transform: translateX(-100px);
+    /*clip-path: inset(100% 100% 0 0)*/
+   }
+   to{
+    opacity: 1;
+    /* scale: 1; */
+    transform: translateX(0px);
+    /*clip-path: inset(0 0 0 0)*/
+   }
+}
+.block{
+    animation: scroll linear;
+    animation-timeline: view();
+}
+
+
+/*Carousel*/
+.carousel{
+    margin: 100px auto;
+    width: 90%;
+    display: flex;
+    overflow-x: auto;
+    gap: 1em;
+}
+
+.carousel::-webkit-scrollbar{
+    display: none;
+}
+
+.carousel .group{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+    animation: girar 15s infinite linear;
+    padding-right: 1em;
+}
+
+.carousel .group .cards{
+    flex: 0 0 5em;
+    height: 5em;
+    padding: 1em;
+    font-size: 3rem;
+    border-radius: .2em;
+    text-align: center;
+    align-content: center;
+}
+.cards img{
+    width: 150px;
+}
+
+@keyframes girar{
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}
 
 /*Início Footer*/
 footer {
