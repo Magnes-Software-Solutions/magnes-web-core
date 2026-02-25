@@ -1,3 +1,16 @@
+.div-titulo {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    justify-items: center;
+    gap: 20px;
+}
+
+.div-titulo img{
+    width: 30px;
+    color: white;
+    cursor: pointer;
+}
 
 .titulo-cadastro {
     margin: 20px;
@@ -45,3 +58,13 @@
     background-size: cover;
     position: relative;
 }
+
+#form_funcionario {
+    display: flex;
+    flex-direction: column;
+    /* gap: 0px; */
+    width: 100%;
+    height: fit-content;
+    padding: 0px 60px;
+
+};
