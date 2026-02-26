@@ -10,3 +10,8 @@ function autenticar(email, senha){
     return database.executar(instrucaoSql)
     
     }
+
+
+    module.export = {
+        autenticar
+    }
