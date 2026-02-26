@@ -8,8 +8,6 @@ async function autenticar(req, res){
     } else if (senha == undefined){
         res.status(400).send("Sua senha está incorreta")
     } else {
-
-
         const resultado = await usuarioModel.autenticar(email, senha)
 
         if (resultado.length){

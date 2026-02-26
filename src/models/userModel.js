@@ -12,6 +12,6 @@ function autenticar(email, senha){
     }
 
 
-    module.export = {
+    module.exports = {
         autenticar
     }
