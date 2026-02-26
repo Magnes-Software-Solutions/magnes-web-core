@@ -11,11 +11,10 @@ async function autenticar(req, res){
         const resultado = await usuarioModel.autenticar(email, senha)
 
         if (resultado.length){
-            console.log (usuario)
 
             res.json (resultado)
         } else {
-            res.status(403).send ("Email e/ou senha inválido(s)")
+            res.status(403).send("Email e/ou senha inválido(s)")
         }
     }
 
