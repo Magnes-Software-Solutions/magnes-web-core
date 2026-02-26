@@ -151,6 +151,26 @@ nav button {
 
 .card {
     background-color: var(--cor03);
+    box-shadow: -3px 3px 10px rgba(0,0,0,0.5);
+}
+
+.card-title {
+    font-size: 15px;
+    color: var(--cor01);
+    margin-left: 15px;
+}
+
+.card-img-top {
+    display: flex;
+    width: 15%;
+    height: 25%;
+    margin-bottom: 5px;
+    border: none;
+}
+
+.card-text {
+    display: flex;
+    margin-left: 15px;
 }
 
 /* INÍCIO SOBRE NÓS */
