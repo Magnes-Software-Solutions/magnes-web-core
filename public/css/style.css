@@ -16,7 +16,7 @@ body {
 nav {
     background-color: rgba(0, 0, 0, 0.823);
     font-family: "Poppins", sans-serif;
-    
+    transition: top 0.3s ease;
 }
 
 
