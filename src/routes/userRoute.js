@@ -9,4 +9,10 @@ routes.post("/create", async (req, res) => {
     res.send("User created")
 })
 
+routes.post("/cadastrarEmpresa", async (req, res) => {
+    const { name } = req.body
+    await user.cadastrarEmpresa(name)
+    res.send("User created")
+})
+
 module.exports = routes
