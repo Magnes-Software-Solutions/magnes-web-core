@@ -126,7 +126,7 @@ nav button {
     animation-range: entry 30% cover 40%;
 }
 .container_cards .card:hover{
-    transform: scale(1.2);
+    transform: scale(1.06);
 }
 
 .texto-cards h1 {
