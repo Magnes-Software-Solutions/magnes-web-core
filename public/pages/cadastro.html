@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Magnes | Login</title>
+        <link rel="stylesheet" href="../bootstrap-5.3.8-dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="../css/login.css">
+        <link rel="stylesheet" href="../css/cadastro.css">
+    </head>
+    
+<body>
+    <nav class="navbar navbar-expand-lg border-bottom border-body">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img class="" src="https://res.cloudinary.com/dmwq36uby/image/upload/v1771518341/Logo_hlyucq.png"
+                    alt="" />
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse align-items-center" id="navbarText">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="../index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Funcionalidades</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Quem Somos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contato</a>
+                    </li>
+                </ul>
+
+                <div class="d-grid gap-5 d-md-flex justify-content-center align-items-center">
+                    <div class="line"></div>
+                    <a class="text-decoration-none" href="#">Cadastrar</a>
+                    <button class="btn btn-primary" type="button"><a href="./login.html" style="outline: none;">Login</a></button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container-fluid right-container">
+        <div class="row">
+            <div class="col-md-6 banner-cadastro">
+            </div>
+            <div class="col-md-6 container-form">
+                <div class="div-titulo">
+                    <img src="../assets/imgs/retorno.svg" id="retorno" onclick="voltar()" style="display: none;">
+                    <h1 id="titulo" class="titulo-cadastro">CADASTRO</h1>
+                </div>
+
+                <div id="cards_cadastro" class="cards-cadastro">
+                    <div class="card-fabricante" onclick="escolher('fabricante')">
+                        <h3>FABRICANTE</h3>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M96 96C78.3 96 64 110.3 64 128L64 496C64 522.5 85.5 544 112 544L528 544C554.5 544 576 522.5 576 496L576 216.2C576 198 556.6 186.5 540.6 195.1L384 279.4L384 216.2C384 198 364.6 186.5 348.6 195.1L192 279.4L192 128C192 110.3 177.7 96 160 96L96 96z"/></svg>
+                    </div>
+                    <div class="card-funcionário" onclick="escolher('funcionario')">
+                        <h3>FUNCIONÁRIO</h3>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M384 328L384 128C384 110.3 369.7 96 352 96L288 96C270.3 96 256 110.3 256 128L256 328C256 341.3 245.3 352 232 352C218.7 352 208 341.3 208 328L208 142.1C122 173.8 64 255.8 64 352L64 416L576 416L576 352C575 256.8 517.6 174.3 432 142.2L432 328C432 341.3 421.3 352 408 352C394.7 352 384 341.3 384 328zM72 464C49.9 464 32 481.9 32 504C32 526.1 49.9 544 72 544L568 544C590.1 544 608 526.1 608 504C608 481.9 590.1 464 568 464L72 464z"/></svg>
+                    </div>
+                </div>
+
+                <!-- <form>
+                    <div>
+                        <span>
+                            <label for=""></label>
+                            <input type="text">
+                        </span>
+                        <span>
+                            <label for=""></label>
+                            <input type="text">
+                        </span>
+                    </div>
+                    <button></button>
+                </form> -->
+
+                <form id="form_funcionario" style="display: none;">
+                        <span>
+                            <label for="inputNome" class="form-label">Nome Completo:</label>
+                            <input type="text" id="inputNome" class="form-control">
+                        </span>
+                        <span>
+                            <label for="inputEmail" class="form-label">Email:</label>
+                            <input type="email" id="inputEmail" class="form-control">
+                        </span>
+                        <span>
+                            <label for="inputCargo" class="form-label">Cargo:</label>
+                            <input type="cargo" id="inputCargo" class="form-control">
+                        </span>
+                        <span>
+                            <label for="inputPassword" class="form-label">Senha:</label>
+                            <input type="password" id="inputPassword" class="form-control">
+                        </span>
+                        <span>
+                            <label for="inputPasswordConfirm" class="form-label">Confirme sua senha:</label>
+                            <input type="password" id="inputPasswordConfirm" class="form-control" aria-describedby="passwordHelpBlock">
+                        </span>
+                        <br>
+                    <button>CADASTRAR</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+<script src="../bootstrap-5.3.8-dist/js/bootstrap.js"></script>
+<script>
+
+    function escolher(metodo) {
+
+        if (metodo == 'funcionario') {
+
+            cards_cadastro.style.display = "none";
+            form_funcionario.style.display = "flex";
+            retorno.style.display = "flex";
+
+        } else {
+
+            cards_cadastro.style.display = "none";
+            form_fabricante.style.display = "flex";
+            retorno.style.display = "flex";
+
+        }
+    }
+
+    function voltar() {
+            
+            cards_cadastro.style.display = "flex";
+            form_funcionario.style.display = "none";
+            retorno.style.display = "none";
+    }
+
+
+</script>
