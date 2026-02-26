@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="pt-br">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Bootstrap demo</title>
+  <title>Magnes Software Solutions</title>
   <link rel="stylesheet" href="bootstrap-5.3.8-dist/css/bootstrap.css" />
-  <link rel="shortcut icon" href="docs/imgs/Logo.png" type="image/x-icon" />
+  <link rel="shortcut icon" href="./assets/imgs/Logo.png" type="image/x-icon" />
   <link rel="stylesheet" href="css/style.css" />
+  
 </head>
 
-<body>
-  <nav class="navbar navbar-expand-lg fixed-top border-bottom border-body">
+<body onscroll="scrolar()">
+  <nav id="navBarTimida" class="navbar navbar-expand-lg fixed-top border-bottom border-body">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
         <img class="" src="https://res.cloudinary.com/dmwq36uby/image/upload/v1771518341/Logo_hlyucq.png" alt="" />
@@ -26,20 +26,20 @@
             <a class="nav-link active" aria-current="page" href="#">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Funcionalidades</a>
+            <a class="nav-link" href="#funcionalidades">Funcionalidades</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Quem Somos</a>
+            <a class="nav-link" href="#quemSomos">Quem Somos</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Contato</a>
+            <a class="nav-link" href="#contato">Contato</a>
           </li>
         </ul>
 
         <div class="d-grid gap-5 d-md-flex justify-content-center align-items-center">
           <div class="line"></div>
-          <a style="color: #7a32cc;" class="text-decoration-none" href="">Cadastrar</a>
-          <button class="btn btn-primary" type="button">Login</button>
+          <a style="color: #7a32cc;" class="text-decoration-none" href="./pages/cadastro.html">Cadastrar</a>
+          <a class="btn btn-primary text-white text-decoration-none" href="./pages/login.html">Login</a>
         </div>
       </div>
     </div>
@@ -52,15 +52,15 @@
       </video>
     </div>
     <div class="inicial-texto">
-      <p>Cuidamos da máquina que</p>
-      <p>cuida de quem você ama.</p>
+      <p class="display-4">Cuidamos da máquina que <br>
+      cuida de quem você ama.</p>
     </div>
     <div class="botao-inicio"></div>
   </div>
 
 
 
-  <div class="container container_cards">
+  <div class="container container_cards" id="funcionalidades">
     <div class="texto-cards">
       <h1 class="text display-4">Excelência em monitoramento para ambientes críticos</h1>
     </div>
@@ -147,7 +147,7 @@
 
 
 
-  <div class="container my-5 container_us">
+  <div class="container my-5 container_us" id="quemSomos">
 
     <div class="container container_title_us">
       <h1 class="text-mission display-4 text-center title_us">Conheça nossa história e missão</h1>
@@ -202,7 +202,7 @@
   </div>
 
 
-  <div class="containerfooter">
+  <div class="containerfooter" id="contato">
     <footer class="d-flex flex-wrap justify-content-between align-items-center p-3 border-top">
       <p class="col-md-4 mb-0">© 2026 Company, Inc</p>
       <a href="/"
@@ -217,7 +217,7 @@
       </a>
       <ul class="nav col-md-4 justify-content-end">
         <li class="nav-item">
-          <a style="" href="#" class="nav-link px-2  teste">Home</a>
+          <a href="#" class="nav-link px-2">Home</a>
         </li>
         <li class="nav-item">
           <a href="#" class="nav-link px-2 ">Funcionalidades</a>
@@ -232,10 +232,11 @@
     </footer>
   </div>
 
-
+  
 </body>
 
 </html>
 
 <script src="bootstrap-5.3.8-dist/js/bootstrap.js"></script>
 <script src="js/index.js"></script>
+<script src="js/navBar.js"></script>
