@@ -16,7 +16,7 @@ body {
 nav {
     background-color: rgba(0, 0, 0, 0.823);
     font-family: "Poppins", sans-serif;
-    
+    transition: top 0.3s ease;
 }
 
 
@@ -126,7 +126,7 @@ nav button {
     animation-range: entry 30% cover 40%;
 }
 .container_cards .card:hover{
-    transform: scale(1.06);
+    transform: scale(1.2);
 }
 
 .texto-cards h1 {
