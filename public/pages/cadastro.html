@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="../bootstrap-5.3.8-dist/css/bootstrap.css" />
         <link rel="stylesheet" href="../css/login.css">
         <link rel="stylesheet" href="../css/cadastro.css">
+        <link rel="stylesheet" href="../css/style.css">
     </head>
     
 <body>
@@ -40,7 +41,7 @@
         <div class="d-grid gap-5 d-md-flex justify-content-center align-items-center">
           <div class="line"></div>
           <a style="color: #7a32cc;" class="text-decoration-none" href="./cadastro.html">Cadastrar</a>
-          <a class="btn btn-primary text-white text-decoration-none" href="./login.html">Login</a>
+          <a style="background-color: #7A32CC; border: none;" class="btn btn-primary text-white text-decoration-none" href="./login.html">Login</a>
         </div>
       </div>
     </div>
@@ -48,7 +49,7 @@
     
     <div class="container-fluid right-container" style="height: 100%;">
         <div class="row" style="height: 100%; padding: 69.09px 0px">
-            <div class="col-md-6 banner-cadastro">
+            <div id="banner" class="col-md-6 banner-cadastro">
             </div>
             <div class="col-md-6 container-form">
                 <div class="div-titulo">
@@ -67,41 +68,45 @@
                     </div>
                 </div>
 
-                    <form id="form_fabricante" style="display: none;">
-                        <div class="form-fabricante-col-1">
-                            <span>
-                                <label for="inputNome" class="form-label">Nome Completo:</label>
-                                <input type="text" id="inputNome" class="form-control">
-                            </span>
-                            <span>
-                                <label for="inputEmail" class="form-label">Email:</label>
-                                <input type="email" id="inputEmail" class="form-control">
-                            </span>
-                            <span>
-                                <label for="inputCNPJ" class="form-label">CNPJ:</label>
-                                <input type="text" id="inputCNPJ" class="form-control">
-                            </span>
+                    <form id="form_fabricante">
+                        <div class="div-inputs-cadastro">
+                            <div class="form-fabricante-col-1">
+                                <span>
+                                    <label for="inputNome" class="form-label">Nome Completo:</label>
+                                    <input type="text" id="inputNome" class="form-control">
+                                </span>
+                                <span>
+                                    <label for="inputEmail" class="form-label">Email:</label>
+                                    <input type="email" id="inputEmail" class="form-control">
+                                </span>
+                                <span>
+                                    <label for="inputCNPJ" class="form-label">CNPJ:</label>
+                                    <input type="text" id="inputCNPJ" class="form-control">
+                                </span>
+                            </div>
+                            
+                            <div class="form-fabricante-col-2">
+                                <span>
+                                    <label for="inputToken" class="form-label">Token:</label>
+                                    <input type="text" id="inputToken" class="form-control">
+                                </span>
+                                <span>
+                                    <label for="inputTelefoneCelular" class="form-label">Telefone Celular:</label>
+                                    <input type="password" id="inputTelefoneCelular" class="form-control" aria-describedby="passwordHelpBlock">
+                                </span>
+                                <span>
+                                    <label for="inputTelefoneCorporativo" class="form-label">Telefone Corporativo:</label>
+                                    <input type="password" id="inputTelefoneCorporativo" class="form-control" aria-describedby="passwordHelpBlock">
+                                </span>
+                            </div>
+                            <br>
                         </div>
-                        
-                        <div class="form-fabricante-col-2">
-                            <span>
-                                <label for="inputToken" class="form-label">Token:</label>
-                                <input type="text" id="inputToken" class="form-control">
-                            </span>
-                            <span>
-                                <label for="inputTelefoneCelular" class="form-label">Telefone Celular:</label>
-                                <input type="password" id="inputTelefoneCelular" class="form-control" aria-describedby="passwordHelpBlock">
-                            </span>
-                            <span>
-                                <label for="inputTelefoneCorporativo" class="form-label">Telefone Corporativo:</label>
-                                <input type="password" id="inputTelefoneCorporativo" class="form-control" aria-describedby="passwordHelpBlock">
-                            </span>
-                        </div>
-                        <br>
-                    <button>CADASTRAR</button>
+                        <button>CADASTRAR</button>
                 </form>
 
                 <form id="form_funcionario" style="display: none;">
+                    <div>
+
                         <span>
                             <label for="inputNome" class="form-label">Nome Completo:</label>
                             <input type="text" id="inputNome" class="form-control">
@@ -123,12 +128,68 @@
                             <input type="password" id="inputPasswordConfirm" class="form-control" aria-describedby="passwordHelpBlock">
                         </span>
                         <br>
+                    </div>
                     <button>CADASTRAR</button>
                 </form>
 
             </div>
         </div>
     </div>
+
+    <!-- <div class="footer">
+      <div class="footer_wrapper">
+        <div>
+            <h6>Navegação</h6>
+          <ul>
+            <li>
+              <a href="../index.html">Home</a>
+            </li>
+            <li>
+              <a href="../index.html">Funcionalidades</a>
+            </li>
+            <li>
+              <a href="../index.html">Quem somos</a>
+            </li>
+            <li>
+              <a href="../index.html">Contato</a>
+            </li>
+            <li>
+              <a href="#">Primeiro Acesso</a>
+            </li>
+            <li>
+              <a href="login.html">Área do Cliente</a>
+            </li>
+          </ul>
+        </div>
+
+        <img src="../assets/imgs/logo.png" alt="logo" class="logo">
+
+        <div class="contato">
+            <div class="redes-sociais-contato">
+                <span>
+                    <img src="../assets/imgs/telefone.png" alt="telefone">
+                    <p>11 94583-8591</p>
+                </span>
+                <span>
+                    <img src="../assets/imgs/logo-instagram.png" alt="instagram">
+                    <p>Magnes_Software_Solutions</p>
+                </span>
+                <span>
+                    <img src="../assets/imgs/logo-outlook.png" alt="outlook">
+                    <p>contato@magnes.com.br</p>
+                </span>
+            </div>
+            <form action="" class="form-contato">
+                <label for="inputEmailContato">E-mail</label>
+                <input id="inputEmailContato" type="email">
+    
+                <label for="inputMensagem">Mensagem</label>
+                <input id="inputMensagem" type="text">
+            </form>
+        </div>
+      </div>
+      <p>&copy; 2026 MAGNES. Todos os direitos reservados</p>
+    </div> -->
 
 </body>
 </html>
@@ -142,13 +203,17 @@
             cards_cadastro.style.display = "none";
             form_funcionario.style.display = "flex";
             retorno.style.display = "flex";
+            titulo.innerText = "CADASTRO FUNCIONÁRIO";
+            banner.style.backgroundImage = "linear-gradient(rgba(4,9,30,0.3),rgba(4,9,30,0.3)),url(../assets/imgs/banner-cadastro-funcionario.png)";
 
         } else {
 
             cards_cadastro.style.display = "none";
             form_fabricante.style.display = "flex";
             retorno.style.display = "flex";
-
+            titulo.innerText = "CADASTRO FABRICANTE";
+            banner.style.backgroundImage = "linear-gradient(rgba(4,9,30,0.3),rgba(4,9,30,0.3)),url(../assets/imgs/banner-cadastro-fabricante.png)";
+    
         }
     }
 
@@ -158,6 +223,8 @@
             form_funcionario.style.display = "none";
             form_fabricante.style.display = "none";
             retorno.style.display = "none";
+            titulo.innerText = "CADASTRO";
+            banner.style.backgroundImage = "linear-gradient(rgba(4,9,30,0.3),rgba(4,9,30,0.3)),url(../assets/imgs/banner-cadastro.png)";
     }
 
 
