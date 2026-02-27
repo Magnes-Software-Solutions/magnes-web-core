@@ -1,12 +1,11 @@
 const express = require("express")
-const user = require("../models/userModel.js")
+const user = require("../controllers/userController")
 
 const routes = express.Router()
 
-routes.post("/create", async (req, res) => {
-    const { name } = req.body
-    await user.createUser(name)
-    res.send("User created")
+routes.post("/autenticar", async (req, res) => {
+    const { email, senha } = req.body
+    await user.autenticar(req, res)
 })
 
 module.exports = routes
