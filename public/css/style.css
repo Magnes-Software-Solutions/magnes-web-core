@@ -263,6 +263,78 @@ nav button {
     animation-timeline: view();
 }
 
+/*Bloco com as barras animadas */ 
+
+.section-solucoes {
+  max-width: 1000px;
+  margin: 50px auto;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 40px;
+
+  & h2 {
+  font-size: 2rem;
+  font-weight: 500;
+}
+  & strong{
+    color: #6c2bd9;
+  }
+}
+
+.monitor-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background-color: #fce8e6;
+  border-left: 6px solid #ea4335;
+  padding: 20px 25px;
+  border-radius: 6px;
+  max-width: 450px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.icon {
+  width: 45px;
+  height: 45px;
+  background-color: #e2d1d0; /* corzinha só para ter noção do espaço */
+  border-radius: 4px;
+}
+
+.monitor-dado {
+  flex: 1; 
+}
+
+.hardware-modelo {
+  font-size: 12px;
+  color: #777;
+}
+
+.monitor-info {
+  display: flex;
+  /* border: 2px solid green; */
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 5px;
+  margin-bottom: 8px;
+
+  & h3{
+  margin: 0;
+  font-size: 16px;
+  color: #333;
+}
+  }
+
+.hardware-valor {
+  font-size: 32px;
+  /*border: 2px solid green;*/
+  font-weight: bold;
+  color: #ea4335;
+  line-height: 1;
+  text-shadow: 0px 0px 12px rgba(234, 67, 53, 0.5); 
+}
+
 
 /*Carousel*/
 .carousel{
