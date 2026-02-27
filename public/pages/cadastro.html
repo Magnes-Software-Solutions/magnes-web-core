@@ -4,50 +4,50 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Magnes | Login</title>
+        <title>Magnes | Cadastro</title>
         <link rel="stylesheet" href="../bootstrap-5.3.8-dist/css/bootstrap.css" />
         <link rel="stylesheet" href="../css/login.css">
         <link rel="stylesheet" href="../css/cadastro.css">
     </head>
     
 <body>
-    <nav class="navbar navbar-expand-lg border-bottom border-body">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <img class="" src="https://res.cloudinary.com/dmwq36uby/image/upload/v1771518341/Logo_hlyucq.png"
-                    alt="" />
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
-                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse align-items-center" id="navbarText">
-                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="../index.html">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Funcionalidades</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Quem Somos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Contato</a>
-                    </li>
-                </ul>
 
-                <div class="d-grid gap-5 d-md-flex justify-content-center align-items-center">
-                    <div class="line"></div>
-                    <a class="text-decoration-none" href="#">Cadastrar</a>
-                    <button class="btn btn-primary" type="button"><a href="./login.html" style="outline: none;">Login</a></button>
-                </div>
-            </div>
+    <nav id="navBarTimida" class="navbar navbar-expand-lg fixed-top border-bottom border-body">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img class="" src="https://res.cloudinary.com/dmwq36uby/image/upload/v1771518341/Logo_hlyucq.png" alt="" />
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+        aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse align-items-center" id="navbarText">
+        <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="../index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../index.html">Funcionalidades</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../index.html">Quem Somos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../index.html">Contato</a>
+          </li>
+        </ul>
+
+        <div class="d-grid gap-5 d-md-flex justify-content-center align-items-center">
+          <div class="line"></div>
+          <a style="color: #7a32cc;" class="text-decoration-none" href="./cadastro.html">Cadastrar</a>
+          <a class="btn btn-primary text-white text-decoration-none" href="./login.html">Login</a>
         </div>
-    </nav>
+      </div>
+    </div>
+  </nav>
     
-    <div class="container-fluid right-container">
-        <div class="row">
+    <div class="container-fluid right-container" style="height: 100%;">
+        <div class="row" style="height: 100%; padding: 69.09px 0px">
             <div class="col-md-6 banner-cadastro">
             </div>
             <div class="col-md-6 container-form">
@@ -67,19 +67,39 @@
                     </div>
                 </div>
 
-                <!-- <form>
-                    <div>
-                        <span>
-                            <label for=""></label>
-                            <input type="text">
-                        </span>
-                        <span>
-                            <label for=""></label>
-                            <input type="text">
-                        </span>
-                    </div>
-                    <button></button>
-                </form> -->
+                    <form id="form_fabricante" style="display: none;">
+                        <div class="form-fabricante-col-1">
+                            <span>
+                                <label for="inputNome" class="form-label">Nome Completo:</label>
+                                <input type="text" id="inputNome" class="form-control">
+                            </span>
+                            <span>
+                                <label for="inputEmail" class="form-label">Email:</label>
+                                <input type="email" id="inputEmail" class="form-control">
+                            </span>
+                            <span>
+                                <label for="inputCNPJ" class="form-label">CNPJ:</label>
+                                <input type="text" id="inputCNPJ" class="form-control">
+                            </span>
+                        </div>
+                        
+                        <div class="form-fabricante-col-2">
+                            <span>
+                                <label for="inputToken" class="form-label">Token:</label>
+                                <input type="text" id="inputToken" class="form-control">
+                            </span>
+                            <span>
+                                <label for="inputTelefoneCelular" class="form-label">Telefone Celular:</label>
+                                <input type="password" id="inputTelefoneCelular" class="form-control" aria-describedby="passwordHelpBlock">
+                            </span>
+                            <span>
+                                <label for="inputTelefoneCorporativo" class="form-label">Telefone Corporativo:</label>
+                                <input type="password" id="inputTelefoneCorporativo" class="form-control" aria-describedby="passwordHelpBlock">
+                            </span>
+                        </div>
+                        <br>
+                    <button>CADASTRAR</button>
+                </form>
 
                 <form id="form_funcionario" style="display: none;">
                         <span>
@@ -92,7 +112,7 @@
                         </span>
                         <span>
                             <label for="inputCargo" class="form-label">Cargo:</label>
-                            <input type="cargo" id="inputCargo" class="form-control">
+                            <input type="text" id="inputCargo" class="form-control">
                         </span>
                         <span>
                             <label for="inputPassword" class="form-label">Senha:</label>
@@ -136,6 +156,7 @@
             
             cards_cadastro.style.display = "flex";
             form_funcionario.style.display = "none";
+            form_fabricante.style.display = "none";
             retorno.style.display = "none";
     }
 
