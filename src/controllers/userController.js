@@ -14,7 +14,7 @@ async function autenticar(req, res){
 
             res.json (resultado)
         } else {
-            res.status(403).send("Email e/ou senha inválido(s)")
+            res.status(403).json("Email e/ou senha inválido(s)")
         }
     }
 

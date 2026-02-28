@@ -2,15 +2,15 @@
 <html lang="pt-br">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Magnes | Login</title>
-    <link rel="stylesheet" href="../bootstrap-5.3.8-dist/css/bootstrap.css" />
-    <link rel="stylesheet" href="../css/login.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Magnes | Login</title>
+  <link rel="stylesheet" href="../bootstrap-5.3.8-dist/css/bootstrap.css" />
+  <link rel="stylesheet" href="../css/login.css">
 </head>
 
 <body>
-    <nav id="navBarTimida" class="navbar navbar-expand-lg fixed-top border-bottom border-body">
+  <nav id="navBarTimida" class="navbar navbar-expand-lg fixed-top border-bottom border-body">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
         <img class="" src="https://res.cloudinary.com/dmwq36uby/image/upload/v1771518341/Logo_hlyucq.png" alt="" />
@@ -44,32 +44,58 @@
     </div>
   </nav>
 
-    <div class="container-fluid right-container">
-        <div class="row">
-            <div class="col-md-6 div-banner">
-            </div>
-            <div class="col-md-6 container-form">
-                <form>
-                    <h1>LOGIN</h1>
-                    <div>
-                        <span>
-                            <label for="inputEmail" class="form-label">Email:</label>
-                            <input type="email" id="inputEmail" class="form-control">
-                        </span>
-                        <span>
-                            <label for="inputPassword" class="form-label">Password:</label>
-                            <input type="password" id="inputPassword" class="form-control"
-                                aria-describedby="passwordHelpBlock">
-                        </span>
-                    </div>
-                    <button>LOGIN</button>
-                </form>
-            </div>
-        </div>
+  <div class="container-fluid right-container">
+    <div class="row">
+      <div class="col-md-6 div-banner">
+      </div>
+      <div class="col-md-6 container-form">
+        <form>
+          <h1>LOGIN</h1>
+          <div>
+            <span>
+              <label for="inputEmail" class="form-label">Email:</label>
+              <input type="email" id="inputEmail" class="form-control">
+            </span>
+            <span>
+              <label for="inputPassword" class="form-label">Password:</label>
+              <input type="password" id="inputPassword" class="form-control" aria-describedby="passwordHelpBlock">
+            </span>
+          </div>
+          <p style="color: red; font-weight: bolder;" id="errorMessage"></p>
+          <button type="button" onclick="login()">LOGIN</button>
+        </form>
+      </div>
     </div>
+  </div>
 </body>
 
 </html>
 <script src="../bootstrap-5.3.8-dist/js/bootstrap.js"></script>
 <script src="../services/api.js"></script>
 <script src="../services/userService.js"></script>
+<script>
+  async function login() {
+    const email = inputEmail.value
+    const senha = inputPassword.value
+
+    console.log(email, senha);
+
+    const response = await loginService(email, senha)
+    const status = response.status
+    let json = await response.json()
+    
+    if (status == 200) {
+      json = json[0]
+      sessionStorage.EMAIL_USUARIO = json.email;
+      sessionStorage.NOME_USUARIO = json.nome;
+      sessionStorage.ID_USUARIO = json.idFuncionario;
+
+      setTimeout(function () {
+        window.location = "inicial.html";
+      }, 1000);
+      return
+    }
+
+    errorMessage.innerHTML = json
+  }
+</script>
