@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <nav id="navBarTimida" class="navbar navbar-expand-lg fixed-top border-bottom border-body">
+  <nav id="navBarTimida" class="navbar navbar-expand-lg fixed-top border-bottom border-body">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
         <img class="" src="https://res.cloudinary.com/dmwq36uby/image/upload/v1771518341/Logo_hlyucq.png" alt="" />
@@ -45,84 +45,58 @@
     </div>
   </nav>
 
-    <div class="container-fluid right-container" style="height: 100%;">
-        <div class="row" style="height: 100%; padding: 69.09px 0px">
-            <div class="col-md-6 div-banner">
-            </div>
-            <div class="col-md-6 container-form">
-                <form class="form-login">
-                    <h1>LOGIN</h1>
-                    <div>
-                        <span>
-                            <label for="inputEmail" class="form-label">Email:</label>
-                            <input type="email" id="inputEmail" class="form-control">
-                        </span>
-                        <span>
-                            <label for="inputPassword" class="form-label">Password:</label>
-                            <input type="password" id="inputPassword" class="form-control" aria-describedby="passwordHelpBlock">
-                        </span>
-                    </div>
-                    <button>LOGIN</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- <div class="footer">
-      <div class="footer_wrapper">
-        <div>
-            <h6>Navegação</h6>
-          <ul>
-            <li>
-              <a href="../index.html">Home</a>
-            </li>
-            <li>
-              <a href="../index.html">Funcionalidades</a>
-            </li>
-            <li>
-              <a href="../index.html">Quem somos</a>
-            </li>
-            <li>
-              <a href="../index.html">Contato</a>
-            </li>
-            <li>
-              <a href="#">Primeiro Acesso</a>
-            </li>
-            <li>
-              <a href="login.html">Área do Cliente</a>
-            </li>
-          </ul>
-        </div>
-
-        <img src="../assets/imgs/logo.png" alt="logo" class="logo">
-
-        <div class="contato">
-            <div class="redes-sociais-contato">
-                <span>
-                    <img src="../assets/imgs/telefone.png" alt="telefone">
-                    <p>11 94583-8591</p>
-                </span>
-                <span>
-                    <img src="../assets/imgs/logo-instagram.png" alt="instagram">
-                    <p>Magnes_Software_Solutions</p>
-                </span>
-                <span>
-                    <img src="../assets/imgs/logo-outlook.png" alt="outlook">
-                    <p>contato@magnes.com.br</p>
-                </span>
-            </div>
-            <form action="" class="form-contato">
-                <label for="inputEmailContato">E-mail</label>
-                <input id="inputEmailContato" type="email">
-    
-                <label for="inputMensagem">Mensagem</label>
-                <input id="inputMensagem" type="text">
-            </form>
-        </div>
+  <div class="container-fluid right-container">
+    <div class="row">
+      <div class="col-md-6 div-banner">
       </div>
-      <p>&copy; 2026 MAGNES. Todos os direitos reservados</p>
-    </div> -->
-
+      <div class="col-md-6 container-form">
+        <form>
+          <h1>LOGIN</h1>
+          <div>
+            <span>
+              <label for="inputEmail" class="form-label">Email:</label>
+              <input type="email" id="inputEmail" class="form-control">
+            </span>
+            <span>
+              <label for="inputPassword" class="form-label">Password:</label>
+              <input type="password" id="inputPassword" class="form-control" aria-describedby="passwordHelpBlock">
+            </span>
+          </div>
+          <p style="color: red; font-weight: bolder;" id="errorMessage"></p>
+          <button type="button" onclick="login()">LOGIN</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </body>
+
 </html>
 <script src="../bootstrap-5.3.8-dist/js/bootstrap.js"></script>
+<script src="../services/api.js"></script>
+<script src="../services/userService.js"></script>
+<script>
+  async function login() {
+    const email = inputEmail.value
+    const senha = inputPassword.value
+
+    console.log(email, senha);
+
+    const response = await loginService(email, senha)
+    const status = response.status
+    let json = await response.json()
+    
+    if (status == 200) {
+      json = json[0]
+      sessionStorage.EMAIL_USUARIO = json.email;
+      sessionStorage.NOME_USUARIO = json.nome;
+      sessionStorage.ID_USUARIO = json.idFuncionario;
+
+      setTimeout(function () {
+        window.location = "inicial.html";
+      }, 1000);
+      return
+    }
+
+    errorMessage.innerHTML = json
+  }
+</script>
