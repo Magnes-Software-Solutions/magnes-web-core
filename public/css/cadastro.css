@@ -63,7 +63,14 @@ body {
     position: relative;
 }
 
+.container-form {
+    min-height: calc(100vh - 69.09px);
+    height: fit-content;
+    height: 100%;
+}
+
 #form_funcionario {
+    
     display: flex;
     flex-direction: column;
     /* gap: 0px; */
@@ -75,11 +82,17 @@ body {
 
 #form_fabricante {
     display: flex;
+    background-color: #477DBF;
     flex-direction: row;
     /* gap: 0px; */
-    width: 100%;
-    height: fit-content;
-    padding: 0px 60px;
+    width: 90%;
+    /* height: fit-content; */
+    /* padding: 0px 60px; */
+    display: flex;
+    border: 2px solid red;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 
 };
 
