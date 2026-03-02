@@ -23,9 +23,9 @@ html {
     --cor03: #477DBF;
 }
 
-body {
+/* body {
     overflow-x: hidden;
-}
+} */
 
 
 nav {
@@ -398,7 +398,7 @@ nav button {
 }
 
 /*Início Footer*/
-footer {
+/* footer {
     background-color: var(--cor02);
 }
 
@@ -408,4 +408,84 @@ footer .col-md-4 {
 
 .containerfooter .nav-item a {
     color: var(--cor01);
+} */
+
+.footer {
+   display: flex;
+   align-items: center;
+   justify-self: flex-end;
+   flex-direction: column;
+   padding: 20px 10px;
+   gap: 10px;
+   width: 100%;
+   height: 270px;
+   border-top: #FBFBFB 2px solid;
+   background: linear-gradient(to bottom, #124685 50%, #111d01e5);
+}
+
+.footer p {
+   justify-self: flex-start;
+   width: 100%;
+   color: white;
+   font-size: 14px;
+}
+
+.footer_wrapper {
+   display: flex;
+   width: 100%;
+   height: 85%;
+   border-bottom: 2px inset white;
+   justify-content: space-between;
+   align-self: flex;
+   /* padding-bottom: 20px; */
+}
+
+.footer_wrapper ul {
+   display: flex;
+   height: 60%;
+   width: 250px;
+   flex-direction: column;
+   flex-wrap: wrap;
+   /* gap: 5px; */
+}
+
+.footer_wrapper ul li a {
+   color: white;
+   text-decoration: none;
+   font-size: 14px;
+}
+
+.footer_wrapper div h6 {
+   color: white;
+   padding-left: 2rem;
+   margin-bottom: 10px;
+}
+
+.footer .logo {
+    display: flex;
+    align-self: flex-start;
+    justify-content: center;
+    width: 140px;
+    height: 120px;
+    
+}
+
+.contato {
+    display: flex;
+    justify-content: space-around;
+}
+
+.contato form {
+    display: flex;
+    width: fit-content;
+    flex-direction: column;
+}
+
+.contato form input:nth-child(1) {
+    width: 200px;
+    height: 30px;
+    font-size: smaller;
+    font-family: poppins;
+    padding: 5px;
+    color: #124685;
 }
