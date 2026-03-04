@@ -40,29 +40,3 @@ import { v2 as cloudinary } from "cloudinary";
 
   console.log(autoCropUrl);
 })();
-
-//ODOMETER
-
-const el = document.getElementById("contador");
-const odometer = new Odometer({
-  el: el,
-  value: 10,
-  format: "d",
-});
-
-function trocar() {
-  valores = ["10", "25", "50", "75", "100"];
-
-  var valorAtual = "";
-  valores.forEach((valor, index) => {
-    setTimeout(() => {
-      odometer.update(valor);
-
-      document.getElementById("contador").innerHTML = valor;
-    }, index * 5000);
-  });
-
-  const tempoTotal = valores.length * 2000;
-
-  setTimeout(trocar, tempoTotal + 5000);
-}
