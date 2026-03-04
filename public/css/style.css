@@ -489,3 +489,39 @@ footer .col-md-4 {
     padding: 5px;
     color: #124685;
 }
+
+/*Odometer e linha*/
+
+
+
+.line-container{
+    background-color: red;
+    width: 2px;
+    height: 3px;
+    animation: crescer 22s ease-in-out infinite alternate;
+}
+
+@keyframes crescer {
+    0%{
+        width: 41px;
+       
+    }
+    25%{
+        width: 25px;
+
+    }
+    50%{
+        width: 150px;
+
+    }
+    75%{
+        width: 250px;
+
+    }
+    100%{
+        width: 300px;
+
+    }
+}
+
+
