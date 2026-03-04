@@ -9,9 +9,11 @@ routes.post("/autenticar", async (req, res) => {
 })
 
 routes.post("/cadastrarEmpresa", async (req, res) => {
-    const { name } = req.body
-    await user.cadastrarEmpresa(name)
-    res.send("User created")
+    await user.cadastrarEmpresa(req, res)
+})
+
+routes.post("/cadastrarFuncionario", async (req, res) => {
+    await user.cadastrarFuncionario(req, res)
 })
 
 module.exports = routes
