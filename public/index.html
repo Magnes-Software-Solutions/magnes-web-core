@@ -8,10 +8,12 @@
   <link rel="stylesheet" href="bootstrap-5.3.8-dist/css/bootstrap.css" />
   <link rel="shortcut icon" href="./assets/imgs/Logo.png" type="image/x-icon" />
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="odometer-theme-default.css" />
+  <link rel="stylesheet" href="https://github.hubspot.com/odometer/themes/odometer-theme-default.css" />
 
 </head>
 
-<body onscroll="scrolar()">
+<body onscroll="scrolar(), trocar()">
   <nav id="navBarTimida" class="navbar navbar-expand-lg fixed-top border-bottom border-body">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
@@ -198,9 +200,9 @@
         <span class="hardware-modelo">INTEL XEON SILVER 4214R</span>
         <div class="monitor-info">
           <h3>Temperatura da CPU</h3>
-          <span class="hardware-valor">91°C</span>
+          <span class="hardware-valor"><div class="contador odometer" id="contador">91</div>°C</span>
         </div>
-        <div class="barra-animada"> <hr> ### coloque a barrinha aqui ### </div>
+        <div class="line-container"></div>
       </div>
     </div>
   </article>
@@ -285,7 +287,7 @@
 
 </body>
 </html>
-
+<script src="https://github.hubspot.com/odometer/odometer.js"></script>
 <script src="bootstrap-5.3.8-dist/js/bootstrap.js"></script>
 <script src="js/index.js"></script>
 <script src="js/navBar.js"></script>

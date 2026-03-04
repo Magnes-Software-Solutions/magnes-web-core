@@ -1,42 +1,68 @@
-import { v2 as cloudinary } from 'cloudinary';
+import { v2 as cloudinary } from "cloudinary";
 
 (async function () {
+  // Configuration
+  cloudinary.config({
+    cloud_name: "dqjzon756",
+    api_key: "118352593368255",
+    api_secret: "<your_api_secret>", // Click 'View API Keys' above to copy your API secret
+  });
 
-    // Configuration
-    cloudinary.config({
-        cloud_name: 'dqjzon756',
-        api_key: '118352593368255',
-        api_secret: '<your_api_secret>' // Click 'View API Keys' above to copy your API secret
+  // Upload an image
+  const uploadResult = await cloudinary.uploader
+    .upload(
+      "https://res.cloudinary.com/demo/image/upload/getting-started/shoes.jpg",
+      {
+        public_id: "shoes",
+      }
+    )
+    .catch((error) => {
+      console.log(error);
     });
 
-    // Upload an image
-    const uploadResult = await cloudinary.uploader
-        .upload(
-            'https://res.cloudinary.com/demo/image/upload/getting-started/shoes.jpg', {
-            public_id: 'shoes',
-        }
-        )
-        .catch((error) => {
-            console.log(error);
-        });
+  console.log(uploadResult);
 
-    console.log(uploadResult);
+  // Optimize delivery by resizing and applying auto-format and auto-quality
+  const optimizeUrl = cloudinary.url("shoes", {
+    fetch_format: "auto",
+    quality: "auto",
+  });
 
-    // Optimize delivery by resizing and applying auto-format and auto-quality
-    const optimizeUrl = cloudinary.url('shoes', {
-        fetch_format: 'auto',
-        quality: 'auto'
-    });
+  console.log(optimizeUrl);
 
-    console.log(optimizeUrl);
+  // Transform the image: auto-crop to square aspect_ratio
+  const autoCropUrl = cloudinary.url("shoes", {
+    crop: "auto",
+    gravity: "auto",
+    width: 500,
+    height: 500,
+  });
 
-    // Transform the image: auto-crop to square aspect_ratio
-    const autoCropUrl = cloudinary.url('shoes', {
-        crop: 'auto',
-        gravity: 'auto',
-        width: 500,
-        height: 500,
-    });
-
-    console.log(autoCropUrl);
+  console.log(autoCropUrl);
 })();
+
+//ODOMETER
+
+const el = document.getElementById("contador");
+const odometer = new Odometer({
+  el: el,
+  value: 10,
+  format: "d",
+});
+
+function trocar() {
+  valores = ["10", "25", "50", "75", "100"];
+
+  var valorAtual = "";
+  valores.forEach((valor, index) => {
+    setTimeout(() => {
+      odometer.update(valor);
+
+      document.getElementById("contador").innerHTML = valor;
+    }, index * 5000);
+  });
+
+  const tempoTotal = valores.length * 2000;
+
+  setTimeout(trocar, tempoTotal + 5000);
+}
