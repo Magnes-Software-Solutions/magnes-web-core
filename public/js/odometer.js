@@ -8,15 +8,15 @@ const odometer = new Odometer({
 });
 
 function trocar() {
-  valores = ["10", "25", "58", "89", "99"];
+  valores = ["61","99"];
 
   var valorAtual = "";
   valores.forEach((valor, index) => {
     setTimeout(() => {
       odometer.update(valor);
-    }, index * 4000);
+    }, index * 7000);
   });
 
 
-  setTimeout(trocar, valores.length * 4000);
+  setTimeout(trocar, valores.length * 7000);
 }

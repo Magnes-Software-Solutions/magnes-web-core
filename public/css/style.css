@@ -498,25 +498,13 @@ footer .col-md-4 {
     background-color: red;
     width: 2px;
     height: 3px;
-    animation: crescer 22s ease-in-out infinite alternate;
+    animation: crescer 10s ease-in-out infinite alternate;
 }
 
 @keyframes crescer {
     0%{
-        width: 41px;
+        width: 100px;
        
-    }
-    25%{
-        width: 25px;
-
-    }
-    50%{
-        width: 150px;
-
-    }
-    75%{
-        width: 250px;
-
     }
     100%{
         width: 300px;
