@@ -18,7 +18,14 @@ function cadastrarEmpresa(nomeFabricante, cnpj, email, tel_celular, tel_corporat
     return database.executar(instrucaoSql);
 }
 
+function cadastrarFuncionario(nome, email, token, senha) {
+    const instrucaoSql = `INSERT INTO funcionario (nome, email, token, senha) 
+    VALUES ('${nome}', '${email}', '${token}', '${senha}')`
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     cadastrarEmpresa,
-    autenticar
+    autenticar,
+    cadastrarFuncionario
 };
