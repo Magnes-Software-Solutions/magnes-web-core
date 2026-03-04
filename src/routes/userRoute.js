@@ -1,5 +1,5 @@
 const express = require("express")
-const user = require("../controllers/userController")
+const user = require("../controllers/userControllers")
 
 const routes = express.Router()
 
@@ -9,9 +9,10 @@ routes.post("/autenticar", async (req, res) => {
 })
 
 routes.post("/cadastrarEmpresa", async (req, res) => {
-    const { name } = req.body
-    await user.cadastrarEmpresa(name)
-    res.send("User created")
+    const { nomeFabricante, cnpj, email, tel_celular, tel_corporativo } = req.body
+    routes.post("/cadastrarEmpresa", async (req, res) => {
+        await user.cadastrarEmpresa(req, res)
+    })
 })
 
 module.exports = routes
