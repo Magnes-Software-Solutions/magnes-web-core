@@ -90,7 +90,7 @@
                                 <input type="text" id="inputCnpj" class="form-control">
                             </span>
                         </div>
-                       
+                        
                         <div class="form-fabricante-col-2">
                             <span>
                                 <label for="inputToken" class="form-label">Token:</label>
@@ -107,7 +107,7 @@
                         </div>
                         <br>
                     </div>
-                    <button>CADASTRAR</button>
+                    <button type="button" onclick="cadastrarEmpresa()">CADASTRAR</button>
                 </form>
 
                 <form id="form_funcionario" style="display: none;">
@@ -133,7 +133,7 @@
                             aria-describedby="passwordHelpBlock">
                     </span>
                     <br>
-                    <button>CADASTRAR</button>
+                    <button type="button" onclick="cadastrarFuncionario()">CADASTRAR</button>
                 </form>
 
             </div>
@@ -145,49 +145,46 @@
 </html>
 <script src="../bootstrap-5.3.8-dist/js/bootstrap.js"></script>
 <script>
+    
+    const banner = document.querySelector('.banner-cadastro');
+    const cards_cadastro = document.getElementById('cards_cadastro');
+    const form_funcionario = document.getElementById('form_funcionario');
+    const form_fabricante = document.getElementById('form_fabricante');
+    const retorno = document.getElementById('retorno');
+    const titulo = document.getElementById('titulo');
 
     function escolher(metodo) {
+        cards_cadastro.style.display = "none";
+        retorno.style.display = "flex";
 
         if (metodo == 'funcionario') {
-
-            cards_cadastro.style.display = "none";
             form_funcionario.style.display = "flex";
-            retorno.style.display = "flex";
             titulo.innerText = "CADASTRO - FUNCIONÁRIO";
             banner.style.backgroundImage = "linear-gradient(rgba(4,9,30,0.3),rgba(4,9,30,0.3)),url(../assets/imgs/banner-cadastro-funcionario.png)";
-
         } else {
-
-            cards_cadastro.style.display = "none";
             form_fabricante.style.display = "flex";
-            retorno.style.display = "flex";
             titulo.innerText = "CADASTRO - FABRICANTE";
             banner.style.backgroundImage = "linear-gradient(rgba(4,9,30,0.3),rgba(4,9,30,0.3)),url(../assets/imgs/banner-cadastro-fabricante.png)";
-   
         }
     }
 
     function voltar() {
-
-            cards_cadastro.style.display = "flex";
-            form_funcionario.style.display = "none";
-            form_fabricante.style.display = "none";
-            retorno.style.display = "none";
-            titulo.innerText = "CADASTRO";
-            banner.style.backgroundImage = "linear-gradient(rgba(4,9,30,0.3),rgba(4,9,30,0.3)),url(../assets/imgs/banner-cadastro.png)";
+        cards_cadastro.style.display = "flex";
+        form_funcionario.style.display = "none";
+        form_fabricante.style.display = "none";
+        retorno.style.display = "none";
+        titulo.innerText = "CADASTRO";
+        banner.style.backgroundImage = "linear-gradient(rgba(4,9,30,0.3),rgba(4,9,30,0.3)),url(../assets/imgs/banner-cadastro.png)";
     }
 
-    let listarEmpresasCadastradas = [];
-
     function cadastrarEmpresa() {
+        let nomeFabricanteVar = document.getElementById('inputNomeEmpresa').value;
+        let cnpjVar = document.getElementById('inputCnpj').value;
+        let emailEmpresaVar = document.getElementById('inputEmailEmpresa').value;
+        let tel_celularVar = document.getElementById('inputCelular').value;
+        let tel_corporativoVar = document.getElementById('inputTelefone').value;
 
-        nomeFabricanteVar = inputNomeEmpresa.value;
-        cnpjVar = inputCnpj.value;
-        emailEmpresaVar = inputEmailEmpresa.value;
-        tel_celularVar = inputCelular.value;
-        tel_corporativoVar = inputTelefone.value;
-
-        fetch("/userRote/cadastrarEmpresa", {
+        fetch("/user/cadastrarEmpresa", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -197,31 +194,71 @@
                 cnpjServer: cnpjVar,
                 emailFabricanteServer: emailEmpresaVar,
                 tel_celularServer: tel_celularVar,
-                tel_corporativoVarServer: tel_corporativoVar
+                tel_corporativoServer: tel_corporativoVar
             }),
         })
             .then(function (resposta) {
                 console.log("resposta: ", resposta);
 
                 if (resposta.ok) {
-                    cardErro.style.display = "block";
-
+                    alert("Cadastro de Empresa concluído com sucesso!");
+                    
                     setTimeout(() => {
                         window.location = "login.html";
-                    }, "100");
-                    limparFormulario();
-                    finalizarAguardar();
+                    }, 100);
                 } else {
                     alert("Houve um erro ao tentar realizar o cadastro!");
                 }
             })
             .catch(function (resposta) {
                 console.log(`#ERRO: ${resposta}`);
-                finalizarAguardar();
             });
 
         return false;
+    }
 
+    function cadastrarFuncionario() {
+        let nomeVar = document.getElementById('inputNome').value;
+        let emailVar = document.getElementById('inputEmail').value;
+        let cargoVar = document.getElementById('inputCargo').value;
+        let senhaVar = document.getElementById('inputPassword').value;
+        let confirmacaoSenhaVar = document.getElementById('inputPasswordConfirm').value;
+
+        if (senhaVar !== confirmacaoSenhaVar) {
+            alert("As senhas não coincidem!");
+            return false;
+        }
+
+        fetch("/user/cadastrarFuncionario", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                nomeServer: nomeVar,
+                emailServer: emailVar,
+                tokenServer: cargoVar,
+                senhaServer: senhaVar
+            }),
+        })
+            .then(function (resposta) {
+                console.log("resposta: ", resposta);
+
+                if (resposta.ok) {
+                    alert("Cadastro de Funcionário concluído com sucesso!");
+                    
+                    setTimeout(() => {
+                        window.location = "inicial.html";
+                    }, 100);
+                } else {
+                    alert("Houve um erro ao tentar realizar o cadastro do funcionário!");
+                }
+            })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
+
+        return false;
     }
 
 </script>
