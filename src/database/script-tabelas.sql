@@ -42,7 +42,7 @@ CREATE TABLE maquina (
     dt_instalacao DATE,
     fkFabricante INT NOT NULL,
     fkLocalizacao INT NOT NULL,
-    status_ativo VARCHAR(45),
+    status_ativo TINYINT DEFAULT 1,
     FOREIGN KEY (fkFabricante) REFERENCES fabricante(idFabricante),
     FOREIGN KEY (fkLocalizacao) REFERENCES localizacao(idLocalizacao)
 );
