@@ -1,86 +1,105 @@
-CREATE DATABASE magnes_db;
-USE magnes_db;
+CREATE DATABASE IF NOT EXISTS magnes_db;
 
-CREATE TABLE contato_inicial (
-    idContato INT PRIMARY KEY AUTO_INCREMENT,
-    email_remetente VARCHAR(45),
-    nome VARCHAR(45),
-    mensagem VARCHAR(255)
-);
+USE magnes_db;
 
 CREATE TABLE fabricante (
     idFabricante INT PRIMARY KEY AUTO_INCREMENT,
-    nomeFabricante VARCHAR(100),
-    cnpj VARCHAR(14),
-    token CHAR(10),
-    dt_cadastro DATE,
-    email VARCHAR(100),
+    nomeFabricante VARCHAR(100) NOT NULL,
+    cnpj VARCHAR(14) NOT NULL UNIQUE,
+    token CHAR(10) NOT NULL UNIQUE,
+    dt_cadastro DATE NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
     tel_celular VARCHAR(15),
     tel_corporativo VARCHAR(10)
 );
 
 CREATE TABLE funcionario (
     idFuncionario INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(100),
-    email VARCHAR(100),
-    senha VARCHAR(255),
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    senha VARCHAR(255) NOT NULL,
     cargo VARCHAR(45),
     dt_cadastro DATETIME,
-    fkFabricante INT,
-    fkSupervisor INT,
+    fkFabricante INT NOT NULL,
+    fk_supervisor INT,
     FOREIGN KEY (fkFabricante) REFERENCES fabricante(idFabricante),
-    FOREIGN KEY (fkSupervisor) REFERENCES funcionario(idFuncionario)
+    FOREIGN KEY (fk_supervisor) REFERENCES funcionario(idFuncionario)
 );
 
 CREATE TABLE localizacao (
     idLocalizacao INT PRIMARY KEY AUTO_INCREMENT,
-    nome_instituicao VARCHAR(45),
-    cep VARCHAR(10),
-    numero INT,
+    nome_instituicao VARCHAR(45) NOT NULL,
+    cep VARCHAR(10) NOT NULL,
+    numero INT NOT NULL,
     email VARCHAR(100),
     tipo_estabelecimento VARCHAR(45)
 );
 
-CREATE TABLE rm (
-    idRm INT PRIMARY KEY AUTO_INCREMENT,
-    numero_serie VARCHAR(45),
-    modelo VARCHAR(45),
+CREATE TABLE maquina (
+    idMaquina INT PRIMARY KEY AUTO_INCREMENT,
+    numero_serie VARCHAR(45) NOT NULL UNIQUE,
+    modelo VARCHAR(45) NOT NULL,
     dt_instalacao DATE,
-    qtd_armazenamento INT,
-    qtd_memoria INT,
-    modelo_cpu VARCHAR(45),
-    fkFabricante INT,
-    fkLocalizacao INT,
-    status_ativo VARCHAR(45),
+    fkFabricante INT NOT NULL,
+    fkLocalizacao INT NOT NULL,
+    status_ativo TINYINT DEFAULT 1,
     FOREIGN KEY (fkFabricante) REFERENCES fabricante(idFabricante),
     FOREIGN KEY (fkLocalizacao) REFERENCES localizacao(idLocalizacao)
 );
 
-CREATE TABLE registros (
-    idRegistros INT PRIMARY KEY AUTO_INCREMENT,
-    qtd_armazenamento_utilizado INT,
-    qtd_memoria_utilizado INT,
-    percentual_uso_cpu INT,
-    data_registro DATETIME,
-    fkRm INT,
-    FOREIGN KEY (fkRm) REFERENCES rm(idRm)
+CREATE TABLE contato_inicial (
+    idContato_inicial INT PRIMARY KEY AUTO_INCREMENT,
+    email_remetente VARCHAR(45),
+    nome VARCHAR(45),
+    mensagem VARCHAR(200)
 );
 
 CREATE TABLE historico_manutencao (
     idManutencao INT PRIMARY KEY AUTO_INCREMENT,
-    dt_manutencao DATE,
-    motivo VARCHAR(45),
-    descricao VARCHAR(255),
-    fkRm INT,
-    FOREIGN KEY (fkRm) REFERENCES rm(idRm)
+    inicio_manutencao DATETIME NOT NULL,
+    termino_manutencao DATETIME,
+    motivo VARCHAR(20) NOT NULL,
+    descricao VARCHAR(200),
+    fkMaquina INT NOT NULL,
+    FOREIGN KEY (fkMaquina) REFERENCES maquina(idMaquina)
 );
 
 CREATE TABLE responsavel (
-    fkRm INT,
-    fkFuncionario INT,
+    fkMaquina INT NOT NULL,
+    fkFuncionario INT NOT NULL,
     ultimo_acesso DATETIME,
-    funcao VARCHAR(45),
-    PRIMARY KEY (fkRm, fkFuncionario),
-    FOREIGN KEY (fkRm) REFERENCES rm(idRm),
+    turno VARCHAR(20),
+    PRIMARY KEY (fkMaquina, fkFuncionario),
+    FOREIGN KEY (fkMaquina) REFERENCES maquina(idMaquina),
     FOREIGN KEY (fkFuncionario) REFERENCES funcionario(idFuncionario)
 );
+
+CREATE TABLE componente (
+    idComponente INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(45) NOT NULL,
+    tipo VARCHAR(45),
+    uni_med VARCHAR(15) NOT NULL
+);
+
+CREATE TABLE maquina_tem_componente (
+    fkMaquina INT NOT NULL,
+    fkComponente INT NOT NULL,
+    limite INT,
+    PRIMARY KEY (fkMaquina, fkComponente),
+    FOREIGN KEY (fkMaquina) REFERENCES maquina(idMaquina),
+    FOREIGN KEY (fkComponente) REFERENCES componente(idComponente)
+);
+
+CREATE TRIGGER tg_maquina_componente
+AFTER INSERT ON maquina
+FOR EACH ROW
+BEGIN
+    INSERT INTO maquina_tem_componente (fkMaquina, fkComponente, limite)
+    VALUES (NEW.idMaquina, 1, 512);
+    INSERT INTO maquina_tem_componente (fkMaquina, fkComponente, limite)
+    VALUES (NEW.idMaquina, 2, 32);
+    INSERT INTO maquina_tem_componente (fkMaquina, fkComponente, limite)
+    VALUES (NEW.idMaquina, 3, 1000);
+END$$
+
+DELIMITER ;
