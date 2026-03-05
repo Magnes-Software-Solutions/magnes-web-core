@@ -1,12 +1,19 @@
 const express = require("express")
-const user = require("../models/userModel.js")
+const user = require("../controllers/userControllers")
 
 const routes = express.Router()
 
-routes.post("/create", async (req, res) => {
-    const { name } = req.body
-    await user.createUser(name)
-    res.send("User created")
+routes.post("/autenticar", async (req, res) => {
+    const { email, senha } = req.body
+    await user.autenticar(req, res)
+})
+
+routes.post("/cadastrarEmpresa", async (req, res) => {
+    await user.cadastrarEmpresa(req, res)
+})
+
+routes.post("/cadastrarFuncionario", async (req, res) => {
+    await user.cadastrarFuncionario(req, res)
 })
 
 module.exports = routes
