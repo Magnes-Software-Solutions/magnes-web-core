@@ -9,10 +9,8 @@ routes.post("/autenticar", async (req, res) => {
 })
 
 routes.post("/cadastrarEmpresa", async (req, res) => {
-    const { nomeFabricante, cnpj, email, tel_celular, tel_corporativo } = req.body
-    routes.post("/cadastrarEmpresa", async (req, res) => {
-        await user.cadastrarEmpresa(req, res)
-    })
+    await user.cadastrarEmpresa(req, res)
 })
+
 
 module.exports = routes

@@ -40,13 +40,13 @@
         <div class="d-grid gap-5 d-md-flex justify-content-center align-items-center">
           <div class="line"></div>
           <a style="color: #7a32cc;" class="text-decoration-none" href="./pages/cadastro.html">Cadastrar</a>
-          <a class="btn btn-primary text-white text-decoration-none" href="./pages/login.html">Login</a>
+          <a style="background-color: #7A32CC; border: none;" class="btn btn-primary text-white text-decoration-none" href="./pages/login.html">Login</a>
         </div>
       </div>
     </div>
   </nav>
 
-  <div class="inicial">
+  <div id="home" class="inicial">
     <div class="inicial-video">
       <video autoplay loop muted playsinline>
         <source src="https://res.cloudinary.com/dqjzon756/video/upload/pagina_inicial_ksl3d4.mp4" type="video/mp4" />
@@ -228,35 +228,60 @@
   </div>
 
 
-  <div class="containerfooter" id="contato">
-    <footer class="d-flex flex-wrap justify-content-between align-items-center p-3 border-top">
-      <p class="col-md-4 mb-0">© 2026 Company, Inc</p>
-      <a href="/"
-        class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none"
-        aria-label="Bootstrap">
-        <svg class="bi me-2" width="40" height="32" aria-hidden="true">
-          <a class="img-footer" href="#">
-            <img style="width: 50px;" class=""
-              src="https://res.cloudinary.com/dmwq36uby/image/upload/v1771518341/Logo_hlyucq.png" alt="" />
-          </a>
-        </svg>
-      </a>
-      <ul class="nav col-md-4 justify-content-end">
-        <li class="nav-item">
-          <a href="#" class="nav-link px-2">Home</a>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link px-2 ">Funcionalidades</a>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link px-2 ">Quem Somos</a>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link px-2 ">Contato</a>
-        </li>
-      </ul>
-    </footer>
-  </div>
+  <div class="footer">
+      <div class="footer_wrapper">
+        <div>
+            <h6>Navegação</h6>
+          <ul>
+            <li>
+              <a href="../index.html">Home</a>
+            </li>
+            <li>
+              <a href="../index.html">Funcionalidades</a>
+            </li>
+            <li>
+              <a href="../index.html">Quem somos</a>
+            </li>
+            <li>
+              <a href="../index.html">Contato</a>
+            </li>
+            <li>
+              <a href="#">Primeiro Acesso</a>
+            </li>
+            <li>
+              <a href="login.html">Área do Cliente</a>
+            </li>
+          </ul>
+        </div>
+
+        <img src="../assets/imgs/logo.png" alt="logo" class="logo">
+
+        <div class="contato">
+            <div class="redes-sociais-contato">
+                <span>
+                    <img src="../assets/imgs/telefone.png" alt="telefone">
+                    <p>11 94583-8591</p>
+                </span>
+                <span>
+                    <img src="../assets/imgs/logo-instagram.png" alt="instagram">
+                    <p>Magnes_Software_Solutions</p>
+                </span>
+                <span>
+                    <img src="../assets/imgs/logo-outlook.png" alt="outlook">
+                    <p>contato@magnes.com.br</p>
+                </span>
+            </div>
+            <form action="" class="form-contato">
+                <label for="inputEmailContato">E-mail</label>
+                <input id="inputEmailContato" type="email">
+    
+                <label for="inputMensagem">Mensagem</label>
+                <input id="inputMensagem" type="text">
+            </form>
+        </div>
+      </div>
+      <p>&copy; 2026 MAGNES. Todos os direitos reservados</p>
+    </div>
 
 </body>
 </html>
