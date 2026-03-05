@@ -8,6 +8,8 @@ body {
     justify-content: center;
     justify-items: center;
     gap: 20px;
+    position: relative;
+    margin: 7.5% 0px;
 }
 
 .div-titulo img{
