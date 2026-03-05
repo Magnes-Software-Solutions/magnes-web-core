@@ -93,8 +93,15 @@ nav button {
   align-items: center;
   
 }
+
+.container-input {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
 .container-input input{
-      width: 250px;
+    width: 350px;
     height: 30px;
     font-size: smaller;
     font-family: poppins;
@@ -102,56 +109,12 @@ nav button {
     color: #124685;
 }
 
-.form-login h1 {
-  font-family: "Poppins", sans-serif;
-  color: #fbfbfb;
-  font-weight: 600;
-}
-
-.form-login label {
-  color: #fbfbfb;
-  padding: 0px 0px 0px 10px;
-  font-weight: bolder;
-}
-
-.form-login div {
-  display: flex;
-  flex-direction: column;
-  gap: 50px;
-  width: 100%;
-  padding: 0px 60px;
-}
-
-.form-login button {
-  display: flex;
-  font-size: medium;
-  font-weight: bold;
-  font-family: poppins;
-  color: #124685;
-  background-color: #fbfbfb;
-  border: none;
-  border-radius: 10px;
-  padding: 10px 20px;
-  transition: all 0.3s;
-}
-
-.form-login button:hover {
-  scale: 1.1;
-  background-color: #fbfbfbd1;
-}
-
-.form-login div span input {
-  outline: none;
-  height: 30px;
-  font-size: smaller;
-  font-family: poppins;
-  padding: 5px;
-  color: #124685;
-}
-
-.form-login div span input:focus {
-  color: #124685;
-  outline: none;
+.form-login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
 }
 
 .titulo-login {
