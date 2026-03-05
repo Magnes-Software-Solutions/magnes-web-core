@@ -59,10 +59,6 @@
               <input type="email" id="inputEmail" class="form-control">
             </span>
             <span>
-              <label for="inputToken" class="form-label">Token:</label>
-              <input type="text" id="inputToken" class="form-control" aria-describedby="passwordHelpBlock">
-            </span>
-            <span>
               <label for="inputPassword" class="form-label">Password:</label>
               <input type="password" id="inputPassword" class="form-control" aria-describedby="passwordHelpBlock">
             </span>
@@ -89,6 +85,8 @@
     const response = await loginService(email, senha)
     const status = response.status
     let json = await response.json()
+    
+    
     
     if (status == 200) {
       json = json[0]

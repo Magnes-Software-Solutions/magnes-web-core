@@ -16,4 +16,5 @@ routes.post("/cadastrarFuncionario", async (req, res) => {
     await user.cadastrarFuncionario(req, res)
 })
 
+
 module.exports = routes
