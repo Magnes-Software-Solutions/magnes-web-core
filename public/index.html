@@ -13,7 +13,7 @@
 
 </head>
 
-<body onscroll="scrolar(), trocar()">
+<body onscroll="scrolar(), trocar(), trocarRam(), trocarDisk()">
   <nav id="navBarTimida" class="navbar navbar-expand-lg fixed-top border-bottom border-body">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
@@ -192,7 +192,8 @@
     <h2>Onde a tecnologia <strong>encontra</strong> a vida.</h2>
   </div>
 
-  <article class="descricao-hardware">
+  <div class="container-hardware d-flex flex-lg-row flex-column justify-content-center align-items-center">
+    <article class="descricao-hardware">
     <div class="monitor-card">
       <div class="icon"></div>
       
@@ -206,6 +207,37 @@
       </div>
     </div>
   </article>
+
+  <article class="descricao-hardware">
+    <div id="card-disk" class="monitor-card">
+      <div class="icon"></div>
+      
+      <div class="monitor-dado">
+        <span class="hardware-modelo">Seagate Exos X24</span>
+        <div class="monitor-info">
+          <h3>I/O Disco</h3>
+          <span class="hardware-valor" style="color: #13680D;" ><div class="contadorDisk odometer"  id="contadorDisk">91</div>°C</span>
+        </div>
+        <div class="line-container-disk"></div>
+      </div>
+    </div>
+  </article>
+
+  <article class="descricao-hardware">
+    <div id="card-ram" class="monitor-card">
+      <div class="icon"></div>
+      
+      <div class="monitor-dado">
+        <span class="hardware-modelo">Samsung M393A8G40BB2</span>
+        <div class="monitor-info">
+          <h3>Gargalo da RAM</h3>
+          <span class="hardware-valor" style="color: #4220D9;" ><div class="contadorRam odometer" id="contadorRam">91</div>°C</span>
+        </div>
+        <div class="line-container-ram"></div>
+      </div>
+    </div>
+  </article>
+  </div>
 </section>
     
   <div class="carousel">

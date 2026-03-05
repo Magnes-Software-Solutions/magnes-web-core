@@ -282,7 +282,7 @@ nav button {
 /*Bloco com as barras animadas */ 
 
 .section-solucoes {
-  max-width: 1000px;
+  max-width: 1400px;
   margin: 50px auto;
 }
 
@@ -307,9 +307,21 @@ nav button {
   border-left: 6px solid #ea4335;
   padding: 20px 25px;
   border-radius: 6px;
-  max-width: 450px;
+  min-width: 470px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
+
+#card-disk{
+    border-left: 6px solid #13680D;
+    background-color: #DAE1CC;
+}
+#card-ram{
+    border-left: 6px solid #4220D9;
+    background-color: #D1CCE1;
+
+}
+
+
 
 .icon {
   width: 45px;
@@ -490,6 +502,14 @@ footer .col-md-4 {
     color: #124685;
 }
 
+
+/*Section Hardware*/
+.container-hardware{
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+}
+
 /*Odometer e linha*/
 
 
@@ -512,4 +532,38 @@ footer .col-md-4 {
     }
 }
 
+.line-container-disk{
+    background-color: #13680D;
+    width: 2px;
+    height: 3px;
+    animation: crescerDisco 10s ease-in-out infinite alternate;
+}
 
+@keyframes crescerDisco {
+    0%{
+        width: 80px;
+       
+    }
+    100%{
+        width: 120px;
+
+    }
+}
+
+.line-container-ram{
+    background-color: #4220D9;
+    width: 2px;
+    height: 3px;
+    animation: crescerRam 10s ease-in-out infinite alternate;
+}
+
+@keyframes crescerRam {
+    0%{
+        width: 150px;
+       
+    }
+    100%{
+        width: 250px;
+
+    }
+}
