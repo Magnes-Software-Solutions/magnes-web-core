@@ -12,9 +12,9 @@ function autenticar(email, senha) {
 
 }
 
-function cadastrarEmpresa(nomeFabricante, cnpj, email, tel_celular, tel_corporativo) {
-    var instrucaoSql = `INSERT INTO fabricante (nomeFabricante, cnpj, email, tel_celular, tel_corporativo, dt_cadastro) 
-    VALUES ('${nomeFabricante}', '${cnpj}', '${email}', '${tel_celular}', '${tel_corporativo}', NOW())`
+function cadastrarEmpresa(nomeFabricante, cnpj, email, tel_corporativo) {
+    var instrucaoSql = `INSERT INTO fabricante (nomeFabricante, cnpj, email, tel_corporativo, dt_cadastro) 
+    VALUES ('${nomeFabricante}', '${cnpj}', '${email}', '${tel_corporativo}', NOW())`
     return database.executar(instrucaoSql);
 }
 

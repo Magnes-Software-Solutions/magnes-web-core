@@ -9,3 +9,15 @@ async function loginService(email, senha) {
         return err
     }
 }
+
+async function cadastrarEmpresaService(nomeFabricanteVar, cnpjVar, emailEmpresaVar, tel_corporativoVar) {
+    const body = {
+        nomeFabricanteServer: nomeFabricanteVar,
+        cnpjServer: cnpjVar,
+        emailFabricanteServer: emailEmpresaVar,
+        tel_corporativoServer: tel_corporativoVar
+    }
+    const response = await api.post("/user/cadastrarEmpresa", body)
+    console.log(response);
+    return response
+}

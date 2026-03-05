@@ -24,20 +24,19 @@ function cadastrarEmpresa(req, res) {
     var nomeFabricante = req.body.nomeFabricanteServer;
     var cnpj = req.body.cnpjServer;
     var email = req.body.emailFabricanteServer;
-    var tel_celular = req.body.tel_celularServer;
     var tel_corporativo = req.body.tel_corporativoServer;
 
-    if (nomeFabricante == undefined) {
+    if (!nomeFabricante) {
         res.status(400).send("nome está undefined!");
-    } else if (cnpj == undefined) {
+    } else if (!cnpj) {
         res.status(400).send("cnpj está undefined!");
-    } else if (email == undefined) {
+    } else if (!email) {
         res.status(400).send("email está undefined!");
-    } else if (tel_corporativo == undefined) {
+    } else if (!tel_corporativo) {
         res.status(400).send("tel_corporativo está undefined!");
     } else {
 
-        usuarioModel.cadastrarEmpresa(nomeFabricante, cnpj, email, tel_celular, tel_corporativo)
+        usuarioModel.cadastrarEmpresa(nomeFabricante, cnpj, email, tel_corporativo)
             .then(
                 function (resultado) {
                     console.log("Empresa cadastrada com sucesso!");
