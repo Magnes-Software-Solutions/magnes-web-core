@@ -1,5 +1,3 @@
-// code here
-
 const database = require('../database/config.js')
 
 function autenticar(email, senha) {
@@ -12,9 +10,9 @@ function autenticar(email, senha) {
 
 }
 
-function cadastrarEmpresa(nomeFabricante, cnpj, email, tel_corporativo) {
-    var instrucaoSql = `INSERT INTO fabricante (nomeFabricante, cnpj, email, tel_corporativo, dt_cadastro) 
-    VALUES ('${nomeFabricante}', '${cnpj}', '${email}', '${tel_corporativo}', NOW())`
+function cadastrarEmpresa(nomeFabricante, cnpj, email, tel_corporativo, token) {
+    var instrucaoSql = `INSERT INTO fabricante (nomeFabricante, cnpj, email, tel_corporativo, token, dt_cadastro) 
+    VALUES ('${nomeFabricante}', '${cnpj}', '${email}', '${tel_corporativo}', '${token}', NOW())`
     return database.executar(instrucaoSql);
 }
 

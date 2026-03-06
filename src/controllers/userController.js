@@ -14,7 +14,7 @@ async function autenticar(req, res){
 
             res.json (resultado)
         } else {
-            res.status(403).send("Email e/ou senha inválido(s)")
+            res.status(403).json("Email e/ou senha inválido(s)")
         }
     }
 
@@ -26,21 +26,31 @@ function cadastrarEmpresa(req, res) {
     var email = req.body.emailFabricanteServer;
     var tel_corporativo = req.body.tel_corporativoServer;
 
-    if (!nomeFabricante) {
-        res.status(400).send("nome está undefined!");
+    if (!nomeFabricante) {  
+        res.status(400).json("nome está undefined!");
     } else if (!cnpj) {
-        res.status(400).send("cnpj está undefined!");
+        res.status(400).json("cnpj está undefined!");
     } else if (!email) {
-        res.status(400).send("email está undefined!");
+        res.status(400).json("email está undefined!");
     } else if (!tel_corporativo) {
-        res.status(400).send("tel_corporativo está undefined!");
+        res.status(400).json("tel_corporativo está undefined!");
     } else {
+        const letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J' ];
+        let token = "";
+    
 
-        usuarioModel.cadastrarEmpresa(nomeFabricante, cnpj, email, tel_corporativo)
+        for(var i = 0; i < 5; i++){
+            const numAleatorio = Math.floor(Math.random() * 9);
+            const indiceLetraAleatoria = Math.floor(Math.random() * letras.length);
+            const letraAletoria = letras[indiceLetraAleatoria];
+            token += letraAletoria + numAleatorio
+        }
+
+        usuarioModel.cadastrarEmpresa(nomeFabricante, cnpj, email, tel_corporativo, token)
             .then(
                 function (resultado) {
                     console.log("Empresa cadastrada com sucesso!");
-                    res.json(resultado);
+                    res.json(token);
                 }
             ).catch(
                 function (erro) {
@@ -64,13 +74,13 @@ function cadastrarFuncionario(req, res) {
     const senha = req.body.senhaServer;
 
     if (nome == undefined) {
-        res.status(400).send("nome está undefined!");
+        res.status(400).json("nome está undefined!");
     } else if (email == undefined) {
-        res.status(400).send("email está undefined!");
+        res.status(400).json("email está undefined!");
     } else if (token == undefined) {
-        res.status(400).send("token está undefined!");
+        res.status(400).json("token está undefined!");
     } else if (senha == undefined) {
-        res.status(400).send("senha está undefined!");
+        res.status(400).json("senha está undefined!");
     } else {
         usuarioModel.cadastrarFuncionario(nome, email, token, senha)
             .then(
