@@ -80,12 +80,12 @@
                     <div class="div-inputs-cadastro">
                         <div class="form-fabricante-col-1">
                             <span>
-                                <label for="inputNome" class="form-label">Nome Completo:</label>
-                                <input type="text" id="inputNome" class="form-control">
+                                <label for="inputNomeEmpresa" class="form-label">Nome Completo:</label>
+                                <input type="text" id="inputNomeEmpresa" class="form-control">
                             </span>
                             <span>
-                                <label for="inputEmail" class="form-label">Email:</label>
-                                <input type="email" id="inputEmail" class="form-control">
+                                <label for="inputEmailEmpresa" class="form-label">Email:</label>
+                                <input type="email" id="inputEmailEmpresa" class="form-control">
                             </span>
                             <span>
                                 <label for="inputCNPJ" class="form-label">CNPJ:</label>
@@ -178,9 +178,10 @@
     async function cadastrarEmpresa() {
 
 
-        nomeFabricanteVar = inputNome.value;
+        nomeFabricanteVar = inputNomeEmpresa.value;
+        console.log("NOME: ",nomeFabricanteVar, inputNomeEmpresa.value)
         cnpjVar = inputCNPJ.value;
-        emailEmpresaVar = inputEmail.value;
+        emailEmpresaVar = inputEmailEmpresa.value;
         tel_corporativoVar = inputTelefoneCorporativo.value;
 
         const resposta = await cadastrarEmpresaService(nomeFabricanteVar, cnpjVar, emailEmpresaVar, tel_corporativoVar)
