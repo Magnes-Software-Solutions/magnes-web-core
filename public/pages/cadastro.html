@@ -187,7 +187,8 @@
         console.log("resposta: ", resposta);
 
         if (resposta.ok) {
-            alert("Cadastro de Empresa concluído com sucesso!");
+            const token = await resposta.json()
+            alert(`Cadastro de Empresa concluído com sucesso! \n\nSeu token: ${token}`);
 
             setTimeout(() => {
                 window.location = "login.html";
