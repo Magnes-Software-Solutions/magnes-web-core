@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../bootstrap-5.3.8-dist/css/bootstrap.css" />
     <link rel="stylesheet" href="../css/login.css">
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/cadastro.css">
 </head>
 
 <body>
@@ -49,10 +50,10 @@
     <div class="row">
       <div class="col-md-6 div-banner">
       </div>
-      <div class="col-md-6 container-form">
-        <form>
-          <h1>LOGIN</h1>
-          <div>
+      <div class="col-md-6 container-form d-flex justify-content-center align-items-top">
+        <form class="form-login">
+          <h1 class="titulo-login mt-5">LOGIN</h1>
+          <div class="container-input">
             <span>
               <label for="inputEmail" class="form-label">Email:</label>
               <input type="email" id="inputEmail" class="form-control">
@@ -63,7 +64,7 @@
             </span>
           </div>
           <p style="color: red; font-weight: bolder;" id="errorMessage"></p>
-          <button type="button" onclick="login()">LOGIN</button>
+          <div class="button-login"><button type="button" onclick="login()">LOGIN</button></div>
         </form>
       </div>
     </div>
@@ -84,6 +85,8 @@
     const response = await loginService(email, senha)
     const status = response.status
     let json = await response.json()
+    
+    
     
     if (status == 200) {
       json = json[0]

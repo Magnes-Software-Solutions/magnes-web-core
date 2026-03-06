@@ -3,10 +3,10 @@ const usuarioModel = require("../models/userModel")
 async function autenticar(req, res){
     const {email, senha} = req.body
 
-    if (email == undefined){
-        res.status(400).send("Seu email está undefined")
-    } else if (senha == undefined){
-        res.status(400).send("Sua senha está incorreta")
+    if (!email){
+        res.status(400).json("Seu email está undefined")
+    } else if (!senha){
+        res.status(400).json("Sua senha está incorreta")
     } else {
         const resultado = await usuarioModel.autenticar(email, senha)
 
@@ -20,6 +20,85 @@ async function autenticar(req, res){
 
 }
 
+function cadastrarEmpresa(req, res) {
+    var nomeFabricante = req.body.nomeFabricanteServer;
+    var cnpj = req.body.cnpjServer;
+    var email = req.body.emailFabricanteServer;
+    var tel_corporativo = req.body.tel_corporativoServer;
+
+    if (!nomeFabricante) {  
+        res.status(400).json("nome está undefined!");
+    } else if (!cnpj) {
+        res.status(400).json("cnpj está undefined!");
+    } else if (!email) {
+        res.status(400).json("email está undefined!");
+    } else if (!tel_corporativo) {
+        res.status(400).json("tel_corporativo está undefined!");
+    } else {
+        const letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J' ];
+        let token = "";
+    
+
+        for(var i = 0; i < 5; i++){
+            const numAleatorio = Math.floor(Math.random() * 9);
+            const indiceLetraAleatoria = Math.floor(Math.random() * letras.length);
+            const letraAletoria = letras[indiceLetraAleatoria];
+            token += letraAletoria + numAleatorio
+        }
+
+        usuarioModel.cadastrarEmpresa(nomeFabricante, cnpj, email, tel_corporativo, token)
+            .then(
+                function (resultado) {
+                    console.log("Empresa cadastrada com sucesso!");
+                    res.json(token);
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log(
+                        "\nHouve um erro ao realizar o cadastro! Erro: ",
+                        erro.sqlMessage
+                    );
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+
+    }
+
+}
+
+function cadastrarFuncionario(req, res) {
+    const nome = req.body.nomeServer;
+    const email = req.body.emailServer;
+    const token = req.body.tokenServer;
+    const senha = req.body.senhaServer;
+
+    if (nome == undefined) {
+        res.status(400).json("nome está undefined!");
+    } else if (email == undefined) {
+        res.status(400).json("email está undefined!");
+    } else if (token == undefined) {
+        res.status(400).json("token está undefined!");
+    } else if (senha == undefined) {
+        res.status(400).json("senha está undefined!");
+    } else {
+        usuarioModel.cadastrarFuncionario(nome, email, token, senha)
+            .then(
+                function (resultado) {
+                    console.log("Funcionário cadastrado com sucesso!");
+                    res.json(resultado);
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
+}
+
 module.exports = {
-    autenticar
+    autenticar,
+    cadastrarEmpresa,
+    cadastrarFuncionario
 }

@@ -8,10 +8,12 @@
   <link rel="stylesheet" href="bootstrap-5.3.8-dist/css/bootstrap.css" />
   <link rel="shortcut icon" href="./assets/imgs/Logo.png" type="image/x-icon" />
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/odometer-theme-default.css" />
+  <link rel="stylesheet" href="https://github.hubspot.com/odometer/themes/odometer-theme-default.css" />
 
 </head>
 
-<body onscroll="scrolar()">
+<body onscroll="scrolar(), trocar(), trocarRam(), trocarDisk()">
   <nav id="navBarTimida" class="navbar navbar-expand-lg fixed-top border-bottom border-body">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
@@ -190,20 +192,55 @@
     <h2>Onde a tecnologia <strong>encontra</strong> a vida.</h2>
   </div>
 
-  <article class="descricao-hardware">
+  <div class="container-hardware d-flex flex-lg-row flex-column justify-content-center align-items-center">
+    <article class="descricao-hardware">
     <div class="monitor-card">
-      <div class="icon"></div>
+      <div class="icon"><img src="assets/imgs/cpu.png" alt=""></div>
       
       <div class="monitor-dado">
         <span class="hardware-modelo">INTEL XEON SILVER 4214R</span>
         <div class="monitor-info">
           <h3>Temperatura da CPU</h3>
-          <span class="hardware-valor">91°C</span>
+          <span class="hardware-valor"><div class="contador odometer" id="contador">91</div>°C</span>
         </div>
-        <div class="barra-animada"> <hr> ### coloque a barrinha aqui ### </div>
+        <div class="line-container"></div>
+        <div class="overlay ">
+          <p>Deu Certo</p>
+        </div>
       </div>
     </div>
   </article>
+
+  <article class="descricao-hardware">
+    <div id="card-disk" class="monitor-card">
+      <div class="icon"><img src="assets/imgs/hard-disk.png" alt=""></div>
+      
+      <div class="monitor-dado">
+        <span class="hardware-modelo">Seagate Exos X24</span>
+        <div class="monitor-info">
+          <h3>I/O Disco</h3>
+          <span class="hardware-valor" style="color: #13680D;" ><div class="contadorDisk odometer"  id="contadorDisk">91</div>°C</span>
+        </div>
+        <div class="line-container-disk"></div>
+      </div>
+    </div>
+  </article>
+
+  <article class="descricao-hardware">
+    <div id="card-ram" class="monitor-card">
+      <div class="icon"><img src="assets/imgs/ram-memory.png" alt=""></div>
+      
+      <div class="monitor-dado">
+        <span class="hardware-modelo">Samsung M393A8G40BB2</span>
+        <div class="monitor-info">
+          <h3>Gargalo da RAM</h3>
+          <span class="hardware-valor" style="color: #4220D9;" ><div class="contadorRam odometer" id="contadorRam">91</div>°C</span>
+        </div>
+        <div class="line-container-ram"></div>
+      </div>
+    </div>
+  </article>
+  </div>
 </section>
     
   <div class="carousel">
@@ -254,7 +291,7 @@
           </ul>
         </div>
 
-        <img src="../assets/imgs/logo.png" alt="logo" class="logo">
+        <img src="assets/imgs/Logo.png" alt="logo" class="logo">
 
         <div class="contato">
             <div class="redes-sociais-contato">
@@ -285,7 +322,8 @@
 
 </body>
 </html>
-
+<script src="https://github.hubspot.com/odometer/odometer.js"></script>
 <script src="bootstrap-5.3.8-dist/js/bootstrap.js"></script>
 <script src="js/index.js"></script>
 <script src="js/navBar.js"></script>
+<script src="js/odometer.js"></script>
