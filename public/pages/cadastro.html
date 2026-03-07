@@ -110,12 +110,16 @@
                         <input type="text" id="inputNome" class="form-control">
                     </span>
                     <span>
-                        <label for="inputEmail" class="form-label">Email:</label>
-                        <input type="email" id="inputEmail" class="form-control">
-                    </span>
-                    <span>
                         <label for="inputToken" class="form-label">Token:</label>
                         <input type="text" id="inputToken" class="form-control">
+                    </span>
+                    <span>
+                        <label for="inputCargo" class="form-label">Cargo:</label>
+                        <input type="text" id="inputCargo" class="form-control">
+                    </span>
+                    <span>
+                        <label for="inputEmail" class="form-label">Email:</label>
+                        <input type="email" id="inputEmail" class="form-control">
                     </span>
                     <span>
                         <label for="inputPassword" class="form-label">Senha:</label>
@@ -127,7 +131,7 @@
                             aria-describedby="passwordHelpBlock">
                     </span>
                     <br>
-                    <button type="submit">CADASTRAR</button>
+                    <button type="button" onclick="cadastrarFuncionario()">CADASTRAR</button>
                 </form>
 
             </div>
@@ -192,7 +196,7 @@
             alert(`Cadastro de Empresa concluído com sucesso! \n\nSeu token: ${token}`);
 
             setTimeout(() => {
-                window.location = "login.html";
+                // window.location = "login.html";
             }, 100);
         } else {
             alert("Houve um erro ao tentar realizar o cadastro!");
@@ -203,46 +207,32 @@
         return false;
     }
 
-    function cadastrarFuncionario() {
-        let nomeVar = document.getElementById('inputNome').value;
-        let emailVar = document.getElementById('inputEmail').value;
-        let cargoVar = document.getElementById('inputCargo').value;
-        let senhaVar = document.getElementById('inputPassword').value;
-        let confirmacaoSenhaVar = document.getElementById('inputPasswordConfirm').value;
+    async function cadastrarFuncionario() {
+        let nomeVar = inputNome.value;
+        let emailVar = inputEmail.value;
+        let cargoVar = inputCargo.value;
+        let tokenVar = inputToken.value
+        let senhaVar = inputPassword.value;
+        let confirmacaoSenhaVar = inputPasswordConfirm.value;
 
         if (senhaVar !== confirmacaoSenhaVar) {
             alert("As senhas não coincidem!");
             return false;
         }
 
-        fetch("/user/cadastrarFuncionario", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                nomeServer: nomeVar,
-                emailServer: emailVar,
-                tokenServer: cargoVar,
-                senhaServer: senhaVar
-            }),
-        })
-            .then(function (resposta) {
-                console.log("resposta: ", resposta);
+        const resposta = await cadastrarFuncionarioService(nomeVar, emailVar, senhaVar, tokenVar, cargoVar)
+        console.log("resposta: ", resposta);
 
-                if (resposta.ok) {
-                    alert("Cadastro de Funcionário concluído com sucesso!");
+        if (resposta.ok) {
+            alert("Cadastro de Funcionário concluído com sucesso!");
 
-                    setTimeout(() => {
-                        window.location = "inicial.html";
-                    }, 100);
-                } else {
-                    alert("Houve um erro ao tentar realizar o cadastro do funcionário!");
-                }
-            })
-            .catch(function (resposta) {
-                console.log(`#ERRO: ${resposta}`);
-            });
+            setTimeout(() => {
+                window.location = "login.html";
+            }, 100);
+        } else {
+            alert("Houve um erro ao tentar realizar o cadastro do funcionário!");
+        }
+
 
         return false;
     }

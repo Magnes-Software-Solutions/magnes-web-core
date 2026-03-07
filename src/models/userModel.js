@@ -16,9 +16,9 @@ function cadastrarEmpresa(nomeFabricante, cnpj, email, tel_corporativo, token) {
     return database.executar(instrucaoSql);
 }
 
-function cadastrarFuncionario(nome, email, senha, fkFabricante) {
-    const instrucaoSql = `INSERT INTO funcionario (nome, email, senha, fkFabricante, dt_cadastro) 
-    VALUES ('${nome}', '${email}', '${senha}', '${fkFabricante}', NOW())`
+function cadastrarFuncionario(nome, email, senha, fkFabricante, cargo) {
+    const instrucaoSql = `INSERT INTO funcionario (nome, email, senha, fkFabricante, cargo, dt_cadastro) 
+    VALUES ('${nome}', '${email}', '${senha}', '${fkFabricante}', '${cargo}', NOW())`
     return database.executar(instrucaoSql);
 }
 

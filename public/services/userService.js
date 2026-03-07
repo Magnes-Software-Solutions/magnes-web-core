@@ -22,3 +22,12 @@ async function cadastrarEmpresaService(nomeFabricanteVar, cnpjVar, emailEmpresaV
     console.log(response);
     return response
 }
+
+async function cadastrarFuncionarioService(nome, email, senha, token, cargo) {
+    const body = {
+        nome, email, senha, token, cargo
+    }
+    const response = await api.post("/user/cadastrarFuncionario", body)
+    console.log(response);
+    return response
+}

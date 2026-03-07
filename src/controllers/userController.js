@@ -68,7 +68,7 @@ function cadastrarEmpresa(req, res) {
 }
 
 async function cadastrarFuncionario(req, res) {
-    const { nome, email, senha, token } = req.body
+    const { nome, email, senha, token, cargo } = req.body
 
     if (nome == undefined) {
         res.status(400).json("nome está undefined!");
@@ -86,7 +86,7 @@ async function cadastrarFuncionario(req, res) {
         fkFabricante = fkFabricante[0].idFabricante
 
         // res.status(200).json(fkFabricante)
-        usuarioModel.cadastrarFuncionario(nome, email, senha, fkFabricante)
+        usuarioModel.cadastrarFuncionario(nome, email, senha, fkFabricante, cargo)
             .then(
                 function (resultado) {
                     console.log("Funcionário cadastrado com sucesso!");
