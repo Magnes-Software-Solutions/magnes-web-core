@@ -300,9 +300,8 @@ nav button {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.monitor-card:hover{
-    transform: translateY(-5px);
-    
+.monitor-card:hover {
+  transform: translateY(-5px);
 }
 
 #card-disk {
@@ -345,7 +344,6 @@ nav button {
   }
 }
 
-
 .monitor-card .icon {
   display: flex;
   align-items: center;
@@ -356,16 +354,16 @@ nav button {
   height: 40px;
 }
 
-.overlay{
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.6s ease, opacity 0.3s ease;
-    opacity: 1;
+.overlay {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.6s ease, opacity 0.3s ease;
+  opacity: 1;
 }
 
-.monitor-card:hover .overlay{
-    max-height: 100px;
-    opacity: 1;
+.monitor-card:hover .overlay {
+  max-height: 100px;
+  opacity: 1;
 }
 
 .hardware-valor {
@@ -436,16 +434,16 @@ footer .col-md-4 {
 } */
 
 .footer {
-   display: flex;
-   align-items: center;
-   justify-self: flex-end;
-   flex-direction: column;
-   padding: 20px 10px;
-   gap: 10px;
-   width: 100%;
-   height: 270px;
-   /* border-top: #FBFBFB 2px solid; */
-   background: linear-gradient(to bottom, #124685 50%, #111d01e5);
+  display: flex;
+  align-items: center;
+  justify-self: flex-end;
+  flex-direction: column;
+  padding: 20px 10px;
+  gap: 10px;
+  width: 100%;
+  height: 270px;
+  /* border-top: #FBFBFB 2px solid; */
+  background: linear-gradient(to bottom, #124685 50%, #111d01e5);
 }
 
 .footer p {
@@ -569,4 +567,59 @@ footer .col-md-4 {
   100% {
     width: 250px;
   }
+}
+
+/**/
+
+.scroll-down {
+  justify-content: space-between;
+  height: 100%;
+  background-color: #161c47;
+  border-top-left-radius: 100px;
+  border-top-right-radius: 100px;
+  margin-top: 20rem;
+  padding: 80px 80px 80px 80px;
+  color: #dae1cc;
+  gap: 100px;
+}
+.box-text {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+}
+
+.box-text .title-down {
+  width: 100%;
+  font-size: 1.7rem;
+}
+.box-text .text-down {
+  width: 100%;
+  font-size: 1.7rem;
+}
+
+.container-down {
+  height: 100%;
+  gap: 10rem;
+}
+
+.inicial-video-scroll video {
+  width: 750px;
+  border-top-right-radius: 60px;
+  border-bottom-left-radius: 60px;
+
+  transform: rotateX(0.1deg) rotateY(359.2deg);
+  transform-style: preserve-3d;
+
+  box-shadow: 17px 23px 47px 0px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 17px 23px 47px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 17px 23px 47px 0px rgba(0, 0, 0, 0.75);
+}
+.video-scroll {
+  height: 160vh;
+}
+.inicial-video-scroll {
+  position: sticky;
+  top: 10%;
+  perspective: 100px;
+  box-shadow: #050a0e;
 }
