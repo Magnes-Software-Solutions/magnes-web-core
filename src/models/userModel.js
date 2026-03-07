@@ -16,14 +16,20 @@ function cadastrarEmpresa(nomeFabricante, cnpj, email, tel_corporativo, token) {
     return database.executar(instrucaoSql);
 }
 
-function cadastrarFuncionario(nome, email, token, senha) {
-    const instrucaoSql = `INSERT INTO funcionario (nome, email, token, senha) 
-    VALUES ('${nome}', '${email}', '${token}', '${senha}')`
+function cadastrarFuncionario(nome, email, senha, fkFabricante) {
+    const instrucaoSql = `INSERT INTO funcionario (nome, email, senha, fkFabricante, dt_cadastro) 
+    VALUES ('${nome}', '${email}', '${senha}', '${fkFabricante}', NOW())`
     return database.executar(instrucaoSql);
+}
+
+function validarTokenFabricante(token) {
+    var instrucaoSql = `SELECT idFabricante FROM fabricante WHERE token = '${token}'`
+    return database.executar(instrucaoSql)
 }
 
 module.exports = {
     cadastrarEmpresa,
     autenticar,
-    cadastrarFuncionario
+    cadastrarFuncionario,
+    validarTokenFabricante
 };

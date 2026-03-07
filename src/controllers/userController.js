@@ -67,11 +67,8 @@ function cadastrarEmpresa(req, res) {
 
 }
 
-function cadastrarFuncionario(req, res) {
-    const nome = req.body.nomeServer;
-    const email = req.body.emailServer;
-    const token = req.body.tokenServer;
-    const senha = req.body.senhaServer;
+async function cadastrarFuncionario(req, res) {
+    const { nome, email, senha, token } = req.body
 
     if (nome == undefined) {
         res.status(400).json("nome está undefined!");
@@ -82,7 +79,14 @@ function cadastrarFuncionario(req, res) {
     } else if (senha == undefined) {
         res.status(400).json("senha está undefined!");
     } else {
-        usuarioModel.cadastrarFuncionario(nome, email, token, senha)
+        let fkFabricante = await usuarioModel.validarTokenFabricante(token)
+        if (fkFabricante.length == 0) {
+            res.status(403).json("Token inválido")
+        }
+        fkFabricante = fkFabricante[0].idFabricante
+
+        // res.status(200).json(fkFabricante)
+        usuarioModel.cadastrarFuncionario(nome, email, senha, fkFabricante)
             .then(
                 function (resultado) {
                     console.log("Funcionário cadastrado com sucesso!");
