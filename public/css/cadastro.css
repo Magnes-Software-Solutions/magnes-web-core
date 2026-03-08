@@ -1,10 +1,12 @@
 body {
   height: 100dvh;
+  overflow-y: visible;
 }
 
 .container-form {
   min-height: 100vh;
   padding-top: 30px;
+   padding-left: 0px; padding-right: 0px;
 }
 
 .div-titulo {
@@ -32,11 +34,11 @@ body {
 }
 
 .cards-cadastro {
-  margin-top: 50px;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
+  width: 100%;
   align-items: center;
-  gap: 50px;
+  flex-wrap: wrap;
 }
 
 .cards-cadastro h3 {
@@ -65,8 +67,11 @@ body {
   position: relative;
   padding-bottom: 20px;
   height: 500px;
-  width: 350px;
+  max-width: 350px;
+  width: 85vw;
+  margin-top: 50px;
 }
+
 
 .container-fabricante,
 .container-funcionario {
@@ -157,7 +162,7 @@ body {
   width: 100%;
   height: fit-content;
   padding: 0px 60px;
-  color: #fbfbfb;
+  color: var(--cor02);
 }
 
 .div-inputs-cadastro {
@@ -183,21 +188,27 @@ body {
 }
 
 #form_funcionario span input {
-  width: 350px;
-  height: 30px;
+  max-width: 350px;
+  width: 85vw;
+  height: 35px;
   font-size: smaller;
   font-family: poppins;
   padding: 5px;
   color: #124685;
+  background-color: #c6c6ec;
+  border: 2px solid #746cc2;
 }
 
 #form_fabricante span input {
-  width: 350px;
-  height: 30px;
+  max-width: 350px;
+  width: 85vw;
+  height: 35px;
   font-size: smaller;
   font-family: poppins;
   padding: 5px;
   color: #124685;
+  background-color: #c6c6ec;
+  border: 2px solid #746cc2;
 }
 
 #form_funcionario button,
@@ -212,6 +223,7 @@ body {
   border-radius: 10px;
   padding: 10px 20px;
   transition: all 0.3s;
+  border: 2px solid #746cc2;
 }
 
 #form_funcionario button:hover,
