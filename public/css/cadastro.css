@@ -1,166 +1,225 @@
 body {
-    height: 100dvh;
+  height: 100dvh;
 }
 
 .container-form {
-    min-height: 100vh;
-    padding-top: 30px; 
+  min-height: 100vh;
+  padding-top: 30px;
 }
 
 .div-titulo {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    position: relative;
-    margin: 5% 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+  margin: 5% 0px;
 }
 
-.div-titulo img{
-    width: 30px;
-    color: white;
-    cursor: pointer;
+.div-titulo img {
+  width: 30px;
+  color: white;
+  cursor: pointer;
 }
 
 .titulo-cadastro {
-    margin: 20px;
-    font-weight: bold;
-    font-family: poppins;
-    justify-self: center;
-    color: white;
+  margin: 20px;
+  font-weight: bold;
+  font-family: poppins;
+  justify-self: center;
+  color: var(--cor02);
 }
 
 .cards-cadastro {
-    margin-top: 160px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 100px;
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
 }
 
 .cards-cadastro h3 {
-    font-family: poppins;
-    font-weight: bold;
-    font-size: 20px;
-    color: var(--cor02);
+  font-family: poppins;
+  font-weight: bold;
+  font-size: 20px;
+  color: var(--cor02);
 }
 
 .cards-cadastro svg {
-    fill: var(--cor02);
+  fill: var(--cor02);
 }
 
-.card-fabricante, .card-funcionário {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    background-color: #FBFBFB;
-    border-radius: 15px;
-    cursor: pointer;
-    transition: all 0.3s;
+.card-fabricante,
+.card-funcionário {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.3s;
+  color: black;
+  text-align: center;
+  position: relative;
+  padding-bottom: 20px;
+  height: 500px;
+  width: 350px;
 }
 
-.card-fabricante svg, .card-funcionário svg {
-    width: 120px;
-    height: 120px;
+.container-fabricante,
+.container-funcionario {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #04178460;
+  border-radius: 15px;
+  border: solid 2px #a4a7aa;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.card-fabricante:hover, .card-funcionário:hover {
-    scale: 1.3;
-    background-color: #fbfbfbd1;
+.container-funcionario{
+    background-color: #1A014F35 ;
+}
+
+.text-title {
+  width: 100%;
+  padding: 30px 0px 0px 0px;
+}
+
+.text {
+  font-size: 16px;
+  width: 100%;
+  padding: 10px 0px 0px 0px;
+}
+
+.img-fabricante {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  position: absolute;
+  bottom: 0;
+}
+
+.card-fabricante .img-fabricante img {
+  width: 300px;
+}
+
+.card-fabricante svg,
+.card-funcionário svg {
+  width: 120px;
+  height: 120px;
+}
+
+.card-fabricante:hover,
+.card-funcionário:hover {
+  scale: 1.1;
+  padding-bottom: 30px;
+  z-index: 20;
+}
+
+.card-fabricante:hover .container-fabricante{
+    background-color: #041784;
+    color: #ffff;
+}
+
+.card-funcionário:hover .container-funcionario{
+    background-color: #886AAB;
 }
 
 .banner-cadastro {
-    background-image: linear-gradient(rgba(4,9,30,0.3),rgba(4,9,30,0.3)),url(../assets/imgs/banner-cadastro.png);
-    background-position: center;
-    background-size: cover;
-    position: relative;
+  background-image: linear-gradient(rgba(4, 9, 30, 0.3), rgba(4, 9, 30, 0.3)),
+    url(../assets/imgs/banner-cadastro.png);
+  background-position: center;
+  background-size: cover;
+  position: relative;
 }
 
 #form_funcionario {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-    width: 100%;
-    height: fit-content;
-    padding: 0px 20px;
-    color: #FBFBFB;
-
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  height: fit-content;
+  padding: 0px 20px;
+  color: var(--cor02);
 }
 
 #form_fabricante {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    width: 100%;
-    height: fit-content;
-    padding: 0px 60px;
-    color: #FBFBFB;
-
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  height: fit-content;
+  padding: 0px 60px;
+  color: #fbfbfb;
 }
 
 .div-inputs-cadastro {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
-.form-fabricante-col-1, .form-fabricante-col-2{
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+.form-fabricante-col-1,
+.form-fabricante-col-2 {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 #form_funcionario div {
-    width: 250px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 7.5px;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 7.5px;
 }
 
-#form_funcionario span input{
-    width: 350px;
-    height: 30px;
-    font-size: smaller;
-    font-family: poppins;
-    padding: 5px;
-    color: #124685;
+#form_funcionario span input {
+  width: 350px;
+  height: 30px;
+  font-size: smaller;
+  font-family: poppins;
+  padding: 5px;
+  color: #124685;
 }
 
-#form_fabricante span input{
-    width: 350px; 
-    height: 30px;
-    font-size: smaller;
-    font-family: poppins;
-    padding: 5px;
-    color: #124685;
+#form_fabricante span input {
+  width: 350px;
+  height: 30px;
+  font-size: smaller;
+  font-family: poppins;
+  padding: 5px;
+  color: #124685;
 }
 
-#form_funcionario button, #form_fabricante button{
-    display: flex;
-    font-size: medium;
-    font-weight: bold;
-    font-family: poppins;
-    color: #124685;
-    background-color: #FBFBFB;
-    border: none;
-    border-radius: 10px;
-    padding: 10px 20px;
-    transition: all 0.3s;
+#form_funcionario button,
+#form_fabricante button {
+  display: flex;
+  font-size: medium;
+  font-weight: bold;
+  font-family: poppins;
+  color: #124685;
+  background-color: #fbfbfb;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  transition: all 0.3s;
 }
 
-#form_funcionario button:hover, #form_fabricante button:hover {
-    scale: 1.1;
-    background-color: #fbfbfbd1;
-    
+#form_funcionario button:hover,
+#form_fabricante button:hover {
+  scale: 1.1;
+  background-color: #fbfbfbd1;
 }
 
 #form_fabricante button {
-    margin-top: 30px;
+  margin-top: 30px;
 }

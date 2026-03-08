@@ -53,26 +53,38 @@
         <div class="row" style="height: 100%;">
             <div class="col-md-6 banner-cadastro">
             </div>
-            <div class="col-md-6 container-form">
+            <div class="col-md-6 container-form" style="background-color: #E8E8FC;">
                 <div class="div-titulo">
                     <img src="../assets/imgs/retorno.svg" id="retorno" onclick="voltar()" style="display: none;">
                     <h1 id="titulo" class="titulo-cadastro">CADASTRO</h1>
                 </div>
 
-                <div id="cards_cadastro" class="cards-cadastro flex-lg-row flex-column">
-                    <div class="card-fabricante" onclick="escolher('fabricante')">
-                        <h3>FABRICANTE</h3>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-                            <path
-                                d="M96 96C78.3 96 64 110.3 64 128L64 496C64 522.5 85.5 544 112 544L528 544C554.5 544 576 522.5 576 496L576 216.2C576 198 556.6 186.5 540.6 195.1L384 279.4L384 216.2C384 198 364.6 186.5 348.6 195.1L192 279.4L192 128C192 110.3 177.7 96 160 96L96 96z" />
-                        </svg>
+                <div id="cards_cadastro" class="cards-cadastro flex-lg-row flex-column g-4">
+                    <div class="card-fabricante col-12 col-md-5 col-lg-4" onclick="escolher('fabricante')">
+                        <div class="container-fabricante">
+                            <div class="text-title">
+                                <h2>Fabricante</h2>
+                            </div>
+                            <div class="text">
+                                <p>Cadastre sua empresa e gere o <br>token de acesso para a sua equipe</p>
+                            </div>
+                        </div>
+                        <div class="img-fabricante">
+                            <img src="../assets/imgs/img-fabricante.svg" class="img-fluid" alt="">
+                        </div>
                     </div>
-                    <div class="card-funcionário" onclick="escolher('funcionario')">
-                        <h3>FUNCIONÁRIO</h3>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-                            <path
-                                d="M384 328L384 128C384 110.3 369.7 96 352 96L288 96C270.3 96 256 110.3 256 128L256 328C256 341.3 245.3 352 232 352C218.7 352 208 341.3 208 328L208 142.1C122 173.8 64 255.8 64 352L64 416L576 416L576 352C575 256.8 517.6 174.3 432 142.2L432 328C432 341.3 421.3 352 408 352C394.7 352 384 341.3 384 328zM72 464C49.9 464 32 481.9 32 504C32 526.1 49.9 544 72 544L568 544C590.1 544 608 526.1 608 504C608 481.9 590.1 464 568 464L72 464z" />
-                        </svg>
+                    <div class="card-funcionário col-12 col-md-5 col-lg-4" onclick="escolher('funcionario')">
+                        <div class="container-funcionario">
+                            <div class="text-title">
+                                <h2>Funcionário</h2>
+                            </div>
+                            <div class="text">
+                                <p>Utilize o token da sua empresa<br>para criar seu perfil de acesso</p>
+                            </div>
+                        </div>
+                        <div class="img-fabricante">
+                            <img src="../assets/imgs/img-funcionario.svg" class="img-fluid" alt="">
+                        </div>
                     </div>
                 </div>
 
@@ -183,7 +195,7 @@
 
 
         nomeFabricanteVar = inputNomeEmpresa.value;
-        console.log("NOME: ",nomeFabricanteVar, inputNomeEmpresa.value)
+        console.log("NOME: ", nomeFabricanteVar, inputNomeEmpresa.value)
         cnpjVar = inputCNPJ.value;
         emailEmpresaVar = inputEmailEmpresa.value;
         tel_corporativoVar = inputTelefoneCorporativo.value;
