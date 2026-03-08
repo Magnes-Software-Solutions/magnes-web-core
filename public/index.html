@@ -202,14 +202,17 @@
           <div class="monitor-dado">
             <span class="hardware-modelo">INTEL XEON SILVER 4214R</span>
             <div class="monitor-info">
-              <h3>Temperatura da CPU</h3>
+              <h3>Uso da CPU</h3>
+
               <span class="hardware-valor">
-                <div class="contador odometer" id="contador">91</div>°C
+                <div class="contador odometer" id="contador">91</div>%
               </span>
             </div>
             <div class="line-container"></div>
             <div class="overlay ">
-              <p>Deu Certo</p>
+              <h4>Demanda de Reconstrução</h4>
+              <p>Garante que o processamento das fatias de imagem acompanhe o ritmo do exame, evitando filas de espera
+                no buffer e atrasos na visualização clínica.</p>
             </div>
           </div>
         </div>
@@ -228,6 +231,11 @@
               </span>
             </div>
             <div class="line-container-disk"></div>
+            <div class="overlay ">
+              <h4 style="color: #13680d;">Ocupação DICOM</h4>
+              <p>Previne falhas na gravação de sequências pesadas, evitando a perda de dados e custos de
+                re-escaneamento.</p>
+            </div>
           </div>
         </div>
       </article>
@@ -245,6 +253,10 @@
               </span>
             </div>
             <div class="line-container-ram"></div>
+            <div class="overlay ">
+              <h4 style="color: #4220d9;">Buffer de Segmentação</h4>
+              <p>Evita travamentos no processamento de imagens 3D e garante a fluidez da interface para o operador.</p>
+            </div>
           </div>
         </div>
       </article>
