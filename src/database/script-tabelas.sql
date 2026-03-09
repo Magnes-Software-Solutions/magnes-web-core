@@ -90,6 +90,7 @@ CREATE TABLE maquina_tem_componente (
     FOREIGN KEY (fkComponente) REFERENCES componente(idComponente)
 );
 
+DELIMITER $$ 
 CREATE TRIGGER tg_maquina_componente
 AFTER INSERT ON maquina
 FOR EACH ROW
@@ -100,6 +101,5 @@ BEGIN
     VALUES (NEW.idMaquina, 2, 32);
     INSERT INTO maquina_tem_componente (fkMaquina, fkComponente, limite)
     VALUES (NEW.idMaquina, 3, 1000);
-END$$
-
-DELIMITER ;
+END $$
+DELIMITER ; 

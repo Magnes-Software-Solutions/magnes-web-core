@@ -53,39 +53,51 @@
         <div class="row" style="height: 100%;">
             <div class="col-md-6 banner-cadastro">
             </div>
-            <div class="col-md-6 container-form">
+            <div class="col-md-6 container-form" style="background-color: #E8E8FC;">
                 <div class="div-titulo">
                     <img src="../assets/imgs/retorno.svg" id="retorno" onclick="voltar()" style="display: none;">
                     <h1 id="titulo" class="titulo-cadastro">CADASTRO</h1>
                 </div>
 
-                <div id="cards_cadastro" class="cards-cadastro flex-lg-row flex-column">
-                    <div class="card-fabricante" onclick="escolher('fabricante')">
-                        <h3>FABRICANTE</h3>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-                            <path
-                                d="M96 96C78.3 96 64 110.3 64 128L64 496C64 522.5 85.5 544 112 544L528 544C554.5 544 576 522.5 576 496L576 216.2C576 198 556.6 186.5 540.6 195.1L384 279.4L384 216.2C384 198 364.6 186.5 348.6 195.1L192 279.4L192 128C192 110.3 177.7 96 160 96L96 96z" />
-                        </svg>
+                <div id="cards_cadastro" class="cards-cadastro">
+                    <div class="card-fabricante col-12 col-xxl-6" onclick="escolher('fabricante')">
+                        <div class="container-fabricante">
+                            <div class="text-title">
+                                <h2>Fabricante</h2>
+                            </div>
+                            <div class="text">
+                                <p>Cadastre sua empresa e gere o <br>token de acesso para a sua equipe</p>
+                            </div>
+                        </div>
+                        <div class="img-fabricante">
+                            <img src="../assets/imgs/img-fabricante.svg" class="img-fluid" alt="">
+                        </div>
                     </div>
-                    <div class="card-funcionário" onclick="escolher('funcionario')">
-                        <h3>FUNCIONÁRIO</h3>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-                            <path
-                                d="M384 328L384 128C384 110.3 369.7 96 352 96L288 96C270.3 96 256 110.3 256 128L256 328C256 341.3 245.3 352 232 352C218.7 352 208 341.3 208 328L208 142.1C122 173.8 64 255.8 64 352L64 416L576 416L576 352C575 256.8 517.6 174.3 432 142.2L432 328C432 341.3 421.3 352 408 352C394.7 352 384 341.3 384 328zM72 464C49.9 464 32 481.9 32 504C32 526.1 49.9 544 72 544L568 544C590.1 544 608 526.1 608 504C608 481.9 590.1 464 568 464L72 464z" />
-                        </svg>
+                    <div class="card-funcionário col-12 col-xxl-6" onclick="escolher('funcionario')">
+                        <div class="container-funcionario">
+                            <div class="text-title">
+                                <h2>Funcionário</h2>
+                            </div>
+                            <div class="text">
+                                <p>Utilize o token da sua empresa<br>para criar seu perfil de acesso</p>
+                            </div>
+                        </div>
+                        <div class="img-fabricante">
+                            <img src="../assets/imgs/img-funcionario.svg" class="img-fluid" alt="">
+                        </div>
                     </div>
                 </div>
 
-                <form id="form_fabricante" onsubmit="return cadastrarEmpresa(event)">
+                <form id="form_fabricante">
                     <div class="div-inputs-cadastro">
                         <div class="form-fabricante-col-1">
                             <span>
-                                <label for="inputNome" class="form-label">Nome Completo:</label>
-                                <input type="text" id="inputNome" class="form-control">
+                                <label for="inputNomeEmpresa" class="form-label">Nome Completo:</label>
+                                <input type="text" id="inputNomeEmpresa" class="form-control">
                             </span>
                             <span>
-                                <label for="inputEmail" class="form-label">Email:</label>
-                                <input type="email" id="inputEmail" class="form-control">
+                                <label for="inputEmailEmpresa" class="form-label">Email:</label>
+                                <input type="email" id="inputEmailEmpresa" class="form-control">
                             </span>
                             <span>
                                 <label for="inputCNPJ" class="form-label">CNPJ:</label>
@@ -110,12 +122,16 @@
                         <input type="text" id="inputNome" class="form-control">
                     </span>
                     <span>
-                        <label for="inputEmail" class="form-label">Email:</label>
-                        <input type="email" id="inputEmail" class="form-control">
-                    </span>
-                    <span>
                         <label for="inputToken" class="form-label">Token:</label>
                         <input type="text" id="inputToken" class="form-control">
+                    </span>
+                    <span>
+                        <label for="inputCargo" class="form-label">Cargo:</label>
+                        <input type="text" id="inputCargo" class="form-control">
+                    </span>
+                    <span>
+                        <label for="inputEmail" class="form-label">Email:</label>
+                        <input type="email" id="inputEmail" class="form-control">
                     </span>
                     <span>
                         <label for="inputPassword" class="form-label">Senha:</label>
@@ -127,7 +143,7 @@
                             aria-describedby="passwordHelpBlock">
                     </span>
                     <br>
-                    <button type="submit">CADASTRAR</button>
+                    <button type="button" onclick="cadastrarFuncionario()">CADASTRAR</button>
                 </form>
 
             </div>
@@ -178,19 +194,21 @@
     async function cadastrarEmpresa() {
 
 
-        nomeFabricanteVar = inputNome.value;
+        nomeFabricanteVar = inputNomeEmpresa.value;
+        console.log("NOME: ", nomeFabricanteVar, inputNomeEmpresa.value)
         cnpjVar = inputCNPJ.value;
-        emailEmpresaVar = inputEmail.value;
+        emailEmpresaVar = inputEmailEmpresa.value;
         tel_corporativoVar = inputTelefoneCorporativo.value;
 
         const resposta = await cadastrarEmpresaService(nomeFabricanteVar, cnpjVar, emailEmpresaVar, tel_corporativoVar)
         console.log("resposta: ", resposta);
 
         if (resposta.ok) {
-            alert("Cadastro de Empresa concluído com sucesso!");
+            const token = await resposta.json()
+            alert(`Cadastro de Empresa concluído com sucesso! \n\nSeu token: ${token}`);
 
             setTimeout(() => {
-                window.location = "login.html";
+                // window.location = "login.html";
             }, 100);
         } else {
             alert("Houve um erro ao tentar realizar o cadastro!");
@@ -201,46 +219,32 @@
         return false;
     }
 
-    function cadastrarFuncionario() {
-        let nomeVar = document.getElementById('inputNome').value;
-        let emailVar = document.getElementById('inputEmail').value;
-        let cargoVar = document.getElementById('inputCargo').value;
-        let senhaVar = document.getElementById('inputPassword').value;
-        let confirmacaoSenhaVar = document.getElementById('inputPasswordConfirm').value;
+    async function cadastrarFuncionario() {
+        let nomeVar = inputNome.value;
+        let emailVar = inputEmail.value;
+        let cargoVar = inputCargo.value;
+        let tokenVar = inputToken.value
+        let senhaVar = inputPassword.value;
+        let confirmacaoSenhaVar = inputPasswordConfirm.value;
 
         if (senhaVar !== confirmacaoSenhaVar) {
             alert("As senhas não coincidem!");
             return false;
         }
 
-        fetch("/user/cadastrarFuncionario", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                nomeServer: nomeVar,
-                emailServer: emailVar,
-                tokenServer: cargoVar,
-                senhaServer: senhaVar
-            }),
-        })
-            .then(function (resposta) {
-                console.log("resposta: ", resposta);
+        const resposta = await cadastrarFuncionarioService(nomeVar, emailVar, senhaVar, tokenVar, cargoVar)
+        console.log("resposta: ", resposta);
 
-                if (resposta.ok) {
-                    alert("Cadastro de Funcionário concluído com sucesso!");
+        if (resposta.ok) {
+            alert("Cadastro de Funcionário concluído com sucesso!");
 
-                    setTimeout(() => {
-                        window.location = "inicial.html";
-                    }, 100);
-                } else {
-                    alert("Houve um erro ao tentar realizar o cadastro do funcionário!");
-                }
-            })
-            .catch(function (resposta) {
-                console.log(`#ERRO: ${resposta}`);
-            });
+            setTimeout(() => {
+                window.location = "login.html";
+            }, 100);
+        } else {
+            alert("Houve um erro ao tentar realizar o cadastro do funcionário!");
+        }
+
 
         return false;
     }
