@@ -299,7 +299,9 @@ nav button {
   border-left: 6px solid #ea4335;
   padding: 20px 25px;
   border-radius: 6px;
-  min-width: 470px;
+  width: 100%;
+  min-width: auto;
+  max-width: 420px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -378,6 +380,60 @@ nav button {
   border-radius: 0 0 8px 8px;
   padding: 15px 10px;
 }
+
+@media (max-width: 768px){
+  .hardware-valor{
+    font-size: 32px;
+  }
+  .overlay{
+    position: absolute;
+    max-height: 200px;
+    opacity: 1;
+    box-shadow: none;
+    padding: 10px 0;
+    top: 10;
+    z-index: 1;
+  }
+  .monitor-card{
+    padding: 20px;
+    min-width: auto;
+    margin-bottom: 120px;
+    transform: scale(0.95);
+
+  }
+  .monitor-card:hover{
+    transform: none !important;
+    z-index: 1 !important;
+  }
+
+
+
+  .video-scroll{
+    height: auto !important;
+    min-height: auto;
+    padding: 40px 0;
+  
+  
+  
+  }
+
+  .container-down{
+
+  }
+
+  .box-text .text-down{
+    font-size: 1.2rem;
+
+  }
+
+  .scroll-down{
+    border-top-left-radius: 30px !important;
+    border-top-right-radius: 30px !important;
+    width: 100% !important;
+    gap: 0 !important;
+  }
+}
+
 
 .overlay h4{
   color: #ea4335;
@@ -555,10 +611,10 @@ footer .col-md-4 {
 
 @keyframes crescer {
   0% {
-    width: 100px;
+    width: 30%;
   }
   100% {
-    width: 300px;
+    width: 80%;
   }
 }
 
@@ -569,12 +625,13 @@ footer .col-md-4 {
   animation: crescerDisco 10s ease-in-out infinite alternate;
 }
 
+
 @keyframes crescerDisco {
   0% {
-    width: 80px;
+    width: 20%;
   }
   100% {
-    width: 120px;
+    width: 75%;
   }
 }
 
@@ -587,10 +644,10 @@ footer .col-md-4 {
 
 @keyframes crescerRam {
   0% {
-    width: 150px;
+    width:10%;
   }
   100% {
-    width: 250px;
+    width: 50%;
   }
 }
 
@@ -614,8 +671,6 @@ footer .col-md-4 {
 }
 
 .box-text .title-down {
-  width: 100%;
-  font-size: 1.7rem;
 }
 .box-text .text-down {
   width: 100%;
@@ -648,3 +703,4 @@ footer .col-md-4 {
   perspective: 100px;
   box-shadow: #050a0e;
 }
+
