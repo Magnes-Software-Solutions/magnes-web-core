@@ -109,10 +109,21 @@ nav button {
   top: 260px;
   left: 30px;
   color: white;
+  gap: 20px;
 }
 
 .inicial-texto p {
   margin-bottom: -30px;
+}
+
+.inicial-texto .button a{
+  color: var(--cor01);
+  border-radius: 50px;
+  font-size: 22px;
+  padding: 4px 20px 4px 20px;
+  background-color: #6b2bd977;
+  text-decoration: none;
+
 }
 
 /* INICIO CARDS */
@@ -456,8 +467,17 @@ nav button {
 }
 
 /*Carousel*/
+
+.title-scroll{
+  margin-top: 10rem;
+  font-size: 3rem;
+  font-weight: 600;
+  color: var(--cor00);
+}
+
 .carousel {
   margin: 100px auto;
+  margin-top: 0;
   width: 90%;
   display: flex;
   overflow-x: auto;
