@@ -7,9 +7,6 @@
     <title>Página inicial</title>
     <link rel="stylesheet" href="../bootstrap-5.3.8-dist/css/bootstrap.css" />
     <link rel="stylesheet" href="../css/inicial.css">
-    <style>
-        
-    </style>
 </head>
 
 <body style="background-color: #CED8E4;">
@@ -48,12 +45,37 @@
                     </div>
                 </div>
                 <div class="row gy-4 justify-content-around mt-5 maquina">
-                    <div class="col-md-3 card-maquina" style="border: 2px solid blue;"><h1>card 1</h1></div>
-                    <div class="col-md-3 card-maquina" style="border: 2px solid blue;"><h1>card 2</h1></div>
-                    <div class="col-md-3 card-maquina" style="border: 2px solid blue;"><h1>card 3</h1></div>
+                    <div class="col-md-3 card-maquina" style="border: 2px solid blue;">
+                        <h1>card 1</h1>
+                        <div class="componentes">
+                            <div class="ram"><p>RAM</p> <div class="porcentagemRam"></div></div>
+                            <div class="cpu"><p>CPU</p><div class="porcentagemCpu"></div></div>
+                            <div class="disco"><p>DISCO</p></div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 card-maquina" style="border: 2px solid blue;">
+                        <h1>card 2</h1>
+                        <div class="componentes">
+                            <div class="ram"><p>RAM</p></div>
+                            <div class="cpu"><p>CPU</p></div>
+                            <div class="disco"><p>DISCO</p></div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 card-maquina" style="border: 2px solid blue;">
+                        <h1>card 3</h1>
+                        <div class="componentes">
+                            <div class="ram"><p>RAM</p></div>
+                            <div class="cpu"><p>CPU</p></div>
+                            <div class="disco"><p>DISCO</p></div>
+                        </div>
+                    </div>
                 </div>
                 <div class="row justify-content-center mt-5 buttonadd">
-                     <button type="button" class="btn btn-primary buttonadd" data-bs-toggle="modal" data-bs-target="#addMachineForm" style="background-color: #280B4A; color: #FFF; width: 20%; height: 20%; display: flex; justify-content: center; margin-right: 15px;"><img src="../assets/imgs/adicionar.png" alt="Descrição" style="width:20px;height:20px;">Adicionar Máquina</button>
+                    <button type="button" class="btn btn-primary buttonadd" data-bs-toggle="modal"
+                        data-bs-target="#addMachineForm"
+                        style="background-color: #280B4A; color: #FFF; width: 200px; height: 20%; display: flex; justify-content: center; margin-right: 15px;"><img
+                            src="../assets/imgs/adicionar.png" alt="Descrição" style="width:20px;height:20px;">Adicionar
+                        Máquina</button>
                 </div>
             </div>
         </div>
@@ -84,7 +106,10 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-primary" style="background-color: #280B4A; color: #FFF; width: 45%; height: 20%; display: flex; justify-content: center; margin-right: 15px;"><img src="../assets/imgs/adicionar.png" alt="Descrição" style="width:20px;height:20px;">  Cadastrar Máquina</button>
+                    <button type="button" class="btn btn-primary"
+                        style="background-color: #280B4A; color: #FFF; width: 45%; height: 20%; display: flex; justify-content: center; margin-right: 15px;"><img
+                            src="../assets/imgs/adicionar.png" alt="Descrição" style="width:20px;height:20px;">
+                        Cadastrar Máquina</button>
                 </div>
             </div>
         </div>
