@@ -6,27 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página inicial</title>
     <link rel="stylesheet" href="../bootstrap-5.3.8-dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="../css/inicial.css">
     <style>
-        .card-kpi {
-            background-color: #F4EEFB;
-            border-radius: 15px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .card-maquina {
-            background-color: #F4EEFB;
-            border-radius: 12px;
-        }
+        
     </style>
 </head>
 
 <body style="background-color: #CED8E4;">
     <div class="container-fluid">
         <header class="row" style="color: #FFF;">
-            <nav class="col-md-6 pt-3 pb-1" style="background-color: #000238;">
+            <nav class="col-md-6 pt-3 pb-1 navdash" style="background-color: #000238;">
                 <div class="row justify-content-between">
                     <div class="col-3">Magnes</div>
                     <div class="col-9 text-center fw-medium display-6">Bem vindo, <span id="spanNome"></span></div>
@@ -45,14 +34,17 @@
                     <div class="col-md-3 col-sm-3 col-7 card-kpi p-3 mt-4">
                         <p class="text-center">Máquinas em alerta</p>
                         <span class="display-5 fw-semibold">5</span>
+                        <div class="sinal"></div>
                     </div>
                     <div class="col-md-3 col-sm-3 col-7 card-kpi p-3 mt-4">
                         <p class="text-center">Total de máquinas</p>
                         <span class="display-5 fw-semibold">12</span>
+                        <div class="sinal2"></div>
                     </div>
                     <div class="col-md-3 col-sm-3 col-7 card-kpi p-3 mt-4">
                         <p class="text-center">Máquinas em crítico</p>
                         <span class="display-5 fw-semibold">3</span>
+                        <div class="sinal3"></div>
                     </div>
                 </div>
                 <div class="row gy-4 justify-content-around mt-5">
