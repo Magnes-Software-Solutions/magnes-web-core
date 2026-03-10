@@ -151,6 +151,7 @@ nav button {
   transform: scale(1.06);
 }
 
+
 .texto-cards h1 {
   width: 100%;
   display: flex;
@@ -172,27 +173,36 @@ nav button {
 }
 
 .card {
-  background-color: var(--cor03);
-  box-shadow: -3px 3px 10px rgba(0, 0, 0, 0.5);
+  background-color: var(--cor02);
+  box-shadow: -3px 3px 10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .card-title {
   font-size: 15px;
   color: var(--cor01);
   margin-left: 15px;
+  ;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .card-img-top {
-  display: flex;
-  width: 15%;
-  height: 25%;
-  margin-bottom: 5px;
-  border: none;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 10px;
 }
 
 .card-text {
   display: flex;
   margin-left: 15px;
+  /* color: #12006d; */
 }
 
 /* INÍCIO SOBRE NÓS */
@@ -202,7 +212,7 @@ nav button {
   flex-direction: column;
   width: 100%;
   height: auto;
-  margin-top: 2vw;
+  padding-top: 100px;
 }
 
 /* .container_alltext_us {
