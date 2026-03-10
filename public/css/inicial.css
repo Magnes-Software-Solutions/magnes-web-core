@@ -56,3 +56,26 @@
     border-radius: 20px;
     justify-content: flex-start;
 }
+
+.maquina {
+    display: flex;
+    height: 55%;
+}
+
+.maquina h1 {
+    display: flex;
+    justify-content: center;
+    margin-top: 10%;
+}
+
+.buttonadd {
+    display: flex;
+    border-radius: 10px;
+}
+
+.buttonadd img{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 3%;
+}
