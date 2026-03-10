@@ -79,7 +79,7 @@ nav button {
 }
 
 .container-form {
-  background-color: #124685;
+  background-color: #E8E8FC;
   min-height: calc(100vh - 69.09px);
   color: var(--cor01);  
 }
@@ -91,7 +91,7 @@ nav button {
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  
+  color: #124685;
 }
 
 .container-input {
@@ -107,6 +107,8 @@ nav button {
     font-family: poppins;
     padding: 5px;
     color: #124685;
+    background-color: #c6c6ec;
+    border: 2px solid #746cc2;
 }
 
 .form-login {
@@ -118,11 +120,11 @@ nav button {
 }
 
 .titulo-login {
-  margin: 20px;
+  margin: 25px;
   font-weight: bold;
   font-family: poppins;
   justify-self: center;
-  color: white;
+  color: #124685;
 }
 
 .button-login{
@@ -143,6 +145,7 @@ nav button {
     border-radius: 10px;
     padding: 10px 20px;
     transition: all 0.3s;
+    border: 2px solid #746cc2;
 }
 
 .button-login button:hover {
