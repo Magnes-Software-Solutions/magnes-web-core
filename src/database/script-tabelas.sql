@@ -55,12 +55,13 @@ CREATE TABLE contato_inicial (
 );
 
 CREATE TABLE historico_manutencao (
-    idManutencao INT PRIMARY KEY AUTO_INCREMENT,
+    idManutencao INT,
     inicio_manutencao DATETIME NOT NULL,
     termino_manutencao DATETIME,
     motivo VARCHAR(20) NOT NULL,
     descricao VARCHAR(200),
     fkMaquina INT NOT NULL,
+    PRIMARY KEY (fkMaquina, idManutencao),
     FOREIGN KEY (fkMaquina) REFERENCES maquina(idMaquina)
 );
 

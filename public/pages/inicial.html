@@ -7,9 +7,6 @@
     <title>Página inicial</title>
     <link rel="stylesheet" href="../bootstrap-5.3.8-dist/css/bootstrap.css" />
     <link rel="stylesheet" href="../css/inicial.css">
-    <style>
-        
-    </style>
 </head>
 
 <body style="background-color: #CED8E4;">
@@ -48,12 +45,37 @@
                     </div>
                 </div>
                 <div class="row gy-4 justify-content-around mt-5 maquina">
-                    <div class="col-md-3 card-maquina" style="border: 2px solid blue;"><h1>card 1</h1></div>
-                    <div class="col-md-3 card-maquina" style="border: 2px solid blue;"><h1>card 2</h1></div>
-                    <div class="col-md-3 card-maquina" style="border: 2px solid blue;"><h1>card 3</h1></div>
+                    <div class="col-md-3 card-maquina" style="border: 2px solid blue;">
+                        <h1>card 1</h1>
+                        <div class="componentes">
+                            <div class="ram"><p>RAM</p> <div class="porcentagemRam"></div></div>
+                            <div class="cpu"><p>CPU</p><div class="porcentagemCpu"></div></div>
+                            <div class="disco"><p>DISCO</p></div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 card-maquina" style="border: 2px solid blue;">
+                        <h1>card 2</h1>
+                        <div class="componentes">
+                            <div class="ram"><p>RAM</p></div>
+                            <div class="cpu"><p>CPU</p></div>
+                            <div class="disco"><p>DISCO</p></div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 card-maquina" style="border: 2px solid blue;">
+                        <h1>card 3</h1>
+                        <div class="componentes">
+                            <div class="ram"><p>RAM</p></div>
+                            <div class="cpu"><p>CPU</p></div>
+                            <div class="disco"><p>DISCO</p></div>
+                        </div>
+                    </div>
                 </div>
                 <div class="row justify-content-center mt-5 buttonadd">
-                     <button type="button" class="btn btn-primary buttonadd" data-bs-toggle="modal" data-bs-target="#addMachineForm" style="background-color: #280B4A; color: #FFF; width: 20%; height: 20%; display: flex; justify-content: center; margin-right: 15px;"><img src="../assets/imgs/adicionar.png" alt="Descrição" style="width:20px;height:20px;">Adicionar Máquina</button>
+                    <button type="button" class="btn btn-primary buttonadd" data-bs-toggle="modal"
+                        data-bs-target="#addMachineForm"
+                        style="background-color: #280B4A; color: #FFF; width: 200px; height: 20%; display: flex; justify-content: center; margin-right: 15px;"><img
+                            src="../assets/imgs/adicionar.png" alt="Descrição" style="width:20px;height:20px;">Adicionar
+                        Máquina</button>
                 </div>
             </div>
         </div>
@@ -69,22 +91,25 @@
                 <div class="modal-body">
                     <form>
                         <div class="mb-3">
-                            <label for="recipient-name" class="col-form-label">Numeração:</label>
-                            <input type="text" class="form-control" id="recipient-name">
+                            <label for="input_num_serie" class="col-form-label">Numeração:</label>
+                            <input type="text" class="form-control" id="input_num_serie">
                         </div>
                         <div class="mb-3">
-                            <label for="message-text" class="col-form-label">Localização:</label>
-                            <input class="form-control" id="message-text">
+                            <label for="input_localizacao" class="col-form-label">Localização:</label>
+                            <input class="form-control" id="input_localizacao">
                         </div>
                         <div class="mb-3">
-                            <label for="message-text" class="col-form-label">Modelo:</label>
-                            <input class="form-control" id="message-text">
+                            <label for="input_modelo" class="col-form-label">Modelo:</label>
+                            <input class="form-control" id="input_modelo">
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-primary" style="background-color: #280B4A; color: #FFF; width: 45%; height: 20%; display: flex; justify-content: center; margin-right: 15px;"><img src="../assets/imgs/adicionar.png" alt="Descrição" style="width:20px;height:20px;">  Cadastrar Máquina</button>
+                    <button onclick="adicionarMaquina()" type="button" class="btn btn-primary"
+                        style="background-color: #280B4A; color: #FFF; width: 45%; height: 20%; display: flex; justify-content: center; margin-right: 15px;"><img
+                            src="../assets/imgs/adicionar.png" alt="Descrição" style="width:20px;height:20px;">
+                        Cadastrar Máquina</button>
                 </div>
             </div>
         </div>
@@ -93,8 +118,21 @@
 
 </html>
 <script src="../bootstrap-5.3.8-dist/js/bootstrap.js"></script>
+<script src="../services/api.js"></script>
+<script src="../services/maquinaService.js"></script>
 <script>
     var nomeUsuario = sessionStorage.NOME_USUARIO
     spanNome.innerHTML = nomeUsuario
 
+    async function adicionarMaquina() {
+        var num_serie = input_num_serie.value
+        var modelo = input_modelo.value
+        var fkFabricante = sessionStorage.ID_EMPRESA
+
+        let response = await adicionarMaquinaService(num_serie, modelo, fkFabricante)
+
+        console.log(response);
+
+        alert(response);        
+    }
 </script>
