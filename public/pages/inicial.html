@@ -6,27 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página inicial</title>
     <link rel="stylesheet" href="../bootstrap-5.3.8-dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="../css/inicial.css">
     <style>
-        .card-kpi {
-            background-color: #F4EEFB;
-            border-radius: 15px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .card-maquina {
-            background-color: #F4EEFB;
-            border-radius: 12px;
-        }
+        
     </style>
 </head>
 
 <body style="background-color: #CED8E4;">
     <div class="container-fluid">
         <header class="row" style="color: #FFF;">
-            <nav class="col-md-6 pt-3 pb-1" style="background-color: #000238;">
+            <nav class="col-md-6 pt-3 pb-1 navdash" style="background-color: #000238;">
                 <div class="row justify-content-between">
                     <div class="col-3">Magnes</div>
                     <div class="col-9 text-center fw-medium display-6">Bem vindo, <span id="spanNome"></span></div>
@@ -45,23 +34,26 @@
                     <div class="col-md-3 col-sm-3 col-7 card-kpi p-3 mt-4">
                         <p class="text-center">Máquinas em alerta</p>
                         <span class="display-5 fw-semibold">5</span>
+                        <div class="sinal"></div>
                     </div>
                     <div class="col-md-3 col-sm-3 col-7 card-kpi p-3 mt-4">
                         <p class="text-center">Total de máquinas</p>
                         <span class="display-5 fw-semibold">12</span>
+                        <div class="sinal2"></div>
                     </div>
                     <div class="col-md-3 col-sm-3 col-7 card-kpi p-3 mt-4">
                         <p class="text-center">Máquinas em crítico</p>
                         <span class="display-5 fw-semibold">3</span>
+                        <div class="sinal3"></div>
                     </div>
                 </div>
-                <div class="row gy-4 justify-content-around mt-5">
-                    <div class="col-md-3 card-maquina" style="border: 2px solid blue;">card 1</div>
-                    <div class="col-md-3 card-maquina" style="border: 2px solid blue;">card 2</div>
-                    <div class="col-md-3 card-maquina" style="border: 2px solid blue;">card 3</div>
+                <div class="row gy-4 justify-content-around mt-5 maquina">
+                    <div class="col-md-3 card-maquina" style="border: 2px solid blue;"><h1>card 1</h1></div>
+                    <div class="col-md-3 card-maquina" style="border: 2px solid blue;"><h1>card 2</h1></div>
+                    <div class="col-md-3 card-maquina" style="border: 2px solid blue;"><h1>card 3</h1></div>
                 </div>
-                <div class="row justify-content-center mt-5">
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#addMachineForm" style="width: 200px;">Adicionar máquina</button>
+                <div class="row justify-content-center mt-5 buttonadd">
+                     <button type="button" class="btn btn-primary buttonadd" data-bs-toggle="modal" data-bs-target="#addMachineForm" style="background-color: #280B4A; color: #FFF; width: 20%; height: 20%; display: flex; justify-content: center; margin-right: 15px;"><img src="../assets/imgs/adicionar.png" alt="Descrição" style="width:20px;height:20px;">Adicionar Máquina</button>
                 </div>
             </div>
         </div>
@@ -69,26 +61,30 @@
 
     <div class="modal fade" id="addMachineForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">New message</h1>
+            <div class="modal-content" style="background-color: #CED8E4;">
+                <div class="modal-header" style="background-color: gray;">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel" style="color: #FFF;">Adicionar Máquina</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form>
                         <div class="mb-3">
-                            <label for="recipient-name" class="col-form-label">Recipient:</label>
+                            <label for="recipient-name" class="col-form-label">Numeração:</label>
                             <input type="text" class="form-control" id="recipient-name">
                         </div>
                         <div class="mb-3">
-                            <label for="message-text" class="col-form-label">Message:</label>
-                            <textarea class="form-control" id="message-text"></textarea>
+                            <label for="message-text" class="col-form-label">Localização:</label>
+                            <input class="form-control" id="message-text">
+                        </div>
+                        <div class="mb-3">
+                            <label for="message-text" class="col-form-label">Modelo:</label>
+                            <input class="form-control" id="message-text">
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Send message</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary" style="background-color: #280B4A; color: #FFF; width: 45%; height: 20%; display: flex; justify-content: center; margin-right: 15px;"><img src="../assets/imgs/adicionar.png" alt="Descrição" style="width:20px;height:20px;">  Cadastrar Máquina</button>
                 </div>
             </div>
         </div>
