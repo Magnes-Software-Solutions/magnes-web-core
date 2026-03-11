@@ -131,7 +131,7 @@ nav button {
 .container_cards {
   width: 100%;
   height: auto;
-  margin-top: 5vw;
+  margin-top: 7vw;
 }
 
 .container_cards .card {
@@ -159,8 +159,19 @@ nav button {
   align-items: center;
   font-family: "Poppins", sans-serif;
   font-size: 40px;
-  margin-top: 50px;
+  margin-top: 80px;
   font-weight: 600;
+}
+
+.texto-cards p {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+  /* margin-top: 50px; */
+  font-weight: 600;
+  margin-bottom: 50px;
 }
 
 .texto-cards2 {
@@ -173,17 +184,19 @@ nav button {
 }
 
 .card {
-  background-color: var(--cor02);
+  background-color: var(--cor03);
   box-shadow: -3px 3px 10px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
   height: 100%;
+  border-style: none;
 }
 
 .card-title {
   font-size: 15px;
   color: var(--cor01);
   margin-left: 15px;
+  margin-top: 15px;
   ;
 }
 
@@ -203,6 +216,11 @@ nav button {
   display: flex;
   margin-left: 15px;
   /* color: #12006d; */
+  /* color: var(--cor01); */
+}
+
+.conjunto_titulo_img {
+  display: flex;
 }
 
 /* INÍCIO SOBRE NÓS */
