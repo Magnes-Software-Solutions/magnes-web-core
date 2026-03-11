@@ -284,6 +284,8 @@ nav button {
   }
 }
 
+
+
 @keyframes scroll2 {
   from {
     opacity: 0;
@@ -713,6 +715,12 @@ footer .col-md-4 {
   display: flex;
   gap: 20px;
   flex-direction: column;
+
+  animation: opacidade linear;
+  animation-timeline: view();
+  animation-range: entry 10% cover 50%;
+  
+  
 }
 
 .box-text .icon img {
@@ -727,6 +735,19 @@ footer .col-md-4 {
 .box-text .text-down {
   width: 100%;
   font-size: 1.7rem;
+
+ 
+  transition: opacidade 2s ease;
+}
+
+@keyframes opacidade {
+  from{
+    opacity: 0;
+  }
+  to{
+    opacity: 1;
+  }
+  
 }
 
 .box-text .title-down {
