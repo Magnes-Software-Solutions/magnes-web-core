@@ -123,7 +123,6 @@ nav button {
   padding: 4px 20px 4px 20px;
   background-color: #6b2bd977;
   text-decoration: none;
-
 }
 
 /* INICIO CARDS */
@@ -150,7 +149,6 @@ nav button {
 .container_cards .card:hover {
   transform: scale(1.06);
 }
-
 
 .texto-cards h1 {
   width: 100%;
@@ -184,20 +182,20 @@ nav button {
 }
 
 .card {
-  background-color: var(--cor03);
+  background: var(--cor02);
   box-shadow: -3px 3px 10px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
   height: 100%;
   border-style: none;
+  padding: 5px 10px 5px 10px;
 }
 
 .card-title {
-  font-size: 15px;
+  font-size: 17px;
   color: var(--cor01);
   margin-left: 15px;
   margin-top: 15px;
-  ;
 }
 
 .card-body {
@@ -214,9 +212,10 @@ nav button {
 
 .card-text {
   display: flex;
-  margin-left: 15px;
+
   /* color: #12006d; */
   /* color: var(--cor01); */
+  color: #d5cce1;
 }
 
 .conjunto_titulo_img {
@@ -268,12 +267,6 @@ nav button {
 /* FIM SOBRE NÓS */
 
 /*On Scroll*/
-
-.text-mission {
-  animation: scroll2 linear;
-  animation-timeline: view();
-  animation-range: entry 40% cover 40%;
-}
 
 @keyframes scroll {
   from {
@@ -333,7 +326,6 @@ nav button {
     color: #6c2bd9;
   }
 }
-
 
 .monitor-card {
   position: relative;
@@ -449,7 +441,6 @@ nav button {
     min-width: auto;
     margin-bottom: 120px;
     transform: scale(0.95);
-
   }
 
   .monitor-card:hover {
@@ -457,20 +448,14 @@ nav button {
     z-index: 1 !important;
   }
 
-
-
   .video-scroll {
     height: auto !important;
     min-height: auto;
     padding: 40px 0;
-
-
-
   }
 
   .box-text .text-down {
     font-size: 1.2rem;
-
   }
 
   .scroll-down {
@@ -480,7 +465,6 @@ nav button {
     gap: 0 !important;
   }
 }
-
 
 .overlay h4 {
   color: #ea4335;
@@ -684,7 +668,6 @@ footer .col-md-4 {
   animation: crescerDisco 10s ease-in-out infinite alternate;
 }
 
-
 @keyframes crescerDisco {
   0% {
     width: 20%;
@@ -781,7 +764,6 @@ footer .col-md-4 {
   perspective: 100px;
   box-shadow: #050a0e;
 }
-
 
 /* Inicio do footer */
 
@@ -891,13 +873,12 @@ footer .col-md-4 {
   font-weight: bold;
   font-family: poppins;
   color: #124685;
-  background-color: #FBFBFB;
+  background-color: #fbfbfb;
   border: none;
   border-radius: 10px;
   padding: 5px 10px;
   transition: all 0.3s;
   margin-bottom: 10px;
-
 }
 
 .redes-sociais-contato {
