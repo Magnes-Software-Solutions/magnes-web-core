@@ -151,6 +151,27 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modalSucesso" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <div style="background-color: #746cc2;" class="modal-header">
+        <h5 style="color: #fbfbfb;" class="modal-title">Cadastro realizado</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div style="background-color: #E8E8FC;"class="modal-body">
+        <p id="textoToken"></p>
+      </div>
+
+      <div style="background-color: #E8E8FC;"   class="modal-footer">
+        <button  style="color: #124685; background-color: #fbfbfb; border: 2px solid #746cc2"  class="btn" data-bs-dismiss="modal">OK</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 </body>
 
 </html>
@@ -158,6 +179,9 @@
 <script src="../services/api.js"></script>
 <script src="../services/userService.js"></script>
 <script>
+    // teste
+    const modal = new bootstrap.Modal(document.getElementById('modalSucesso'));
+            modal.show();
 
     const banner = document.querySelector('.banner-cadastro');
     const cards_cadastro = document.getElementById('cards_cadastro');
@@ -206,8 +230,12 @@
 
         if (resposta.ok) {
             const token = await resposta.json()
-            alert(`Cadastro de Empresa concluído com sucesso! \n\nSeu token: ${token}`);
+            document.getElementById("textoToken").innerHTML =
+            `Cadastro de Empresa concluído com sucesso! <br><br>Seu token: <span style="font-weight: bold;">${token}</span>`;
 
+            const modal = new bootstrap.Modal(document.getElementById('modalSucesso'));
+            modal.show();
+            
             setTimeout(() => {
                 // window.location = "login.html";
             }, 100);
