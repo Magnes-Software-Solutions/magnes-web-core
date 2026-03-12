@@ -319,8 +319,7 @@ nav button {
   max-width: 1400px;
   margin: 70px auto;
   margin-top: 12rem;
-  overflow-x: hidden;
-  overflow-y: hidden;
+  overflow: visible !important;
   padding: 0 15px;
 }
 
