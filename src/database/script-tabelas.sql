@@ -91,6 +91,14 @@ CREATE TABLE maquina_tem_componente (
     FOREIGN KEY (fkComponente) REFERENCES componente(idComponente)
 );
 
+INSERT INTO componente VALUES
+(DEFAULT, "disco", "armazenamento não volátil", "GB"),
+(DEFAULT, "ram", "armazenamento volátil", "GB"),
+(DEFAULT, "cpu", "processamento", "GHz");
+
+INSERT INTO localizacao VALUES
+(DEFAULT, "Albert Einstein", "12346789", 101, "albert@email.com", "hospital");
+
 DELIMITER $$ 
 CREATE TRIGGER tg_maquina_componente
 AFTER INSERT ON maquina
