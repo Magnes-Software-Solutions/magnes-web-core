@@ -55,12 +55,13 @@ CREATE TABLE contato_inicial (
 );
 
 CREATE TABLE historico_manutencao (
-    idManutencao INT PRIMARY KEY AUTO_INCREMENT,
+    idManutencao INT,
     inicio_manutencao DATETIME NOT NULL,
     termino_manutencao DATETIME,
     motivo VARCHAR(20) NOT NULL,
     descricao VARCHAR(200),
     fkMaquina INT NOT NULL,
+    PRIMARY KEY (fkMaquina, idManutencao),
     FOREIGN KEY (fkMaquina) REFERENCES maquina(idMaquina)
 );
 
@@ -89,6 +90,14 @@ CREATE TABLE maquina_tem_componente (
     FOREIGN KEY (fkMaquina) REFERENCES maquina(idMaquina),
     FOREIGN KEY (fkComponente) REFERENCES componente(idComponente)
 );
+
+INSERT INTO componente VALUES
+(DEFAULT, "disco", "armazenamento não volátil", "GB"),
+(DEFAULT, "ram", "armazenamento volátil", "GB"),
+(DEFAULT, "cpu", "processamento", "GHz");
+
+INSERT INTO localizacao VALUES
+(DEFAULT, "Albert Einstein", "12346789", 101, "albert@email.com", "hospital");
 
 DELIMITER $$ 
 CREATE TRIGGER tg_maquina_componente

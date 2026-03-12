@@ -1,0 +1,162 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=K2D:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=Lora:ital,wght@0,400..700;1,400..700&family=MedievalSharp&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=VT323&display=swap");
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  list-style: none;
+}
+
+.card-kpi {
+    display: flex;
+    background-color: #F4EEFB;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+.card-maquina {
+    background-color: #F4EEFB;
+    border-radius: 12px;
+}
+
+.maquina1{
+    box-shadow: 0px 0px 15px red;
+}
+
+.maquina2{
+        box-shadow: 0px 0px 15px green;
+
+}
+
+.navdash {
+    border-bottom-right-radius: 30px;
+}
+
+.sinal {
+    margin-top: 6%;
+    margin-right: 17%;
+    position: absolute;
+    background-color: yellow;
+    width: 0.5%;
+    height: 1%;
+    border-radius: 20px;
+}
+
+.sinal2 {
+    margin-top: 6%;
+    margin-right: 17%;
+    background-color: green;
+    width: 0.5%;
+    height: 1%;
+    position: absolute;
+    border-radius: 20px;
+    justify-content: flex-start;
+}
+
+.sinal3 {
+    margin-top: 6%;
+    margin-right: 17%;
+    background-color: red;
+    width: 0.5%;
+    height: 1%;
+    position: absolute;
+    border-radius: 20px;
+    justify-content: flex-start;
+}
+
+.maquina {
+    display: flex;
+    height: 55%;
+}
+
+.maquina img{
+    width: 40%;
+    height: 40%;
+}
+
+.maquina h1 {
+    display: flex;
+    justify-content: center;
+    margin-top: 10%;
+}
+
+.buttonadd {
+    display: flex;
+    border-radius: 10px;
+}
+
+.buttonadd img{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 3%;
+}
+
+.componentes {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 80%;
+}
+
+.componentes h1{
+    font-family: "Poppins", sans-serif;
+}
+
+.ram {
+    display: flex;
+}
+
+.cpu {
+    display: flex;
+}
+
+.disco {
+    display: flex;
+}
+
+.componentes img{
+    width: 30px;
+    height: 25px;
+}
+
+.ram .porcentagemRam {
+    margin-left: 5px;
+    width: 30%;
+    height: 25px;
+    background-color: #8fb963;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+
+}
+
+.cpu .porcentagemCpu {
+    margin-left: 5px;
+    width: 80%;
+    height: 25px;
+    background-color: #e5877d;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+
+}
+
+.disco .porcentagemDisco {
+    margin-left: 5px;
+    border-bottom-right-radius: 10px;
+    width: 50%;
+    height: 25px;
+    background-color: #f6cf4e;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+
+}
