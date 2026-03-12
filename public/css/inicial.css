@@ -39,35 +39,27 @@
 }
 
 .sinal {
-    margin-top: 6%;
-    margin-right: 17%;
-    position: absolute;
     background-color: yellow;
-    width: 0.5%;
-    height: 1%;
+    width: 5px;
+    height: 5px;
+    align-self: flex-start;
     border-radius: 20px;
 }
 
 .sinal2 {
-    margin-top: 6%;
-    margin-right: 17%;
     background-color: green;
-    width: 0.5%;
-    height: 1%;
-    position: absolute;
     border-radius: 20px;
-    justify-content: flex-start;
+    width: 5px;
+    height: 5px;
+    align-self: flex-start;
 }
 
 .sinal3 {
-    margin-top: 6%;
-    margin-right: 17%;
     background-color: red;
-    width: 0.5%;
-    height: 1%;
-    position: absolute;
     border-radius: 20px;
-    justify-content: flex-start;
+    width: 5px;
+    height: 5px;
+    align-self: flex-start;
 }
 
 .maquina {

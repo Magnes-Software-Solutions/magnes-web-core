@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="../css/inicial.css">
 </head>
 
-<body style="background-color: #CED8E4;">
-    <div class="container-fluid">
+<body style="background-color: #CED8E4; padding-bottom: 30px;">
+    <div class="container-fluid" style="height: 100%;">
         <header class="row" style="color: #FFF;">
             <nav class="col-md-6 pt-3 pb-1 navdash" style="background-color: #000238;">
                 <div class="row justify-content-between">
@@ -21,8 +21,8 @@
             </nav>
         </header>
         <div class="row">
-            <div style="background-color: #161c47; height: 100vh;" class="col-md-2 col-3">
-                <div class="row justify-content-center">
+            <div style="background-color: #161c47; height: 200px; border-bottom-right-radius: 30px;" class="col-md-2 col-3">
+                <div class="row justify-content-center" style="height: max-content;">
                     <div class="col-12 text-center mt-5" style="color: #FFF;">Home</div>
                     <div class="col-12 text-center mt-4" style="color: #FFF;">Máquinas</div>
                 </div>
@@ -49,25 +49,52 @@
                     <div class="col-md-3 col-9 card-maquina maquina1" style="border: 3px solid #746cc2;">
                         <h1><img src="../assets/imgs/hospital.png" alt=""></h1>
                         <div class="componentes">
-                            <div class="ram"><p><img src="../assets/imgs/ram.png" alt=""></p> <div class="porcentagemRam"></div></div>
-                            <div class="cpu"><p><img src="../assets/imgs/cpuDash.png" alt=""></p><div class="porcentagemCpu"></div></div>
-                            <div class="disco"><p><img src="../assets/imgs/cartao-de-memoria.png" alt=""></p> <div class="porcentagemDisco"></div></div>
+                            <div class="ram">
+                                <p><img src="../assets/imgs/ram.png" alt=""></p>
+                                <div class="porcentagemRam"></div>
+                            </div>
+                            <div class="cpu">
+                                <p><img src="../assets/imgs/cpuDash.png" alt=""></p>
+                                <div class="porcentagemCpu"></div>
+                            </div>
+                            <div class="disco">
+                                <p><img src="../assets/imgs/cartao-de-memoria.png" alt=""></p>
+                                <div class="porcentagemDisco"></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-3 col-9 card-maquina maquina2"  style="border: 3px solid #746cc2;">
+                    <div class="col-md-3 col-9 card-maquina maquina2" style="border: 3px solid #746cc2;">
                         <h1><img src="../assets/imgs/farmacia.png" alt=""></h1>
                         <div class="componentes">
-                            <div class="ram"><p><img src="../assets/imgs/ram.png" alt=""></p> <div class="porcentagemRam"></div></div>
-                            <div class="cpu"><p><img src="../assets/imgs/cpuDash.png" alt=""></p><div class="porcentagemCpu"></div></div>
-                            <div class="disco"><p><img src="../assets/imgs/cartao-de-memoria.png" alt=""></p> <div class="porcentagemDisco"></div></div>
+                            <div class="ram">
+                                <p><img src="../assets/imgs/ram.png" alt=""></p>
+                                <div class="porcentagemRam"></div>
+                            </div>
+                            <div class="cpu">
+                                <p><img src="../assets/imgs/cpuDash.png" alt=""></p>
+                                <div class="porcentagemCpu"></div>
+                            </div>
+                            <div class="disco">
+                                <p><img src="../assets/imgs/cartao-de-memoria.png" alt=""></p>
+                                <div class="porcentagemDisco"></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-3 col-9 card-maquina maquina3"  style="border: 3px solid #746cc2;">
+                    <div class="col-md-3 col-9 card-maquina maquina3" style="border: 3px solid #746cc2;">
                         <h1><img src="../assets/imgs/estrela-da-vida.png" alt=""></h1>
                         <div class="componentes">
-                            <div class="ram"><p><img src="../assets/imgs/ram.png" alt=""></p> <div class="porcentagemRam"></div></div>
-                            <div class="cpu"><p><img src="../assets/imgs/cpuDash.png" alt=""></p><div class="porcentagemCpu"></div></div>
-                            <div class="disco"><p><img src="../assets/imgs/cartao-de-memoria.png" alt=""></p> <div class="porcentagemDisco"></div></div>
+                            <div class="ram">
+                                <p><img src="../assets/imgs/ram.png" alt=""></p>
+                                <div class="porcentagemRam"></div>
+                            </div>
+                            <div class="cpu">
+                                <p><img src="../assets/imgs/cpuDash.png" alt=""></p>
+                                <div class="porcentagemCpu"></div>
+                            </div>
+                            <div class="disco">
+                                <p><img src="../assets/imgs/cartao-de-memoria.png" alt=""></p>
+                                <div class="porcentagemDisco"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -108,7 +135,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                     <button onclick="adicionarMaquina()" type="button" class="btn btn-primary"
-                        style="background-color: #280B4A; color: #FFF; width: 45%; height: 20%; display: flex; justify-content: center; margin-right: 15px;"><img
+                        style="background-color: #280B4A; color: #FFF; width: 300px; height: 110px; display: flex; justify-content: center; margin-right: 15px;"><img
                             src="../assets/imgs/adicionar.png" alt="Descrição" style="width:20px;height:20px;">
                         Cadastrar Máquina</button>
                 </div>
@@ -134,6 +161,6 @@
 
         console.log(response);
 
-        alert(response);        
+        alert(response);
     }
 </script>
