@@ -1,5 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=K2D:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=Lora:ital,wght@0,400..700;1,400..700&family=MedievalSharp&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=VT323&display=swap");
 
+body{
+  overflow-x: hidden;
+}
+
+
 * {
   margin: 0;
   padding: 0;
@@ -314,6 +319,9 @@ nav button {
   max-width: 1400px;
   margin: 70px auto;
   margin-top: 12rem;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  padding: 0 15px;
 }
 
 .section-title {
@@ -722,6 +730,21 @@ footer .col-md-4 {
   animation-range: entry 10% cover 50%;
   
   
+
+}
+
+@media (max-width: 768px) {
+  .box-text .text-down {
+  font-size: 1rem !important;
+  text-align: center;
+  }
+
+  .scroll-down{
+    padding: 40px 20px  !important;
+  }
+  .title-scroll{
+    text-align: center;
+  }
 }
 
 .box-text .icon img {
