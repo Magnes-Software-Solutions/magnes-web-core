@@ -186,10 +186,16 @@
 }
 
 .caixaTextoMeio {
+    margin: 3% 0%;
+    padding: 5% 0%;
+}
+
+.caixaTextoMeio:hover {
     border-radius: 5%;
-    margin: 3% 0%
+    background-color: #0a4761;
 }
 
 .textoMeio {
     color: #677f9c;
+    margin: 0%;
 }
