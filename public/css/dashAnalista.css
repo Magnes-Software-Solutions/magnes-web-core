@@ -160,3 +160,36 @@
     border-bottom-left-radius: 5px;
 
 }
+
+.barraLateral {
+    background-color: #0d2239;
+    height: 100vh;
+    padding: 2.5% 1%
+}
+
+.logo {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.tituloLogo {
+    color: white;
+    font-size: 20px;
+    justify-content: center;
+    align-self: center;
+    font-weight: bold;
+}
+
+.textoLogo {
+    color: white;
+}
+
+.caixaTextoMeio {
+    border-radius: 5%;
+    margin: 3% 0%
+}
+
+.textoMeio {
+    color: #677f9c;
+}
