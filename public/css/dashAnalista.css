@@ -161,41 +161,35 @@
 
 }
 
-.barraLateral {
-    background-color: #0d2239;
-    height: 100vh;
-    padding: 2.5% 1%
-}
-
-.logo {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+.titulo {
+    justify-content: center;
+    align-items: center;
 }
 
 .tituloLogo {
     color: white;
     font-size: 20px;
-    justify-content: center;
-    align-self: center;
     font-weight: bold;
+    margin: 0%;
+    text-align: center;
 }
 
 .textoLogo {
-    color: white;
-}
-
-.caixaTextoMeio {
-    margin: 3% 0%;
-    padding: 5% 0%;
-}
-
-.caixaTextoMeio:hover {
-    border-radius: 5%;
-    background-color: #0a4761;
-}
-
-.textoMeio {
-    color: #677f9c;
+    color: #7a92b0;
     margin: 0%;
+}
+
+.navBarTop {
+    background-color: #0d2137 !important;
+    border-bottom: 3px solid #0b3a53 !important;
+    padding: 10px 0px;
+}
+
+.navBarToggler {
+    border-color: white;
+    border-width: 2px;
+}
+
+.navBarTogglerIcon {
+    filter: brightness(100);
 }
