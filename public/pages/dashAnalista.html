@@ -23,36 +23,29 @@
                     <button class="navbar-toggler navBarToggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon navBarTogglerIcon"></span>
                     </button>
-                    <div class="offcanvas offcanvas-end" style="background-color: #0d2137 !important;" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                    <div class="offcanvas offcanvas-end offCanvas" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                         <div class="offcanvas-header">
-                            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Magnes</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                            <h5 class="offcanvas-title offCanvasTitle" id="offcanvasNavbarLabel">Magnes</h5>
+                            <button type="button" class="btn-close offCanvasButton" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
                         <div class="offcanvas-body">
-                            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 navBarNav">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                                <a class="nav-link active navLinkActive" aria-current="page" href="#">Dashboard</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Link</a>
+                                <a class="nav-link navLink" href="#">Alerta</a>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Dropdown
-                                </a>
-                                <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                </ul>
+                            <li class="nav-item">
+                                <a class="nav-link navLink" href="#">Relatório</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link navLink" href="#">Cadastrar Analista</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link navLink" href="#">Cadastrar Máquina</a>
                             </li>
                             </ul>
-                            <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-                            <button class="btn btn-outline-success" type="submit">Search</button>
                             </form>
                         </div>
                     </div>

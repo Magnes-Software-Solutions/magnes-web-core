@@ -181,7 +181,7 @@
 
 .navBarTop {
     background-color: #0d2137 !important;
-    border-bottom: 3px solid #0b3a53 !important;
+    border-bottom: 1px solid #00d4f9 !important;
     padding: 10px 0px;
 }
 
@@ -192,4 +192,49 @@
 
 .navBarTogglerIcon {
     filter: brightness(100);
+}
+
+.offCanvas {
+    background-color: #0d2137 !important;
+    border-left: 1px solid #00d4f9 !important;
+}
+
+.offCanvasTitle {
+    color: white;
+    font-size: 27px;
+}
+
+.offCanvasButton {
+    color: white !important;
+}
+
+.navBarNav {
+    height: 40%;
+    padding: 0px;
+    justify-content: space-evenly !important;
+}
+
+.navLink {
+    color: #7a92b0;
+    padding: 10px 20px;
+    font-size: 18px;
+}
+
+.navLink:hover {
+    color: white;
+    background-color: #0c2b42;
+    border-radius: 10px;
+}
+
+.navLinkActive {
+    color: #00d4f9 !important;
+    background: linear-gradient(
+    to right,
+    #0a4861,
+    #0c2b42);
+    padding: 10px;
+    font-size: 18px;
+    border-radius: 10px;
+    border: 1px solid #00d4f9;
+    padding: 10px 20px;
 }
