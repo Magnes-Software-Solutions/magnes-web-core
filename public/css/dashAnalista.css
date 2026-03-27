@@ -186,12 +186,12 @@
 }
 
 .navBarToggler {
-    border-color: white;
+    border-color: #7a92b0;
     border-width: 2px;
 }
 
 .navBarTogglerIcon {
-    filter: brightness(100);
+    filter: invert(61%) sepia(14%) saturate(703%) hue-rotate(174deg) brightness(92%) contrast(90%);
 }
 
 .offCanvas {
@@ -209,25 +209,45 @@
 }
 
 .navBarNav {
-    height: 40%;
+    height: 50%;
     padding: 0px;
     justify-content: space-evenly !important;
 }
 
-.navLink {
-    color: #7a92b0;
-    padding: 10px 20px;
-    font-size: 18px;
+.navLi {
+    padding: 8px 20px;
+    display: flex;
+    flex-direction: row !important;
+    align-items: center;
+    padding: 10px;
 }
 
-.navLink:hover {
-    color: white;
+.navLi:hover {
     background-color: #0c2b42;
     border-radius: 10px;
+
+    a {
+        color: white;
+    }
+
+    img {
+        filter: brightness(0) saturate(100%) invert(100%);
+
+    }
 }
 
-.navLinkActive {
-    color: #00d4f9 !important;
+.navLi a {
+    color: #7a92b0;
+    font-size: 18px;
+    margin-left: 10px;
+}
+
+.navLi img {
+    width: 10%;
+    height: 76%;
+}
+
+.navLiActive {
     background: linear-gradient(
     to right,
     #0a4861,
@@ -236,5 +256,16 @@
     font-size: 18px;
     border-radius: 10px;
     border: 1px solid #00d4f9;
-    padding: 10px 20px;
+    display: flex;
+    flex-direction: row !important;
+
+    a {
+        color: #00d4f9 !important;
+    }
+
+    img {
+        color: #00d4f9;
+        width: 10%;
+        height: 76%;
+    }
 }
