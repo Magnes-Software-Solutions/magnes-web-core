@@ -205,7 +205,7 @@
 }
 
 .offCanvasButton {
-    color: white !important;
+    filter: invert(1);
 }
 
 .navBarNav {
