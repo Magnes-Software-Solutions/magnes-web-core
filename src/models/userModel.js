@@ -27,6 +27,7 @@ function validarTokenFabricante(token) {
     return database.executar(instrucaoSql)
 }
 
+
 module.exports = {
     cadastrarEmpresa,
     autenticar,

@@ -223,6 +223,23 @@
         emailEmpresaVar = inputEmailEmpresa.value;
         tel_corporativoVar = inputTelefoneCorporativo.value;
 
+        if(nomeFabricanteVar.trim() === "" ){
+            alert("È necessario um nome para cadastrar!.");
+            return false;
+        }
+        else if(cnpjVar.trim() === ""){
+            alert("È necessario um CNPJ para poder se cadastrar!.");
+            return false;
+        }
+        else if(emailEmpresaVar.trim() === ""){
+            alert("È necessario um email para poder se cadastrar!.");
+            return false;
+        }
+        else if(tel_corporativoVar.trim() === ""){
+            alert("È necessario um telefone corporativo para poder se cadastrar!.");
+            return false;
+        }
+
         const resposta = await cadastrarEmpresaService(nomeFabricanteVar, cnpjVar, emailEmpresaVar, tel_corporativoVar)
         console.log("resposta: ", resposta);
 
@@ -254,6 +271,31 @@
         let senhaVar = inputPassword.value;
         let confirmacaoSenhaVar = inputPasswordConfirm.value;
 
+        
+        if(nomeVar.trim() === "" ){
+            alert("È necessario um nome para cadastrar!.");
+            return false;
+        }
+        else if(emailVar.trim() === ""){
+            alert("È necessario um email para poder se cadastrar!.");
+            return false;
+        }
+        else if(cargoVar.trim() === ""){
+            alert("È necessario informar um cargo para continuar!.");
+            return false;
+        }
+        if(nomeVar.length <= 2){
+            alert("Nome invalido, precisa ser maior que uma letra.");
+            return false;
+        }
+        if((emailVar.includes("@") && emailVar.includes(".com")) == false){
+            alert("Email precisa ter '@' e '.com'.");
+            return false;
+        }
+        if(senhaVar < 2){
+            alert("A senha precisa ser maior que dois digitos.");
+            return false;
+        }
         if (senhaVar !== confirmacaoSenhaVar) {
             alert("As senhas não coincidem!");
             return false;

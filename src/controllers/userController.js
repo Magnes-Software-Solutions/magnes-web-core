@@ -1,5 +1,6 @@
 const usuarioModel = require("../models/userModel")
 
+
 async function autenticar(req, res){
     const {email, senha} = req.body
 
@@ -100,6 +101,8 @@ async function cadastrarFuncionario(req, res) {
             );
     }
 }
+
+
 
 module.exports = {
     autenticar,
