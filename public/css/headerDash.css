@@ -1,0 +1,154 @@
+.titulo {
+    justify-content: center;
+    align-items: center;
+}
+
+.tituloLogo {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0%;
+    text-align: center;
+}
+
+.textoLogo {
+    color: #7a92b0;
+    margin: 0%;
+}
+
+.navBarTop {
+    background-color: #0d2137 !important;
+    border-bottom: 1px solid #00d4f9 !important;
+    padding: 10px 0px;
+}
+
+.navBarToggler {
+    border-color: #7a92b0;
+    border-width: 2px;
+}
+
+.navBarTogglerIcon {
+    filter: invert(61%) sepia(14%) saturate(703%) hue-rotate(174deg) brightness(92%) contrast(90%);
+}
+
+.offCanvas {
+    background-color: #0d2137 !important;
+    border-left: 1px solid #00d4f9 !important;
+}
+
+.offCanvasTitle {
+    color: white;
+    font-size: 27px;
+}
+
+.offCanvasButton {
+    filter: invert(1);
+}
+
+.offcanvasBody {
+    display: flex;
+    align-items: center;
+}
+
+.navBarNav {
+    height: 50%;
+    padding: 0px;
+    justify-content: space-evenly !important;
+}
+
+.navLi {
+    padding: 8px 20px;
+    display: flex;
+    flex-direction: row !important;
+    align-items: center;
+    padding: 10px;
+}
+
+.navLi:hover {
+    background-color: #0c2b42;
+    border-radius: 10px;
+    cursor: pointer;
+
+    a {
+        color: white;
+    }
+
+    img {
+        filter: brightness(0) saturate(100%) invert(100%);
+
+    }
+}
+
+.navLi a {
+    color: #7a92b0;
+    font-size: 18px;
+    margin-left: 10px;
+}
+
+.navLi img {
+    filter: invert(63%) sepia(12%) saturate(608%) hue-rotate(177deg) brightness(90%) contrast(89%);
+    width: 10%;
+    height: 76%;
+}
+
+.navLiActive {
+    background: linear-gradient(
+    to right,
+    #0a4861,
+    #0c2b42);
+    padding: 10px;
+    font-size: 18px;
+    border-radius: 10px;
+    border: 1px solid #00d4f9;
+    display: flex;
+    flex-direction: row !important;
+
+    a {
+        color: #00d4f9 !important;
+    }
+
+    img {
+        filter: invert(74%) sepia(61%) saturate(2877%) hue-rotate(158deg) brightness(101%) contrast(102%);
+        width: 10%;
+        height: 76%;
+    }
+}
+
+.perfil {
+    border-top: 0.5px solid #00d4f9 !important;
+    align-items: center;
+    padding: 20px;
+    justify-content: space-between;
+}
+
+.perfil:hover{
+    cursor: pointer;
+    background-color: #0c2b42;
+}
+
+.perfilImage {
+    filter: brightness(0) saturate(100%) invert(100%);
+    width: 20%;
+    height: 76%;
+}
+
+.textosPerfil {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20%;
+}
+
+.textosPerfil h5 {
+    color: white;
+}
+
+.textosPerfil p {
+    color: #7A92B0;
+    margin: 0px;
+    font-size: 14px;
+}
+
+.perfilConfig {
+    filter: invert(63%) sepia(12%) saturate(608%) hue-rotate(177deg) brightness(90%) contrast(89%);
+    width: 8%;
+}
