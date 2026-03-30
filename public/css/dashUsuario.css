@@ -101,9 +101,9 @@
     margin: 0px;
 }
 
-/* .changeInfo-body {
-    
-} */
+.changeInfo-body {
+    margin-bottom: 30px;
+}
 
 .changeInfo-body input {
     border: 0px;
@@ -148,4 +148,14 @@
 .changeInfo-body p {
     color: white;
     margin-bottom: 10px;
+}
+
+.changeInfo-body-button {
+    background: linear-gradient(
+    to right,
+    #00D9FF,
+    #0088FF) !important;
+    color: #0a1628 !important;
+    font-weight: 600;
+    box-shadow: none;
 }
