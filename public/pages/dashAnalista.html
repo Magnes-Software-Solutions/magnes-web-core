@@ -7,26 +7,66 @@
     <title>Página inicial</title>
     <link rel="stylesheet" href="../bootstrap-5.3.8-dist/css/bootstrap.css" />
     <link rel="shortcut icon" href="../assets/imgs/Logo.png" type="image/x-icon" />
-    <link rel="stylesheet" href="../css/inicial.css">
+    <link rel="stylesheet" href="../css/dashAnalista.css">
+    <link rel="stylesheet" href="../css/headerDash.css">
 </head>
 
-<body style="background-color: #CED8E4;">
+<body style="background-color: #0a1628;">
     <div class="container-fluid">
-        <header class="row" style="color: #FFF;">
-            <nav class="col-md-6 pt-3 pb-1 navdash" style="background-color: #000238;">
-                <div class="row justify-content-between">
-                    <div class="col-3">Magnes</div>
-                    <div class="col-9 text-center fw-medium display-6">Bem vindo, <span id="spanNome"></span></div>
+        <div class="row">
+            <nav class="navbar bg-body-tertiary fixed-top navBarTop">
+                <div class="container-fluid">
+                    <img src="../assets/imgs/Logo.png" alt="" width="5%" height="85%">
+                    <div class="titulo">
+                        <p class="tituloLogo">MAGNES</p>
+                        <p class="textoLogo">MRI MONITOR</p>
+                    </div>
+                    <button class="navbar-toggler navBarToggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon navBarTogglerIcon"></span>
+                    </button>
+                    <div class="offcanvas offcanvas-end offCanvas" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title offCanvasTitle" id="offcanvasNavbarLabel">MAGNES</h5>
+                            <button type="button" class="btn-close offCanvasButton" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body offcanvasBody">
+                            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 navBarNav">
+                            <li class="nav-item navLi navLiActive">
+                                <img src="../assets/imgs/dashboard.svg" alt="Simbolo de Dashboard">
+                                <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
+                            </li>
+                            <li class="nav-item navLi">
+                                <img src="../assets/imgs/alert.svg" alt="Simbolo de Alerta">
+                                <a class="nav-link" href="#">Alerta</a>
+                            </li>
+                            <li class="nav-item navLi">
+                                <img src="../assets/imgs/bar.svg" alt="Simbolo de Relatório">
+                                <a class="nav-link" href="#">Relatório</a>
+                            </li>
+                            <li class="nav-item navLi">
+                                <img src="../assets/imgs/person.svg" alt="Simbolo de Cadastrar Analista">
+                                <a class="nav-link" href="#">Cadastrar Analista</a>
+                            </li>
+                            <li class="nav-item navLi">
+                                <img src="../assets/imgs/build.svg" alt="Simbolo de Cadastrar Máquina">
+                                <a class="nav-link" href="#">Cadastrar Máquina</a>
+                            </li>
+                            </ul>
+                            </form>
+                        </div>
+                        <div class="offcanvas-header perfil">
+                            <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Simbolo de perfil">
+                            <div class="textosPerfil">
+                                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">(nome do banco)</h5>
+                                <p>(cargo do banco)</p>
+                            </div>
+                            <img class="perfilConfig" src="../assets/imgs/gear.svg" alt="Simbolo de configurações">
+                        </div>
+                    </div>
                 </div>
             </nav>
-        </header>
-        <div class="row">
-            <div style="background-color: #161c47; height: 100vh;" class="col-md-2 col-3">
-                <div class="row justify-content-center">
-                    <div class="col-12 text-center mt-5" style="color: #FFF;">Home</div>
-                    <div class="col-12 text-center mt-4" style="color: #FFF;">Máquinas</div>
-                </div>
-            </div>
+
+            <!-- Corpo -->
             <div class="col-md-10 col-9">
                 <div class="row justify-content-around mt-4">
                     <div class="col-md-3 col-sm-3 col-7 card-kpi p-3 mt-4">
