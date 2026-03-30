@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página inicial</title>
+    <link rel="stylesheet" href="../bootstrap-5.3.8-dist/css/bootstrap.css" />
+    <link rel="shortcut icon" href="../assets/imgs/Logo.png" type="image/x-icon" />
+    <link rel="stylesheet" href="../css/headerDash.css">
+    <link rel="stylesheet" href="../css/dashUsuario.css">
+</head>
+
+<body style="background-color: #0a1628;">
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="navbar bg-body-tertiary fixed-top navBarTop">
+                <div class="container-fluid">
+                    <img src="../assets/imgs/Logo.png" alt="" width="5%" height="85%">
+                    <div class="titulo">
+                        <p class="tituloLogo">MAGNES</p>
+                        <p class="textoLogo">MRI MONITOR</p>
+                    </div>
+                    <button class="navbar-toggler navBarToggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon navBarTogglerIcon"></span>
+                    </button>
+                    <div class="offcanvas offcanvas-end offCanvas" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title offCanvasTitle" id="offcanvasNavbarLabel">MAGNES</h5>
+                            <button type="button" class="btn-close offCanvasButton" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body offcanvasBody">
+                            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 navBarNav">
+                            <li class="nav-item navLi">
+                                <img src="../assets/imgs/dashboard.svg" alt="Simbolo de Dashboard">
+                                <a class="nav-link" href="#">Dashboard</a>
+                            </li>
+                            <li class="nav-item navLi">
+                                <img src="../assets/imgs/alert.svg" alt="Simbolo de Alerta">
+                                <a class="nav-link" href="#">Alerta</a>
+                            </li>
+                            <li class="nav-item navLi">
+                                <img src="../assets/imgs/bar.svg" alt="Simbolo de Relatório">
+                                <a class="nav-link" href="#">Relatório</a>
+                            </li>
+                            <li class="nav-item navLi">
+                                <img src="../assets/imgs/person.svg" alt="Simbolo de Cadastrar Analista">
+                                <a class="nav-link" href="#">Cadastrar Analista</a>
+                            </li>
+                            <li class="nav-item navLi">
+                                <img src="../assets/imgs/build.svg" alt="Simbolo de Cadastrar Máquina">
+                                <a class="nav-link" href="#">Cadastrar Máquina</a>
+                            </li>
+                            </ul>
+                            </form>
+                        </div>
+                        <div class="offcanvas-header perfil">
+                            <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Simbolo de perfil">
+                            <div class="textosPerfil">
+                                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">(nome do banco)</h5>
+                                <p>(cargo do banco)</p>
+                            </div>
+                            <img class="perfilConfig" src="../assets/imgs/gear.svg" alt="Simbolo de configurações">
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Corpo -->
+            <div class="corpo">
+                <h2 class="tituloCorpo">Perfil do Usuário</h2>
+                <p class="subTituloCorpo">Gerencie suas informações e configurações de segurança</p>
+                <div class="cards">
+                    <div class="card cardCard" style="width: 35% !important;">
+                        <div class="card-body cardBodyInfo">
+                            <img class="cardImg" src="../assets/imgs/person-circle.svg" alt="">
+                            <h5 class="card-title" style="font-weight: bold;">(nome do banco)</h5>
+                            <h6 class="card-subtitle mb-2 text-body-secondary">(cargo do banco)</h6>
+                            <div class="card cardInfo">
+                                <div class="card-body" style="display: flex; flex-direction: row;">
+                                    <img src="../assets/imgs/envelope.svg" alt="Simbolo de mensagem">
+                                    <div style="margin-left: 10%;">
+                                        <p class="tituloInfo">Email</p>
+                                        <p class="textoInfo">(email do banco)</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card cardInfo">
+                                <div class="card-body" style="display: flex; flex-direction: row;">
+                                    <img src="../assets/imgs/telephone.svg" alt="Simbolo de Telefone">
+                                    <div style="margin-left: 10%;">
+                                        <p class="tituloInfo">Telefone</p>
+                                        <p class="textoInfo">(telefone do banco)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card cardCard" style="width: 55%;">
+                        <div class="card-body bodyChangeInfo">
+                           <div class="changeInfo-header">
+                                <div class="changeInfoImg">
+                                    <img src="../assets/imgs/lock.svg" alt="">
+                                </div>
+                                <div>
+                                    <p class="titulo">Trocar senha</p>
+                                    <p class="subTitulo">Atualize sua senha de acesso</p>  
+                                </div>
+                           </div>
+                           <div>
+                               <div class="changeInfo-body">
+                                    <p>Senha Atual:</p>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Digite sua senha atual">
+                                        <button class="btn btn-outline-secondary" type="button" id="button-addon2">
+                                            <img src="../assets/imgs/eye.svg" alt="">
+                                        </button>
+                                    </div>
+                               </div>
+                               <div class="changeInfo-body">
+                                    <p>Nova Senha:</p>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Digite sua nova senha">
+                                        <button class="btn btn-outline-secondary" type="button" id="button-addon2">
+                                            <img src="../assets/imgs/eye.svg" alt="">
+                                        </button>
+                                    </div>
+                               </div>
+                               <div class="changeInfo-body">
+                                    <p>Confimar Nova Senha:</p>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Confirme sua nova senha">
+                                        <button class="btn btn-outline-secondary" type="button" id="button-addon2">
+                                            <img src="../assets/imgs/eye.svg" alt="">
+                                        </button>
+                                    </div>
+                               </div>
+                           </div>
+                           <div class="d-grid gap-2">
+                                <button class="btn btn-primary button changeInfo-body-button" type="button">Atualizar Senha</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script src="../bootstrap-5.3.8-dist/js/bootstrap.js"></script>
