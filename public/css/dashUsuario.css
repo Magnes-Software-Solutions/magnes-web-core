@@ -65,6 +65,20 @@
 }
 
 .changeInfoImg {
-    width: ;
+    background: linear-gradient(
+    to right,
+    #0a4861,
+    #0c2b42);
     border: solid 1px #00d4f9;
+    border-radius: 12px;
+    padding: 1.5%;
+    display: flex;
+    justify-content: center;
+    width: 7%;
+    height: fit-content;
+}
+
+.changeInfoImg img {
+    filter: invert(74%) sepia(61%) saturate(2877%) hue-rotate(158deg) brightness(101%) contrast(102%);
+    width: 100%;
 }
