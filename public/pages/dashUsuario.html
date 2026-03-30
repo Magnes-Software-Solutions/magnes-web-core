@@ -74,7 +74,7 @@
                     <div class="card cardCard" style="width: 30% !important;">
                         <div class="card-body cardBodyInfo">
                             <img class="cardImg" src="../assets/imgs/person-circle.svg" alt="">
-                            <h5 class="card-title">(nome do banco)</h5>
+                            <h5 class="card-title" style="font-weight: bold;">(nome do banco)</h5>
                             <h6 class="card-subtitle mb-2 text-body-secondary">(cargo do banco)</h6>
                             <div class="card cardInfo">
                                 <div class="card-body" style="display: flex; flex-direction: row;">
@@ -97,19 +97,25 @@
                         </div>
                     </div>
                     <div class="card cardCard" style="width: 50%;">
-                        <div class="card-body">
-                           <div class="changeInfo">
+                        <div class="card-body bodyChangeInfo">
+                           <div class="changeInfo-header">
                                 <div class="changeInfoImg">
                                     <img src="../assets/imgs/lock.svg" alt="">
                                 </div>
-                                <div style="color: white;">
-                                    <p>Trocar senha</p>
-                                    <p>Atualize sua senha de acesso</p>  
+                                <div>
+                                    <p class="titulo">Trocar senha</p>
+                                    <p class="subTitulo">Atualize sua senha de acesso</p>  
                                 </div>
                            </div>
-
-                           <p></p>
-                           <input type="text">
+                           <div class="changeInfo-body">
+                                <p>Senha atual:</p>
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" placeholder="Digite sua senha atual">
+                                    <button class="btn btn-outline-secondary" type="button" id="button-addon2">
+                                        <img src="../assets/imgs/eye.svg" alt="">
+                                    </button>
+                                </div>
+                           </div>
                         </div>
                     </div>
                 </div>
