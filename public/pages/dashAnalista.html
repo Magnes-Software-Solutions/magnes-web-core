@@ -55,90 +55,57 @@
             </nav>
 
             <!-- Corpo -->
-            <div class="col-md-10 col-9">
-                <div class="row justify-content-around mt-4">
-                    <div class="col-md-3 col-sm-3 col-7 card-kpi p-3 mt-4">
-                        <p class="text-center">Máquinas em alerta</p>
-                        <span class="display-5 fw-semibold">5</span>
-                        <div class="sinal"></div>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-7 card-kpi p-3 mt-4">
-                        <p class="text-center">Total de máquinas</p>
-                        <span class="display-5 fw-semibold">12</span>
-                        <div class="sinal2"></div>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-7 card-kpi p-3 mt-4">
-                        <p class="text-center">Máquinas em crítico</p>
-                        <span class="display-5 fw-semibold">3</span>
-                        <div class="sinal3"></div>
-                    </div>
-                </div>
-                <div class="row gy-4 justify-content-around mt-5 maquina">
-                    <div class="col-md-3 col-9 card-maquina maquina1" style="border: 3px solid #746cc2;">
-                        <h1><img src="../assets/imgs/hospital.png" alt=""></h1>
-                        <div class="componentes">
-                            <div class="ram"><p><img src="../assets/imgs/ram.png" alt=""></p> <div class="porcentagemRam"></div></div>
-                            <div class="cpu"><p><img src="../assets/imgs/cpuDash.png" alt=""></p><div class="porcentagemCpu"></div></div>
-                            <div class="disco"><p><img src="../assets/imgs/cartao-de-memoria.png" alt=""></p> <div class="porcentagemDisco"></div></div>
+            <div class="corpo">
+                <h2 class="tituloCorpo">Máquinas Monitoradas</h2>
+                <div class="cards">
+                    <div class="card cardCard">
+                        <div class="card-body bodyKpi">
+                            <div class="kpiImg kpiAzul">
+                                <img src="../assets/imgs/hdd-stack.svg" alt="">
+                            </div>
+                            <div class="kpiTextos">
+                                <p>TOTAL DE MÁQUINAS</p>
+                                <h2 class="numeroAzul">(numero do banco)</h2>
+                                <p>Dispositivos monitorados</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-3 col-9 card-maquina maquina2"  style="border: 3px solid #746cc2;">
-                        <h1><img src="../assets/imgs/farmacia.png" alt=""></h1>
-                        <div class="componentes">
-                            <div class="ram"><p><img src="../assets/imgs/ram.png" alt=""></p> <div class="porcentagemRam"></div></div>
-                            <div class="cpu"><p><img src="../assets/imgs/cpuDash.png" alt=""></p><div class="porcentagemCpu"></div></div>
-                            <div class="disco"><p><img src="../assets/imgs/cartao-de-memoria.png" alt=""></p> <div class="porcentagemDisco"></div></div>
+                    <div class="card cardCard">
+                        <div class="card-body bodyKpi">
+                            <div class="kpiImg kpiVerde">
+                                <img src="../assets/imgs/check2-circle.svg" alt="">
+                            </div>
+                            <div class="kpiTextos">
+                                <p>MÁQUINAS ESTÁVEIS</p>
+                                <h2 class="numeroVerde">(numero do banco)</h2>
+                                <p>Operando normalmente</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-3 col-9 card-maquina maquina3"  style="border: 3px solid #746cc2;">
-                        <h1><img src="../assets/imgs/estrela-da-vida.png" alt=""></h1>
-                        <div class="componentes">
-                            <div class="ram"><p><img src="../assets/imgs/ram.png" alt=""></p> <div class="porcentagemRam"></div></div>
-                            <div class="cpu"><p><img src="../assets/imgs/cpuDash.png" alt=""></p><div class="porcentagemCpu"></div></div>
-                            <div class="disco"><p><img src="../assets/imgs/cartao-de-memoria.png" alt=""></p> <div class="porcentagemDisco"></div></div>
+                    <div class="card cardCard">
+                        <div class="card-body bodyKpi">
+                            <div class="kpiImg kpiAmarelo">
+                                <img src="../assets/imgs/alert.svg" alt="">
+                            </div>
+                            <div class="kpiTextos">
+                                <p>EM ALERTA</p>
+                                <h2 class="numeroAmarelo">(numero do banco)</h2>
+                                <p>Requer atenção</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="row justify-content-center mt-5 buttonadd">
-                    <button type="button" class="btn btn-primary buttonadd" data-bs-toggle="modal"
-                        data-bs-target="#addMachineForm"
-                        style="background-color: #280B4A; color: #FFF; width: 200px; height: 20%; display: flex; justify-content: center; margin-right: 15px;"><img
-                            src="../assets/imgs/adicionar.png" alt="Descrição" style="width:20px;height:20px;">Adicionar
-                        Máquina</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="addMachineForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content" style="background-color: #CED8E4;">
-                <div class="modal-header" style="background-color: gray;">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel" style="color: #FFF;">Adicionar Máquina</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label for="input_num_serie" class="col-form-label">Numeração:</label>
-                            <input type="text" class="form-control" id="input_num_serie">
+                    <div class="card cardCard">
+                        <div class="card-body bodyKpi">
+                            <div class="kpiImg kpiVermelho">
+                                <img src="../assets/imgs/check2-circle.svg" alt="">
+                            </div>
+                            <div class="kpiTextos">
+                                <p>CRÍTICAS</p>
+                                <h2 class="numeroVermelho">(numero do banco)</h2>
+                                <p>Intervenção imediata</p>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="input_localizacao" class="col-form-label">Localização:</label>
-                            <input class="form-control" id="input_localizacao">
-                        </div>
-                        <div class="mb-3">
-                            <label for="input_modelo" class="col-form-label">Modelo:</label>
-                            <input class="form-control" id="input_modelo">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                    <button onclick="adicionarMaquina()" type="button" class="btn btn-primary"
-                        style="background-color: #280B4A; color: #FFF; width: 45%; height: 20%; display: flex; justify-content: center; margin-right: 15px;"><img
-                            src="../assets/imgs/adicionar.png" alt="Descrição" style="width:20px;height:20px;">
-                        Cadastrar Máquina</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -147,21 +114,3 @@
 
 </html>
 <script src="../bootstrap-5.3.8-dist/js/bootstrap.js"></script>
-<script src="../services/api.js"></script>
-<script src="../services/maquinaService.js"></script>
-<script>
-    var nomeUsuario = sessionStorage.NOME_USUARIO
-    spanNome.innerHTML = nomeUsuario
-
-    async function adicionarMaquina() {
-        var num_serie = input_num_serie.value
-        var modelo = input_modelo.value
-        var fkFabricante = sessionStorage.ID_EMPRESA
-
-        let response = await adicionarMaquinaService(num_serie, modelo, fkFabricante)
-
-        console.log(response);
-
-        alert(response);        
-    }
-</script>
