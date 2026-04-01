@@ -23,9 +23,9 @@ async function cadastrarEmpresaService(nomeFabricanteVar, cnpjVar, emailEmpresaV
     return response
 }
 
-async function cadastrarFuncionarioService(nome, email, senha, token, cargo) {
+async function cadastrarFuncionarioService(nome, email, cpf, telefone, senha, sessionFK_FABRICANTE, sessionId) {
     const body = {
-        nome, email, senha, token, cargo
+        nome, email, cpf, telefone, senha, sessionFK_FABRICANTE, sessionId
     }
     const response = await api.post("/user/cadastrarFuncionario", body)
     console.log(response);

@@ -397,10 +397,6 @@
                 <a href="#">Primeiro Acesso</a>
               </li>
               <li>
-                <div id="TesteDash"></div><br>
-                <div id="TesteUni"></div>
-              </li>
-              <li>
                 <a href="login.html">Área do Cliente</a>
               </li>
             </ul>
@@ -447,22 +443,3 @@
 <script src="bootstrap-5.3.8-dist/js/bootstrap.js"></script>
 <script src="js/index.js"></script>
 <script src="js/navBar.js"></script>
-<script>
-
-async function pegarDashboard() {
-  fetch(`/dash/PegarDashboard`)
-    .then(response => response.json())
-    .then(data => {
-      console.log(data)
-      TesteDash.innerHTML = data[0].tipo;
-      TesteUni.innerHTML = data[0].uni_med;
-    })
-    .catch(error => {
-      console.error("Erro ao pegar dashboard:", error);
-    });
-}
-
-window.onload = pegarDashboard;
-
-
-</script>
