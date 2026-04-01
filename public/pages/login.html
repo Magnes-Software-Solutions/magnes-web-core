@@ -65,7 +65,7 @@
             </span>
           </div>
           <p style="color: red; font-weight: bolder;" id="errorMessage"></p>
-          <div class="button-login"><button type="button" onclick="login()">LOGIN</button></div>
+          <div class="button-login"><button type="button" onclick="entrar()">LOGIN</button></div>
         </form>
       </div>
     </div>
@@ -77,31 +77,84 @@
 <script src="../services/api.js"></script>
 <script src="../services/userService.js"></script>
 <script>
-  async function login() {
-    const email = inputEmail.value
-    const senha = inputPassword.value
+  function entrar() {
+    var senhaVar = inputPassword.value;
+    var emailVar = inputEmail.value;
 
-    console.log(email, senha);
-
-    const response = await loginService(email, senha)
-    const status = response.status
-    let json = await response.json()
-    
-    
-    
-    if (status == 200) {
-      json = json[0]
-      sessionStorage.EMAIL_USUARIO = json.email;
-      sessionStorage.NOME_USUARIO = json.nome;
-      sessionStorage.ID_USUARIO = json.idFuncionario;
-      sessionStorage.ID_EMPRESA = json.fkFabricante;
-
-      setTimeout(function () {
-        window.location = "inicial.html";
-      }, 1000);
-      return
+    if (senhaVar == "" || emailVar == "") {
+      modal.style.display = "flex"
+      conteiner_msg.innerHTML = `Verifique se não há algum campo em branco!`
+      loadingModal()
+      return false;
     }
 
-    errorMessage.innerHTML = json
+    console.log("FORM LOGIN: ", emailVar);
+    console.log("FORM SENHA: ", senhaVar);
+
+    fetch("/user/autenticar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        emailServer: emailVar,
+        senhaServer: senhaVar
+      })
+    }).then(function (resposta) {
+      console.log("ESTOU NO THEN DO entrar()!")
+
+      if (resposta.ok) {
+        console.log(resposta);
+
+        resposta.json().then(json => {
+          console.log("Jason aqui: " +json);
+          console.log(JSON.stringify(json));
+
+          sessionStorage.ID_USUARIO = json.idUsuario;
+          sessionStorage.NOME_USUARIO = json.nome;
+          sessionStorage.EMAIL_USUARIO = json.email;
+          sessionStorage.FK_SUPERVISOR = json.fkSupervisor;
+          sessionStorage.FK_FABRICANTE = json.fkFabricante;
+          
+
+          if (json.fkSupervisor == null) {
+
+            setTimeout(function () {
+              window.location = "dashAnalista.html";
+            }, 200);
+
+          } 
+          // else if(json.email.includes("@magnes.com")){
+
+          //   setTimeout(function () {
+          //     window.location = "";
+          //   }, 200);
+            
+          // } 
+          
+          else {
+
+            setTimeout(function () {
+              window.location = "dashUsuario.html";
+            }, 200);
+          }
+
+        });
+
+      } else {
+
+        console.log("Houve um erro ao tentar realizar o login!");
+
+        resposta.text().then(texto => {
+          console.error(texto);
+
+        });
+      }
+
+    }).catch(function (erro) {
+      console.log(erro);
+    })
+
+    return false;
   }
 </script>
