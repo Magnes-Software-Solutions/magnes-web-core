@@ -120,8 +120,32 @@ async function cadastrarFuncionario(req, res) {
     }
 }
 
+async function atualizarSenha(req, res) {
+    const { novaSenha, sessionId } = req.body
+
+    if (novaSenha == undefined) {
+        res.status(400).json("novaSenha está undefined!");
+    } else if (sessionId == undefined) {
+        res.status(400).json("sessionId está undefined!");
+    } else {
+        usuarioModel.atualizarSenha(novaSenha, sessionId)
+            .then(
+                function (resultado) {
+                    console.log("Senha atualizada com sucesso!");
+                    res.json(resultado);
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
+}
+
 module.exports = {
     autenticar,
     cadastrarEmpresa,
-    cadastrarFuncionario
+    cadastrarFuncionario,
+    atualizarSenha
 }

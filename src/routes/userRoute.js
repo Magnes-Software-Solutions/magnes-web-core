@@ -15,5 +15,9 @@ routes.post("/cadastrarFuncionario", async (req, res) => {
     await user.cadastrarFuncionario(req, res)
 })
 
+routes.patch("/atualizarSenha", async (req, res) => {
+    await user.atualizarSenha(req, res)
+})
+
 
 module.exports = routes

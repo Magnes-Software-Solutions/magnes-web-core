@@ -124,7 +124,7 @@
                                 <div class="changeInfo-body">
                                     <p>Nova Senha:</p>
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control" placeholder="Digite sua nova senha">
+                                        <input type="text" class="form-control" placeholder="Digite sua nova senha" id="input_novaSenha">
                                         <button class="btn btn-outline-secondary" type="button" id="button-addon2">
                                             <img src="../assets/imgs/eye.svg" alt="">
                                         </button>
@@ -133,7 +133,7 @@
                                 <div class="changeInfo-body">
                                     <p>Confimar Nova Senha:</p>
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control" placeholder="Confirme sua nova senha">
+                                        <input type="text" class="form-control" placeholder="Confirme sua nova senha" id="input_confirmarNovaSenha">
                                         <button class="btn btn-outline-secondary" type="button" id="button-addon2">
                                             <img src="../assets/imgs/eye.svg" alt="">
                                         </button>
@@ -141,7 +141,7 @@
                                 </div>
                             </div>
                             <div class="d-grid gap-2">
-                                <button class="btn btn-primary button changeInfo-body-button" type="button">Atualizar
+                                <button class="btn btn-primary button changeInfo-body-button" type="button" onclick="atualizarSenha()">Atualizar
                                     Senha</button>
                             </div>
                         </div>
@@ -155,6 +155,8 @@
 </html>
 
 <script src="../bootstrap-5.3.8-dist/js/bootstrap.js"></script>
+<script src="../services/api.js"></script>
+<script src="../services/userService.js"></script>
 <script>
     async function pegarDashboard() {
         var idUsuario = sessionStorage.ID_USUARIO;
@@ -182,6 +184,28 @@
     }
 
     window.onload = pegarDashboard;
+
+    async function atualizarSenha() {
+        var novaSenha = input_novaSenha.value;
+        var confirmarNovaSenha = input_confirmarNovaSenha.value;
+
+        if (novaSenha !== confirmarNovaSenha) {
+            alert("As senhas não coincidem. Por favor, tente novamente.");
+            return;
+        }
+
+        var sessionId = sessionStorage.ID_USUARIO;
+
+       const resposta = await atualizarSenhaService(novaSenha, sessionId);
+        console.log(resposta);
+
+        if (resposta.ok) {
+            alert("Senha atualizada com sucesso!");
+        } 
+        else {
+            alert("Erro ao atualizar senha: " + resposta.mensagem);
+        }
+    }
 
 
 </script>
