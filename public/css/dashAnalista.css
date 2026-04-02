@@ -12,12 +12,14 @@
     flex-direction: row;
     justify-content: space-evenly;
     width: 100%;
+    margin-bottom: 30px;
 }
 
-.cardCard {
+.cardKpi {
     background-color: #132943;
     border-radius: 16px;
     width: 20%;
+    border: 1px solid #10435f;
 }
 
 .bodyKpi {
@@ -57,7 +59,7 @@
 }
 
 .kpiAzul img {
-    filter: invert(78%) sepia(92%) saturate(2854%) hue-rotate(162deg) brightness(101%) contrast(104%);
+    filter: invert(74%) sepia(61%) saturate(2877%) hue-rotate(158deg) brightness(101%) contrast(102%);
     width: 100%;
 }
 .numeroAzul {
@@ -128,4 +130,190 @@
     color: #ff3366;
     margin: 10px 0px;
     font-weight: bold;
+}
+
+.miniTextos {
+    margin-left: 4%;
+}
+
+.miniTitulo {
+    color: white;
+}
+
+.miniSubtitulo {
+    color: #7a92b0;
+}
+
+.cardMaquina {
+    background-color: #132943;
+    border-radius: 16px;
+    width: 28%;
+    border: 1px solid #10435f;
+}
+
+.bodyMaquina {
+    padding: 25px;
+}
+
+.bodyMaquina-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.bodyMaquina-header-texto h6 {
+    color: white;
+    margin: 0px;
+    font-size: 24px;
+}
+
+.bodyMaquina-header-texto p {
+    color: white;
+    margin: 0px;
+    font-size: 10px;
+}
+
+.bodyImg {
+    border-radius: 16px;
+    border: solid 3px;
+    padding: 0.5%;
+    display: flex;
+    justify-content: center;
+    width: 30%;
+    height: fit-content;
+}
+
+.bodyImg p {
+    font-size: 14px;
+}
+
+/* Status verde */
+.bodyImgVerde {
+    background: linear-gradient(
+      135deg,
+      #105352,
+      #123c4a
+    );
+    border-color: #0e6357;
+}
+
+.bodyImgVerde p {
+    color: #00ff88;
+    margin: 0;
+}
+
+.bodyTextos {
+    display: flex;
+    flex-direction: column;
+}
+
+.localizacao {
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.localizacao img {
+    filter: invert(63%) sepia(12%) saturate(608%) hue-rotate(177deg) brightness(90%) contrast(89%);
+    width: 10%;
+}
+
+.localizacao p {
+    color: #7a92b0;
+    font-size: 14px;
+    margin-left: 7px;
+}
+
+.bodyMaquina-body {
+
+}
+
+.bodyMaquina-body p {
+    margin: 0px;
+    color: #7a92b0;
+    font-size: 16px;
+}
+
+.bodyMaquina-body hr {
+    color: #7a92b0;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.componentes {
+    margin-bottom: 15px;
+}
+
+.componentes-titulo {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.componentes-tituloBarra {
+    display: flex;
+    flex-direction: row;
+    width: 25%;
+    justify-content: space-between;
+    color: white;
+
+    h2 {
+        width: 10px;
+    }
+
+    img {
+        width: 30%;
+    }
+}
+
+.progress {
+    height: 10px;
+    background-color: #1A3555;
+}
+
+/* Componente Azul */
+.compoenenteAzul {
+    img{
+        filter: invert(74%) sepia(61%) saturate(2877%) hue-rotate(158deg) brightness(101%) contrast(102%);
+    }
+
+    p {
+        color: #00d4f9;
+    }
+}
+
+.progressBarAzul {
+    background-color: #00d4f9;
+}
+
+/* Componente Vermelho */
+.compoenenteVermelho {
+    img{
+        filter: invert(41%) sepia(96%) saturate(2103%) hue-rotate(321deg) brightness(101%) contrast(101%);
+    }
+
+    p {
+        color: #ff3366;
+    }
+}
+
+.progressBarVermelho {
+    background-color: #ff3366;
+}
+
+/* Componente Amarelo */
+.compoenenteAmarelo {
+    img{
+        filter: invert(78%) sepia(78%) saturate(1887%) hue-rotate(8deg) brightness(103%) contrast(105%);
+    }
+
+    p {
+        color: #ffd500;
+    }
+}
+
+.progressBarAmarelo {
+    background-color: #ffd500;
 }
