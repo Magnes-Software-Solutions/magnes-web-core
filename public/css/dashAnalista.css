@@ -202,6 +202,36 @@
     margin: 0;
 }
 
+/* Status vermelho */
+.bodyImgVermelho {
+    background: linear-gradient(
+      135deg,
+      #3e2e4c,
+      #232a46
+    );
+    border-color: #512d4d;
+}
+
+.bodyImgVermelho p {
+    color: #ff3366;
+    margin: 0;
+}
+
+/* Status amarelo */
+.bodyImgAmarelo {
+    background: linear-gradient(
+      135deg,
+      #3e4a3a,
+      #243740
+    );
+    border-color: #515733;
+}
+
+.bodyImgAmarelo p {
+    color: #ffd500;
+    margin: 0;
+}
+
 .bodyTextos {
     display: flex;
     flex-direction: column;
