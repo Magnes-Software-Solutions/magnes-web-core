@@ -144,15 +144,20 @@
     color: #7a92b0;
 }
 
+.divAuxiliar {
+    width: 28%;
+}
+
 .cardMaquina {
     background-color: #132943;
     border-radius: 16px;
-    width: 28%;
+    width: 100%;
     border: 1px solid #10435f;
 }
 
 .bodyMaquina {
     padding: 25px;
+    cursor: pointer;
 }
 
 .bodyMaquina-header {
@@ -346,4 +351,9 @@
 
 .progressBarAmarelo {
     background-color: #ffd500;
+}
+
+
+.colGrafico {
+    width: 50% !important;
 }
