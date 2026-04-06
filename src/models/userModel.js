@@ -28,9 +28,16 @@ function validarTokenFabricante(token) {
     return database.executar(instrucaoSql)
 }
 
+function atualizarSenha(novaSenha, sessionId) {
+    var instrucaoSql = `UPDATE usuario SET senha = '${novaSenha}' WHERE idUsuario = ${sessionId}`
+    return database.executar(instrucaoSql);
+}
+
+
 module.exports = {
     cadastrarEmpresa,
     autenticar,
     cadastrarFuncionario,
-    validarTokenFabricante
+    validarTokenFabricante,
+    atualizarSenha
 };

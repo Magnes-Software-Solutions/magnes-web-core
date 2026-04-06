@@ -31,3 +31,12 @@ async function cadastrarFuncionarioService(nome, email, cpf, telefone, senha, se
     console.log(response);
     return response
 }
+
+async function atualizarSenhaService(novaSenha, sessionId) {
+    const body = {
+        novaSenha, sessionId
+    }
+    const response = await api.patch("/user/atualizarSenha", body)
+    console.log(response);
+    return response
+}
