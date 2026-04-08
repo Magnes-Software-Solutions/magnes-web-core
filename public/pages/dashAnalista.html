@@ -56,6 +56,11 @@
 
             <!-- Corpo -->
             <div class="corpo">
+                
+
+
+
+
                 <h2 class="tituloCorpo">Máquinas Monitoradas</h2>
                 <div class="cards">
                     <div class="card cardKpi">
@@ -107,6 +112,9 @@
                         </div>
                     </div>
                 </div> <br>
+
+
+
                 <div class="miniTextos">
                     <h5 class="miniTitulo">Máquinas Monitoradas</h5>
                     <p class="miniSubtitulo">(numero do banco) máquinas</p>
@@ -114,11 +122,14 @@
 
 
 
+                <dialog id="dialog_graf" class="mensagem-graf">
+                    <canvas id="graf1"></canvas>
+                </dialog>
                 <div class="cards">
                     <div class="divAuxiliar">
                         <div class="col">
                             <div class="card cardMaquina">
-                                <div class="card-body bodyMaquina" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
+                                <div class="card-body bodyMaquina" onclick="abrirDialog1()">
                                     <div class="bodyMaquina-header">
                                         <div class="bodyMaquina-header-texto">
                                             <h6>(id da maquina do banco)</h1>
@@ -143,7 +154,7 @@
                                                 <p>25%</p>
                                             </div>
                                             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                                                <div class="progress-bar progressBarAzul" style="width: 25%"></div>
+                                                <div class="progress-bar" style="width: 25%"></div>
                                             </div>
                                         </div>
                                         <div class="componentes compoenenteAzul">
@@ -155,7 +166,7 @@
                                                 <p>38%</p>
                                             </div>
                                             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="38" aria-valuemin="0" aria-valuemax="100">
-                                                <div class="progress-bar progressBarAzul" style="width: 38%"></div>
+                                                <div class="progress-bar" style="width: 38%"></div>
                                             </div>
                                         </div>
                                         <div class="componentes compoenenteAzul">
@@ -167,19 +178,12 @@
                                                 <p>45%</p>
                                             </div>
                                             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">
-                                                <div class="progress-bar progressBarAzul" style="width: 45%"></div>
+                                                <div class="progress-bar" style="width: 45%"></div>
                                             </div>
                                         </div>
                                         <hr>
                                         <p>Clique para ver mais detalhes</p>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="collapse multi-collapse" id="multiCollapseExample1">
-                                <div class="card card-body">
-                                    <canvas id="myChart"></canvas>
                                 </div>
                             </div>
                         </div>
@@ -191,7 +195,7 @@
                     <div class="divAuxiliar">
                         <div class="col">
                             <div class="card cardMaquina">
-                                <div class="card-body bodyMaquina" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">
+                                <div class="card-body bodyMaquina">
                                     <div class="bodyMaquina-header">
                                         <div class="bodyMaquina-header-texto">
                                             <h6>(id da maquina do banco)</h1>
@@ -216,7 +220,7 @@
                                                 <p>25%</p>
                                             </div>
                                             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                                                <div class="progress-bar progressBarAzul" style="width: 25%"></div>
+                                                <div class="progress-bar" style="width: 25%"></div>
                                             </div>
                                         </div>
                                         <div class="componentes compoenenteAzul">
@@ -228,7 +232,7 @@
                                                 <p>38%</p>
                                             </div>
                                             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="38" aria-valuemin="0" aria-valuemax="100">
-                                                <div class="progress-bar progressBarAzul" style="width: 38%"></div>
+                                                <div class="progress-bar" style="width: 38%"></div>
                                             </div>
                                         </div>
                                         <div class="componentes compoenenteAzul">
@@ -240,19 +244,12 @@
                                                 <p>45%</p>
                                             </div>
                                             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">
-                                                <div class="progress-bar progressBarAzul" style="width: 45%"></div>
+                                                <div class="progress-bar" style="width: 45%"></div>
                                             </div>
                                         </div>
                                         <hr>
                                         <p>Clique para ver mais detalhes</p>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col grafico">
-                            <div class="collapse multi-collapse" id="multiCollapseExample2">
-                                <div class="card card-body">
-                                    <canvas id="myChart2"></canvas>
                                 </div>
                             </div>
                         </div>
@@ -264,7 +261,7 @@
                     <div class="divAuxiliar">
                         <div class="col">
                             <div class="card cardMaquina">
-                                <div class="card-body bodyMaquina" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample3" aria-expanded="false" aria-controls="multiCollapseExample3">
+                                <div class="card-body bodyMaquina">
                                     <div class="bodyMaquina-header">
                                         <div class="bodyMaquina-header-texto">
                                             <h6>(id da maquina do banco)</h1>
@@ -289,7 +286,7 @@
                                                 <p>25%</p>
                                             </div>
                                             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                                                <div class="progress-bar progressBarAzul" style="width: 25%"></div>
+                                                <div class="progress-bar" style="width: 25%"></div>
                                             </div>
                                         </div>
                                         <div class="componentes compoenenteAzul">
@@ -301,7 +298,7 @@
                                                 <p>38%</p>
                                             </div>
                                             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="38" aria-valuemin="0" aria-valuemax="100">
-                                                <div class="progress-bar progressBarAzul" style="width: 38%"></div>
+                                                <div class="progress-bar" style="width: 38%"></div>
                                             </div>
                                         </div>
                                         <div class="componentes compoenenteAzul">
@@ -313,19 +310,12 @@
                                                 <p>45%</p>
                                             </div>
                                             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">
-                                                <div class="progress-bar progressBarAzul" style="width: 45%"></div>
+                                                <div class="progress-bar" style="width: 45%"></div>
                                             </div>
                                         </div>
                                         <hr>
                                         <p>Clique para ver mais detalhes</p>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="collapse multi-collapse" id="multiCollapseExample3">
-                                <div class="card card-body">
-                                    <canvas id="myChart3"></canvas>
                                 </div>
                             </div>
                         </div>
@@ -341,104 +331,98 @@
 <script src="../bootstrap-5.3.8-dist/js/bootstrap.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+    function abrirDialog1(){
+        dialog_graf.style.display = "flex";
 
-    new Chart(myChart, {
-        type: 'line',
-        data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            borderWidth: 1
-        }]
-        },
-        options: {
-        scales: {
-            y: {
-            beginAtZero: true
+        const gradient = graf1.getContext('2d').createLinearGradient(0, 0, 0, 800);
+        gradient.addColorStop(0, 'rgba(0, 212, 249, 0.4)');
+        gradient.addColorStop(1, 'rgba(0, 212, 249, 0)');
+
+        new Chart(graf1, {
+            type: 'line',
+            data: {
+                labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30', '01:40', '01:50'],
+                datasets: [{
+                    label: 'Horário',
+                    data: [24, 29, 51, 67, 41, 37, 24, 27, 31, 29, 40, 37],
+                    borderColor: 'rgba(0, 212, 249, 1)',
+                    fill: true,
+                    backgroundColor: gradient,
+                    borderWidth: 3,
+                    tension: 0.2,
+                    pointRadius: 0,
+                    pointHoverRadius: 6,
+                    pointHoverBorderWidth: 2,
+                    pointHoverBorderColor: '#ffffff',
+                    pointHoverBackgroundColor: '#ffffff'
+                }]
+            },
+            options: {
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
+                hover: {
+                    mode: 'index',
+                    intersect: false
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        enabled: true,
+                        backgroundColor: '#1a3555',
+                        titleColor: '#7a92b0',
+                        bodyColor: 'rgba(0, 212, 249, 1)',
+                        borderColor: '#2b5876',
+                        borderWidth: 1,
+                        displayColors: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Gráfico da relação do uso de cpu no horário',
+                        color: '#ffffff'
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: '#7a92b0'
+                        },
+                        grid: {
+                            color: '#1f3652'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Horário',
+                            color: '#7a92b0',
+                            font: {
+                                size: 14
+                            }
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: '#7a92b0'
+                        },
+                        grid: {
+                            color: '#1f3652',
+                            borderDash: [5, 5]
+                        },
+                        min: 0,
+                        max: 100,
+                        title: {
+                            display: true,
+                            text: 'RAM (%)',
+                            color: '#7a92b0',
+                            font: {
+                                size: 14
+                            }
+                        }
+                    }
+                }
             }
-        }
-        }
-    });
-
-    new Chart(myChart2, {
-        type: 'line',
-        data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        datasets: [{
-            label: '# of Votes',
-            data: [102, 109, 30, 50, 20, 30],
-            borderWidth: 1
-        }]
-        },
-        options: {
-        scales: {
-            y: {
-            beginAtZero: true
-            }
-        }
-        }
-    });
-
-    new Chart(myChart3, {
-        type: 'line',
-        data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        datasets: [{
-            label: '# of Votes',
-            data: [182, 189, 38, 58, 28, 38],
-            borderWidth: 1
-        }]
-        },
-        options: {
-        scales: {
-            y: {
-            beginAtZero: true
-            }
-        }
-        }
-    });
-
-
-
-
-// let graficos = {};
-
-// function criarGrafico(canvasId) {
-//     if (graficos[canvasId]) return;
-
-//     const ctx = document.getElementById(canvasId);
-
-//     graficos[canvasId] = new Chart(ctx, {
-//         type: 'line',
-//         data: {
-//             labels: ['Jan', 'Fev', 'Mar'], // Dados do banco
-//             datasets: [{
-//                 label: 'Vendas',
-//                 data: [10, 20, 15] // Dados do banco
-//             }]
-//         }
-//     });
-// }
-
-// function abrirDash(dialogId, canvasId) {
-//     const dialog = document.getElementById(dialogId);
-//     dialog.showModal();
-//     criarGrafico(canvasId);
-// }
-
-// function fecharDash(dialogId) {
-//     document.getElementById(dialogId).close();
-// }
-
-//     new Chart(graficoMRI01, {
-//         type: 'line',
-//         data: {
-//             labels: ['Jan', 'Fev', 'Mar'], // Dados do banco
-//             datasets: [{
-//                 label: 'Vendas',
-//                 data: [10, 20, 15] // Dados do banco
-//             }]
-//         }
-//     });
+        });
+    }
 </script>

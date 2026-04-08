@@ -306,6 +306,10 @@
 .progress {
     height: 10px;
     background-color: #1A3555;
+
+    .progress-bar {
+        background-color: #00d4f9;
+    }
 }
 
 /* Componente Azul */
@@ -319,10 +323,6 @@
     }
 }
 
-.progressBarAzul {
-    background-color: #00d4f9;
-}
-
 /* Componente Vermelho */
 .compoenenteVermelho {
     img{
@@ -332,10 +332,6 @@
     p {
         color: #ff3366;
     }
-}
-
-.progressBarVermelho {
-    background-color: #ff3366;
 }
 
 /* Componente Amarelo */
@@ -349,11 +345,20 @@
     }
 }
 
-.progressBarAmarelo {
-    background-color: #ffd500;
-}
+
+.mensagem-graf {
+    z-index: 999;
+    width: 95%;
+    border: 1px solid #10435f;
+    border-radius: 16px;
+    background-color: #132943;
+    color: white;
 
 
-.colGrafico {
-    width: 50% !important;
+
+
+    justify-self: center;
+    text-align: center;
+    justify-content: center;
+    flex-direction: column;
 }
