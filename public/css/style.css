@@ -50,7 +50,7 @@ nav {
   position: relative;
   text-decoration: none;
   color: var(--cor02);
-  transition: color 0.3s;
+  transition: color 0.3s; 
 }
 
 .nav-item a:hover {
