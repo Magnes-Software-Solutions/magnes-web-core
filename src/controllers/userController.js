@@ -1,24 +1,41 @@
 const usuarioModel = require("../models/userModel")
+    
 
+function autenticar(req, res) {
+    var email = req.body.emailServer;
+    var senha = req.body.senhaServer;
 
-async function autenticar(req, res){
-    const {email, senha} = req.body
-
-    if (!email){
-        res.status(400).json("Seu email está undefined")
-    } else if (!senha){
-        res.status(400).json("Sua senha está incorreta")
-    } else {
-        const resultado = await usuarioModel.autenticar(email, senha)
-
-        if (resultado.length){
-
-            res.json (resultado)
-        } else {
-            res.status(403).json("Email e/ou senha inválido(s)")
-        }
+    if (email == undefined) {
+        return res.status(400).send("Seu email está undefined!");
+    } else if (senha == undefined) {
+        return res.status(400).send("Sua senha está indefinida!");
     }
 
+    usuarioModel.autenticar(email, senha)
+        .then(
+            function (resultadoAutenticar) {
+                console.log(`\nResultados encontrados: ${resultadoAutenticar.length}`);
+                console.log(`Resultados: ${JSON.stringify(resultadoAutenticar)}`);
+
+            if (resultadoAutenticar.length == 1) {
+                res.json({
+                    idUsuario: resultadoAutenticar[0].idUsuario,
+                    email: resultadoAutenticar[0].email,
+                    nome: resultadoAutenticar[0].nome,
+                    fkSupervisor: resultadoAutenticar[0].fkSupervisor,
+                    fkFabricante: resultadoAutenticar[0].fkFabricante
+                });
+                } else if (resultadoAutenticar.length == 0) {
+                    res.status(403).send("Email e/ou senha inválido(s)");
+                } else {
+                    res.status(403).send("Mais de um usuário com o mesmo login!");
+                }
+        }
+        )
+        .catch(function (erro) {
+            console.log(erro);
+            res.status(500).json(erro.sqlMessage);
+        });
 }
 
 function cadastrarEmpresa(req, res) {
@@ -68,26 +85,27 @@ function cadastrarEmpresa(req, res) {
 
 }
 
+
+
 async function cadastrarFuncionario(req, res) {
-    const { nome, email, senha, token, cargo } = req.body
+   
+    const { nome, email, cpf, telefone, senha, sessionFK_FABRICANTE, sessionId } = req.body
 
     if (nome == undefined) {
         res.status(400).json("nome está undefined!");
     } else if (email == undefined) {
         res.status(400).json("email está undefined!");
-    } else if (token == undefined) {
-        res.status(400).json("token está undefined!");
+    } else if (cpf == undefined) {
+        res.status(400).json("cpf está undefined!");
+    } else if (telefone == undefined) {
+        res.status(400).json("telefone está undefined!");
     } else if (senha == undefined) {
         res.status(400).json("senha está undefined!");
     } else {
-        let fkFabricante = await usuarioModel.validarTokenFabricante(token)
-        if (fkFabricante.length == 0) {
-            res.status(403).json("Token inválido")
-        }
-        fkFabricante = fkFabricante[0].idFabricante
+         
 
         // res.status(200).json(fkFabricante)
-        usuarioModel.cadastrarFuncionario(nome, email, senha, fkFabricante, cargo)
+        usuarioModel.cadastrarFuncionario(nome, email, cpf, telefone, senha, sessionFK_FABRICANTE, sessionId)
             .then(
                 function (resultado) {
                     console.log("Funcionário cadastrado com sucesso!");
@@ -102,10 +120,32 @@ async function cadastrarFuncionario(req, res) {
     }
 }
 
+async function atualizarSenha(req, res) {
+    const { novaSenha, sessionId } = req.body
 
+    if (novaSenha == undefined) {
+        res.status(400).json("novaSenha está undefined!");
+    } else if (sessionId == undefined) {
+        res.status(400).json("sessionId está undefined!");
+    } else {
+        usuarioModel.atualizarSenha(novaSenha, sessionId)
+            .then(
+                function (resultado) {
+                    console.log("Senha atualizada com sucesso!");
+                    res.json(resultado);
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
+}
 
 module.exports = {
     autenticar,
     cadastrarEmpresa,
-    cadastrarFuncionario
+    cadastrarFuncionario,
+    atualizarSenha
 }

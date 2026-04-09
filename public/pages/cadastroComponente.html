@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magnes | Cadastro de Componentes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/cadastroComponente.css" />
+</head>
+
+<body class="fundo-principal">
+
+    <main class="container-fluid corpo">
+        <header class="cabecalho-pagina">
+            <h1>Cadastro de Componentes</h1>
+            <p>Adicione novos hardwares para monitoramento</p>
+        </header>
+
+        <section class="row g-4">
+            </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="cartao-escuro cartao-info text-center">
+                    <div class="circulo-icone">
+                        <img src="../assets/imgs/build.svg" alt="Ícone de Construção">
+                    </div>
+                    <h3>Nova Máquina</h3>
+                    <p>Certifique-se de alocar corretamente o componente que quer monitorar da sua máquina.</p>
+
+                    <div class="alerta-seguranca">
+                        <span>DICA DE SEGURANÇA</span>
+                        <p>Leia atentamente os campos exigidos e confira se os valores são coerentes.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8">
+                <div class="cartao-escuro cartao-formulario">
+                    <div class="cabecalho-formulario">
+                        <div>
+                            <h2>Dados da Máquina</h2>
+                            <p>Preencha as especificações técnicas</p>
+                        </div>
+                    </div>
+
+                    <form class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label">Número de Série</label>
+                            <input type="text" class="form-control" placeholder="Ex: X32JS" id="input_nomeComponente">
+                        </div>
+
+                        <div class="row g-3">
+                            <label class="form-label">Tipo/Modelo</label>
+                            <input type="text" class="form-control" placeholder="Ex: Modelo" id="input_nomeComponente">
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="cartao-escuro cartao-info text-center">
+                    <div class="circulo-icone">
+                        <img src="../assets/imgs/build.svg" alt="Ícone de Construção">
+                    </div>
+                    <h3>Novo Componente</h3>
+                    <p>Certifique-se de alocar corretamente o componente que quer monitorar da sua máquina.</p>
+
+                    <div class="alerta-seguranca">
+                        <span>DICA DE SEGURANÇA</span>
+                        <p>Leia atentamente os campos exigidos e confira se os valores são coerentes.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8">
+                <div class="cartao-escuro cartao-formulario">
+                    <div class="cabecalho-formulario">
+                        <div>
+                            <h2>Dados do Hardware</h2>
+                            <p>Preencha as especificações técnicas</p>
+                        </div>
+                    </div>
+
+                    <form class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label">Nome do Componente</label>
+                            <input type="text" class="form-control" placeholder="Ex: Intel Xeon Silver 4214R"
+                                id="input_nomeComponente">
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Tipo</label>
+                            <select class="form-select" id="select_tipo">
+                                <option value="" disabled selected>Selecione o tipo</option>
+                                <option value="CPU">Processador (CPU)</option>
+                                <option value="RAM">Memória RAM</option>
+                                <option value="Disco">Armazenamento (Disco)</option>
+                                <option value="GPU">Placa de Vídeo (GPU)</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Vincular à Máquina</label>
+                            <select class="form-select" id="select_maquina">
+                                <option value="" disabled selected>Selecione a máquina de destino</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12 mt-4">
+                            <button type="button" class="botao-magnes" onclick="cadastrarComponente()">
+                                Cadastrar Componente
+                            </button>
+                        </div>
+
+        </section>
+    </main>
+
+</body>
+
+</html>

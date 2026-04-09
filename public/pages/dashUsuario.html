@@ -21,44 +21,48 @@
                         <p class="tituloLogo">MAGNES</p>
                         <p class="textoLogo">MRI MONITOR</p>
                     </div>
-                    <button class="navbar-toggler navBarToggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon navBarTogglerIcon"></span>
+                    <button class="navbar-toggler navBarToggler" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar"
+                        aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon navBarTogglerIcon"></span>
                     </button>
-                    <div class="offcanvas offcanvas-end offCanvas" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                    <div class="offcanvas offcanvas-end offCanvas" tabindex="-1" id="offcanvasNavbar"
+                        aria-labelledby="offcanvasNavbarLabel">
                         <div class="offcanvas-header">
                             <h5 class="offcanvas-title offCanvasTitle" id="offcanvasNavbarLabel">MAGNES</h5>
-                            <button type="button" class="btn-close offCanvasButton" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                            <button type="button" class="btn-close offCanvasButton" data-bs-dismiss="offcanvas"
+                                aria-label="Close"></button>
                         </div>
                         <div class="offcanvas-body offcanvasBody">
                             <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 navBarNav">
-                            <li class="nav-item navLi">
-                                <img src="../assets/imgs/dashboard.svg" alt="Simbolo de Dashboard">
-                                <a class="nav-link" href="#">Dashboard</a>
-                            </li>
-                            <li class="nav-item navLi">
-                                <img src="../assets/imgs/alert.svg" alt="Simbolo de Alerta">
-                                <a class="nav-link" href="#">Alerta</a>
-                            </li>
-                            <li class="nav-item navLi">
-                                <img src="../assets/imgs/bar.svg" alt="Simbolo de Relatório">
-                                <a class="nav-link" href="#">Relatório</a>
-                            </li>
-                            <li class="nav-item navLi">
-                                <img src="../assets/imgs/person.svg" alt="Simbolo de Cadastrar Analista">
-                                <a class="nav-link" href="#">Cadastrar Analista</a>
-                            </li>
-                            <li class="nav-item navLi">
-                                <img src="../assets/imgs/build.svg" alt="Simbolo de Cadastrar Máquina">
-                                <a class="nav-link" href="#">Cadastrar Máquina</a>
-                            </li>
+                                <li class="nav-item navLi">
+                                    <img src="../assets/imgs/dashboard.svg" alt="Simbolo de Dashboard">
+                                    <a class="nav-link" href="#">Dashboard</a>
+                                </li>
+                                <li class="nav-item navLi">
+                                    <img src="../assets/imgs/alert.svg" alt="Simbolo de Alerta">
+                                    <a class="nav-link" href="telaAlertas.html">Alerta</a>
+                                </li>
+                                <li class="nav-item navLi">
+                                    <img src="../assets/imgs/bar.svg" alt="Simbolo de Relatório">
+                                    <a class="nav-link" href="#">Relatório</a>
+                                </li>
+                                <li class="nav-item navLi">
+                                    <img src="../assets/imgs/person.svg" alt="Simbolo de Cadastrar Analista">
+                                    <a class="nav-link" href="#">Cadastrar Analista</a>
+                                </li>
+                                <li class="nav-item navLi">
+                                    <img src="../assets/imgs/build.svg" alt="Simbolo de Cadastrar Máquina">
+                                    <a class="nav-link" href="#">Cadastrar Máquina</a>
+                                </li>
                             </ul>
                             </form>
                         </div>
                         <div class="offcanvas-header perfil">
                             <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Simbolo de perfil">
                             <div class="textosPerfil">
-                                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">(nome do banco)</h5>
-                                <p>(cargo do banco)</p>
+                                <h5 class="offcanvas-title" id="nomeUsuario1">(nome do banco)</h5>
+                                <p id="cargoUsuario1">(cargo do banco)</p>
                             </div>
                             <img class="perfilConfig" src="../assets/imgs/gear.svg" alt="Simbolo de configurações">
                         </div>
@@ -74,14 +78,14 @@
                     <div class="card cardCard" style="width: 35% !important;">
                         <div class="card-body cardBodyInfo">
                             <img class="cardImg" src="../assets/imgs/person-circle.svg" alt="">
-                            <h5 class="card-title" style="font-weight: bold;">(nome do banco)</h5>
-                            <h6 class="card-subtitle mb-2 text-body-secondary">(cargo do banco)</h6>
+                            <h5 class="card-title" style="font-weight: bold;" id="nomeUsuario">(nome do banco)</h5>
+                            <h6 class="card-subtitle mb-2 text-body-secondary" id="cargoUsuario">(cargo do banco)</h6>
                             <div class="card cardInfo">
                                 <div class="card-body" style="display: flex; flex-direction: row;">
                                     <img src="../assets/imgs/envelope.svg" alt="Simbolo de mensagem">
                                     <div style="margin-left: 10%;">
                                         <p class="tituloInfo">Email</p>
-                                        <p class="textoInfo">(email do banco)</p>
+                                        <p class="textoInfo" id="emailUsuario">(email do banco)</p>
                                     </div>
                                 </div>
                             </div>
@@ -90,7 +94,7 @@
                                     <img src="../assets/imgs/telephone.svg" alt="Simbolo de Telefone">
                                     <div style="margin-left: 10%;">
                                         <p class="tituloInfo">Telefone</p>
-                                        <p class="textoInfo">(telefone do banco)</p>
+                                        <p class="textoInfo" id="telefoneUsuario">(telefone do banco)</p>
                                     </div>
                                 </div>
                             </div>
@@ -98,17 +102,17 @@
                     </div>
                     <div class="card cardCard" style="width: 55%;">
                         <div class="card-body bodyChangeInfo">
-                           <div class="changeInfo-header">
+                            <div class="changeInfo-header">
                                 <div class="changeInfoImg">
                                     <img src="../assets/imgs/lock.svg" alt="">
                                 </div>
                                 <div>
                                     <p class="titulo">Trocar senha</p>
-                                    <p class="subTitulo">Atualize sua senha de acesso</p>  
+                                    <p class="subTitulo">Atualize sua senha de acesso</p>
                                 </div>
-                           </div>
-                           <div>
-                               <div class="changeInfo-body">
+                            </div>
+                            <div>
+                                <div class="changeInfo-body">
                                     <p>Senha Atual:</p>
                                     <div class="input-group mb-3">
                                         <input type="text" class="form-control" placeholder="Digite sua senha atual">
@@ -116,28 +120,29 @@
                                             <img src="../assets/imgs/eye.svg" alt="">
                                         </button>
                                     </div>
-                               </div>
-                               <div class="changeInfo-body">
+                                </div>
+                                <div class="changeInfo-body">
                                     <p>Nova Senha:</p>
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control" placeholder="Digite sua nova senha">
+                                        <input type="text" class="form-control" placeholder="Digite sua nova senha" id="input_novaSenha">
                                         <button class="btn btn-outline-secondary" type="button" id="button-addon2">
                                             <img src="../assets/imgs/eye.svg" alt="">
                                         </button>
                                     </div>
-                               </div>
-                               <div class="changeInfo-body">
+                                </div>
+                                <div class="changeInfo-body">
                                     <p>Confimar Nova Senha:</p>
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control" placeholder="Confirme sua nova senha">
+                                        <input type="text" class="form-control" placeholder="Confirme sua nova senha" id="input_confirmarNovaSenha">
                                         <button class="btn btn-outline-secondary" type="button" id="button-addon2">
                                             <img src="../assets/imgs/eye.svg" alt="">
                                         </button>
                                     </div>
-                               </div>
-                           </div>
-                           <div class="d-grid gap-2">
-                                <button class="btn btn-primary button changeInfo-body-button" type="button">Atualizar Senha</button>
+                                </div>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-primary button changeInfo-body-button" type="button" onclick="atualizarSenha()">Atualizar
+                                    Senha</button>
                             </div>
                         </div>
                     </div>
@@ -150,3 +155,57 @@
 </html>
 
 <script src="../bootstrap-5.3.8-dist/js/bootstrap.js"></script>
+<script src="../services/api.js"></script>
+<script src="../services/userService.js"></script>
+<script>
+    async function pegarDashboard() {
+        var idUsuario = sessionStorage.ID_USUARIO;
+        fetch(`/dash/PegarDashboard/${idUsuario}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                nomeUsuario.innerHTML = data[0].nome;
+                emailUsuario.innerHTML = data[0].email;
+                telefoneUsuario.innerHTML = data[0].telefone;
+                nomeUsuario1.innerHTML = data[0].nome;
+
+                const fkSupervisor = data[0].fkSupervisor;
+                if (fkSupervisor === null) {
+                    cargo = "Gerente Tecnico";
+                } else {
+                    cargo = "Analista de Sistemas";
+                }
+                cargoUsuario.innerHTML = cargo;
+                cargoUsuario1.innerHTML = cargo;
+            })
+            .catch(error => {
+                console.error("Erro ao pegar dashboard:", error);
+            });
+    }
+
+    window.onload = pegarDashboard;
+
+    async function atualizarSenha() {
+        var novaSenha = input_novaSenha.value;
+        var confirmarNovaSenha = input_confirmarNovaSenha.value;
+
+        if (novaSenha !== confirmarNovaSenha) {
+            alert("As senhas não coincidem. Por favor, tente novamente.");
+            return;
+        }
+
+        var sessionId = sessionStorage.ID_USUARIO;
+
+       const resposta = await atualizarSenhaService(novaSenha, sessionId);
+        console.log(resposta);
+
+        if (resposta.ok) {
+            alert("Senha atualizada com sucesso!");
+        } 
+        else {
+            alert("Erro ao atualizar senha: " + resposta.mensagem);
+        }
+    }
+
+
+</script>
