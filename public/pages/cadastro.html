@@ -303,6 +303,7 @@
             alert("Houve um erro ao tentar realizar o cadastro do funcionário!");
         }
 
+       sessionStorage.setItem("NOME_USUARIO", resposta.nome);
 
         return false;
     }
