@@ -16,29 +16,25 @@
         <div class="container-fluid">
             <div class="d-flex align-items-center gap-2">
                 <img onclick="dashboardVoltar" src="../assets/imgs/Logo.png" alt="Logo" class="navLogo"
-                     onerror="this.style.display='none'" />
+                    onerror="this.style.display='none'" />
                 <div>
                     <p class="tituloLogo mb-0">MAGNES</p>
                     <p class="textoLogo mb-0">MRI MONITOR</p>
                 </div>
             </div>
 
-            <button class="navbar-toggler navBarToggler" type="button"
-                    data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasNavbar"
-                    aria-controls="offcanvasNavbar">
+            <button class="navbar-toggler navBarToggler" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
                 <span class="navbar-toggler-icon navBarTogglerIcon"></span>
             </button>
 
-            <div class="offcanvas offcanvas-end offCanvas"
-                 tabindex="-1"
-                 id="offcanvasNavbar"
-                 aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas offcanvas-end offCanvas" tabindex="-1" id="offcanvasNavbar"
+                aria-labelledby="offcanvasNavbarLabel">
 
                 <div class="offcanvas-header">
                     <h5 class="offcanvas-title offCanvasTitle" id="offcanvasNavbarLabel">MAGNES</h5>
-                    <button type="button" class="btn-close offCanvasButton"
-                            data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
+                    <button type="button" class="btn-close offCanvasButton" data-bs-dismiss="offcanvas"
+                        aria-label="Fechar"></button>
                 </div>
 
                 <div class="offcanvas-body offcanvasBody">
@@ -80,7 +76,9 @@
 
     <main>
         <h1>Central de Alertas</h1>
-
+        <button class="btn-limpar" onclick="limparAlertas()">
+            Limpar Alertas
+        </button>
         <div class="summary">
             <div class="s-card s-total">
                 <div>
@@ -140,124 +138,148 @@
         // } else {
         //     window.location = "../login.html";
         // }
+        function gerarAlertaAleatorio() {
+            const tipos = ["critico", "atencao", "info"];
 
-   const ALERTS = [
-    {
-      type: "critico",
-      title: "CPU acima de 90%",
-      desc: "MRI-04 está operando com CPU em 92%. Intervenção imediata recomendada.",
-      machine: "MRI-04",
-      time: "Há 5 minutos",
-      badge: "CRÍTICO"
-    },
-    {
-      type: "critico",
-      title: "Temperatura crítica detectada",
-      desc: "MRI-08 atingiu 68°C. Sistema térmico pode estar comprometido.",
-      machine: "MRI-08",
-      time: "Há 12 minutos",
-      badge: "CRÍTICO"
-    },
-    {
-      type: "atencao",
-      title: "Uso de RAM elevado",
-      desc: "MRI-03 com 85% de RAM ocupada. Monitoramento contínuo ativado.",
-      machine: "MRI-03",
-      time: "Há 25 minutos",
-      badge: "ATENÇÃO"
-    },
-    {
-      type: "atencao",
-      title: "Disco próximo do limite",
-      desc: "Partição de imagens (E:) em MRI-06 está 92% ocupada.",
-      machine: "MRI-06",
-      time: "Há 1 hora",
-      badge: "ATENÇÃO"
-    },
-    {
-      type: "info",
-      title: "Backup automático concluído",
-      desc: "Backup de dados realizado com sucesso em todas as máquinas ativas.",
-      machine: "TODAS",
-      time: "Há 2 horas",
-      badge: "INFO"
-    }
-  ];
+            const maquinas = ["MRI-01", "MRI-02", "MRI-03", "MRI-04"];
 
-  function iconForType(type) {
-    if (type === "critico") return `
+            const mensagens = {
+                critico: [
+                    "CPU acima de 95%",
+                    "Ram acima de 90%",
+                    "Falha no sistema detectada"
+                ],
+                atencao: [
+                    "Uso de RAM elevado",
+                    "Disco quase cheio",
+                    "Oscilação de desempenho"
+                ],
+                info: [
+                    "Backup concluído",
+                    "Sistema estável",
+                    "Rotina executada com sucesso"
+                ]
+            };
+
+            const tipo = tipos[Math.floor(Math.random() * tipos.length)];
+            const maquina = maquinas[Math.floor(Math.random() * maquinas.length)];
+            const mensagem = mensagens[tipo][Math.floor(Math.random() * mensagens[tipo].length)];
+
+            return {
+                type: tipo,
+                title: mensagem,
+                desc: mensagem + " na máquina " + maquina,
+                machine: maquina,
+                time: "Agora",
+                badge: tipo.toUpperCase()
+            };
+        }
+
+        function iconForType(type) {
+            if (type === "critico") return `
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#f43f5e" stroke-width="1.8">
         <circle cx="10" cy="10" r="8"/>
         <line x1="10" y1="6.5" x2="10" y2="10.5"/>
         <circle cx="10" cy="13" r=".9" fill="#f43f5e" stroke="none"/>
       </svg>`;
-    if (type === "atencao") return `
+            if (type === "atencao") return `
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#f59e0b" stroke-width="1.8">
         <path d="M10 2.5L18.5 17H1.5L10 2.5z"/>
         <line x1="10" y1="9" x2="10" y2="12.5"/>
         <circle cx="10" cy="14.5" r=".9" fill="#f59e0b" stroke="none"/>
       </svg>`;
-    return `
+            return `
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#38bdf8" stroke-width="1.8">
         <circle cx="10" cy="10" r="8"/>
         <line x1="10" y1="9" x2="10" y2="14"/>
         <circle cx="10" cy="6.5" r=".9" fill="#38bdf8" stroke="none"/>
       </svg>`;
-  }
+        }
 
-  function badgeClass(type) {
-    if (type === "critico") return "badge-critico";
-    if (type === "atencao") return "badge-atencao";
-    return "badge-info";
-  }
+        function badgeClass(type) {
+            if (type === "critico") return "badge-critico";
+            if (type === "atencao") return "badge-atencao";
+            return "badge-info";
+        }
 
-  function serverIcon() {
-    return `<svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.3">
+        function serverIcon() {
+            return `<svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.3">
       <rect x="1" y="1" width="11" height="4" rx="1"/>
       <rect x="1" y="8" width="11" height="4" rx="1"/>
       <circle cx="9.5" cy="3" r=".7" fill="currentColor" stroke="none"/>
       <circle cx="9.5" cy="10" r=".7" fill="currentColor" stroke="none"/>
     </svg>`;
-  }
+        }
 
-  function clockIcon() {
-    return `<svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.3">
+        function clockIcon() {
+            return `<svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.3">
       <circle cx="6.5" cy="6.5" r="5.5"/>
       <path d="M6.5 3.5v3l2 1.5"/>
     </svg>`;
-  }
+        }
 
-  const list = document.getElementById("alerts-list");
+        const list = document.getElementById("alerts-list");
 
-  ALERTS.forEach(a => {
-    const card = document.createElement("div");
-    card.className = `alert-card ${a.type}`;
-    card.innerHTML = `
-      <div class="alert-icon">${iconForType(a.type)}</div>
-      <div class="alert-body">
-        <div class="alert-title">${a.title}</div>
-        <div class="alert-desc">${a.desc}</div>
-        <div class="alert-meta">
-          <span class="meta-item">${serverIcon()} ${a.machine}</span>
-          <span class="meta-item">${clockIcon()} ${a.time}</span>
-          <span class="badge ${badgeClass(a.type)}">${a.badge}</span>
-        </div>
-      </div>`;
-    list.appendChild(card);
-  });
+        function adicionarAlerta(a) {
+            const card = document.createElement("div");
+            card.className = `alert-card ${a.type}`;
 
-  // Contadores
-  const crits = ALERTS.filter(a => a.type === "critico").length;
-  const warns = ALERTS.filter(a => a.type === "atencao").length;
-  document.getElementById("count-total").textContent = ALERTS.length;
-  document.getElementById("count-crit").textContent  = crits;
-  document.getElementById("count-warn").textContent  = warns;
+            card.innerHTML = `
+    <div class="alert-icon">${iconForType(a.type)}</div>
+    <div class="alert-body">
+      <div class="alert-title">${a.title}</div>
+      <div class="alert-desc">${a.desc}</div>
+      <div class="alert-meta">
+        <span class="meta-item">${serverIcon()} ${a.machine}</span>
+        <span class="meta-item">${clockIcon()} ${a.time}</span>
+        <span class="badge ${badgeClass(a.type)}">${a.badge}</span>
+      </div>
+    </div>
+  `;
 
-  function setNav(el) {
-    document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
-    el.classList.add("active");
-  }
+            list.prepend(card);
+        }
 
+        function atualizarContadores() {
+            const cards = document.querySelectorAll(".alert-card");
+
+            var total = cards.length;
+            var crit = 0;
+            var warn = 0;
+
+            cards.forEach(card => {
+                if (card.classList.contains("critico")) crit++;
+                if (card.classList.contains("atencao")) warn++;
+            });
+
+            document.getElementById("count-total").textContent = total;
+            document.getElementById("count-crit").textContent = crit;
+            document.getElementById("count-warn").textContent = warn;
+        }
+
+        setInterval(() => {
+            const novoAlerta = gerarAlertaAleatorio();
+            adicionarAlerta(novoAlerta);
+
+            // Atualizar contadores
+            atualizarContadores();
+        }, Math.random() * 12000 + 5000);
+        function limparAlertas() {
+            // Limpa a lista visual
+            const list = document.getElementById("alerts-list");
+            list.innerHTML = "<div class='loading-msg'>Nenhum alerta no momento</div>";
+
+            // Zera os contadores
+            document.getElementById("count-total").textContent = 0;
+            document.getElementById("count-crit").textContent = 0;
+            document.getElementById("count-warn").textContent = 0;
+
+            // Limpa o array (opcional, mas recomendado)
+            ALERTS.length = 0;
+        }
+        function dashboardVoltar() {
+            window.location.href = "dashAnalista.html";
+        }
         // function definirClasse(valor) {
         //     if (valor > 90) return "critico";
         //     if (valor > 70) return "aviso";
@@ -347,9 +369,8 @@
         // // Ou seja, a cada 3 segundos ele faz uma nova requisição para buscar os alertas mais recentes
         // setInterval(carregarAlertas, 3000);
 
-        function dashboardVoltar() {
-            window.location.href = "dashAnalista.html";
-        }
+
     </script>
 </body>
+
 </html>
