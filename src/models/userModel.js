@@ -3,9 +3,8 @@ const database = require('../database/config.js')
 function autenticar(email, senha) {
 
     const instrucaoSql = `
-    SELECT idFuncionario, nome, email, fkFabricante from funcionario WHERE email = '${email}' AND senha = '${senha}'
+    SELECT idUsuario, nome, email, fkSupervisor, fkFabricante from usuario WHERE email = '${email}' AND senha = '${senha}'
     `;
-
     return database.executar(instrucaoSql)
 
 }
@@ -16,9 +15,11 @@ function cadastrarEmpresa(nomeFabricante, cnpj, email, tel_corporativo, token) {
     return database.executar(instrucaoSql);
 }
 
-function cadastrarFuncionario(nome, email, senha, fkFabricante, cargo) {
-    const instrucaoSql = `INSERT INTO funcionario (nome, email, senha, fkFabricante, cargo, dt_cadastro) 
-    VALUES ('${nome}', '${email}', '${senha}', '${fkFabricante}', '${cargo}', NOW())`
+
+
+function cadastrarFuncionario(nome, email, cpf, telefone, senha, sessionFK_FABRICANTE, sessionId) {
+    const instrucaoSql = `INSERT INTO usuario (nome, email, cpf, telefone, senha, fkFabricante, fkSupervisor) 
+    VALUES ('${nome}', '${email}', '${cpf}', '${telefone}', '${senha}', '${sessionFK_FABRICANTE}', '${sessionId}');`
     return database.executar(instrucaoSql);
 }
 
@@ -27,9 +28,16 @@ function validarTokenFabricante(token) {
     return database.executar(instrucaoSql)
 }
 
+function atualizarSenha(novaSenha, sessionId) {
+    var instrucaoSql = `UPDATE usuario SET senha = '${novaSenha}' WHERE idUsuario = ${sessionId}`
+    return database.executar(instrucaoSql);
+}
+
+
 module.exports = {
     cadastrarEmpresa,
     autenticar,
     cadastrarFuncionario,
-    validarTokenFabricante
+    validarTokenFabricante,
+    atualizarSenha
 };

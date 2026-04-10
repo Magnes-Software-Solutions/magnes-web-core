@@ -68,7 +68,7 @@
                                 <h2>Fabricante</h2>
                             </div>
                             <div class="text">
-                                <p>Cadastre sua empresa e gere o <br>token de acesso para a sua equipe</p>
+                                <p>Cadastre a empresa para que ela tenha acesso ao sistema</p>
                             </div>
                         </div>
                         <div class="img-fabricante">
@@ -78,10 +78,10 @@
                     <div class="card-funcionário col-12 col-xxl-6" onclick="escolher('funcionario')">
                         <div class="container-funcionario">
                             <div class="text-title">
-                                <h2>Funcionário</h2>
+                                <h2>Gerente</h2>
                             </div>
                             <div class="text">
-                                <p>Utilize o token da sua empresa<br>para criar seu perfil de acesso</p>
+                                <p>Cadastre o gerente responsável pela empresa</p>
                             </div>
                         </div>
                         <div class="img-fabricante">
@@ -120,20 +120,20 @@
 
                 <form id="form_funcionario" style="display: none;">
                     <span>
-                        <label for="inputNome" class="form-label">Nome Completo:</label>
+                        <label for="inputNome" class="form-label">Nome :</label>
                         <input type="text" id="inputNome" class="form-control">
                     </span>
                     <span>
-                        <label for="inputToken" class="form-label">Token:</label>
-                        <input type="text" id="inputToken" class="form-control">
-                    </span>
-                    <span>
-                        <label for="inputCargo" class="form-label">Cargo:</label>
-                        <input type="text" id="inputCargo" class="form-control">
-                    </span>
-                    <span>
                         <label for="inputEmail" class="form-label">Email:</label>
-                        <input type="email" id="inputEmail" class="form-control">
+                        <input type="text" id="inputEmail" class="form-control">
+                    </span>
+                    <span>
+                        <label for="inputCPF" class="form-label">CPF:</label>
+                        <input type="text" id="inputCPF" class="form-control">
+                    </span>
+                    <span>
+                        <label for="inputTelefone" class="form-label">Telefone:</label>
+                        <input type="text" id="inputTelefone" class="form-control">
                     </span>
                     <span>
                         <label for="inputPassword" class="form-label">Senha:</label>
@@ -246,32 +246,64 @@
         return false;
     }
 
+   
     async function cadastrarFuncionario() {
         let nomeVar = inputNome.value;
         let emailVar = inputEmail.value;
-        let cargoVar = inputCargo.value;
-        let tokenVar = inputToken.value
+        let cpfVar = inputCPF.value;
+        let telefoneVar = inputTelefone.value;
         let senhaVar = inputPassword.value;
         let confirmacaoSenhaVar = inputPasswordConfirm.value;
 
+        
+        if(nomeVar.trim() === "" ){
+            alert("È necessario um nome para cadastrar!.");
+            return false;
+        }
+        else if(emailVar.trim() === ""){
+            alert("È necessario um email para poder se cadastrar!.");
+            return false;
+        }
+        else if(cpfVar.trim() === ""){
+            alert("È necessario informar o CPF para continuar!.");
+            return false;
+        }
+        else if(telefoneVar.trim() === ""){
+            alert("È necessario informar um telefone para continuar!.");
+            return false;
+        }
+        else if(senhaVar.trim() === ""){
+            alert("È necessario informar uma senha para continuar!.");
+            return false;
+        }
+        if(nomeVar.length <= 2){
+            alert("Nome invalido, precisa ser maior que uma letra.");
+            return false;
+        }
+        if((emailVar.includes("@") && emailVar.includes(".com")) == false){
+            alert("Email precisa ter '@' e '.com'.");
+            return false;
+        }
+        if(senhaVar < 2){
+            alert("A senha precisa ser maior que dois digitos.");
+            return false;
+        }
         if (senhaVar !== confirmacaoSenhaVar) {
             alert("As senhas não coincidem!");
             return false;
         }
 
-        const resposta = await cadastrarFuncionarioService(nomeVar, emailVar, senhaVar, tokenVar, cargoVar)
+        const resposta = await cadastrarFuncionarioService(nomeVar, emailVar, cpfVar, telefoneVar, senhaVar, sessionStorage.FK_FABRICANTE, sessionStorage.ID_USUARIO)
         console.log("resposta: ", resposta);
 
         if (resposta.ok) {
             alert("Cadastro de Funcionário concluído com sucesso!");
 
-            setTimeout(() => {
-                window.location = "login.html";
-            }, 100);
         } else {
             alert("Houve um erro ao tentar realizar o cadastro do funcionário!");
         }
 
+       sessionStorage.setItem("NOME_USUARIO", resposta.nome);
 
         return false;
     }

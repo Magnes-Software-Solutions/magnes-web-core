@@ -1,7 +1,10 @@
 const dashModel = require("../models/dashModel")
 
 async function pegarDashboard(req, res) {
-    dashModel.pegarDashboard()
+
+    var idUsuario = req.params.idUsuario;
+
+    dashModel.pegarDashboard(idUsuario)
         .then(
             function (resultado) {
                 console.log("Dashboard pego com sucesso!");
