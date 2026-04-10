@@ -153,11 +153,11 @@
     border-radius: 16px;
     width: 100%;
     border: 1px solid #10435f;
+    cursor: pointer;
 }
 
 .bodyMaquina {
     padding: 25px;
-    cursor: pointer;
 }
 
 .bodyMaquina-header {
@@ -261,7 +261,6 @@
 }
 
 .bodyMaquina-body {
-
 }
 
 .bodyMaquina-body p {
@@ -346,19 +345,77 @@
 }
 
 
-.mensagem-graf {
-    z-index: 999;
-    width: 95%;
-    border: 1px solid #10435f;
-    border-radius: 16px;
+.dialog-graf {
+    width: 85%;
+    border: 3px solid #10435f !important;
+    border-radius: 17px;
+    overflow: hidden;
     background-color: #132943;
     color: white;
-
-
-
+    box-shadow: black;
 
     justify-self: center;
     text-align: center;
+    align-items: center;
     justify-content: center;
     flex-direction: column;
+
+    outline: none; 
+    box-shadow: none;
+
+    img {
+        filter: invert(1);
+    }
+}
+
+.dialog-graf::backdrop {
+    backdrop-filter: blur(6px);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.dialog-content {
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 20px 30px;
+}
+
+.dialogGraf-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.graficos-dois {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.grafico-principal {
+}
+
+.grafico {
+    width: 47%;
+}
+
+/* largura da barra */
+::-webkit-scrollbar {
+    width: 9px;
+}
+
+/* fundo da barra */
+::-webkit-scrollbar-track {
+    background: #0b1f33;
+}
+
+/* parte que desliza */
+::-webkit-scrollbar-thumb {
+    background: #10435f;
+    border-radius: 10px;
+}
+
+/* hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #1b6c97;
 }

@@ -122,14 +122,35 @@
 
 
 
-                <dialog id="dialog_graf" class="mensagem-graf">
-                    <canvas id="graf1"></canvas>
+                
+                <dialog id="dialog_graf" class="dialog-graf">
+                    <div class="dialog-content">
+                        <div class="dialogGraf-header">
+                            <h2>Dashboard MRI01</h2>
+                            <img type="button" src="../assets/imgs/x-lg.svg" alt="" onclick="document.getElementById('dialog_graf').close()">
+                        </div>
+                        <div class="grafico-principal">
+                            <p>CPU X Horário</p>
+                            <canvas id="graf1Cpu"></canvas>
+                        </div>
+                        <br><br><br>
+                        <div class="graficos-dois">
+                            <div class="grafico">
+                                <p>RAM X Horário</p>
+                                <canvas id="graf1Ram"></canvas>
+                            </div>
+                            <div class="grafico">
+                                <p>Disco X Horário</p>
+                                <canvas id="graf1Disco"></canvas>
+                            </div>
+                        </div>
+                    </div>
                 </dialog>
                 <div class="cards">
                     <div class="divAuxiliar">
                         <div class="col">
-                            <div class="card cardMaquina">
-                                <div class="card-body bodyMaquina" onclick="abrirDialog1()">
+                            <div class="card cardMaquina" onclick="document.getElementById('dialog_graf').showModal()">
+                                <div class="card-body bodyMaquina">
                                     <div class="bodyMaquina-header">
                                         <div class="bodyMaquina-header-texto">
                                             <h6>(id da maquina do banco)</h1>
@@ -146,15 +167,15 @@
                                         <p>Verificado X min atrás</p>
                                         <hr>
                                         <div class="componentes compoenenteAzul">
-                                            <div class="componentes-titulo">
+                                            <div id="componenteCpu" class="componentes-titulo">
                                                 <div class="componentes-tituloBarra">
                                                     <img src="../assets/imgs/cpu.svg" alt="">
                                                     <h9 >CPU</p>
                                                 </div>
-                                                <p>25%</p>
+                                                <p id="cpuPorc">25%</p>
                                             </div>
                                             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                                                <div class="progress-bar" style="width: 25%"></div>
+                                                <div id="progressCpu" class="progress-bar" style="width: 25%"></div>
                                             </div>
                                         </div>
                                         <div class="componentes compoenenteAzul">
@@ -182,7 +203,7 @@
                                             </div>
                                         </div>
                                         <hr>
-                                        <p>Clique para ver mais detalhes</p>
+                                        <p>Clique no componente para ver mais detalhes</p>
                                     </div>
                                 </div>
                             </div>
@@ -248,7 +269,7 @@
                                             </div>
                                         </div>
                                         <hr>
-                                        <p>Clique para ver mais detalhes</p>
+                                        <p>Clique no componente para ver mais detalhes</p>
                                     </div>
                                 </div>
                             </div>
@@ -314,7 +335,7 @@
                                             </div>
                                         </div>
                                         <hr>
-                                        <p>Clique para ver mais detalhes</p>
+                                        <p>Clique no componente para ver mais detalhes</p>
                                     </div>
                                 </div>
                             </div>
@@ -331,98 +352,272 @@
 <script src="../bootstrap-5.3.8-dist/js/bootstrap.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    function abrirDialog1(){
-        dialog_graf.style.display = "flex";
-
-        const gradient = graf1.getContext('2d').createLinearGradient(0, 0, 0, 800);
-        gradient.addColorStop(0, 'rgba(0, 212, 249, 0.4)');
-        gradient.addColorStop(1, 'rgba(0, 212, 249, 0)');
-
-        new Chart(graf1, {
-            type: 'line',
-            data: {
-                labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30', '01:40', '01:50'],
-                datasets: [{
-                    label: 'Horário',
-                    data: [24, 29, 51, 67, 41, 37, 24, 27, 31, 29, 40, 37],
-                    borderColor: 'rgba(0, 212, 249, 1)',
-                    fill: true,
-                    backgroundColor: gradient,
-                    borderWidth: 3,
-                    tension: 0.2,
-                    pointRadius: 0,
-                    pointHoverRadius: 6,
-                    pointHoverBorderWidth: 2,
-                    pointHoverBorderColor: '#ffffff',
-                    pointHoverBackgroundColor: '#ffffff'
-                }]
+    new Chart(graf1Cpu, {
+        type: 'line',
+        data: {
+            labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
+            datasets: [{
+                label: 'Horário',
+                data: [24, 29, 51, 67, 41, 37, 24, 27, 31, 29],
+                borderColor: '#8B5CF6',
+                fill: true,
+                backgroundColor: 'rgba(139, 92, 246, 0.4)',
+                borderWidth: 3,
+                tension: 0.2,
+                pointRadius: 0,
+                pointHoverRadius: 6,
+                pointHoverBorderWidth: 2,
+                pointHoverBorderColor: '#ffffff',
+                pointHoverBackgroundColor: '#ffffff'
+            }]
+        },
+        options: {
+            interaction: {
+                mode: 'index',
+                intersect: false
             },
-            options: {
-                interaction: {
-                    mode: 'index',
-                    intersect: false
+            hover: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                legend: {
+                    display: false
                 },
-                hover: {
-                    mode: 'index',
-                    intersect: false
+                tooltip: {
+                    enabled: true,
+                    backgroundColor: '#1a3555',
+                    titleColor: '#7a92b0',
+                    bodyColor: 'rgba(0, 212, 249, 1)',
+                    borderColor: '#2b5876',
+                    borderWidth: 1,
+                    displayColors: false
                 },
-                plugins: {
-                    legend: {
-                        display: false
+                title: {
+                    display: true,
+                    color: '#ffffff'
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#7a92b0'
                     },
-                    tooltip: {
-                        enabled: true,
-                        backgroundColor: '#1a3555',
-                        titleColor: '#7a92b0',
-                        bodyColor: 'rgba(0, 212, 249, 1)',
-                        borderColor: '#2b5876',
-                        borderWidth: 1,
-                        displayColors: false
+                    grid: {
+                        color: '#1f3652'
                     },
                     title: {
                         display: true,
-                        text: 'Gráfico da relação do uso de cpu no horário',
-                        color: '#ffffff'
+                        text: 'Horário',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
+                        }
                     }
                 },
-                scales: {
-                    x: {
-                        ticks: {
-                            color: '#7a92b0'
-                        },
-                        grid: {
-                            color: '#1f3652'
-                        },
-                        title: {
-                            display: true,
-                            text: 'Horário',
-                            color: '#7a92b0',
-                            font: {
-                                size: 14
-                            }
-                        }
+                y: {
+                    ticks: {
+                        color: '#7a92b0'
                     },
-                    y: {
-                        ticks: {
-                            color: '#7a92b0'
-                        },
-                        grid: {
-                            color: '#1f3652',
-                            borderDash: [5, 5]
-                        },
-                        min: 0,
-                        max: 100,
-                        title: {
-                            display: true,
-                            text: 'RAM (%)',
-                            color: '#7a92b0',
-                            font: {
-                                size: 14
-                            }
+                    grid: {
+                        color: '#1f3652',
+                        borderDash: [5, 5]
+                    },
+                    min: 0,
+                    max: 100,
+                    title: {
+                        display: true,
+                        text: 'CPU (%)',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
                         }
                     }
                 }
             }
-        });
-    }
+        }
+    });
+    
+
+
+    new Chart(graf1Ram, {
+        type: 'line',
+        data: {
+            labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
+            datasets: [{
+                label: 'Horário',
+                data: [24, 35, 67, 69, 57, 46, 32, 43, 53, 76],
+                borderColor: 'rgba(0, 212, 249, 1)',
+                fill: true,
+                backgroundColor: 'rgba(0, 212, 249, 0.4)',
+                borderWidth: 3,
+                tension: 0.2,
+                pointRadius: 0,
+                pointHoverRadius: 6,
+                pointHoverBorderWidth: 2,
+                pointHoverBorderColor: '#ffffff',
+                pointHoverBackgroundColor: '#ffffff'
+            }]
+        },
+        options: {
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            hover: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    enabled: true,
+                    backgroundColor: '#1a3555',
+                    titleColor: '#7a92b0',
+                    bodyColor: 'rgba(0, 212, 249, 1)',
+                    borderColor: '#2b5876',
+                    borderWidth: 1,
+                    displayColors: false
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#7a92b0'
+                    },
+                    grid: {
+                        color: '#1f3652'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Horário',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
+                        }
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#7a92b0'
+                    },
+                    grid: {
+                        color: '#1f3652',
+                        borderDash: [5, 5]
+                    },
+                    min: 0,
+                    max: 100,
+                    title: {
+                        display: true,
+                        text: 'RAM (%)',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+
+    new Chart(graf1Disco, {
+        type: 'line',
+        data: {
+            labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
+            datasets: [{
+                label: 'Horário',
+                data: [12, 24, 18, 21, 17, 32, 42, 48, 42, 37, 29, 30, 35],
+                borderColor: 'rgba(0, 212, 249, 1)',
+                fill: true,
+                backgroundColor: 'rgba(0, 212, 249, 0.4)',
+                borderWidth: 3,
+                tension: 0.2,
+                pointRadius: 0,
+                pointHoverRadius: 6,
+                pointHoverBorderWidth: 2,
+                pointHoverBorderColor: '#ffffff',
+                pointHoverBackgroundColor: '#ffffff'
+            }]
+        },
+        options: {
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            hover: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    enabled: true,
+                    backgroundColor: '#1a3555',
+                    titleColor: '#7a92b0',
+                    bodyColor: 'rgba(0, 212, 249, 1)',
+                    borderColor: '#2b5876',
+                    borderWidth: 1,
+                    displayColors: false
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#7a92b0'
+                    },
+                    grid: {
+                        color: '#1f3652'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Horário',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
+                        }
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#7a92b0'
+                    },
+                    grid: {
+                        color: '#1f3652',
+                        borderDash: [5, 5]
+                    },
+                    min: 0,
+                    max: 100,
+                    title: {
+                        display: true,
+                        text: 'Disco (%)',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            }
+        }
+    });
+    
+
+
+
+
+
+
+
+    // var porcCpu = "87%"
+
+    // function mudar() {
+    //     componenteCpu.classList.toogle = ('compoenenteVermelho')
+    //     cpuPorc.innerHTML = porcCpu
+    //     progressCpu.style.width = porcCpu
+    //     progressCpu.style.backgroundColor = "#ff3366"
+    // }
 </script>
