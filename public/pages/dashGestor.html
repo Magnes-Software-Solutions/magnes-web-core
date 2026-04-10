@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página inicial</title>
+    <link rel="stylesheet" href="../bootstrap-5.3.8-dist/css/bootstrap.css" />
+    <link rel="shortcut icon" href="../assets/imgs/Logo.png" type="image/x-icon" />
+    <link rel="stylesheet" href="../css/dashAnalista.css">
+    <link rel="stylesheet" href="../css/headerDash.css">
+</head>
+
+<body style="background-color: #0a1628;">
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="navbar bg-body-tertiary fixed-top navBarTop">
+                <div class="container-fluid">
+                    <img src="../assets/imgs/Logo.png" alt="" width="5%" height="85%">
+                    <div class="titulo">
+                        <p class="tituloLogo">MAGNES</p>
+                        <p class="textoLogo">MRI MONITOR</p>
+                    </div>
+                    <button class="navbar-toggler navBarToggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon navBarTogglerIcon"></span>
+                    </button>
+                    <div class="offcanvas offcanvas-end offCanvas" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title offCanvasTitle" id="offcanvasNavbarLabel">MAGNES</h5>
+                            <button type="button" class="btn-close offCanvasButton" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body offcanvasBody">
+                            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 navBarNav">
+                            <li class="nav-item navLi navLiActive">
+                                <img src="../assets/imgs/dashboard.svg" alt="Simbolo de Dashboard">
+                                <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
+                            </li>
+                            <li class="nav-item navLi">
+                                <img src="../assets/imgs/alert.svg" alt="Simbolo de Alerta">
+                                <a class="nav-link" href="#">Alerta</a>
+                            </li>
+                            <li class="nav-item navLi">
+                                <img src="../assets/imgs/bar.svg" alt="Simbolo de Relatório">
+                                <a class="nav-link" href="#">Relatório</a>
+                            </li>
+                            <li class="nav-item navLi">
+                                <img src="../assets/imgs/person.svg" alt="Simbolo de Cadastrar Analista">
+                                <a class="nav-link" href="#">Cadastrar Analista</a>
+                            </li>
+                            <li class="nav-item navLi">
+                                <img src="../assets/imgs/build.svg" alt="Simbolo de Cadastrar Máquina">
+                                <a class="nav-link" href="#">Cadastrar Máquina</a>
+                            </li>
+                            </ul>
+                            </form>
+                        </div>
+                        <div class="offcanvas-header perfil">
+                            <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Simbolo de perfil">
+                            <div class="textosPerfil">
+                                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">(nome do banco)</h5>
+                                <p>(cargo do banco)</p>
+                            </div>
+                            <img class="perfilConfig" src="../assets/imgs/gear.svg" alt="Simbolo de configurações">
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Corpo -->
+            <div class="col-md-10 col-9">
+                <div class="row justify-content-around mt-4">
+                    <div class="col-md-3 col-sm-3 col-7 card-kpi p-3 mt-4">
+                        <p class="text-center">Máquinas em alerta</p>
+                        <span class="display-5 fw-semibold">5</span>
+                        <div class="sinal"></div>
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-7 card-kpi p-3 mt-4">
+                        <p class="text-center">Total de máquinas</p>
+                        <span class="display-5 fw-semibold">12</span>
+                        <div class="sinal2"></div>
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-7 card-kpi p-3 mt-4">
+                        <p class="text-center">Máquinas em crítico</p>
+                        <span class="display-5 fw-semibold">3</span>
+                        <div class="sinal3"></div>
+                    </div>
+                </div>
+                <div class="row gy-4 justify-content-around mt-5 maquina">
+                    <div class="col-md-3 col-9 card-maquina maquina1" style="border: 3px solid #746cc2;">
+                        <h1><img src="../assets/imgs/hospital.png" alt=""></h1>
+                        <div class="componentes">
+                            <div class="ram"><p><img src="../assets/imgs/ram.png" alt=""></p> <div class="porcentagemRam"></div></div>
+                            <div class="cpu"><p><img src="../assets/imgs/cpuDash.png" alt=""></p><div class="porcentagemCpu"></div></div>
+                            <div class="disco"><p><img src="../assets/imgs/cartao-de-memoria.png" alt=""></p> <div class="porcentagemDisco"></div></div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-9 card-maquina maquina2"  style="border: 3px solid #746cc2;">
+                        <h1><img src="../assets/imgs/farmacia.png" alt=""></h1>
+                        <div class="componentes">
+                            <div class="ram"><p><img src="../assets/imgs/ram.png" alt=""></p> <div class="porcentagemRam"></div></div>
+                            <div class="cpu"><p><img src="../assets/imgs/cpuDash.png" alt=""></p><div class="porcentagemCpu"></div></div>
+                            <div class="disco"><p><img src="../assets/imgs/cartao-de-memoria.png" alt=""></p> <div class="porcentagemDisco"></div></div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-9 card-maquina maquina3"  style="border: 3px solid #746cc2;">
+                        <h1><img src="../assets/imgs/estrela-da-vida.png" alt=""></h1>
+                        <div class="componentes">
+                            <div class="ram"><p><img src="../assets/imgs/ram.png" alt=""></p> <div class="porcentagemRam"></div></div>
+                            <div class="cpu"><p><img src="../assets/imgs/cpuDash.png" alt=""></p><div class="porcentagemCpu"></div></div>
+                            <div class="disco"><p><img src="../assets/imgs/cartao-de-memoria.png" alt=""></p> <div class="porcentagemDisco"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-5 buttonadd">
+                    <button type="button" class="btn btn-primary buttonadd" data-bs-toggle="modal"
+                        data-bs-target="#addMachineForm"
+                        style="background-color: #280B4A; color: #FFF; width: 200px; height: 20%; display: flex; justify-content: center; margin-right: 15px;"><img
+                            src="../assets/imgs/adicionar.png" alt="Descrição" style="width:20px;height:20px;">Adicionar
+                        Máquina</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addMachineForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="background-color: #CED8E4;">
+                <div class="modal-header" style="background-color: gray;">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel" style="color: #FFF;">Adicionar Máquina</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="input_num_serie" class="col-form-label">Numeração:</label>
+                            <input type="text" class="form-control" id="input_num_serie">
+                        </div>
+                        <div class="mb-3">
+                            <label for="input_localizacao" class="col-form-label">Localização:</label>
+                            <input class="form-control" id="input_localizacao">
+                        </div>
+                        <div class="mb-3">
+                            <label for="input_modelo" class="col-form-label">Modelo:</label>
+                            <input class="form-control" id="input_modelo">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button onclick="adicionarMaquina()" type="button" class="btn btn-primary"
+                        style="background-color: #280B4A; color: #FFF; width: 45%; height: 20%; display: flex; justify-content: center; margin-right: 15px;"><img
+                            src="../assets/imgs/adicionar.png" alt="Descrição" style="width:20px;height:20px;">
+                        Cadastrar Máquina</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script src="../bootstrap-5.3.8-dist/js/bootstrap.js"></script>
+<script src="../services/api.js"></script>
+<script src="../services/maquinaService.js"></script>
+<script>
+    var nomeUsuario = sessionStorage.NOME_USUARIO
+    spanNome.innerHTML = nomeUsuario
+
+    async function adicionarMaquina() {
+        var num_serie = input_num_serie.value
+        var modelo = input_modelo.value
+        var fkFabricante = sessionStorage.ID_EMPRESA
+
+        let response = await adicionarMaquinaService(num_serie, modelo, fkFabricante)
+
+        console.log(response);
+
+        alert(response);        
+    }
+</script>

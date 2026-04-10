@@ -39,18 +39,6 @@
                                 <img src="../assets/imgs/alert.svg" alt="Simbolo de Alerta">
                                 <a class="nav-link" >Alerta</a>
                             </li>
-                            <li class="nav-item navLi">
-                                <img src="../assets/imgs/bar.svg" alt="Simbolo de Relatório">
-                                <a class="nav-link" href="#">Relatório</a>
-                            </li>
-                            <li class="nav-item navLi">
-                                <img src="../assets/imgs/person.svg" alt="Simbolo de Cadastrar Analista">
-                                <a class="nav-link" href="#">Cadastrar Analista</a>
-                            </li>
-                            <li class="nav-item navLi">
-                                <img src="../assets/imgs/build.svg" alt="Simbolo de Cadastrar Máquina">
-                                <a class="nav-link" href="#">Cadastrar Máquina</a>
-                            </li>
                             </ul>
                             </form>
                         </div>
@@ -67,90 +55,293 @@
             </nav>
 
             <!-- Corpo -->
-            <div class="col-md-10 col-9">
-                <div class="row justify-content-around mt-4">
-                    <div class="col-md-3 col-sm-3 col-7 card-kpi p-3 mt-4">
-                        <p class="text-center">Máquinas em alerta</p>
-                        <span class="display-5 fw-semibold">5</span>
-                        <div class="sinal"></div>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-7 card-kpi p-3 mt-4">
-                        <p class="text-center">Total de máquinas</p>
-                        <span class="display-5 fw-semibold">12</span>
-                        <div class="sinal2"></div>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-7 card-kpi p-3 mt-4">
-                        <p class="text-center">Máquinas em crítico</p>
-                        <span class="display-5 fw-semibold">3</span>
-                        <div class="sinal3"></div>
-                    </div>
-                </div>
-                <div class="row gy-4 justify-content-around mt-5 maquina">
-                    <div class="col-md-3 col-9 card-maquina maquina1" style="border: 3px solid #746cc2;">
-                        <h1><img src="../assets/imgs/hospital.png" alt=""></h1>
-                        <div class="componentes">
-                            <div class="ram"><p><img src="../assets/imgs/ram.png" alt=""></p> <div class="porcentagemRam"></div></div>
-                            <div class="cpu"><p><img src="../assets/imgs/cpuDash.png" alt=""></p><div class="porcentagemCpu"></div></div>
-                            <div class="disco"><p><img src="../assets/imgs/cartao-de-memoria.png" alt=""></p> <div class="porcentagemDisco"></div></div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-9 card-maquina maquina2"  style="border: 3px solid #746cc2;">
-                        <h1><img src="../assets/imgs/farmacia.png" alt=""></h1>
-                        <div class="componentes">
-                            <div class="ram"><p><img src="../assets/imgs/ram.png" alt=""></p> <div class="porcentagemRam"></div></div>
-                            <div class="cpu"><p><img src="../assets/imgs/cpuDash.png" alt=""></p><div class="porcentagemCpu"></div></div>
-                            <div class="disco"><p><img src="../assets/imgs/cartao-de-memoria.png" alt=""></p> <div class="porcentagemDisco"></div></div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-9 card-maquina maquina3"  style="border: 3px solid #746cc2;">
-                        <h1><img src="../assets/imgs/estrela-da-vida.png" alt=""></h1>
-                        <div class="componentes">
-                            <div class="ram"><p><img src="../assets/imgs/ram.png" alt=""></p> <div class="porcentagemRam"></div></div>
-                            <div class="cpu"><p><img src="../assets/imgs/cpuDash.png" alt=""></p><div class="porcentagemCpu"></div></div>
-                            <div class="disco"><p><img src="../assets/imgs/cartao-de-memoria.png" alt=""></p> <div class="porcentagemDisco"></div></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row justify-content-center mt-5 buttonadd">
-                    <button type="button" class="btn btn-primary buttonadd" data-bs-toggle="modal"
-                        data-bs-target="#addMachineForm"
-                        style="background-color: #280B4A; color: #FFF; width: 200px; height: 20%; display: flex; justify-content: center; margin-right: 15px;"><img
-                            src="../assets/imgs/adicionar.png" alt="Descrição" style="width:20px;height:20px;">Adicionar
-                        Máquina</button>
-                </div>
-            </div>
-        </div>
-    </div>
+            <div class="corpo">
+                
 
-    <div class="modal fade" id="addMachineForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content" style="background-color: #CED8E4;">
-                <div class="modal-header" style="background-color: gray;">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel" style="color: #FFF;">Adicionar Máquina</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+
+
+                <h2 class="tituloCorpo">Máquinas Monitoradas</h2>
+                <div class="cards">
+                    <div class="card cardKpi">
+                        <div class="card-body bodyKpi">
+                            <div class="kpiImg kpiAzul">
+                                <img src="../assets/imgs/hdd-stack.svg" alt="">
+                            </div>
+                            <div class="kpiTextos">
+                                <p>TOTAL DE MÁQUINAS</p>
+                                <h2 class="numeroAzul">(numero do banco)</h2>
+                                <p>Dispositivos monitorados</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card cardKpi">
+                        <div class="card-body bodyKpi">
+                            <div class="kpiImg kpiVerde">
+                                <img src="../assets/imgs/check2-circle.svg" alt="">
+                            </div>
+                            <div class="kpiTextos">
+                                <p>MÁQUINAS ESTÁVEIS</p>
+                                <h2 class="numeroVerde">(numero do banco)</h2>
+                                <p>Operando normalmente</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card cardKpi">
+                        <div class="card-body bodyKpi">
+                            <div class="kpiImg kpiAmarelo">
+                                <img src="../assets/imgs/alert.svg" alt="">
+                            </div>
+                            <div class="kpiTextos">
+                                <p>EM ALERTA</p>
+                                <h2 class="numeroAmarelo">(numero do banco)</h2>
+                                <p>Requer atenção</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card cardKpi">
+                        <div class="card-body bodyKpi">
+                            <div class="kpiImg kpiVermelho">
+                                <img src="../assets/imgs/check2-circle.svg" alt="">
+                            </div>
+                            <div class="kpiTextos">
+                                <p>CRÍTICAS</p>
+                                <h2 class="numeroVermelho">(numero do banco)</h2>
+                                <p>Intervenção imediata</p>
+                            </div>
+                        </div>
+                    </div>
+                </div> <br>
+
+
+
+                <div class="miniTextos">
+                    <h5 class="miniTitulo">Máquinas Monitoradas</h5>
+                    <p class="miniSubtitulo">(numero do banco) máquinas</p>
                 </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label for="input_num_serie" class="col-form-label">Numeração:</label>
-                            <input type="text" class="form-control" id="input_num_serie">
+
+
+
+                
+                <dialog id="dialog_graf" class="dialog-graf">
+                    <div class="dialog-content">
+                        <div class="dialogGraf-header">
+                            <h2>Dashboard MRI01</h2>
+                            <img type="button" src="../assets/imgs/x-lg.svg" alt="" onclick="document.getElementById('dialog_graf').close()">
                         </div>
-                        <div class="mb-3">
-                            <label for="input_localizacao" class="col-form-label">Localização:</label>
-                            <input class="form-control" id="input_localizacao">
+                        <div class="grafico-principal">
+                            <p>CPU X Horário</p>
+                            <canvas id="graf1Cpu"></canvas>
                         </div>
-                        <div class="mb-3">
-                            <label for="input_modelo" class="col-form-label">Modelo:</label>
-                            <input class="form-control" id="input_modelo">
+                        <br><br><br>
+                        <div class="graficos-dois">
+                            <div class="grafico">
+                                <p>RAM X Horário</p>
+                                <canvas id="graf1Ram"></canvas>
+                            </div>
+                            <div class="grafico">
+                                <p>Disco X Horário</p>
+                                <canvas id="graf1Disco"></canvas>
+                            </div>
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                    <button onclick="adicionarMaquina()" type="button" class="btn btn-primary"
-                        style="background-color: #280B4A; color: #FFF; width: 45%; height: 20%; display: flex; justify-content: center; margin-right: 15px;"><img
-                            src="../assets/imgs/adicionar.png" alt="Descrição" style="width:20px;height:20px;">
-                        Cadastrar Máquina</button>
+                    </div>
+                </dialog>
+                <div class="cards">
+                    <div class="divAuxiliar">
+                        <div class="col">
+                            <div class="card cardMaquina" onclick="document.getElementById('dialog_graf').showModal()">
+                                <div class="card-body bodyMaquina">
+                                    <div class="bodyMaquina-header">
+                                        <div class="bodyMaquina-header-texto">
+                                            <h6>(id da maquina do banco)</h1>
+                                                <div class="localizacao">
+                                                    <img src="../assets/imgs/loc.svg" alt="">
+                                                    <p>(hospital do banco)</p>
+                                                </div>
+                                        </div>
+                                        <div class="bodyImg bodyImgVerde">
+                                            <p>Estável</p>
+                                        </div>
+                                    </div>
+                                    <div class="bodyMaquina-body">
+                                        <p>Verificado X min atrás</p>
+                                        <hr>
+                                        <div class="componentes compoenenteAzul">
+                                            <div id="componenteCpu" class="componentes-titulo">
+                                                <div class="componentes-tituloBarra">
+                                                    <img src="../assets/imgs/cpu.svg" alt="">
+                                                    <h9 >CPU</p>
+                                                </div>
+                                                <p id="cpuPorc">25%</p>
+                                            </div>
+                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                                <div id="progressCpu" class="progress-bar" style="width: 25%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="componentes compoenenteAzul">
+                                            <div class="componentes-titulo">
+                                                <div class="componentes-tituloBarra">
+                                                    <img src="../assets/imgs/memory.svg" alt="">
+                                                    <h9 >RAM</p>
+                                                </div>
+                                                <p>38%</p>
+                                            </div>
+                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="38" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar" style="width: 38%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="componentes compoenenteAzul">
+                                            <div class="componentes-titulo">
+                                                <div class="componentes-tituloBarra">
+                                                    <img src="../assets/imgs/hard-disk.png" alt="">
+                                                    <h9 >DISCO</p>
+                                                </div>
+                                                <p>45%</p>
+                                            </div>
+                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar" style="width: 45%"></div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <p>Clique no componente para ver mais detalhes</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="divAuxiliar">
+                        <div class="col">
+                            <div class="card cardMaquina">
+                                <div class="card-body bodyMaquina">
+                                    <div class="bodyMaquina-header">
+                                        <div class="bodyMaquina-header-texto">
+                                            <h6>(id da maquina do banco)</h1>
+                                                <div class="localizacao">
+                                                    <img src="../assets/imgs/loc.svg" alt="">
+                                                    <p>(hospital do banco)</p>
+                                                </div>
+                                        </div>
+                                        <div class="bodyImg bodyImgVerde">
+                                            <p>Estável</p>
+                                        </div>
+                                    </div>
+                                    <div class="bodyMaquina-body">
+                                        <p>Verificado X min atrás</p>
+                                        <hr>
+                                        <div class="componentes compoenenteAzul">
+                                            <div class="componentes-titulo">
+                                                <div class="componentes-tituloBarra">
+                                                    <img src="../assets/imgs/cpu.svg" alt="">
+                                                    <h9 >CPU</p>
+                                                </div>
+                                                <p>25%</p>
+                                            </div>
+                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar" style="width: 25%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="componentes compoenenteAzul">
+                                            <div class="componentes-titulo">
+                                                <div class="componentes-tituloBarra">
+                                                    <img src="../assets/imgs/memory.svg" alt="">
+                                                    <h9 >RAM</p>
+                                                </div>
+                                                <p>38%</p>
+                                            </div>
+                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="38" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar" style="width: 38%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="componentes compoenenteAzul">
+                                            <div class="componentes-titulo">
+                                                <div class="componentes-tituloBarra">
+                                                    <img src="../assets/imgs/hard-disk.png" alt="">
+                                                    <h9 >DISCO</p>
+                                                </div>
+                                                <p>45%</p>
+                                            </div>
+                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar" style="width: 45%"></div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <p>Clique no componente para ver mais detalhes</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="divAuxiliar">
+                        <div class="col">
+                            <div class="card cardMaquina">
+                                <div class="card-body bodyMaquina">
+                                    <div class="bodyMaquina-header">
+                                        <div class="bodyMaquina-header-texto">
+                                            <h6>(id da maquina do banco)</h1>
+                                                <div class="localizacao">
+                                                    <img src="../assets/imgs/loc.svg" alt="">
+                                                    <p>(hospital do banco)</p>
+                                                </div>
+                                        </div>
+                                        <div class="bodyImg bodyImgVerde">
+                                            <p>Estável</p>
+                                        </div>
+                                    </div>
+                                    <div class="bodyMaquina-body">
+                                        <p>Verificado X min atrás</p>
+                                        <hr>
+                                        <div class="componentes compoenenteAzul">
+                                            <div class="componentes-titulo">
+                                                <div class="componentes-tituloBarra">
+                                                    <img src="../assets/imgs/cpu.svg" alt="">
+                                                    <h9 >CPU</p>
+                                                </div>
+                                                <p>25%</p>
+                                            </div>
+                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar" style="width: 25%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="componentes compoenenteAzul">
+                                            <div class="componentes-titulo">
+                                                <div class="componentes-tituloBarra">
+                                                    <img src="../assets/imgs/memory.svg" alt="">
+                                                    <h9 >RAM</p>
+                                                </div>
+                                                <p>38%</p>
+                                            </div>
+                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="38" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar" style="width: 38%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="componentes compoenenteAzul">
+                                            <div class="componentes-titulo">
+                                                <div class="componentes-tituloBarra">
+                                                    <img src="../assets/imgs/hard-disk.png" alt="">
+                                                    <h9 >DISCO</p>
+                                                </div>
+                                                <p>45%</p>
+                                            </div>
+                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar" style="width: 45%"></div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <p>Clique no componente para ver mais detalhes</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -159,24 +350,282 @@
 
 </html>
 <script src="../bootstrap-5.3.8-dist/js/bootstrap.js"></script>
-<script src="../services/api.js"></script>
-<script src="../services/maquinaService.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-     function alertas() {
-            window.location.href = "telaAlertas.html";
-        }
-    var nomeUsuario = sessionStorage.NOME_USUARIO
-    spanNome.innerHTML = nomeUsuario
+// <<<<<<< dashAnalista
+//     new Chart(graf1Cpu, {
+//         type: 'line',
+//         data: {
+//             labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
+//             datasets: [{
+//                 label: 'Horário',
+//                 data: [24, 29, 51, 67, 41, 37, 24, 27, 31, 29],
+//                 borderColor: '#8B5CF6',
+//                 fill: true,
+//                 backgroundColor: 'rgba(139, 92, 246, 0.4)',
+//                 borderWidth: 3,
+//                 tension: 0.2,
+//                 pointRadius: 0,
+//                 pointHoverRadius: 6,
+//                 pointHoverBorderWidth: 2,
+//                 pointHoverBorderColor: '#ffffff',
+//                 pointHoverBackgroundColor: '#ffffff'
+//             }]
+//         },
+//         options: {
+//             interaction: {
+//                 mode: 'index',
+//                 intersect: false
+//             },
+//             hover: {
+//                 mode: 'index',
+//                 intersect: false
+//             },
+//             plugins: {
+//                 legend: {
+//                     display: false
+//                 },
+//                 tooltip: {
+//                     enabled: true,
+//                     backgroundColor: '#1a3555',
+//                     titleColor: '#7a92b0',
+//                     bodyColor: 'rgba(0, 212, 249, 1)',
+//                     borderColor: '#2b5876',
+//                     borderWidth: 1,
+//                     displayColors: false
+//                 },
+//                 title: {
+//                     display: true,
+//                     color: '#ffffff'
+//                 }
+//             },
+//             scales: {
+//                 x: {
+//                     ticks: {
+//                         color: '#7a92b0'
+//                     },
+//                     grid: {
+//                         color: '#1f3652'
+//                     },
+//                     title: {
+//                         display: true,
+//                         text: 'Horário',
+//                         color: '#7a92b0',
+//                         font: {
+//                             size: 14
+//                         }
+//                     }
+//                 },
+//                 y: {
+//                     ticks: {
+//                         color: '#7a92b0'
+//                     },
+//                     grid: {
+//                         color: '#1f3652',
+//                         borderDash: [5, 5]
+//                     },
+//                     min: 0,
+//                     max: 100,
+//                     title: {
+//                         display: true,
+//                         text: 'CPU (%)',
+//                         color: '#7a92b0',
+//                         font: {
+//                             size: 14
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//     });
+    
 
-    async function adicionarMaquina() {
-        var num_serie = input_num_serie.value
-        var modelo = input_modelo.value
-        var fkFabricante = sessionStorage.ID_EMPRESA
 
-        let response = await adicionarMaquinaService(num_serie, modelo, fkFabricante)
+//     new Chart(graf1Ram, {
+//         type: 'line',
+//         data: {
+//             labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
+//             datasets: [{
+//                 label: 'Horário',
+//                 data: [24, 35, 67, 69, 57, 46, 32, 43, 53, 76],
+//                 borderColor: 'rgba(0, 212, 249, 1)',
+//                 fill: true,
+//                 backgroundColor: 'rgba(0, 212, 249, 0.4)',
+//                 borderWidth: 3,
+//                 tension: 0.2,
+//                 pointRadius: 0,
+//                 pointHoverRadius: 6,
+//                 pointHoverBorderWidth: 2,
+//                 pointHoverBorderColor: '#ffffff',
+//                 pointHoverBackgroundColor: '#ffffff'
+//             }]
+//         },
+//         options: {
+//             interaction: {
+//                 mode: 'index',
+//                 intersect: false
+//             },
+//             hover: {
+//                 mode: 'index',
+//                 intersect: false
+//             },
+//             plugins: {
+//                 legend: {
+//                     display: false
+//                 },
+//                 tooltip: {
+//                     enabled: true,
+//                     backgroundColor: '#1a3555',
+//                     titleColor: '#7a92b0',
+//                     bodyColor: 'rgba(0, 212, 249, 1)',
+//                     borderColor: '#2b5876',
+//                     borderWidth: 1,
+//                     displayColors: false
+//                 }
+//             },
+//             scales: {
+//                 x: {
+//                     ticks: {
+//                         color: '#7a92b0'
+//                     },
+//                     grid: {
+//                         color: '#1f3652'
+//                     },
+//                     title: {
+//                         display: true,
+//                         text: 'Horário',
+//                         color: '#7a92b0',
+//                         font: {
+//                             size: 14
+//                         }
+//                     }
+//                 },
+//                 y: {
+//                     ticks: {
+//                         color: '#7a92b0'
+//                     },
+//                     grid: {
+//                         color: '#1f3652',
+//                         borderDash: [5, 5]
+//                     },
+//                     min: 0,
+//                     max: 100,
+//                     title: {
+//                         display: true,
+//                         text: 'RAM (%)',
+//                         color: '#7a92b0',
+//                         font: {
+//                             size: 14
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//     });
 
-        console.log(response);
 
-        alert(response);        
-    }
+//     new Chart(graf1Disco, {
+//         type: 'line',
+//         data: {
+//             labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
+//             datasets: [{
+//                 label: 'Horário',
+//                 data: [12, 24, 18, 21, 17, 32, 42, 48, 42, 37, 29, 30, 35],
+//                 borderColor: 'rgba(0, 212, 249, 1)',
+//                 fill: true,
+//                 backgroundColor: 'rgba(0, 212, 249, 0.4)',
+//                 borderWidth: 3,
+//                 tension: 0.2,
+//                 pointRadius: 0,
+//                 pointHoverRadius: 6,
+//                 pointHoverBorderWidth: 2,
+//                 pointHoverBorderColor: '#ffffff',
+//                 pointHoverBackgroundColor: '#ffffff'
+//             }]
+//         },
+//         options: {
+//             interaction: {
+//                 mode: 'index',
+//                 intersect: false
+//             },
+//             hover: {
+//                 mode: 'index',
+//                 intersect: false
+//             },
+//             plugins: {
+//                 legend: {
+//                     display: false
+//                 },
+//                 tooltip: {
+//                     enabled: true,
+//                     backgroundColor: '#1a3555',
+//                     titleColor: '#7a92b0',
+//                     bodyColor: 'rgba(0, 212, 249, 1)',
+//                     borderColor: '#2b5876',
+//                     borderWidth: 1,
+//                     displayColors: false
+//                 }
+//             },
+//             scales: {
+//                 x: {
+//                     ticks: {
+//                         color: '#7a92b0'
+//                     },
+//                     grid: {
+//                         color: '#1f3652'
+//                     },
+//                     title: {
+//                         display: true,
+//                         text: 'Horário',
+//                         color: '#7a92b0',
+//                         font: {
+//                             size: 14
+//                         }
+//                     }
+//                 },
+//                 y: {
+//                     ticks: {
+//                         color: '#7a92b0'
+//                     },
+//                     grid: {
+//                         color: '#1f3652',
+//                         borderDash: [5, 5]
+//                     },
+//                     min: 0,
+//                     max: 100,
+//                     title: {
+//                         display: true,
+//                         text: 'Disco (%)',
+//                         color: '#7a92b0',
+//                         font: {
+//                             size: 14
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//     });
+    
+
+
+
+
+// =======
+//      function alertas() {
+//             window.location.href = "telaAlertas.html";
+//         }
+//     var nomeUsuario = sessionStorage.NOME_USUARIO
+//     spanNome.innerHTML = nomeUsuario
+// >>>>>>> main
+
+
+
+    // var porcCpu = "87%"
+
+    // function mudar() {
+    //     componenteCpu.classList.toogle = ('compoenenteVermelho')
+    //     cpuPorc.innerHTML = porcCpu
+    //     progressCpu.style.width = porcCpu
+    //     progressCpu.style.backgroundColor = "#ff3366"
+    // }
 </script>
