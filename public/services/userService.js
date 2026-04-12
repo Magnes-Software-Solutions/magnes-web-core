@@ -23,9 +23,9 @@ async function cadastrarEmpresaService(nomeFabricanteVar, cnpjVar, emailEmpresaV
     return response
 }
 
-async function cadastrarFuncionarioService(nome, email, cpf, telefone, senha, sessionFK_FABRICANTE, sessionId) {
+async function cadastrarFuncionarioService(nome, email, cpf, telefone, senha, sessionFK_HOSPITAL, sessionId) {
     const body = {
-        nome, email, cpf, telefone, senha, sessionFK_FABRICANTE, sessionId
+        nome, email, cpf, telefone, senha, sessionFK_HOSPITAL, sessionId
     }
     const response = await api.post("/user/cadastrarFuncionario", body)
     console.log(response);
@@ -37,6 +37,33 @@ async function atualizarSenhaService(novaSenha, sessionId) {
         novaSenha, sessionId
     }
     const response = await api.patch("/user/atualizarSenha", body)
+    console.log(response);
+    return response
+}
+
+async function cadastrarMaquinaService(macAddress, numSerie, tipoModelo, sessionFK_HOSPITAL, sessionEstabelecimento) {
+    const body = {
+        macAddress, numSerie, tipoModelo, sessionFK_HOSPITAL, sessionEstabelecimento
+    }
+    const response = await api.post("/user/cadastrarMaquina", body)
+    console.log(response);
+    return response
+}
+
+async function cadastrarComponenteService(nomeComponente, tipo) {
+    const body = {
+        nomeComponente, tipo
+    }
+    const response = await api.post("/user/cadastrarComponente", body)
+    console.log(response);
+    return response
+}
+
+async function buscarIdEstabelecimentoService( sessionFK_HOSPITAL) {
+    const body = {
+        sessionFK_HOSPITAL
+    }
+    const response = await api.post("/user/buscarIdEstabelecimento", body)
     console.log(response);
     return response
 }
