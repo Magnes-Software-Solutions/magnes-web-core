@@ -46,13 +46,17 @@
 
                     <form class="row g-3">
                         <div class="col-12">
+                            <label class="form-label">macAddress</label>
+                            <input type="text" class="form-control" placeholder="Ex: X32JS" id="input_macAddress">
+                        </div>
+                        <div class="col-12">
                             <label class="form-label">Número de Série</label>
-                            <input type="text" class="form-control" placeholder="Ex: X32JS" id="input_nomeComponente">
+                            <input type="text" class="form-control" placeholder="Ex: X32JS" id="input_numSerie">
                         </div>
 
                         <div class="row g-3">
                             <label class="form-label">Tipo/Modelo</label>
-                            <input type="text" class="form-control" placeholder="Ex: Modelo" id="input_nomeComponente">
+                            <input type="text" class="form-control" placeholder="Ex: Modelo" id="input_tipoModelo">
                         </div>
 
                     </form>
@@ -94,10 +98,10 @@
                             <label class="form-label">Tipo</label>
                             <select class="form-select" id="select_tipo">
                                 <option value="" disabled selected>Selecione o tipo</option>
-                                <option value="CPU">Processador (CPU)</option>
-                                <option value="RAM">Memória RAM</option>
-                                <option value="Disco">Armazenamento (Disco)</option>
-                                <option value="GPU">Placa de Vídeo (GPU)</option>
+                                <option value="Fan">Fan</option>
+                                <option value="Placa_Mãe">Placa Mãe</option>
+                                <option value="Bus">Bus</option>
+                                <option value="Psu">Psu</option>
                             </select>
                         </div>
 
@@ -109,8 +113,8 @@
                         </div>
 
                         <div class="col-12 mt-4">
-                            <button type="button" class="botao-magnes" onclick="cadastrarComponente()">
-                                Cadastrar Componente
+                            <button type="button" class="botao-magnes" onclick="cadastrarMaquina();">
+                                Cadastrar
                             </button>
                         </div>
 
@@ -120,3 +124,67 @@
 </body>
 
 </html>
+<script src="../bootstrap-5.3.8-dist/js/bootstrap.js"></script>
+<script src="../services/api.js"></script>
+<script src="../services/userService.js"></script>
+<script>
+
+async function buscarIdEstabelecimento() {
+    const resposta = await buscarIdEstabelecimentoService(sessionStorage.FK_HOSPITAL)
+    if (resposta.ok) {
+            const json = await resposta.json();
+            console.log("ID do Estabelecimento: " + json[0].idEstabelecimento);
+            sessionStorage.ID_ESTABELECIMENTO = json[0].idEstabelecimento;
+        
+    } else {
+        alert('Erro ao buscar ID do estabelecimento: ' + resposta.mensagem);
+        return null;
+    }
+}
+
+async function cadastrarMaquina() {
+
+        await buscarIdEstabelecimento();
+
+        const numeroSerie = input_numSerie.value;
+        const tipoModelo = input_tipoModelo.value;
+        const macAddress = input_macAddress.value;
+   
+
+    if (!numeroSerie || !tipoModelo || !macAddress) {
+        alert('Por favor, preencha todos os campos obrigatórios.');
+        return;
+    }
+
+    const resposta = await cadastrarMaquinaService(macAddress, numeroSerie, tipoModelo, sessionStorage.FK_HOSPITAL, sessionStorage.ID_ESTABELECIMENTO)
+    if (resposta.ok) {
+        alert('Máquina cadastrada com sucesso!');
+        // Redirecionar ou atualizar a página conforme necessário
+    } else {
+        alert('Erro ao cadastrar máquina: ' + resposta.mensagem);
+    }
+
+}
+
+async function cadastrarComponente() {
+    const nomeComponente = input_nomeComponente.value;
+    const tipo = select_tipo.value;
+
+    if (!nomeComponente || !tipo) {
+        alert('Por favor, preencha todos os campos obrigatórios.');
+        return;
+    }
+
+    const resposta = await cadastrarComponenteService(nomeComponente, tipo)
+    if (resposta.ok) {
+        alert('Componente cadastrado com sucesso!');
+        // Redirecionar ou atualizar a página conforme necessário
+    } else {
+        alert('Erro ao cadastrar componente: ' + resposta.mensagem);
+    }
+}
+
+
+
+
+</script>

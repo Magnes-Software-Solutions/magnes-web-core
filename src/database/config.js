@@ -20,6 +20,8 @@ function executar(instrucao) {
                 reject(erro);
             }
             console.log(resultados);
+            console.log("USER:", process.env.DB_USER);
+            console.log("PASSWORD:", process.env.DB_PASSWORD);
             resolve(resultados);
         });
         conexao.on('error', function (erro) {
