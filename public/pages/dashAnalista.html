@@ -172,10 +172,10 @@
                                                     <img src="../assets/imgs/cpu.svg" alt="">
                                                     <h9 >CPU</p>
                                                 </div>
-                                                <p id="cpuPorc">25%</p>
+                                                <p id="cpuPorc">29%</p>
                                             </div>
-                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                                                <div id="progressCpu" class="progress-bar" style="width: 25%"></div>
+                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuemin="0" aria-valuemax="100">
+                                                <div id="progressCpu" class="progress-bar" style="width: 29%"></div>
                                             </div>
                                         </div>
                                         <div class="componentes compoenenteAzul">
@@ -184,10 +184,10 @@
                                                     <img src="../assets/imgs/memory.svg" alt="">
                                                     <h9 >RAM</p>
                                                 </div>
-                                                <p>38%</p>
+                                                <p>79%</p>
                                             </div>
-                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="38" aria-valuemin="0" aria-valuemax="100">
-                                                <div class="progress-bar" style="width: 38%"></div>
+                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar" style="width: 79%"></div>
                                             </div>
                                         </div>
                                         <div class="componentes compoenenteAzul">
@@ -196,10 +196,10 @@
                                                     <img src="../assets/imgs/hard-disk.png" alt="">
                                                     <h9 >DISCO</p>
                                                 </div>
-                                                <p>45%</p>
+                                                <p>37%</p>
                                             </div>
-                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">
-                                                <div class="progress-bar" style="width: 45%"></div>
+                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar" style="width: 37%"></div>
                                             </div>
                                         </div>
                                         <hr>
@@ -351,6 +351,8 @@
 </html>
 <script src="../bootstrap-5.3.8-dist/js/bootstrap.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.4.0"></script>
 <script>
     new Chart(graf1Cpu, {
         type: 'line',
@@ -384,14 +386,39 @@
                 annotation: {
                     annotations: {
                         line1: {
-                        type: 'line',
-                        yMin: 60,
-                        yMax: 60,
-                        borderColor: 'rgb(255, 99, 132)',
-                        borderWidth: 2,
-                        }
+                            type: 'line',
+                            yMin: 85,
+                            yMax: 85,
+                            borderColor: '#ff3366',
+                            borderWidth: 2,
+                            label: {
+                                content: 'Crítico > 85%',
+                                enabled: true,
+                                position: 'start',
+                                backgroundColor: '#1a3555',
+                                color: 'rgba(0, 212, 249, 1)',
+                                borderWidth: 0.3,
+                                borderColor: 'rgba(0, 212, 249, 1)'
+                            }
+                        },
+                        line2: {
+                            type: 'line',
+                            yMin: 75,
+                            yMax: 75,
+                            borderColor: '#ffd500',
+                            borderWidth: 2,
+                            label: {
+                                content: 'Em alerta > 75%',
+                                enabled: true,
+                                position: 'left',
+                                backgroundColor: '#1a3555',
+                                color: 'rgba(0, 212, 249, 1)',
+                                borderWidth: 0.3,
+                                borderColor: 'rgba(0, 212, 249, 1)'
+                            }
+                        },
                     }
-                },       
+                },
                 legend: {
                     display: false
                 },
