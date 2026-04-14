@@ -387,12 +387,15 @@
                     annotations: {
                         line1: {
                             type: 'line',
-                            yMin: 85,
-                            yMax: 85,
-                            borderColor: '#ff3366',
+                            yMin: 80,
+                            yMax: 80,
+                            borderColor: 'rgba(0, 212, 249, 1)',
                             borderWidth: 2,
                             label: {
-                                content: 'Crítico > 85%',
+                                content: 'Em uso > 80%',
+                                font: {
+                                    size: 14
+                                },
                                 enabled: true,
                                 position: 'start',
                                 backgroundColor: '#1a3555',
@@ -400,23 +403,7 @@
                                 borderWidth: 0.3,
                                 borderColor: 'rgba(0, 212, 249, 1)'
                             }
-                        },
-                        line2: {
-                            type: 'line',
-                            yMin: 75,
-                            yMax: 75,
-                            borderColor: '#ffd500',
-                            borderWidth: 2,
-                            label: {
-                                content: 'Em alerta > 75%',
-                                enabled: true,
-                                position: 'left',
-                                backgroundColor: '#1a3555',
-                                color: 'rgba(0, 212, 249, 1)',
-                                borderWidth: 0.3,
-                                borderColor: 'rgba(0, 212, 249, 1)'
-                            }
-                        },
+                        }
                     }
                 },
                 legend: {
@@ -506,7 +493,48 @@
                 mode: 'index',
                 intersect: false
             },
-            plugins: {
+            plugins: {annotation: {
+                    annotations: {
+                        line1: {
+                            type: 'line',
+                            yMin: 70,
+                            yMax: 70,
+                            borderColor: '#ff3366',
+                            borderWidth: 2,
+                            label: {
+                                content: 'Crítico > 70%',
+                                font: {
+                                    size: 10
+                                },
+                                enabled: true,
+                                position: 'start',
+                                backgroundColor: '#1a3555',
+                                color: 'rgba(0, 212, 249, 1)',
+                                borderWidth: 0.3,
+                                borderColor: 'rgba(0, 212, 249, 1)'
+                            }
+                        },
+                        line2: {
+                            type: 'line',
+                            yMin: 40,
+                            yMax: 40,
+                            borderColor: '#ffd500',
+                            borderWidth: 2,
+                            label: {
+                                content: 'Alerta > 40%',
+                                font: {
+                                    size: 10
+                                },
+                                enabled: true,
+                                position: 'start',
+                                backgroundColor: '#1a3555',
+                                color: 'rgba(0, 212, 249, 1)',
+                                borderWidth: 0.3,
+                                borderColor: 'rgba(0, 212, 249, 1)'
+                            }
+                        },
+                    }
+                },
                 legend: {
                     display: false
                 },
