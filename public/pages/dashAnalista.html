@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página inicial</title>
     <link rel="stylesheet" href="../bootstrap-5.3.8-dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="shortcut icon" href="../assets/imgs/Logo.png" type="image/x-icon" />
     <link rel="stylesheet" href="../css/dashAnalista.css">
     <link rel="stylesheet" href="../css/headerDash.css">
@@ -42,10 +43,10 @@
                             </ul>
                             </form>
                         </div>
-                        <div class="offcanvas-header perfil">
+                        <div class="offcanvas-header perfil" onclick="usuario()">
                             <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Simbolo de perfil">
                             <div class="textosPerfil">
-                                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">(nome do banco)</h5>
+                                <h5 class="offcanvas-title" id="spanNome">(nome do banco)</h5>
                                 <p>(cargo do banco)</p>
                             </div>
                             <img class="perfilConfig" src="../assets/imgs/gear.svg" alt="Simbolo de configurações">
@@ -172,10 +173,10 @@
                                                     <img src="../assets/imgs/cpu.svg" alt="">
                                                     <h9 >CPU</p>
                                                 </div>
-                                                <p id="cpuPorc">25%</p>
+                                                <p id="cpuPorc">29%</p>
                                             </div>
-                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                                                <div id="progressCpu" class="progress-bar" style="width: 25%"></div>
+                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuemin="0" aria-valuemax="100">
+                                                <div id="progressCpu" class="progress-bar" style="width: 29%"></div>
                                             </div>
                                         </div>
                                         <div class="componentes compoenenteAzul">
@@ -184,10 +185,10 @@
                                                     <img src="../assets/imgs/memory.svg" alt="">
                                                     <h9 >RAM</p>
                                                 </div>
-                                                <p>38%</p>
+                                                <p>79%</p>
                                             </div>
-                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="38" aria-valuemin="0" aria-valuemax="100">
-                                                <div class="progress-bar" style="width: 38%"></div>
+                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar" style="width: 79%"></div>
                                             </div>
                                         </div>
                                         <div class="componentes compoenenteAzul">
@@ -196,14 +197,14 @@
                                                     <img src="../assets/imgs/hard-disk.png" alt="">
                                                     <h9 >DISCO</p>
                                                 </div>
-                                                <p>45%</p>
+                                                <p>37%</p>
                                             </div>
-                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">
-                                                <div class="progress-bar" style="width: 45%"></div>
+                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar" style="width: 37%"></div>
                                             </div>
                                         </div>
                                         <hr>
-                                        <p>Clique no componente para ver mais detalhes</p>
+                                        <p>Clique para ver mais detalhes</p>
                                     </div>
                                 </div>
                             </div>
@@ -269,7 +270,7 @@
                                             </div>
                                         </div>
                                         <hr>
-                                        <p>Clique no componente para ver mais detalhes</p>
+                                        <p>Clique para ver mais detalhes</p>
                                     </div>
                                 </div>
                             </div>
@@ -335,7 +336,7 @@
                                             </div>
                                         </div>
                                         <hr>
-                                        <p>Clique no componente para ver mais detalhes</p>
+                                        <p>Clique para ver mais detalhes</p>
                                     </div>
                                 </div>
                             </div>
@@ -346,277 +347,352 @@
             </div>
         </div>
     </div>
+
+     <button class="chat-button" id="chatButton">
+        <i class="bi bi-chat-dots fs-4"></i>
+    </button>
+
 </body>
 
 </html>
 <script src="../bootstrap-5.3.8-dist/js/bootstrap.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.4.0"></script>
 <script>
-// <<<<<<< dashAnalista
-//     new Chart(graf1Cpu, {
-//         type: 'line',
-//         data: {
-//             labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
-//             datasets: [{
-//                 label: 'Horário',
-//                 data: [24, 29, 51, 67, 41, 37, 24, 27, 31, 29],
-//                 borderColor: '#8B5CF6',
-//                 fill: true,
-//                 backgroundColor: 'rgba(139, 92, 246, 0.4)',
-//                 borderWidth: 3,
-//                 tension: 0.2,
-//                 pointRadius: 0,
-//                 pointHoverRadius: 6,
-//                 pointHoverBorderWidth: 2,
-//                 pointHoverBorderColor: '#ffffff',
-//                 pointHoverBackgroundColor: '#ffffff'
-//             }]
-//         },
-//         options: {
-//             interaction: {
-//                 mode: 'index',
-//                 intersect: false
-//             },
-//             hover: {
-//                 mode: 'index',
-//                 intersect: false
-//             },
-//             plugins: {
-//                 legend: {
-//                     display: false
-//                 },
-//                 tooltip: {
-//                     enabled: true,
-//                     backgroundColor: '#1a3555',
-//                     titleColor: '#7a92b0',
-//                     bodyColor: 'rgba(0, 212, 249, 1)',
-//                     borderColor: '#2b5876',
-//                     borderWidth: 1,
-//                     displayColors: false
-//                 },
-//                 title: {
-//                     display: true,
-//                     color: '#ffffff'
-//                 }
-//             },
-//             scales: {
-//                 x: {
-//                     ticks: {
-//                         color: '#7a92b0'
-//                     },
-//                     grid: {
-//                         color: '#1f3652'
-//                     },
-//                     title: {
-//                         display: true,
-//                         text: 'Horário',
-//                         color: '#7a92b0',
-//                         font: {
-//                             size: 14
-//                         }
-//                     }
-//                 },
-//                 y: {
-//                     ticks: {
-//                         color: '#7a92b0'
-//                     },
-//                     grid: {
-//                         color: '#1f3652',
-//                         borderDash: [5, 5]
-//                     },
-//                     min: 0,
-//                     max: 100,
-//                     title: {
-//                         display: true,
-//                         text: 'CPU (%)',
-//                         color: '#7a92b0',
-//                         font: {
-//                             size: 14
-//                         }
-//                     }
-//                 }
-//             }
-//         }
-//     });
+
+    const chatButton = document.getElementById('chatButton');
+
+    new Chart(graf1Cpu, {
+        type: 'line',
+        data: {
+            labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
+            datasets: [{
+                label: 'Horário',
+                data: [24, 29, 51, 67, 41, 37, 24, 27, 31, 29],
+                borderColor: '#8B5CF6',
+                fill: true,
+                backgroundColor: 'rgba(139, 92, 246, 0.4)',
+                borderWidth: 3,
+                tension: 0.2,
+                pointRadius: 0,
+                pointHoverRadius: 6,
+                pointHoverBorderWidth: 2,
+                pointHoverBorderColor: '#ffffff',
+                pointHoverBackgroundColor: '#ffffff'
+            }]
+        },
+        options: {
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            hover: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                annotation: {
+                    annotations: {
+                        line1: {
+                            type: 'line',
+                            yMin: 80,
+                            yMax: 80,
+                            borderColor: 'rgba(0, 212, 249, 1)',
+                            borderWidth: 2,
+                            label: {
+                                content: 'Em uso > 80%',
+                                font: {
+                                    size: 14
+                                },
+                                enabled: true,
+                                position: 'start',
+                                backgroundColor: '#1a3555',
+                                color: 'rgba(0, 212, 249, 1)',
+                                borderWidth: 0.3,
+                                borderColor: 'rgba(0, 212, 249, 1)'
+                            }
+                        }
+                    }
+                },
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    enabled: true,
+                    backgroundColor: '#1a3555',
+                    titleColor: '#7a92b0',
+                    bodyColor: 'rgba(0, 212, 249, 1)',
+                    borderColor: '#2b5876',
+                    borderWidth: 1,
+                    displayColors: false
+                },
+                title: {
+                    display: true,
+                    color: '#ffffff'
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#7a92b0'
+                    },
+                    grid: {
+                        color: '#1f3652'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Horário',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
+                        }
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#7a92b0'
+                    },
+                    grid: {
+                        color: '#1f3652',
+                        borderDash: [5, 5]
+                    },
+                    min: 0,
+                    max: 100,
+                    title: {
+                        display: true,
+                        text: 'CPU (%)',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            }
+        }
+    });
     
 
 
-//     new Chart(graf1Ram, {
-//         type: 'line',
-//         data: {
-//             labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
-//             datasets: [{
-//                 label: 'Horário',
-//                 data: [24, 35, 67, 69, 57, 46, 32, 43, 53, 76],
-//                 borderColor: 'rgba(0, 212, 249, 1)',
-//                 fill: true,
-//                 backgroundColor: 'rgba(0, 212, 249, 0.4)',
-//                 borderWidth: 3,
-//                 tension: 0.2,
-//                 pointRadius: 0,
-//                 pointHoverRadius: 6,
-//                 pointHoverBorderWidth: 2,
-//                 pointHoverBorderColor: '#ffffff',
-//                 pointHoverBackgroundColor: '#ffffff'
-//             }]
-//         },
-//         options: {
-//             interaction: {
-//                 mode: 'index',
-//                 intersect: false
-//             },
-//             hover: {
-//                 mode: 'index',
-//                 intersect: false
-//             },
-//             plugins: {
-//                 legend: {
-//                     display: false
-//                 },
-//                 tooltip: {
-//                     enabled: true,
-//                     backgroundColor: '#1a3555',
-//                     titleColor: '#7a92b0',
-//                     bodyColor: 'rgba(0, 212, 249, 1)',
-//                     borderColor: '#2b5876',
-//                     borderWidth: 1,
-//                     displayColors: false
-//                 }
-//             },
-//             scales: {
-//                 x: {
-//                     ticks: {
-//                         color: '#7a92b0'
-//                     },
-//                     grid: {
-//                         color: '#1f3652'
-//                     },
-//                     title: {
-//                         display: true,
-//                         text: 'Horário',
-//                         color: '#7a92b0',
-//                         font: {
-//                             size: 14
-//                         }
-//                     }
-//                 },
-//                 y: {
-//                     ticks: {
-//                         color: '#7a92b0'
-//                     },
-//                     grid: {
-//                         color: '#1f3652',
-//                         borderDash: [5, 5]
-//                     },
-//                     min: 0,
-//                     max: 100,
-//                     title: {
-//                         display: true,
-//                         text: 'RAM (%)',
-//                         color: '#7a92b0',
-//                         font: {
-//                             size: 14
-//                         }
-//                     }
-//                 }
-//             }
-//         }
-//     });
+    new Chart(graf1Ram, {
+        type: 'line',
+        data: {
+            labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
+            datasets: [{
+                label: 'Horário',
+                data: [24, 35, 67, 69, 57, 46, 32, 43, 53, 76],
+                borderColor: 'rgba(0, 212, 249, 1)',
+                fill: true,
+                backgroundColor: 'rgba(0, 212, 249, 0.4)',
+                borderWidth: 3,
+                tension: 0.2,
+                pointRadius: 0,
+                pointHoverRadius: 6,
+                pointHoverBorderWidth: 2,
+                pointHoverBorderColor: '#ffffff',
+                pointHoverBackgroundColor: '#ffffff'
+            }]
+        },
+        options: {
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            hover: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {annotation: {
+                    annotations: {
+                        line1: {
+                            type: 'line',
+                            yMin: 70,
+                            yMax: 70,
+                            borderColor: '#ff3366',
+                            borderWidth: 2,
+                            label: {
+                                content: 'Crítico > 70%',
+                                font: {
+                                    size: 10
+                                },
+                                enabled: true,
+                                position: 'start',
+                                backgroundColor: '#1a3555',
+                                color: 'rgba(0, 212, 249, 1)',
+                                borderWidth: 0.3,
+                                borderColor: 'rgba(0, 212, 249, 1)'
+                            }
+                        },
+                        line2: {
+                            type: 'line',
+                            yMin: 40,
+                            yMax: 40,
+                            borderColor: '#ffd500',
+                            borderWidth: 2,
+                            label: {
+                                content: 'Alerta > 40%',
+                                font: {
+                                    size: 10
+                                },
+                                enabled: true,
+                                position: 'start',
+                                backgroundColor: '#1a3555',
+                                color: 'rgba(0, 212, 249, 1)',
+                                borderWidth: 0.3,
+                                borderColor: 'rgba(0, 212, 249, 1)'
+                            }
+                        },
+                    }
+                },
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    enabled: true,
+                    backgroundColor: '#1a3555',
+                    titleColor: '#7a92b0',
+                    bodyColor: 'rgba(0, 212, 249, 1)',
+                    borderColor: '#2b5876',
+                    borderWidth: 1,
+                    displayColors: false
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#7a92b0'
+                    },
+                    grid: {
+                        color: '#1f3652'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Horário',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
+                        }
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#7a92b0'
+                    },
+                    grid: {
+                        color: '#1f3652',
+                        borderDash: [5, 5]
+                    },
+                    min: 0,
+                    max: 100,
+                    title: {
+                        display: true,
+                        text: 'RAM (%)',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            }
+        }
+    });
 
 
-//     new Chart(graf1Disco, {
-//         type: 'line',
-//         data: {
-//             labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
-//             datasets: [{
-//                 label: 'Horário',
-//                 data: [12, 24, 18, 21, 17, 32, 42, 48, 42, 37, 29, 30, 35],
-//                 borderColor: 'rgba(0, 212, 249, 1)',
-//                 fill: true,
-//                 backgroundColor: 'rgba(0, 212, 249, 0.4)',
-//                 borderWidth: 3,
-//                 tension: 0.2,
-//                 pointRadius: 0,
-//                 pointHoverRadius: 6,
-//                 pointHoverBorderWidth: 2,
-//                 pointHoverBorderColor: '#ffffff',
-//                 pointHoverBackgroundColor: '#ffffff'
-//             }]
-//         },
-//         options: {
-//             interaction: {
-//                 mode: 'index',
-//                 intersect: false
-//             },
-//             hover: {
-//                 mode: 'index',
-//                 intersect: false
-//             },
-//             plugins: {
-//                 legend: {
-//                     display: false
-//                 },
-//                 tooltip: {
-//                     enabled: true,
-//                     backgroundColor: '#1a3555',
-//                     titleColor: '#7a92b0',
-//                     bodyColor: 'rgba(0, 212, 249, 1)',
-//                     borderColor: '#2b5876',
-//                     borderWidth: 1,
-//                     displayColors: false
-//                 }
-//             },
-//             scales: {
-//                 x: {
-//                     ticks: {
-//                         color: '#7a92b0'
-//                     },
-//                     grid: {
-//                         color: '#1f3652'
-//                     },
-//                     title: {
-//                         display: true,
-//                         text: 'Horário',
-//                         color: '#7a92b0',
-//                         font: {
-//                             size: 14
-//                         }
-//                     }
-//                 },
-//                 y: {
-//                     ticks: {
-//                         color: '#7a92b0'
-//                     },
-//                     grid: {
-//                         color: '#1f3652',
-//                         borderDash: [5, 5]
-//                     },
-//                     min: 0,
-//                     max: 100,
-//                     title: {
-//                         display: true,
-//                         text: 'Disco (%)',
-//                         color: '#7a92b0',
-//                         font: {
-//                             size: 14
-//                         }
-//                     }
-//                 }
-//             }
-//         }
-//     });
+    new Chart(graf1Disco, {
+        type: 'line',
+        data: {
+            labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
+            datasets: [{
+                label: 'Horário',
+                data: [12, 24, 18, 21, 17, 32, 42, 48, 42, 37, 29, 30, 35],
+                borderColor: 'rgba(0, 212, 249, 1)',
+                fill: true,
+                backgroundColor: 'rgba(0, 212, 249, 0.4)',
+                borderWidth: 3,
+                tension: 0.2,
+                pointRadius: 0,
+                pointHoverRadius: 6,
+                pointHoverBorderWidth: 2,
+                pointHoverBorderColor: '#ffffff',
+                pointHoverBackgroundColor: '#ffffff'
+            }]
+        },
+        options: {
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            hover: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    enabled: true,
+                    backgroundColor: '#1a3555',
+                    titleColor: '#7a92b0',
+                    bodyColor: 'rgba(0, 212, 249, 1)',
+                    borderColor: '#2b5876',
+                    borderWidth: 1,
+                    displayColors: false
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#7a92b0'
+                    },
+                    grid: {
+                        color: '#1f3652'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Horário',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
+                        }
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#7a92b0'
+                    },
+                    grid: {
+                        color: '#1f3652',
+                        borderDash: [5, 5]
+                    },
+                    min: 0,
+                    max: 100,
+                    title: {
+                        display: true,
+                        text: 'Disco (%)',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            }
+        }
+    });
     
 
 
+    function alertas() {
+        window.location.href = "telaAlertas.html";
+    }
 
 
-// =======
-//      function alertas() {
-//             window.location.href = "telaAlertas.html";
-//         }
-//     var nomeUsuario = sessionStorage.NOME_USUARIO
-//     spanNome.innerHTML = nomeUsuario
-// >>>>>>> main
+    var nomeUsuario = sessionStorage.NOME_USUARIO
+    spanNome.innerHTML = nomeUsuario
+
+    function usuario() {
+        window.location.href = "dashusuario.html"
+    }
 
 
 
