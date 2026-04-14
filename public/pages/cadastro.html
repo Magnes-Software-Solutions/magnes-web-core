@@ -223,6 +223,23 @@
         emailEmpresaVar = inputEmailEmpresa.value;
         tel_corporativoVar = inputTelefoneCorporativo.value;
 
+        if(nomeFabricanteVar.trim() === "" ){
+            alert("È necessario um nome para cadastrar!.");
+            return false;
+        }
+        else if(cnpjVar.trim() === ""){
+            alert("È necessario um CNPJ para poder se cadastrar!.");
+            return false;
+        }
+        else if(emailEmpresaVar.trim() === ""){
+            alert("È necessario um email para poder se cadastrar!.");
+            return false;
+        }
+        else if(tel_corporativoVar.trim() === ""){
+            alert("È necessario um telefone corporativo para poder se cadastrar!.");
+            return false;
+        }
+
         const resposta = await cadastrarEmpresaService(nomeFabricanteVar, cnpjVar, emailEmpresaVar, tel_corporativoVar)
         console.log("resposta: ", resposta);
 
@@ -293,7 +310,7 @@
             return false;
         }
 
-        const resposta = await cadastrarFuncionarioService(nomeVar, emailVar, cpfVar, telefoneVar, senhaVar, sessionStorage.FK_FABRICANTE, sessionStorage.ID_USUARIO)
+        const resposta = await cadastrarFuncionarioService(nomeVar, emailVar, cpfVar, telefoneVar, senhaVar, sessionStorage.FK_HOSPITAL, sessionStorage.ID_USUARIO)
         console.log("resposta: ", resposta);
 
         if (resposta.ok) {

@@ -1,5 +1,9 @@
-require("dotenv").config({path: "./.env.example"});
-console.log("env teste: ", process.env.DB_USER);
+console.log("ANTES DO DOTENV");
+
+require('dotenv').config({ path: __dirname + '/.env.example' });
+
+console.log("DEPOIS DO DOTENV");
+console.log("ENV TESTE:", process.env.DB_USER);
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
