@@ -20,6 +20,7 @@
     background-color: #0d2137 !important;
     border-bottom: 1px solid #00d4f9 !important;
     padding: 10px 0px;
+    position: relative;
 }
 
 .navBarToggler {

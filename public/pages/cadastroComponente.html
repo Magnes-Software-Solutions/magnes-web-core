@@ -4,29 +4,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Magnes | Cadastro de Componentes</title>
+    <title>Magnes | Cadastro das Máquinas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/cadastroComponente.css" />
+    <link rel="stylesheet" href="../css/headerDash.css">
 </head>
 
 <body class="fundo-principal">
+    <nav class="navbar bg-body-tertiary fixed-top navBarTop">
+        <div class="container-fluid">
+            <img src="../assets/imgs/Logo.png" alt="" width="5%" height="85%">
+            <div class="titulo">
+                <p class="tituloLogo">MAGNES</p>
+                <p class="textoLogo">MRI MONITOR</p>
+            </div>
+            <button class="navbar-toggler navBarToggler" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon navBarTogglerIcon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end offCanvas" tabindex="-1" id="offcanvasNavbar"
+                aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title offCanvasTitle" id="offcanvasNavbarLabel">MAGNES</h5>
+                    <button type="button" class="btn-close offCanvasButton" data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body offcanvasBody">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 navBarNav">
+                        <li class="nav-item navLi">
+                            <img src="../assets/imgs/dashboard.svg" alt="Simbolo de Dashboard">
+                            <a class="nav-link" href="#">Dashboard</a>
+                        </li>
+                        <li class="nav-item navLi">
+                            <img src="../assets/imgs/alert.svg" alt="Simbolo de Alerta">
+                            <a class="nav-link" href="telaAlertas.html">Alerta</a>
+                        </li>
+                        <li class="nav-item navLi">
+                            <img src="../assets/imgs/bar.svg" alt="Simbolo de Relatório">
+                            <a class="nav-link" href="#">Relatório</a>
+                        </li>
+                        <li class="nav-item navLi">
+                            <img src="../assets/imgs/person.svg" alt="Simbolo de Cadastrar Analista">
+                            <a class="nav-link" href="./cadastro.html">Cadastrar Analista</a>
+                        </li>
+                        <li class="nav-item navLi">
+                            <img src="../assets/imgs/build.svg" alt="Simbolo de Cadastrar Máquina">
+                            <a class="nav-link" href="./cadastroComponente.html">Cadastrar Máquina</a>
+                        </li>
+                    </ul>
+                    </form>
+                </div>
+                <div class="offcanvas-header perfil">
+                    <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Simbolo de perfil">
+                    <div class="textosPerfil">
+                        <h5 class="offcanvas-title" id="nomeUsuario1">(nome do banco)</h5>
+                        <p id="cargoUsuario1">(cargo do banco)</p>
+                    </div>
+                    <img class="perfilConfig" src="../assets/imgs/gear.svg" alt="Simbolo de configurações">
+                </div>
+            </div>
+        </div>
+    </nav>
+
 
     <main class="container-fluid corpo">
         <header class="cabecalho-pagina">
-            <h1>Cadastro de Componentes</h1>
+            <h1>Cadastro das Máquinas</h1>
             <p>Adicione novos hardwares para monitoramento</p>
         </header>
 
         <section class="row g-4">
-            </div>
-            </div>
             <div class="col-lg-4">
-                <div class="cartao-escuro cartao-info text-center">
+                <div class="cartao-info text-center cartao-escuro">
                     <div class="circulo-icone">
                         <img src="../assets/imgs/build.svg" alt="Ícone de Construção">
                     </div>
                     <h3>Nova Máquina</h3>
-                    <p>Certifique-se de alocar corretamente o componente que quer monitorar da sua máquina.</p>
+                    <p>Certifique-se de alocar corretamente a máquina que deseja monitorar.</p>
 
                     <div class="alerta-seguranca">
                         <span>DICA DE SEGURANÇA</span>
@@ -37,152 +92,234 @@
 
             <div class="col-lg-8">
                 <div class="cartao-escuro cartao-formulario">
-                    <div class="cabecalho-formulario">
-                        <div>
+                    <form id="form_cadastro" class="row g-3">
+
+                        <div class="cabecalho-formulario">
                             <h2>Dados da Máquina</h2>
                             <p>Preencha as especificações técnicas</p>
                         </div>
-                    </div>
 
-                    <form class="row g-3">
-                        <div class="col-12">
-                            <label class="form-label">macAddress</label>
+                        <div class="col-md-6">
+                            <label class="form-label">Mac Address</label>
                             <input type="text" class="form-control" placeholder="Ex: X32JS" id="input_macAddress">
                         </div>
-                        <div class="col-12">
+
+                        <div class="col-md-6">
                             <label class="form-label">Número de Série</label>
                             <input type="text" class="form-control" placeholder="Ex: X32JS" id="input_numSerie">
                         </div>
 
-                        <div class="row g-3">
+                        <div class="col-12">
                             <label class="form-label">Tipo/Modelo</label>
                             <input type="text" class="form-control" placeholder="Ex: Modelo" id="input_tipoModelo">
                         </div>
 
-                    </form>
-                </div>
-            </div>
-
-            <div class="col-lg-4">
-                <div class="cartao-escuro cartao-info text-center">
-                    <div class="circulo-icone">
-                        <img src="../assets/imgs/build.svg" alt="Ícone de Construção">
-                    </div>
-                    <h3>Novo Componente</h3>
-                    <p>Certifique-se de alocar corretamente o componente que quer monitorar da sua máquina.</p>
-
-                    <div class="alerta-seguranca">
-                        <span>DICA DE SEGURANÇA</span>
-                        <p>Leia atentamente os campos exigidos e confira se os valores são coerentes.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-8">
-                <div class="cartao-escuro cartao-formulario">
-                    <div class="cabecalho-formulario">
-                        <div>
-                            <h2>Dados do Hardware</h2>
-                            <p>Preencha as especificações técnicas</p>
-                        </div>
-                    </div>
-
-                    <form class="row g-3">
-                        <div class="col-12">
-                            <label class="form-label">Nome do Componente</label>
-                            <input type="text" class="form-control" placeholder="Ex: Intel Xeon Silver 4214R"
-                                id="input_nomeComponente">
+                        <div class="cabecalho-formulario mt-4">
+                            <h2>Dados do Estabelecimento</h2>
+                            <p>Vincule a máquina a uma unidade</p>
                         </div>
 
-                        <div class="col-12">
+                        <div class="col-md-8">
+                            <label class="form-label">Razão Social</label>
+                            <input type="text" class="form-control" placeholder="Nome da Empresa"
+                                id="input_razaoSocialEstabelecimento">
+                        </div>
+
+                        <div class="col-md-4">
                             <label class="form-label">Tipo</label>
-                            <select class="form-select" id="select_tipo">
-                                <option value="" disabled selected>Selecione o tipo</option>
-                                <option value="Fan">Fan</option>
-                                <option value="Placa_Mãe">Placa Mãe</option>
-                                <option value="Bus">Bus</option>
-                                <option value="Psu">Psu</option>
-                            </select>
+                            <input type="text" class="form-control" placeholder="Ex: Matriz/Filial"
+                                id="input_tipoEstabelecimento">
                         </div>
 
-                        <div class="col-12">
-                            <label class="form-label">Vincular à Máquina</label>
-                            <select class="form-select" id="select_maquina">
-                                <option value="" disabled selected>Selecione a máquina de destino</option>
-                            </select>
+                        <div class="col-md-6">
+                            <label class="form-label">CEP</label>
+                            <input type="text" class="form-control" placeholder="00000-000" id="input_cep">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Número</label>
+                            <input type="text" class="form-control" placeholder="Nº" id="input_numeroEstabelecimento">
                         </div>
 
                         <div class="col-12 mt-4">
-                            <button type="button" class="botao-magnes" onclick="cadastrarMaquina();">
-                                Cadastrar
-                            </button>
+                            <button type="button" class="botao-magnes" onclick="cadastrarComponente()">
+                                Finalizar Cadastro
                         </div>
-
+                    </form>
+                </div>
+            </div>
         </section>
     </main>
 
+    <div class="modal fade" id="modalAdicional" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div id="etapa1">
+                    <div class="modal-header d-flex justify-content-center">
+                        <h5 class="modal-title">Cadastro Concluído!</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center" style="color: black;">
+                        <p>A máquina e o estabelecimento foram registrados.</p>
+                        <hr>
+                        <h5>Deseja cadastrar mais um componente adicional?</h5>
+                        <p>Isso permite alocar componentes além de CPU, RAM e Disco.</p>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button type="button" class="botao-magnes" onclick="proximaEtapa()">Sim, cadastrar
+                            adicional</button>
+                        <button type="button" class="botao-magnes" onclick="finalizarTudo()">Não, finalizar</button>
+                    </div>
+                </div>
+
+                <div id="etapa2" style="display: none;">
+                    <div class="modal-header d-flex justify-content-center">
+                        <h5 class="modal-title">Componentes Adicionais</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-center" style="color: black;">Selecione quais hardwares deseja monitorar nesta
+                            máquina:</p>
+                        <div class="list-group">
+                            <label class="list-group-item d-flex gap-2">
+                                <input class="form-check-input flex-shrink-0" type="checkbox" value="Rede"
+                                    id="check_rede">
+                                <span>
+                                    Placa de Rede
+                                    <small class="d-block text-body-secondary">Monitoramento de latência e
+                                        tráfego</small>
+                                </span>
+                            </label>
+                            <label class="list-group-item d-flex gap-2">
+                                <input class="form-check-input flex-shrink-0" type="checkbox" value="GPU"
+                                    id="check_gpu">
+                                <span>
+                                    Placa de Vídeo (GPU)
+                                    <small class="d-block text-body-secondary">Monitoramento de temperatura e uso de
+                                        VRAM</small>
+                                </span>
+                            </label>
+                            <label class="list-group-item d-flex gap-2">
+                                <input class="form-check-input flex-shrink-0" type="checkbox" value="USB"
+                                    id="check_usb">
+                                <span>
+                                    Dispositivos USB
+                                    <small class="d-block text-body-secondary">Monitoramento de conexões e
+                                        desconexões</small>
+                                </span>
+                            </label>
+                            <label class="list-group-item d-flex gap-2">
+                                <input class="form-check-input flex-shrink-0" type="checkbox" value="USB"
+                                    id="check_usb">
+                                <span>
+                                    Processos
+                                    <small class="d-block text-body-secondary">Monitoramento de processos
+                                        realizados</small>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button type="button" class="botao-magnes" onclick="salvarComponentes()">Salvar e
+                            Finalizar</button>
+                        <button type="button" class="botao-magnes" onclick="voltarEtapa()">Voltar</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
 <script src="../bootstrap-5.3.8-dist/js/bootstrap.js"></script>
 <script src="../services/api.js"></script>
 <script src="../services/userService.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+    var bootstrapModal;
 
-async function buscarIdEstabelecimento() {
-    const resposta = await buscarIdEstabelecimentoService(sessionStorage.FK_HOSPITAL)
-    if (resposta.ok) {
+    function cadastrarComponente() {
+        voltarEtapa();
+        bootstrapModal = new bootstrap.Modal(document.getElementById('modalAdicional'));
+        bootstrapModal.show();
+    }
+
+    function proximaEtapa() {   
+        document.getElementById('etapa1').style.display = 'none';
+        document.getElementById('etapa2').style.display = 'block';
+    }
+
+    function voltarEtapa() {
+        document.getElementById('etapa1').style.display = 'block';
+        document.getElementById('etapa2').style.display = 'none';
+    }
+
+    function salvarComponentes() {
+
+        alert("Componentes adicionados com sucesso!");
+
+        finalizarTudo();
+    }
+
+    function finalizarTudo() {
+        window.location.href = "dashAnalista.html";
+    }
+
+
+    async function buscarIdEstabelecimento() {
+        const resposta = await buscarIdEstabelecimentoService(sessionStorage.FK_HOSPITAL)
+        if (resposta.ok) {
             const json = await resposta.json();
             console.log("ID do Estabelecimento: " + json[0].idEstabelecimento);
             sessionStorage.ID_ESTABELECIMENTO = json[0].idEstabelecimento;
-        
-    } else {
-        alert('Erro ao buscar ID do estabelecimento: ' + resposta.mensagem);
-        return null;
-    }
-}
 
-async function cadastrarMaquina() {
+        } else {
+            alert('Erro ao buscar ID do estabelecimento: ' + resposta.mensagem);
+            return null;
+        }
+    }
+
+    async function cadastrarMaquina() {
 
         await buscarIdEstabelecimento();
 
         const numeroSerie = input_numSerie.value;
         const tipoModelo = input_tipoModelo.value;
         const macAddress = input_macAddress.value;
-   
 
-    if (!numeroSerie || !tipoModelo || !macAddress) {
-        alert('Por favor, preencha todos os campos obrigatórios.');
-        return;
+
+        if (!numeroSerie || !tipoModelo || !macAddress) {
+            alert('Por favor, preencha todos os campos obrigatórios.');
+            return;
+        }
+
+        const resposta = await cadastrarMaquinaService(macAddress, numeroSerie, tipoModelo, sessionStorage.FK_HOSPITAL, sessionStorage.ID_ESTABELECIMENTO)
+        if (resposta.ok) {
+            alert('Máquina cadastrada com sucesso!');
+        } else {
+            alert('Erro ao cadastrar máquina: ' + resposta.mensagem);
+        }
+
     }
 
-    const resposta = await cadastrarMaquinaService(macAddress, numeroSerie, tipoModelo, sessionStorage.FK_HOSPITAL, sessionStorage.ID_ESTABELECIMENTO)
-    if (resposta.ok) {
-        alert('Máquina cadastrada com sucesso!');
-        // Redirecionar ou atualizar a página conforme necessário
-    } else {
-        alert('Erro ao cadastrar máquina: ' + resposta.mensagem);
-    }
+    // async function cadastrarComponente() {
+    //     const nomeComponente = input_nomeComponente.value;
+    //     const tipo = select_tipo.value;
 
-}
+    //     if (!nomeComponente || !tipo) {
+    //         alert('Por favor, preencha todos os campos obrigatórios.');
+    //         return;
+    //     }
 
-async function cadastrarComponente() {
-    const nomeComponente = input_nomeComponente.value;
-    const tipo = select_tipo.value;
-
-    if (!nomeComponente || !tipo) {
-        alert('Por favor, preencha todos os campos obrigatórios.');
-        return;
-    }
-
-    const resposta = await cadastrarComponenteService(nomeComponente, tipo)
-    if (resposta.ok) {
-        alert('Componente cadastrado com sucesso!');
-        // Redirecionar ou atualizar a página conforme necessário
-    } else {
-        alert('Erro ao cadastrar componente: ' + resposta.mensagem);
-    }
-}
+    //     const resposta = await cadastrarComponenteService(nomeComponente, tipo)
+    //     if (resposta.ok) {
+    //         alert('Componente cadastrado com sucesso!');
+    //     } else {
+    //         alert('Erro ao cadastrar componente: ' + resposta.mensagem);
+    //     }
+    // }
 
 
 
