@@ -118,11 +118,11 @@
 
 
                 
-                <dialog id="dialog_graf" class="dialog-graf">
+                <dialog id="dialog_graf1" class="dialog-graf">
                     <div class="dialog-content">
                         <div class="dialogGraf-header">
-                            <h2>Dashboard MRI01</h2>
-                            <img type="button" src="../assets/imgs/x-lg.svg" alt="" onclick="document.getElementById('dialog_graf').close()">
+                            <h2>Dashboard MRI-01</h2>
+                            <img type="button" src="../assets/imgs/x-lg.svg" alt="" onclick="document.getElementById('dialog_graf1').close()">
                         </div>
                         <div class="grafico-principal">
                             <p>CPU X Horário</p>
@@ -144,7 +144,7 @@
                 <div class="cards">
                     <div class="divAuxiliar">
                         <div class="col">
-                            <div class="card cardMaquina" onclick="document.getElementById('dialog_graf').showModal()">
+                            <div class="card cardMaquina" onclick="document.getElementById('dialog_graf1').showModal()">
                                 <div class="card-body bodyMaquina">
                                     <div class="bodyMaquina-header">
                                         <div class="bodyMaquina-header-texto">
@@ -273,10 +273,32 @@
 
 
 
-
+                <dialog id="dialog_graf3" class="dialog-graf">
+                    <div class="dialog-content">
+                        <div class="dialogGraf-header">
+                            <h2>Dashboard MRI-03</h2>
+                            <img type="button" src="../assets/imgs/x-lg.svg" alt="" onclick="document.getElementById('dialog_graf3').close()">
+                        </div>
+                        <div class="grafico-principal">
+                            <p>CPU X Horário</p>
+                            <canvas id="graf3Cpu"></canvas>
+                        </div>
+                        <br><br><br>
+                        <div class="graficos-dois">
+                            <div class="grafico">
+                                <p>RAM X Horário</p>
+                                <canvas id="graf3Ram"></canvas>
+                            </div>
+                            <div class="grafico">
+                                <p>Disco X Horário</p>
+                                <canvas id="graf3Disco"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </dialog>
                     <div class="divAuxiliar">
                         <div class="col">
-                            <div class="card cardMaquina">
+                            <div class="card cardMaquina" onclick="document.getElementById('dialog_graf3').showModal()">
                                 <div class="card-body bodyMaquina">
                                     <div class="bodyMaquina-header">
                                         <div class="bodyMaquina-header-texto">
@@ -349,13 +371,14 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.4.0"></script>
 <script>
+    // Primeira MRI
     new Chart(graf1Cpu, {
         type: 'line',
         data: {
             labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
             datasets: [{
                 label: 'Horário',
-                data: [24, 29, 51, 67, 41, 37, 24, 27, 31, 29],
+                data: [24, 29, 51, 67, 41, 37, 24, 27, 31, 59],
                 borderColor: '#8B5CF6',
                 fill: true,
                 backgroundColor: 'rgba(139, 92, 246, 0.4)',
@@ -466,7 +489,7 @@
             labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
             datasets: [{
                 label: 'Horário',
-                data: [24, 35, 67, 69, 57, 46, 32, 43, 53, 76],
+                data: [24, 35, 17, 20, 35, 26, 19, 13, 26, 38],
                 borderColor: 'rgba(0, 212, 249, 1)',
                 fill: true,
                 backgroundColor: 'rgba(0, 212, 249, 0.4)',
@@ -590,7 +613,7 @@
             labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
             datasets: [{
                 label: 'Horário',
-                data: [12, 24, 18, 21, 17, 32, 42, 48, 42, 37, 29, 30, 35],
+                data: [12, 24, 18, 21, 17, 32, 38, 45, 39, 47],
                 borderColor: 'rgba(0, 212, 249, 1)',
                 fill: true,
                 backgroundColor: 'rgba(0, 212, 249, 0.4)',
@@ -613,6 +636,48 @@
                 intersect: false
             },
             plugins: {
+                annotation: {
+                    annotations: {
+                        line1: {
+                            type: 'line',
+                            yMin: 70,
+                            yMax: 70,
+                            borderColor: '#ff3366',
+                            borderWidth: 2,
+                            label: {
+                                content: 'Crítico > 70%',
+                                font: {
+                                    size: 10
+                                },
+                                enabled: true,
+                                position: 'start',
+                                backgroundColor: '#1a3555',
+                                color: 'rgba(0, 212, 249, 1)',
+                                borderWidth: 0.3,
+                                borderColor: 'rgba(0, 212, 249, 1)'
+                            }
+                        },
+                        line2: {
+                            type: 'line',
+                            yMin: 50,
+                            yMax: 50,
+                            borderColor: '#ffd500',
+                            borderWidth: 2,
+                            label: {
+                                content: 'Alerta > 50%',
+                                font: {
+                                    size: 10
+                                },
+                                enabled: true,
+                                position: 'start',
+                                backgroundColor: '#1a3555',
+                                color: 'rgba(0, 212, 249, 1)',
+                                borderWidth: 0.3,
+                                borderColor: 'rgba(0, 212, 249, 1)'
+                            }
+                        },
+                    }
+                },
                 legend: {
                     display: false
                 },
@@ -665,7 +730,374 @@
             }
         }
     });
+
+
+
+
+
+
+
+
+    // Terceira MRI
+    new Chart(graf3Cpu, {
+        type: 'line',
+        data: {
+            labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
+            datasets: [{
+                label: 'Horário',
+                data: [29, 34, 53, 59, 63, 75, 61, 79, 83, 97],
+                borderColor: '#8B5CF6',
+                fill: true,
+                backgroundColor: 'rgba(139, 92, 246, 0.4)',
+                borderWidth: 3,
+                tension: 0.2,
+                pointRadius: 0,
+                pointHoverRadius: 6,
+                pointHoverBorderWidth: 2,
+                pointHoverBorderColor: '#ffffff',
+                pointHoverBackgroundColor: '#ffffff'
+            }]
+        },
+        options: {
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            hover: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                annotation: {
+                    annotations: {
+                        line1: {
+                            type: 'line',
+                            yMin: 80,
+                            yMax: 80,
+                            borderColor: 'rgba(0, 212, 249, 1)',
+                            borderWidth: 2,
+                            label: {
+                                content: 'Em uso > 80%',
+                                font: {
+                                    size: 14
+                                },
+                                enabled: true,
+                                position: 'start',
+                                backgroundColor: '#1a3555',
+                                color: 'rgba(0, 212, 249, 1)',
+                                borderWidth: 0.3,
+                                borderColor: 'rgba(0, 212, 249, 1)'
+                            }
+                        }
+                    }
+                },
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    enabled: true,
+                    backgroundColor: '#1a3555',
+                    titleColor: '#7a92b0',
+                    bodyColor: 'rgba(0, 212, 249, 1)',
+                    borderColor: '#2b5876',
+                    borderWidth: 1,
+                    displayColors: false
+                },
+                title: {
+                    display: true,
+                    color: '#ffffff'
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#7a92b0'
+                    },
+                    grid: {
+                        color: '#1f3652'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Horário',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
+                        }
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#7a92b0'
+                    },
+                    grid: {
+                        color: '#1f3652',
+                        borderDash: [5, 5]
+                    },
+                    min: 0,
+                    max: 100,
+                    title: {
+                        display: true,
+                        text: 'CPU (%)',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            }
+        }
+    });
     
+
+
+    new Chart(graf3Ram, {
+        type: 'line',
+        data: {
+            labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
+            datasets: [{
+                label: 'Horário',
+                data: [23, 35, 31, 38, 29, 46, 28, 37, 61, 72],
+                borderColor: 'rgba(0, 212, 249, 1)',
+                fill: true,
+                backgroundColor: 'rgba(0, 212, 249, 0.4)',
+                borderWidth: 3,
+                tension: 0.2,
+                pointRadius: 0,
+                pointHoverRadius: 6,
+                pointHoverBorderWidth: 2,
+                pointHoverBorderColor: '#ffffff',
+                pointHoverBackgroundColor: '#ffffff'
+            }]
+        },
+        options: {
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            hover: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                annotation: {
+                    annotations: {
+                        line1: {
+                            type: 'line',
+                            yMin: 70,
+                            yMax: 70,
+                            borderColor: '#ff3366',
+                            borderWidth: 2,
+                            label: {
+                                content: 'Crítico > 70%',
+                                font: {
+                                    size: 10
+                                },
+                                enabled: true,
+                                position: 'start',
+                                backgroundColor: '#1a3555',
+                                color: 'rgba(0, 212, 249, 1)',
+                                borderWidth: 0.3,
+                                borderColor: 'rgba(0, 212, 249, 1)'
+                            }
+                        },
+                        line2: {
+                            type: 'line',
+                            yMin: 40,
+                            yMax: 40,
+                            borderColor: '#ffd500',
+                            borderWidth: 2,
+                            label: {
+                                content: 'Alerta > 40%',
+                                font: {
+                                    size: 10
+                                },
+                                enabled: true,
+                                position: 'start',
+                                backgroundColor: '#1a3555',
+                                color: 'rgba(0, 212, 249, 1)',
+                                borderWidth: 0.3,
+                                borderColor: 'rgba(0, 212, 249, 1)'
+                            }
+                        },
+                    }
+                },
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    enabled: true,
+                    backgroundColor: '#1a3555',
+                    titleColor: '#7a92b0',
+                    bodyColor: 'rgba(0, 212, 249, 1)',
+                    borderColor: '#2b5876',
+                    borderWidth: 1,
+                    displayColors: false
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#7a92b0'
+                    },
+                    grid: {
+                        color: '#1f3652'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Horário',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
+                        }
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#7a92b0'
+                    },
+                    grid: {
+                        color: '#1f3652',
+                        borderDash: [5, 5]
+                    },
+                    min: 0,
+                    max: 100,
+                    title: {
+                        display: true,
+                        text: 'RAM (%)',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+
+    new Chart(graf3Disco, {
+        type: 'line',
+        data: {
+            labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
+            datasets: [{
+                label: 'Horário',
+                data: [21, 27, 35, 21, 17, 32, 42, 44, 56, 64],
+                borderColor: 'rgba(0, 212, 249, 1)',
+                fill: true,
+                backgroundColor: 'rgba(0, 212, 249, 0.4)',
+                borderWidth: 3,
+                tension: 0.2,
+                pointRadius: 0,
+                pointHoverRadius: 6,
+                pointHoverBorderWidth: 2,
+                pointHoverBorderColor: '#ffffff',
+                pointHoverBackgroundColor: '#ffffff'
+            }]
+        },
+        options: {
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            hover: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                annotation: {
+                    annotations: {
+                        line1: {
+                            type: 'line',
+                            yMin: 70,
+                            yMax: 70,
+                            borderColor: '#ff3366',
+                            borderWidth: 2,
+                            label: {
+                                content: 'Crítico > 70%',
+                                font: {
+                                    size: 10
+                                },
+                                enabled: true,
+                                position: 'start',
+                                backgroundColor: '#1a3555',
+                                color: 'rgba(0, 212, 249, 1)',
+                                borderWidth: 0.3,
+                                borderColor: 'rgba(0, 212, 249, 1)'
+                            }
+                        },
+                        line2: {
+                            type: 'line',
+                            yMin: 50,
+                            yMax: 50,
+                            borderColor: '#ffd500',
+                            borderWidth: 2,
+                            label: {
+                                content: 'Alerta > 50%',
+                                font: {
+                                    size: 10
+                                },
+                                enabled: true,
+                                position: 'start',
+                                backgroundColor: '#1a3555',
+                                color: 'rgba(0, 212, 249, 1)',
+                                borderWidth: 0.3,
+                                borderColor: 'rgba(0, 212, 249, 1)'
+                            }
+                        },
+                    }
+                },
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    enabled: true,
+                    backgroundColor: '#1a3555',
+                    titleColor: '#7a92b0',
+                    bodyColor: 'rgba(0, 212, 249, 1)',
+                    borderColor: '#2b5876',
+                    borderWidth: 1,
+                    displayColors: false
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#7a92b0'
+                    },
+                    grid: {
+                        color: '#1f3652'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Horário',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
+                        }
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#7a92b0'
+                    },
+                    grid: {
+                        color: '#1f3652',
+                        borderDash: [5, 5]
+                    },
+                    min: 0,
+                    max: 100,
+                    title: {
+                        display: true,
+                        text: 'Disco (%)',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            }
+        }
+    });
 
 
     function alertas() {
