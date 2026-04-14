@@ -352,6 +352,34 @@
         <i class="bi bi-chat-dots fs-4"></i>
     </button>
 
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header" id="closeChat">
+            <i class="bi bi-robot"></i> Assistente Virtual Magnes
+            <i class="bi bi-x-lg float-end"></i>
+        </div>
+        
+        <div class="chat-body" id="chatBody">
+            <div class="message bot">
+                <div class="message-content">
+                    Olá! Como posso ajudar?
+                </div>
+            </div>
+        </div>
+        
+        <div class="chat-footer">
+            <div class="input-group">
+                <input type="text" class="form-control" id="messageInput" placeholder="Digite sua mensagem...">
+                <button class="btn btn-primary" id="sendMessage">
+                    <i class="bi bi-send"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    
+
+
+
 </body>
 
 </html>
@@ -362,7 +390,22 @@
 <script>
 
     const chatButton = document.getElementById('chatButton');
-
+    const chatWindow = document.getElementById('chatWindow');
+    const closeChat = document.getElementById('closeChat');
+    const sendButton = document.getElementById('sendMessage');
+    const messageInput = document.getElementById('messageInput');
+    const chatBody = document.getElementById('chatBody');
+        
+    chatButton.addEventListener('click', () => {
+    chatWindow.classList.add('open');
+    chatButton.style.display = 'none';
+    });
+        
+    closeChat.addEventListener('click', () => {
+    chatWindow.classList.remove('open');
+    chatButton.style.display = 'block';
+    });
+                
     new Chart(graf1Cpu, {
         type: 'line',
         data: {
