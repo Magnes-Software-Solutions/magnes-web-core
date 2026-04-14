@@ -84,7 +84,6 @@ body.fundo-principal {
     margin-bottom: 8px;
 }
 
-/* CAMPOS DE ENTRADA */
 .form-control, .form-select {
     background-color: var(--fundo-profundo);
     border: 1px solid #233554;
@@ -92,14 +91,13 @@ body.fundo-principal {
     padding: 12px;
 }
 
-.form-control:focus, .form-select:focus {
+.form-control:focus{
     background-color: var(--fundo-profundo);
     color: white;
     border-color: var(--cor-destaque);
     box-shadow: 0 0 8px rgba(53, 191, 237, 0.2);
 }
 
-/* BOTÃO MAGNES */
 .botao-magnes {
     background-color: var(--cor-destaque);
     color: var(--fundo-profundo);
@@ -115,4 +113,8 @@ body.fundo-principal {
 .botao-magnes:hover {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(53, 191, 237, 0.4);
+}
+
+.modal-title {
+    color: black;
 }
