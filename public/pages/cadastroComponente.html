@@ -7,67 +7,73 @@
     <title>Magnes | Cadastro das Máquinas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/cadastroComponente.css" />
-    <link rel="stylesheet" href="../css/headerDash.css">
+    <link rel="stylesheet" href="../css/header2.0Dash.css">
+    <link rel="stylesheet" href="../css/telaAlerta.css" />
+     <link rel="shortcut icon" href="../assets/imgs/Logo.png" type="image/x-icon" />
 </head>
 
 <body class="fundo-principal">
-    <nav class="navbar bg-body-tertiary fixed-top navBarTop">
+ <nav class="navbar fixed-top navBarTop">
         <div class="container-fluid">
-            <img src="../assets/imgs/Logo.png" alt="" width="5%" height="85%">
-            <div class="titulo">
-                <p class="tituloLogo">MAGNES</p>
-                <p class="textoLogo">MRI MONITOR</p>
+            <div class="d-flex align-items-center gap-2">
+                <img onclick="dashboardVoltar" src="../assets/imgs/Logo.png" alt="Logo" class="navLogo"
+                    onerror="this.style.display='none'" />
+                <div>
+                    <p class="tituloLogo mb-0">MAGNES</p>
+                    <p class="textoLogo mb-0">MRI MONITOR</p>
+                </div>
             </div>
+
             <button class="navbar-toggler navBarToggler" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar"
-                aria-label="Toggle navigation">
+                data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
                 <span class="navbar-toggler-icon navBarTogglerIcon"></span>
             </button>
+
             <div class="offcanvas offcanvas-end offCanvas" tabindex="-1" id="offcanvasNavbar"
                 aria-labelledby="offcanvasNavbarLabel">
+
                 <div class="offcanvas-header">
                     <h5 class="offcanvas-title offCanvasTitle" id="offcanvasNavbarLabel">MAGNES</h5>
                     <button type="button" class="btn-close offCanvasButton" data-bs-dismiss="offcanvas"
-                        aria-label="Close"></button>
+                        aria-label="Fechar"></button>
                 </div>
+
                 <div class="offcanvas-body offcanvasBody">
-                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 navBarNav">
-                        <li class="nav-item navLi">
-                            <img src="../assets/imgs/dashboard.svg" alt="Simbolo de Dashboard">
-                            <a class="nav-link" href="#">Dashboard</a>
+                    <ul class="navbar-nav flex-column gap-1 navBarNav">
+                        <li class="nav-item navLi" onclick="window.location.href='dashAnalista.html'">
+                            <img src="../assets/imgs/dashboard.svg" alt="" class="navItemIcon" />
+                            <a class="nav-link">Dashboard</a>
+                        </li>
+                        <li class="nav-item navLi navLiActive">
+                            <img src="../assets/imgs/alert.svg" alt="" class="navItemIcon" />
+                            <a class="nav-link">Alerta</a>
                         </li>
                         <li class="nav-item navLi">
-                            <img src="../assets/imgs/alert.svg" alt="Simbolo de Alerta">
-                            <a class="nav-link" href="telaAlertas.html">Alerta</a>
-                        </li>
-                        <li class="nav-item navLi">
-                            <img src="../assets/imgs/bar.svg" alt="Simbolo de Relatório">
+                            <img src="../assets/imgs/bar.svg" alt="" class="navItemIcon" />
                             <a class="nav-link" href="#">Relatório</a>
                         </li>
                         <li class="nav-item navLi">
-                            <img src="../assets/imgs/person.svg" alt="Simbolo de Cadastrar Analista">
-                            <a class="nav-link" href="./cadastro.html">Cadastrar Analista</a>
+                            <img src="../assets/imgs/person.svg" alt="" class="navItemIcon" />
+                            <a class="nav-link" href="#">Cadastrar Analista</a>
                         </li>
                         <li class="nav-item navLi">
-                            <img src="../assets/imgs/build.svg" alt="Simbolo de Cadastrar Máquina">
-                            <a class="nav-link" href="./cadastroComponente.html">Cadastrar Máquina</a>
+                            <img src="../assets/imgs/build.svg" alt="" class="navItemIcon" />
+                            <a class="nav-link" href="#">Cadastrar Máquina</a>
                         </li>
                     </ul>
-                    </form>
                 </div>
+
                 <div class="offcanvas-header perfil">
-                    <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Simbolo de perfil">
+                    <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Perfil" />
                     <div class="textosPerfil">
-                        <h5 class="offcanvas-title" id="nomeUsuario1">(nome do banco)</h5>
-                        <p id="cargoUsuario1">(cargo do banco)</p>
+                        <h5 class="offcanvas-title mb-0" id="nomeUsuarioNav">—</h5>
+                        <p class="mb-0 text-muted" style="font-size:12px;" id="cargoUsuarioNav">Analista de Sistemas</p>
                     </div>
-                    <img class="perfilConfig" src="../assets/imgs/gear.svg" alt="Simbolo de configurações">
+                    <img class="perfilConfig" src="../assets/imgs/gear.svg" alt="Configurações" />
                 </div>
             </div>
         </div>
     </nav>
-
-
     <main class="container-fluid corpo">
         <header class="cabecalho-pagina">
             <h1>Cadastro das Máquinas</h1>
