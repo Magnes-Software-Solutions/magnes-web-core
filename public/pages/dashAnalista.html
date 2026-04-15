@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página inicial</title>
     <link rel="stylesheet" href="../bootstrap-5.3.8-dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="shortcut icon" href="../assets/imgs/Logo.png" type="image/x-icon" />
     <link rel="stylesheet" href="../css/dashAnalista.css">
     <link rel="stylesheet" href="../css/headerDash.css">
@@ -182,7 +183,7 @@
                                                     <img src="../assets/imgs/memory.svg" alt="">
                                                     <h9 >RAM</p>
                                                 </div>
-                                                <p>38%</p>
+                                                <p>79%</p>
                                             </div>
                                             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuemin="0" aria-valuemax="100">
                                                 <div class="progress-bar" style="width: 38%"></div>
@@ -587,6 +588,39 @@
             </div>
         </div>
     </div>
+
+     <button class="chat-button" id="chatButton">
+        <i class="bi bi-chat-dots fs-4"></i>
+    </button>
+
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header" id="closeChat">
+            <i class="bi bi-robot"></i> Assistente Virtual Magnes
+            <i class="bi bi-x-lg float-end"></i>
+        </div>
+        
+        <div class="chat-body" id="chatBody">
+            <div class="message bot">
+                <div class="message-content">
+                    Olá! Como posso ajudar?
+                </div>
+            </div>
+        </div>
+        
+        <div class="chat-footer">
+            <div class="input-group">
+                <input type="text" class="form-control" id="messageInput" placeholder="Digite sua mensagem...">
+                <button class="btn btn-primary" id="sendMessage">
+                    <i class="bi bi-send"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    
+
+
+
 </body>
 
 </html>
@@ -595,7 +629,24 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.4.0"></script>
 <script>
-    // Primeira MRI
+
+    const chatButton = document.getElementById('chatButton');
+    const chatWindow = document.getElementById('chatWindow');
+    const closeChat = document.getElementById('closeChat');
+    const sendButton = document.getElementById('sendMessage');
+    const messageInput = document.getElementById('messageInput');
+    const chatBody = document.getElementById('chatBody');
+        
+    chatButton.addEventListener('click', () => {
+    chatWindow.classList.add('open');
+    chatButton.style.display = 'none';
+    });
+        
+    closeChat.addEventListener('click', () => {
+    chatWindow.classList.remove('open');
+    chatButton.style.display = 'block';
+    });
+                
     new Chart(graf1Cpu, {
         type: 'line',
         data: {
