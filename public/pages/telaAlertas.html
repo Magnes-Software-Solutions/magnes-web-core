@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MAGNES — MRI Monitor</title>
+    <title>Tela de alerta</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../css/telaAlerta.css" />
@@ -124,253 +124,137 @@
         </div>
 
         <div class="alerts-list" id="alerts-list">
-            <div class="loading-msg">Carregando alertas...</div>
+            <!-- <div class="loading-msg">Carregando alertas...</div> -->
         </div>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Nome do usuário
-        // var nome = sessionStorage.getItem("NOME_USUARIO");
+   <script>
+const list = document.getElementById("alerts-list");
 
-        // if (nome) {
-        //     document.getElementById("foto_usuario_div").textContent = "Olá, " + nome + "!";
-        // } else {
-        //     window.location = "../login.html";
-        // }
-        function gerarAlertaAleatorio() {
-            const tipos = ["critico", "atencao", "info"];
+// 🔹 Funções de ícone
+function iconForType(type) {
+    if (type === "critico") return `
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#f43f5e" stroke-width="1.8">
+            <circle cx="10" cy="10" r="8"/>
+            <line x1="10" y1="6.5" x2="10" y2="10.5"/>
+            <circle cx="10" cy="13" r=".9" fill="#f43f5e"/>
+        </svg>`;
+    
+    if (type === "atencao") return `
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#f59e0b" stroke-width="1.8">
+            <path d="M10 2.5L18.5 17H1.5L10 2.5z"/>
+            <line x1="10" y1="9" x2="10" y2="12.5"/>
+            <circle cx="10" cy="14.5" r=".9" fill="#f59e0b"/>
+        </svg>`;
+    
+    return `
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#38bdf8" stroke-width="1.8">
+            <circle cx="10" cy="10" r="8"/>
+            <line x1="10" y1="9" x2="10" y2="14"/>
+            <circle cx="10" cy="6.5" r=".9" fill="#38bdf8"/>
+        </svg>`;
+}
 
-            const maquinas = ["MRI-01", "MRI-02", "MRI-03", "MRI-04"];
+function badgeClass(type) {
+    if (type === "critico") return "badge-critico";
+    if (type === "atencao") return "badge-atencao";
+    return "badge-info";
+}
 
-            const mensagens = {
-                critico: [
-                    "CPU acima de 95%",
-                    "Ram acima de 90%",
-                    "Falha no sistema detectada"
-                ],
-                atencao: [
-                    "Uso de RAM elevado",
-                    "Disco quase cheio",
-                    "Oscilação de desempenho"
-                ],
-                info: [
-                    "Backup concluído",
-                    "Sistema estável",
-                    "Rotina executada com sucesso"
-                ]
-            };
-
-            const tipo = tipos[Math.floor(Math.random() * tipos.length)];
-            const maquina = maquinas[Math.floor(Math.random() * maquinas.length)];
-            const mensagem = mensagens[tipo][Math.floor(Math.random() * mensagens[tipo].length)];
-
-            return {
-                type: tipo,
-                title: mensagem,
-                desc: mensagem + " na máquina " + maquina,
-                machine: maquina,
-                time: "Agora",
-                badge: tipo.toUpperCase()
-            };
-        }
-
-        function iconForType(type) {
-            if (type === "critico") return `
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#f43f5e" stroke-width="1.8">
-        <circle cx="10" cy="10" r="8"/>
-        <line x1="10" y1="6.5" x2="10" y2="10.5"/>
-        <circle cx="10" cy="13" r=".9" fill="#f43f5e" stroke="none"/>
-      </svg>`;
-            if (type === "atencao") return `
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#f59e0b" stroke-width="1.8">
-        <path d="M10 2.5L18.5 17H1.5L10 2.5z"/>
-        <line x1="10" y1="9" x2="10" y2="12.5"/>
-        <circle cx="10" cy="14.5" r=".9" fill="#f59e0b" stroke="none"/>
-      </svg>`;
-            return `
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#38bdf8" stroke-width="1.8">
-        <circle cx="10" cy="10" r="8"/>
-        <line x1="10" y1="9" x2="10" y2="14"/>
-        <circle cx="10" cy="6.5" r=".9" fill="#38bdf8" stroke="none"/>
-      </svg>`;
-        }
-
-        function badgeClass(type) {
-            if (type === "critico") return "badge-critico";
-            if (type === "atencao") return "badge-atencao";
-            return "badge-info";
-        }
-
-        function serverIcon() {
-            return `<svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.3">
-      <rect x="1" y="1" width="11" height="4" rx="1"/>
-      <rect x="1" y="8" width="11" height="4" rx="1"/>
-      <circle cx="9.5" cy="3" r=".7" fill="currentColor" stroke="none"/>
-      <circle cx="9.5" cy="10" r=".7" fill="currentColor" stroke="none"/>
+function serverIcon() {
+    return `<svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor">
+        <rect x="1" y="1" width="11" height="4" rx="1"/>
+        <rect x="1" y="8" width="11" height="4" rx="1"/>
     </svg>`;
-        }
+}
 
-        function clockIcon() {
-            return `<svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.3">
-      <circle cx="6.5" cy="6.5" r="5.5"/>
-      <path d="M6.5 3.5v3l2 1.5"/>
+function clockIcon() {
+    return `<svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor">
+        <circle cx="6.5" cy="6.5" r="5.5"/>
+        <path d="M6.5 3.5v3l2 1.5"/>
     </svg>`;
-        }
+}
 
-        const list = document.getElementById("alerts-list");
+// 🔹 Criar alerta aleatório
+function gerarAlertaAleatorio() {
+    const tipos = ["critico", "atencao", "info"];
 
-        function adicionarAlerta(a) {
-            const card = document.createElement("div");
-            card.className = `alert-card ${a.type}`;
+    const tipo = tipos[Math.floor(Math.random() * tipos.length)];
 
-            card.innerHTML = `
-    <div class="alert-icon">${iconForType(a.type)}</div>
-    <div class="alert-body">
-      <div class="alert-title">${a.title}</div>
-      <div class="alert-desc">${a.desc}</div>
-      <div class="alert-meta">
-        <span class="meta-item">${serverIcon()} ${a.machine}</span>
-        <span class="meta-item">${clockIcon()} ${a.time}</span>
-        <span class="badge ${badgeClass(a.type)}">${a.badge}</span>
-      </div>
-    </div>
-  `;
+    return {
+        type: tipo,
+        title: tipo === "critico" ? "CPU acima de 90%" :
+               tipo === "atencao" ? "Uso de RAM elevado" :
+               "Backup concluído",
 
-            list.prepend(card);
-        }
+        desc: "Alerta gerado automaticamente pelo sistema",
+        machine: "MRI-" + Math.floor(Math.random() * 10),
+        time: "Agora",
+        badge: tipo.toUpperCase()
+    };
+}
 
-        function atualizarContadores() {
-            const cards = document.querySelectorAll(".alert-card");
+// 🔹 Adicionar alerta
+function adicionarAlerta(a) {
+    const card = document.createElement("div");
+    card.className = `alert-card ${a.type}`;
 
-            var total = cards.length;
-            var crit = 0;
-            var warn = 0;
+    card.innerHTML = `
+        <div class="alert-icon">${iconForType(a.type)}</div>
+        <div class="alert-body">
+            <div class="alert-title">${a.title}</div>
+            <div class="alert-desc">${a.desc}</div>
+            <div class="alert-meta">
+                <span>${serverIcon()} ${a.machine}</span>
+                <span>${clockIcon()} ${a.time}</span>
+                <span class="badge ${badgeClass(a.type)}">${a.badge}</span>
+            </div>
+        </div>
+    `;
 
-            cards.forEach(card => {
-                if (card.classList.contains("critico")) crit++;
-                if (card.classList.contains("atencao")) warn++;
-            });
+    list.prepend(card);
+}
 
-            document.getElementById("count-total").textContent = total;
-            document.getElementById("count-crit").textContent = crit;
-            document.getElementById("count-warn").textContent = warn;
-        }
+// 🔹 Atualizar contadores
+function atualizarContadores() {
+    const cards = document.querySelectorAll(".alert-card");
 
-        setInterval(() => {
-            const novoAlerta = gerarAlertaAleatorio();
-            adicionarAlerta(novoAlerta);
+    let total = cards.length;
+    let crit = 0;
+    let warn = 0;
 
-            // Atualizar contadores
-            atualizarContadores();
-        }, Math.random() * 12000 + 5000);
-        function limparAlertas() {
-            // Limpa a lista visual
-            const list = document.getElementById("alerts-list");
-            list.innerHTML = "<div class='loading-msg'>Nenhum alerta no momento</div>";
+    cards.forEach(card => {
+        if (card.classList.contains("critico")) crit++;
+        if (card.classList.contains("atencao")) warn++;
+    });
 
-            // Zera os contadores
-            document.getElementById("count-total").textContent = 0;
-            document.getElementById("count-crit").textContent = 0;
-            document.getElementById("count-warn").textContent = 0;
+    document.getElementById("count-total").textContent = total;
+    document.getElementById("count-crit").textContent = crit;
+    document.getElementById("count-warn").textContent = warn;
+}
 
-            // Limpa o array (opcional, mas recomendado)
-            ALERTS.length = 0;
-        }
-        function dashboardVoltar() {
-            window.location.href = "dashAnalista.html";
-        }
-        // function definirClasse(valor) {
-        //     if (valor > 90) return "critico";
-        //     if (valor > 70) return "aviso";
-        //     return "info";
-        // }
+// 🔹 Gerar alertas automaticamente
+setInterval(() => {
+    const alerta = gerarAlertaAleatorio();
+    adicionarAlerta(alerta);
+    atualizarContadores();
+}, 4000); // a cada 4s
 
-        // function definirBadge(valor) {
-        //     if (valor > 90) return { texto: "CRÍTICO", classe: "badge-critico" };
-        //     if (valor > 70) return { texto: "ATENÇÃO", classe: "badge-aviso" };
-        //     return { texto: "INFO", classe: "badge-info" };
-        // }
-        // var criticos = 0;
-        // var avisos = 0;
-        // async function carregarAlertas() {
-        //     try {
-        //         // Busca os alertas da API
-        //         var response = await fetch("http://localhost:8080/alerts");
-        //         var data = await response.json();
+// 🔹 Limpar alertas
+function limparAlertas() {
+    list.innerHTML = "<div class='loading-msg'>Nenhum alerta no momento</div>";
 
-        //         var lista = document.getElementById("alerts-list");
+    document.getElementById("count-total").textContent = 0;
+    document.getElementById("count-crit").textContent = 0;
+    document.getElementById("count-warn").textContent = 0;
+}
 
-        //         // Ordena os alertas do mais recente para o mais antigo
-
-        //         data.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-
-
-
-        //         data.forEach(alert => {
-        //             // Cada alerta tem um ID único baseado no timestamp e tipo para evitar duplicados
-        //             var id = alert.timestamp + alert.tipo;
-        //             // Evita criar alertas duplicados
-        //             if (document.getElementById(id)) return;
-        //             // Define a classe e badge com base no valor do alerta
-        //             var classe =
-        //                 alert.valor > 90 ? "critico" :
-        //                     alert.valor > 70 ? "aviso" : "info";
-
-        //             var badge =
-        //                 alert.valor > 90 ? { texto: "CRÍTICO", classe: "badge-critico" } :
-        //                     alert.valor > 70 ? { texto: "ATENÇÃO", classe: "badge-aviso" } :
-        //                         { texto: "INFO", classe: "badge-info" };
-
-        //             // Dependendo do valor, incrementa os contadores de críticos e avisos
-        //             if (alert.valor > 90) { criticos += 1; }
-        //             else if (alert.valor > 70) { avisos += 1; }
-
-        //             var div = document.createElement("div");
-        //             div.className = "alert-card " + classe;
-        //             div.id = id;
-
-        //             div.innerHTML = `
-        //         <div class="alert-body">
-        //             <div class="alert-title">
-        //                 ${alert.tipo} - ${alert.valor.toFixed(1)}%
-        //             </div>
-
-        //             <div class="alert-desc">
-        //                 ${alert.mensagem}
-        //             </div>
-
-        //             <div class="alert-meta">
-        //                 <span>${alert.maquina || "Máquina"}</span>
-        //                 <span>${alert.timestamp}</span>
-        //                 <span class="badge ${badge.classe}">
-        //                     ${badge.texto}
-        //                 </span>
-        //             </div>
-        //         </div>
-        //     `;
-
-        //         // Adiciona o novo alerta no topo da lista
-        //             lista.prepend(div);
-        //         });
-        //         // Atualiza os contadores
-        //         document.getElementById("count-total").textContent = data.length;
-        //         document.getElementById("count-crit").textContent = criticos;
-        //         document.getElementById("count-warn").textContent = avisos;
-
-        //     } catch (erro) {
-        //         console.error("Erro:", erro);
-        //     }
-        // }
-
-        // carregarAlertas();
-
-        // // Atualiza os alertas a cada 3 segundos
-        // // Ou seja, a cada 3 segundos ele faz uma nova requisição para buscar os alertas mais recentes
-        // setInterval(carregarAlertas, 3000);
-
-
-    </script>
+// 🔹 Navegação
+function dashboardVoltar() {
+    window.location.href = "dashAnalista.html";
+}
+</script>
 </body>
 
 </html>
