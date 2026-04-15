@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DashBoard Gestor</title>
+    <link rel="stylesheet" href="../bootstrap-5.3.8-dist/css/bootstrap.css" />
+    <link rel="shortcut icon" href="../assets/imgs/Logo.png" type="image/x-icon" />
+    <link rel="stylesheet" href="../css/dashGestor.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="../css/headerDash.css">
+    <link rel="stylesheet" href="../css/telaAlerta.css" />
+</head>
+
+<body style="background-color: #0a1628;">
+    <nav class="navbar fixed-top navBarTop">
+        <div class="container-fluid">
+            <div class="d-flex align-items-center gap-2">
+                <img onclick="dashboardVoltar" src="../assets/imgs/Logo.png" alt="Logo" class="navLogo"
+                    onerror="this.style.display='none'" />
+                <div>
+                    <p class="tituloLogo mb-0">MAGNES</p>
+                    <p class="textoLogo mb-0">MRI MONITOR</p>
+                </div>
+            </div>
+
+            <button class="navbar-toggler navBarToggler" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                <span class="navbar-toggler-icon navBarTogglerIcon"></span>
+            </button>
+
+            <div class="offcanvas offcanvas-end offCanvas" tabindex="-1" id="offcanvasNavbar"
+                aria-labelledby="offcanvasNavbarLabel">
+
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title offCanvasTitle" id="offcanvasNavbarLabel">MAGNES</h5>
+                    <button type="button" class="btn-close offCanvasButton" data-bs-dismiss="offcanvas"
+                        aria-label="Fechar"></button>
+                </div>
+
+                <div class="offcanvas-body offcanvasBody">
+                    <ul class="navbar-nav flex-column gap-1 navBarNav">
+                        <li class="nav-item navLi" onclick="window.location.href='dashAnalista.html'">
+                            <img src="../assets/imgs/dashboard.svg" alt="" class="navItemIcon" />
+                            <a class="nav-link">Dashboard</a>
+                        </li>
+                        <li class="nav-item navLi navLiActive">
+                            <img src="../assets/imgs/alert.svg" alt="" class="navItemIcon" />
+                            <a class="nav-link">Alerta</a>
+                        </li>
+                        <li class="nav-item navLi">
+                            <img src="../assets/imgs/bar.svg" alt="" class="navItemIcon" />
+                            <a class="nav-link" href="#">Relatório</a>
+                        </li>
+                        <li class="nav-item navLi">
+                            <img src="../assets/imgs/person.svg" alt="" class="navItemIcon" />
+                            <a class="nav-link" href="#">Cadastrar Analista</a>
+                        </li>
+                        <li class="nav-item navLi">
+                            <img src="../assets/imgs/build.svg" alt="" class="navItemIcon" />
+                            <a class="nav-link" href="#">Cadastrar Máquina</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="offcanvas-header perfil">
+                    <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Perfil" />
+                    <div class="textosPerfil">
+                        <h5 class="offcanvas-title mb-0" id="nomeUsuarioNav">—</h5>
+                        <p class="mb-0 text-muted" style="font-size:12px;" id="cargoUsuarioNav">Analista de Sistemas</p>
+                    </div>
+                    <img class="perfilConfig" src="../assets/imgs/gear.svg" alt="Configurações" />
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+
+    <!-- KPIs -->
+   
+   
+    <div class="kpi-row">
+        <div class="kpi-card total">
+            <div class="kpi-label">Total de Máquinas</div>
+            <div class="kpi-value total">12</div>
+
+        </div>
+        <div class="kpi-card normal">
+            <div class="kpi-label">Operação Normal</div>
+            <div class="kpi-value normal">4</div>
+            <div class="kpi-trend">33% do total</div>
+        </div>
+        <div class="kpi-card warning">
+            <div class="kpi-label">Em Alerta</div>
+            <div class="kpi-value warning">5</div>
+            <div class="kpi-trend">42% do total</div>
+        </div>
+        <div class="kpi-card danger">
+            <div class="kpi-label">Crítico</div>
+            <div class="kpi-value danger">3</div>
+            <div class="kpi-trend">Ação imediata necessária</div>
+        </div>
+    </div>
+    <!-- Máquinas monitoradas -->
+
+    <div class="grid-dashboard">
+
+        <!-- GRÁFICO -->
+        <div class="panel grafico-status">
+            <div class="panel-title">
+                 <div class="panel">
+        <div class="panel-title">
+            <span>Estado das Máquinas</span>
+        </div>
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-dot" style="background:#4ade80"></div>Normal
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background:#fbbf24"></div>Alerta
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background:#f87171"></div>Crítico
+            </div>
+        </div>
+        <div class="chart-container">
+            <canvas id="graficoStatus" width="200" height="200"></canvas>
+        </div>
+    </div>
+            </div>
+            <canvas id="graficoStatus"></canvas>
+        </div>
+
+        <!-- LISTA DE MÁQUINAS -->
+        <div class="machines-panel">
+            
+
+                <div class="machines-header">
+                    <span>MÁQUINAS MONITORADAS</span>
+                    <span class="update-time">ATUALIZADO 2MIN ATRÁS</span>
+                </div>
+
+                <div class="machine-card normal">
+                    <div>
+                        <strong>MRI-001</strong>
+                        <p>CPU 34% &nbsp;&nbsp; RAM 62% &nbsp;&nbsp; DISCO: 51%</p>
+                    </div>
+                    <span class="badge normal">NORMAL</span>
+                </div>
+
+                <div class="machine-card alerta">
+                    <div>
+                        <strong>MRI-002</strong>
+                        <p>CPU 78% &nbsp;&nbsp; RAM 85% &nbsp;&nbsp; DISCO: 20%</p>
+                    </div>
+                    <span class="badge alerta">ALERTA</span>
+                </div>
+
+                <div class="machine-card critico">
+                    <div>
+                        <strong>MRI-003</strong>
+                        <p>CPU 92% &nbsp;&nbsp; RAM 97% &nbsp;&nbsp; DISCO: 67%</p>
+                    </div>
+                    <span class="badge critico">CRÍTICO</span>
+                </div>
+
+                <div class="machine-card normal">
+                    <div>
+                        <strong>MRI-004</strong>
+                        <p>CPU 21% &nbsp;&nbsp; RAM 44% &nbsp;&nbsp; DISCO: 47%</p>
+                    </div>
+                    <span class="badge normal">NORMAL</span>
+                </div>
+
+                <div class="machine-card alerta">
+                    <div>
+                        <strong>MRI-005</strong>
+                        <p>CPU 67% &nbsp;&nbsp; RAM 73% &nbsp;&nbsp; DISCO: 79%</p>
+                    </div>
+                    <span class="badge alerta">ALERTA</span>
+                </div>
+
+            
+        </div>
+
+    </div>
+    <!-- GRÁFICOS -->
+    <div class="exibicao-grafico">
+        <div id="selecao-div">
+            <h5>Buscar Máquina</h5>
+            <input id="input-exibicao" class="input-exibicao" type="text" placeholder="Digite o nome da máquina...">
+            <button class="button-atualizar" onclick="exibir()">Buscar</button>
+
+        </div>
+        <div id="exibir-comparacao-div" style="display: none;">
+            <h5>Uso de Recursos </h5>
+            <p class="nome-maquina" id="nome-maquina"></p>
+            <p id="aviso-buscar" class="aviso"></p>
+
+            <div class="select-metricas">
+                <select id="select1">
+                    <option value="cpu">CPU</option>
+                    <option value="ram">RAM</option>
+                    <option value="disco">Disco</option>
+                </select>
+
+                <select id="select2">
+                    <option value="ram">RAM</option>
+                    <option value="cpu">CPU</option>
+                    <option value="disco">Disco</option>
+                </select>
+
+                <button onclick="atualizarGrafico()" class="button-atualizar">
+                    ↻ Atualizar </button>
+
+                <button onclick="fechar()" class="button-atualizar">
+                    Voltar</button>
+            </div>
+
+            <canvas id="graficoCPU"></canvas>
+        </div>
+
+
+
+
+    </div>
+
+
+
+
+
+
+    </div>
+
+</body>
+
+</html>
+<script src="../bootstrap-5.3.8-dist/js/bootstrap.js"></script>
+<script src="../services/api.js"></script>
+<script src="../services/maquinaService.js"></script>
+<script>
+    function exibir() {
+
+
+        var valor = document.getElementById("input-exibicao").value;
+        document.getElementById("nome-maquina").innerText = valor;
+        if (valor.trim() != "") {
+            const secao = document.getElementById("exibir-comparacao-div");
+            secao.style.display = secao.style.display === "none" ? "block" : "none";
+            const secao2 = document.getElementById("selecao-div");
+            secao2.style.display = secao2.style.display === "none" ? "block" : "none";
+        } else if (valor.trim() == "") {
+            document.getElementById("aviso-buscar").innerText = "Por favor, insira o nome da máquina.";
+        }
+
+    }
+    function fechar() {
+        const secao = document.getElementById("exibir-comparacao-div");
+        secao.style.display = "none";
+        const secao2 = document.getElementById("selecao-div");
+        secao2.style.display = "block";
+    }
+    // GRÁFICO STATUS
+    const ctx = document.getElementById('graficoStatus');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Normal', 'Alerta', 'Crítico'],
+            datasets: [{
+                label: 'Quantidade de Máquinas',
+                data: [2, 2, 1], // baseado no seu exemplo
+                backgroundColor: [
+                    '#22c55e', // verde
+                    '#f59e0b', // amarelo
+                    '#f43f5e'  // vermelho
+                ],
+                borderRadius: 6
+            }]
+        },
+        options: {
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                x: {
+                    ticks: { color: '#fff' },
+                    grid: { display: false }
+                },
+                y: {
+                    ticks: { color: '#fff' },
+                    grid: { color: '#1a2a4a' }
+                }
+            }
+        }
+    });
+    const ctx2 = document.getElementById('graficoCPU');
+
+    // Dados simulados
+    let dados = {
+        cpu: [20, 30, 40, 35, 50],
+        ram: [50, 60, 55, 70, 65],
+        disco: [10, 20, 30, 25, 15]
+    };
+
+    // Cores
+    const cores = {
+        cpu: '#38bdf8',
+        ram: '#22c55e',
+        disco: '#f59e0b'
+    };
+
+    // Criar gráfico vazio
+    let graficoCPU = new Chart(ctx2, {
+        type: 'line',
+        data: {
+            labels: ['1', '2', '3', '4', '5'],
+            datasets: []
+        },
+        options: {
+            scales: {
+                x: { ticks: { color: '#fff' } },
+                y: { ticks: { color: '#fff' } }
+            },
+            plugins: {
+                legend: {
+                    labels: { color: '#fff' }
+                }
+            }
+        }
+    });
+
+    // Atualiza gráfico com base nos selects
+    function atualizarGrafico() {
+        const m1 = document.getElementById("select1").value;
+        const m2 = document.getElementById("select2").value;
+
+        graficoCPU.data.datasets = [
+            {
+                label: m1.toUpperCase(),
+                data: dados[m1],
+                borderColor: cores[m1],
+                backgroundColor: cores[m1] + "33",
+                tension: 0.4
+            },
+            {
+                label: m2.toUpperCase(),
+                data: dados[m2],
+                borderColor: cores[m2],
+                backgroundColor: cores[m2] + "33",
+                tension: 0.4
+            }
+        ];
+
+        graficoCPU.update();
+    }
+
+    // Inicializa com valores padrão
+    atualizarGrafico();
+
+
+    // 🔄 Atualização em tempo real
+    setInterval(() => {
+
+        ["cpu", "ram", "disco"].forEach(tipo => {
+            let novo = Math.floor(Math.random() * 100);
+            dados[tipo].push(novo);
+            dados[tipo].shift();
+        });
+
+        atualizarGrafico();
+
+    }, 3000);
+
+
+</script>
