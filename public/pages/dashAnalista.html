@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página inicial</title>
     <link rel="stylesheet" href="../bootstrap-5.3.8-dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="shortcut icon" href="../assets/imgs/Logo.png" type="image/x-icon" />
     <link rel="stylesheet" href="../css/dashAnalista.css">
     <link rel="stylesheet" href="../css/headerDash.css">
@@ -39,25 +40,13 @@
                                 <img src="../assets/imgs/alert.svg" alt="Simbolo de Alerta">
                                 <a class="nav-link" >Alerta</a>
                             </li>
-                            <li class="nav-item navLi">
-                                <img src="../assets/imgs/bar.svg" alt="Simbolo de Relatório">
-                                <a class="nav-link" href="#">Relatório</a>
-                            </li>
-                            <li class="nav-item navLi">
-                                <img src="../assets/imgs/person.svg" alt="Simbolo de Cadastrar Analista">
-                                <a class="nav-link" href="#">Cadastrar Analista</a>
-                            </li>
-                            <li class="nav-item navLi">
-                                <img src="../assets/imgs/build.svg" alt="Simbolo de Cadastrar Máquina">
-                                <a class="nav-link" href="#">Cadastrar Máquina</a>
-                            </li>
                             </ul>
                             </form>
                         </div>
-                        <div class="offcanvas-header perfil">
+                        <div class="offcanvas-header perfil" onclick="usuario()">
                             <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Simbolo de perfil">
                             <div class="textosPerfil">
-                                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">(nome do banco)</h5>
+                                <h5 class="offcanvas-title" id="spanNome">(nome do banco)</h5>
                                 <p>(cargo do banco)</p>
                             </div>
                             <img class="perfilConfig" src="../assets/imgs/gear.svg" alt="Simbolo de configurações">
@@ -67,116 +56,1711 @@
             </nav>
 
             <!-- Corpo -->
-            <div class="col-md-10 col-9">
-                <div class="row justify-content-around mt-4">
-                    <div class="col-md-3 col-sm-3 col-7 card-kpi p-3 mt-4">
-                        <p class="text-center">Máquinas em alerta</p>
-                        <span class="display-5 fw-semibold">5</span>
-                        <div class="sinal"></div>
+            <div class="corpo">
+                <h2 class="tituloCorpo">Máquinas Monitoradas</h2>
+                <div class="cards">
+                    <div class="card cardKpi">
+                        <div class="card-body bodyKpi">
+                            <div class="kpiImg kpiAzul">
+                                <img src="../assets/imgs/hdd-stack.svg" alt="">
+                            </div>
+                            <div class="kpiTextos">
+                                <p>TOTAL DE MÁQUINAS</p>
+                                <h2 class="numeroAzul">6</h2>
+                                <p>Dispositivos monitorados</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-3 col-sm-3 col-7 card-kpi p-3 mt-4">
-                        <p class="text-center">Total de máquinas</p>
-                        <span class="display-5 fw-semibold">12</span>
-                        <div class="sinal2"></div>
+                    <div class="card cardKpi">
+                        <div class="card-body bodyKpi">
+                            <div class="kpiImg kpiVerde">
+                                <img src="../assets/imgs/check2-circle.svg" alt="">
+                            </div>
+                            <div class="kpiTextos">
+                                <p>MÁQUINAS ESTÁVEIS</p>
+                                <h2 class="numeroVerde">2</h2>
+                                <p>Operando normalmente</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-3 col-sm-3 col-7 card-kpi p-3 mt-4">
-                        <p class="text-center">Máquinas em crítico</p>
-                        <span class="display-5 fw-semibold">3</span>
-                        <div class="sinal3"></div>
+                    <div class="card cardKpi">
+                        <div class="card-body bodyKpi">
+                            <div class="kpiImg kpiAmarelo">
+                                <img src="../assets/imgs/alert.svg" alt="">
+                            </div>
+                            <div class="kpiTextos">
+                                <p>EM ALERTA</p>
+                                <h2 class="numeroAmarelo">2</h2>
+                                <p>Requer atenção</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card cardKpi">
+                        <div class="card-body bodyKpi">
+                            <div class="kpiImg kpiVermelho">
+                                <img src="../assets/imgs/check2-circle.svg" alt="">
+                            </div>
+                            <div class="kpiTextos">
+                                <p>CRÍTICAS</p>
+                                <h2 class="numeroVermelho">2</h2>
+                                <p>Intervenção imediata</p>
+                            </div>
+                        </div>
+                    </div>
+                </div> <br>
+
+
+
+                <div class="miniTextos">
+                    <h5 class="miniTitulo">Máquinas Monitoradas</h5>
+                    <p class="miniSubtitulo">6 máquinas</p>
+                </div>
+
+
+
+
+
+
+                <!-- Primeira fileira -->
+                <dialog id="dialog_graf1" class="dialog-graf">
+                    <div class="dialog-content">
+                        <div class="dialogGraf-header">
+                            <h2>Dashboard MRI-01</h2>
+                            <img type="button" src="../assets/imgs/x-lg.svg" alt="" onclick="document.getElementById('dialog_graf1').close()">
+                        </div>
+                        <div class="grafico-principal">
+                            <p>CPU X Horário</p>
+                            <canvas id="graf1Cpu"></canvas>
+                        </div>
+                        <br><br><br>
+                        <div class="graficos-dois">
+                            <div class="grafico">
+                                <p>RAM X Horário</p>
+                                <canvas id="graf1Ram"></canvas>
+                            </div>
+                            <div class="grafico">
+                                <p>Disco X Horário</p>
+                                <canvas id="graf1Disco"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </dialog>
+                <div class="cards">
+                    <div class="divAuxiliar">
+                        <div class="col">
+                            <div class="card cardMaquina" onclick="document.getElementById('dialog_graf1').showModal()">
+                                <div class="card-body bodyMaquina">
+                                    <div class="bodyMaquina-header">
+                                        <div class="bodyMaquina-header-texto">
+                                            <h6>MRI-01</h6>
+                                                <div class="localizacao">
+                                                    <img src="../assets/imgs/loc.svg" alt="">
+                                                    <p>Hospital Israelita Albert Einstein</p>
+                                                </div>
+                                        </div>
+                                        <div class="bodyImg bodyImgVerde">
+                                            <p>Estável</p>
+                                        </div>
+                                    </div>
+                                    <div class="bodyMaquina-body">
+                                        <p>Verificado 10 min atrás</p>
+                                        <hr>
+                                        <div class="componentes compoenenteAzul">
+                                            <div id="componenteCpu" class="componentes-titulo">
+                                                <div class="componentes-tituloBarra">
+                                                    <img src="../assets/imgs/cpu.svg" alt="">
+                                                    <h9 >CPU</p>
+                                                </div>
+                                                <p id="cpuPorc">59%</p>
+                                            </div>
+                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuemin="0" aria-valuemax="100">
+                                                <div id="progressCpu" class="progress-bar" style="width: 59%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="componentes compoenenteAzul">
+                                            <div class="componentes-titulo">
+                                                <div class="componentes-tituloBarra">
+                                                    <img src="../assets/imgs/memory.svg" alt="">
+                                                    <h9 >RAM</p>
+                                                </div>
+                                                <p>79%</p>
+                                            </div>
+                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar" style="width: 38%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="componentes compoenenteAzul">
+                                            <div class="componentes-titulo">
+                                                <div class="componentes-tituloBarra">
+                                                    <img src="../assets/imgs/hard-disk.png" alt="">
+                                                    <h9 >DISCO</p>
+                                                </div>
+                                                <p>47%</p>
+                                            </div>
+                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar" style="width: 47%"></div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <p>Clique para ver mais detalhes</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <dialog id="dialog_graf2" class="dialog-graf">
+                        <div class="dialog-content">
+                            <div class="dialogGraf-header">
+                                <h2>Dashboard MRI-03</h2>
+                                <img type="button" src="../assets/imgs/x-lg.svg" alt="" onclick="document.getElementById('dialog_graf2').close()">
+                            </div>
+                            <div class="grafico-principal">
+                                <p>CPU X Horário</p>
+                                <canvas id="graf2Cpu"></canvas>
+                            </div>
+                            <br><br><br>
+                            <div class="graficos-dois">
+                                <div class="grafico">
+                                    <p>RAM X Horário</p>
+                                    <canvas id="graf2Ram"></canvas>
+                                </div>
+                                <div class="grafico">
+                                    <p>Disco X Horário</p>
+                                    <canvas id="graf2Disco"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </dialog>
+                    <div class="divAuxiliar">
+                        <div class="col">
+                            <div class="card cardMaquina" onclick="document.getElementById('dialog_graf2').showModal()">
+                                <div class="card-body bodyMaquina">
+                                    <div class="bodyMaquina-header">
+                                        <div class="bodyMaquina-header-texto">
+                                            <h6>MRI-02</h6>
+                                                <div class="localizacao">
+                                                    <img src="../assets/imgs/loc.svg" alt="">
+                                                    <p>Hospital Santa Casa</p>
+                                                </div>
+                                        </div>
+                                        <div class="bodyImg bodyImgAmarelo">
+                                            <p>Alerta</p>
+                                        </div>
+                                    </div>
+                                    <div class="bodyMaquina-body">
+                                        <p>Verificado 10 min atrás</p>
+                                        <hr>
+                                        <div class="componentes compoenenteAzul">
+                                            <div class="componentes-titulo">
+                                                <div class="componentes-tituloBarra">
+                                                    <img src="../assets/imgs/cpu.svg" alt="">
+                                                    <h9 >CPU</p>
+                                                </div>
+                                                <p>43%</p>
+                                            </div>
+                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar" style="width: 43%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="componentes compoenenteAmarelo">
+                                            <div class="componentes-titulo">
+                                                <div class="componentes-tituloBarra">
+                                                    <img src="../assets/imgs/memory.svg" alt="">
+                                                    <h9 >RAM</p>
+                                                </div>
+                                                <p>62%</p>
+                                            </div>
+                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="38" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar" style="width: 62%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="componentes compoenenteAzul">
+                                            <div class="componentes-titulo">
+                                                <div class="componentes-tituloBarra">
+                                                    <img src="../assets/imgs/hard-disk.png" alt="">
+                                                    <h9 >DISCO</p>
+                                                </div>
+                                                <p>47%</p>
+                                            </div>
+                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar" style="width: 47%"></div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <p>Clique para ver mais detalhes</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <dialog id="dialog_graf3" class="dialog-graf">
+                        <div class="dialog-content">
+                            <div class="dialogGraf-header">
+                                <h2>Dashboard MRI-02</h2>
+                                <img type="button" src="../assets/imgs/x-lg.svg" alt="" onclick="document.getElementById('dialog_graf3').close()">
+                            </div>
+                            <div class="grafico-principal">
+                                <p>CPU X Horário</p>
+                                <canvas id="graf3Cpu"></canvas>
+                            </div>
+                            <br><br><br>
+                            <div class="graficos-dois">
+                                <div class="grafico">
+                                    <p>RAM X Horário</p>
+                                    <canvas id="graf3Ram"></canvas>
+                                </div>
+                                <div class="grafico">
+                                    <p>Disco X Horário</p>
+                                    <canvas id="graf3Disco"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </dialog>
+                    <div class="divAuxiliar">
+                        <div class="col">
+                            <div class="card cardMaquina" onclick="document.getElementById('dialog_graf3').showModal()">
+                                <div class="card-body bodyMaquina">
+                                    <div class="bodyMaquina-header">
+                                        <div class="bodyMaquina-header-texto">
+                                            <h6>MRI-03</h6>
+                                                <div class="localizacao">
+                                                    <img src="../assets/imgs/loc.svg" alt="">
+                                                    <p> Hospital Sírio-Libanês</p>
+                                                </div>
+                                        </div>
+                                        <div class="bodyImg bodyImgVermelho">
+                                            <p>Crítico</p>
+                                        </div>
+                                    </div>
+                                    <div class="bodyMaquina-body">
+                                        <p>Verificado 10 min atrás</p>
+                                        <hr>
+                                        <div class="componentes compoenenteVermelho">
+                                            <div class="componentes-titulo">
+                                                <div class="componentes-tituloBarra">
+                                                    <img src="../assets/imgs/cpu.svg" alt="">
+                                                    <h9 >CPU</p>
+                                                </div>
+                                                <p>97%</p>
+                                            </div>
+                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar" style="width: 97%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="componentes compoenenteVermelho">
+                                            <div class="componentes-titulo">
+                                                <div class="componentes-tituloBarra">
+                                                    <img src="../assets/imgs/memory.svg" alt="">
+                                                    <h9 >RAM</p>
+                                                </div>
+                                                <p>72%</p>
+                                            </div>
+                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="38" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar" style="width: 72%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="componentes compoenenteAmarelo">
+                                            <div class="componentes-titulo">
+                                                <div class="componentes-tituloBarra">
+                                                    <img src="../assets/imgs/hard-disk.png" alt="">
+                                                    <h9 >DISCO</p>
+                                                </div>
+                                                <p>64%</p>
+                                            </div>
+                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar" style="width: 64%"></div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <p>Clique para ver mais detalhes</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="row gy-4 justify-content-around mt-5 maquina">
-                    <div class="col-md-3 col-9 card-maquina maquina1" style="border: 3px solid #746cc2;">
-                        <h1><img src="../assets/imgs/hospital.png" alt=""></h1>
-                        <div class="componentes">
-                            <div class="ram"><p><img src="../assets/imgs/ram.png" alt=""></p> <div class="porcentagemRam"></div></div>
-                            <div class="cpu"><p><img src="../assets/imgs/cpuDash.png" alt=""></p><div class="porcentagemCpu"></div></div>
-                            <div class="disco"><p><img src="../assets/imgs/cartao-de-memoria.png" alt=""></p> <div class="porcentagemDisco"></div></div>
+
+
+
+                <!-- Segunda fileira -->
+                <div class="cards">
+                    <div class="divAuxiliar">
+                        <div class="col">
+                            <div class="card cardMaquina">
+                                <div class="card-body bodyMaquina">
+                                    <div class="bodyMaquina-header">
+                                        <div class="bodyMaquina-header-texto">
+                                            <h6>MRI-04</h6>
+                                                <div class="localizacao">
+                                                    <img src="../assets/imgs/loc.svg" alt="">
+                                                    <p>Hospital do Coração</p>
+                                                </div>
+                                        </div>
+                                        <div class="bodyImg bodyImgAmarelo">
+                                            <p>Alerta</p>
+                                        </div>
+                                    </div>
+                                    <div class="bodyMaquina-body">
+                                        <p>Verificado 10 min atrás</p>
+                                        <hr>
+                                        <div class="componentes compoenenteAzul">
+                                            <div class="componentes-titulo">
+                                                <div class="componentes-tituloBarra">
+                                                    <img src="../assets/imgs/cpu.svg" alt="">
+                                                    <h9 >CPU</p>
+                                                </div>
+                                                <p>43%</p>
+                                            </div>
+                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar" style="width: 43%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="componentes compoenenteAmarelo">
+                                            <div class="componentes-titulo">
+                                                <div class="componentes-tituloBarra">
+                                                    <img src="../assets/imgs/memory.svg" alt="">
+                                                    <h9 >RAM</p>
+                                                </div>
+                                                <p>62%</p>
+                                            </div>
+                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="38" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar" style="width: 62%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="componentes compoenenteAzul">
+                                            <div class="componentes-titulo">
+                                                <div class="componentes-tituloBarra">
+                                                    <img src="../assets/imgs/hard-disk.png" alt="">
+                                                    <h9 >DISCO</p>
+                                                </div>
+                                                <p>47%</p>
+                                            </div>
+                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar" style="width: 47%"></div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <p>Clique para ver mais detalhes</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-3 col-9 card-maquina maquina2"  style="border: 3px solid #746cc2;">
-                        <h1><img src="../assets/imgs/farmacia.png" alt=""></h1>
-                        <div class="componentes">
-                            <div class="ram"><p><img src="../assets/imgs/ram.png" alt=""></p> <div class="porcentagemRam"></div></div>
-                            <div class="cpu"><p><img src="../assets/imgs/cpuDash.png" alt=""></p><div class="porcentagemCpu"></div></div>
-                            <div class="disco"><p><img src="../assets/imgs/cartao-de-memoria.png" alt=""></p> <div class="porcentagemDisco"></div></div>
+
+
+
+                    
+                    <div class="divAuxiliar">
+                        <div class="col">
+                            <div class="card cardMaquina">
+                                <div class="card-body bodyMaquina">
+                                    <div class="bodyMaquina-header">
+                                        <div class="bodyMaquina-header-texto">
+                                            <h6>MRI-05</h6>
+                                                <div class="localizacao">
+                                                    <img src="../assets/imgs/loc.svg" alt="">
+                                                    <p>Hospital das Clínicas</p>
+                                                </div>
+                                        </div>
+                                        <div class="bodyImg bodyImgVermelho">
+                                            <p>Crítico</p>
+                                        </div>
+                                    </div>
+                                    <div class="bodyMaquina-body">
+                                        <p>Verificado 10 min atrás</p>
+                                        <hr>
+                                        <div class="componentes compoenenteVermelho">
+                                            <div class="componentes-titulo">
+                                                <div class="componentes-tituloBarra">
+                                                    <img src="../assets/imgs/cpu.svg" alt="">
+                                                    <h9 >CPU</p>
+                                                </div>
+                                                <p>97%</p>
+                                            </div>
+                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar" style="width: 97%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="componentes compoenenteVermelho">
+                                            <div class="componentes-titulo">
+                                                <div class="componentes-tituloBarra">
+                                                    <img src="../assets/imgs/memory.svg" alt="">
+                                                    <h9 >RAM</p>
+                                                </div>
+                                                <p>72%</p>
+                                            </div>
+                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="38" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar" style="width: 72%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="componentes compoenenteAmarelo">
+                                            <div class="componentes-titulo">
+                                                <div class="componentes-tituloBarra">
+                                                    <img src="../assets/imgs/hard-disk.png" alt="">
+                                                    <h9 >DISCO</p>
+                                                </div>
+                                                <p>64%</p>
+                                            </div>
+                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar" style="width: 64%"></div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <p>Clique para ver mais detalhes</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-3 col-9 card-maquina maquina3"  style="border: 3px solid #746cc2;">
-                        <h1><img src="../assets/imgs/estrela-da-vida.png" alt=""></h1>
-                        <div class="componentes">
-                            <div class="ram"><p><img src="../assets/imgs/ram.png" alt=""></p> <div class="porcentagemRam"></div></div>
-                            <div class="cpu"><p><img src="../assets/imgs/cpuDash.png" alt=""></p><div class="porcentagemCpu"></div></div>
-                            <div class="disco"><p><img src="../assets/imgs/cartao-de-memoria.png" alt=""></p> <div class="porcentagemDisco"></div></div>
+
+
+
+
+                    <div class="divAuxiliar">
+                        <div class="col">
+                            <div class="card cardMaquina">
+                                <div class="card-body bodyMaquina">
+                                    <div class="bodyMaquina-header">
+                                        <div class="bodyMaquina-header-texto">
+                                            <h6>MRI-06</h6>
+                                                <div class="localizacao">
+                                                    <img src="../assets/imgs/loc.svg" alt="">
+                                                    <p>Hospital Alemão Oswaldo Cruz</p>
+                                                </div>
+                                        </div>
+                                        <div class="bodyImg bodyImgVerde">
+                                            <p>Estável</p>
+                                        </div>
+                                    </div>
+                                    <div class="bodyMaquina-body">
+                                        <p>Verificado 10 min atrás</p>
+                                        <hr>
+                                        <div class="componentes compoenenteAzul">
+                                            <div id="componenteCpu" class="componentes-titulo">
+                                                <div class="componentes-tituloBarra">
+                                                    <img src="../assets/imgs/cpu.svg" alt="">
+                                                    <h9 >CPU</p>
+                                                </div>
+                                                <p id="cpuPorc">59%</p>
+                                            </div>
+                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuemin="0" aria-valuemax="100">
+                                                <div id="progressCpu" class="progress-bar" style="width: 59%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="componentes compoenenteAzul">
+                                            <div class="componentes-titulo">
+                                                <div class="componentes-tituloBarra">
+                                                    <img src="../assets/imgs/memory.svg" alt="">
+                                                    <h9 >RAM</p>
+                                                </div>
+                                                <p>38%</p>
+                                            </div>
+                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar" style="width: 38%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="componentes compoenenteAzul">
+                                            <div class="componentes-titulo">
+                                                <div class="componentes-tituloBarra">
+                                                    <img src="../assets/imgs/hard-disk.png" alt="">
+                                                    <h9 >DISCO</p>
+                                                </div>
+                                                <p>47%</p>
+                                            </div>
+                                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar" style="width: 47%"></div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <p>Clique para ver mais detalhes</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="row justify-content-center mt-5 buttonadd">
-                    <button type="button" class="btn btn-primary buttonadd" data-bs-toggle="modal"
-                        data-bs-target="#addMachineForm"
-                        style="background-color: #280B4A; color: #FFF; width: 200px; height: 20%; display: flex; justify-content: center; margin-right: 15px;"><img
-                            src="../assets/imgs/adicionar.png" alt="Descrição" style="width:20px;height:20px;">Adicionar
-                        Máquina</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="addMachineForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content" style="background-color: #CED8E4;">
-                <div class="modal-header" style="background-color: gray;">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel" style="color: #FFF;">Adicionar Máquina</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label for="input_num_serie" class="col-form-label">Numeração:</label>
-                            <input type="text" class="form-control" id="input_num_serie">
-                        </div>
-                        <div class="mb-3">
-                            <label for="input_localizacao" class="col-form-label">Localização:</label>
-                            <input class="form-control" id="input_localizacao">
-                        </div>
-                        <div class="mb-3">
-                            <label for="input_modelo" class="col-form-label">Modelo:</label>
-                            <input class="form-control" id="input_modelo">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                    <button onclick="adicionarMaquina()" type="button" class="btn btn-primary"
-                        style="background-color: #280B4A; color: #FFF; width: 45%; height: 20%; display: flex; justify-content: center; margin-right: 15px;"><img
-                            src="../assets/imgs/adicionar.png" alt="Descrição" style="width:20px;height:20px;">
-                        Cadastrar Máquina</button>
+     <button class="chat-button" id="chatButton">
+        <i class="bi bi-chat-dots fs-4"></i>
+    </button>
+
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header" id="closeChat">
+            <i class="bi bi-robot"></i> Assistente Virtual Magnes
+            <i class="bi bi-x-lg float-end"></i>
+        </div>
+        
+        <div class="chat-body" id="chatBody">
+            <div class="message bot">
+                <div class="message-content">
+                    Olá! Como posso ajudar?
                 </div>
             </div>
         </div>
+        
+        <div class="chat-footer">
+            <div class="input-group">
+                <input type="text" class="form-control" id="messageInput" placeholder="Digite sua mensagem...">
+                <button class="btn btn-primary" id="sendMessage">
+                    <i class="bi bi-send"></i>
+                </button>
+            </div>
+        </div>
     </div>
+
+    
+
+
+
 </body>
 
 </html>
 <script src="../bootstrap-5.3.8-dist/js/bootstrap.js"></script>
-<script src="../services/api.js"></script>
-<script src="../services/maquinaService.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.4.0"></script>
 <script>
-     function alertas() {
-            window.location.href = "telaAlertas.html";
+
+    const chatButton = document.getElementById('chatButton');
+    const chatWindow = document.getElementById('chatWindow');
+    const closeChat = document.getElementById('closeChat');
+    const sendButton = document.getElementById('sendMessage');
+    const messageInput = document.getElementById('messageInput');
+    const chatBody = document.getElementById('chatBody');
+        
+    chatButton.addEventListener('click', () => {
+    chatWindow.classList.add('open');
+    chatButton.style.display = 'none';
+    });
+        
+    closeChat.addEventListener('click', () => {
+    chatWindow.classList.remove('open');
+    chatButton.style.display = 'block';
+    });
+                
+    new Chart(graf1Cpu, {
+        type: 'line',
+        data: {
+            labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
+            datasets: [{
+                label: 'Horário',
+                data: [24, 29, 51, 67, 41, 37, 24, 27, 31, 59],
+                borderColor: '#8B5CF6',
+                fill: true,
+                backgroundColor: 'rgba(139, 92, 246, 0.4)',
+                borderWidth: 3,
+                tension: 0.2,
+                pointRadius: 0,
+                pointHoverRadius: 6,
+                pointHoverBorderWidth: 2,
+                pointHoverBorderColor: '#ffffff',
+                pointHoverBackgroundColor: '#ffffff'
+            }]
+        },
+        options: {
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            hover: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                annotation: {
+                    annotations: {
+                        line1: {
+                            type: 'line',
+                            yMin: 80,
+                            yMax: 80,
+                            borderColor: 'rgba(0, 212, 249, 1)',
+                            borderWidth: 2,
+                            label: {
+                                content: 'Em uso > 80%',
+                                font: {
+                                    size: 14
+                                },
+                                enabled: true,
+                                position: 'start',
+                                backgroundColor: '#1a3555',
+                                color: 'rgba(0, 212, 249, 1)',
+                                borderWidth: 0.3,
+                                borderColor: 'rgba(0, 212, 249, 1)'
+                            }
+                        }
+                    }
+                },
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    enabled: true,
+                    backgroundColor: '#1a3555',
+                    titleColor: '#7a92b0',
+                    bodyColor: 'rgba(0, 212, 249, 1)',
+                    borderColor: '#2b5876',
+                    borderWidth: 1,
+                    displayColors: false
+                },
+                title: {
+                    display: true,
+                    color: '#ffffff'
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#7a92b0'
+                    },
+                    grid: {
+                        color: '#1f3652'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Horário',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
+                        }
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#7a92b0'
+                    },
+                    grid: {
+                        color: '#1f3652',
+                        borderDash: [5, 5]
+                    },
+                    min: 0,
+                    max: 100,
+                    title: {
+                        display: true,
+                        text: 'CPU (%)',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            }
         }
+    });
+    
+
+
+    new Chart(graf1Ram, {
+        type: 'line',
+        data: {
+            labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
+            datasets: [{
+                label: 'Horário',
+                data: [24, 35, 17, 20, 35, 26, 19, 13, 26, 38],
+                borderColor: 'rgba(0, 212, 249, 1)',
+                fill: true,
+                backgroundColor: 'rgba(0, 212, 249, 0.4)',
+                borderWidth: 3,
+                tension: 0.2,
+                pointRadius: 0,
+                pointHoverRadius: 6,
+                pointHoverBorderWidth: 2,
+                pointHoverBorderColor: '#ffffff',
+                pointHoverBackgroundColor: '#ffffff'
+            }]
+        },
+        options: {
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            hover: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {annotation: {
+                    annotations: {
+                        line1: {
+                            type: 'line',
+                            yMin: 70,
+                            yMax: 70,
+                            borderColor: '#ff3366',
+                            borderWidth: 2,
+                            label: {
+                                content: 'Crítico > 70%',
+                                font: {
+                                    size: 10
+                                },
+                                enabled: true,
+                                position: 'start',
+                                backgroundColor: '#1a3555',
+                                color: 'rgba(0, 212, 249, 1)',
+                                borderWidth: 0.3,
+                                borderColor: 'rgba(0, 212, 249, 1)'
+                            }
+                        },
+                        line2: {
+                            type: 'line',
+                            yMin: 40,
+                            yMax: 40,
+                            borderColor: '#ffd500',
+                            borderWidth: 2,
+                            label: {
+                                content: 'Alerta > 40%',
+                                font: {
+                                    size: 10
+                                },
+                                enabled: true,
+                                position: 'start',
+                                backgroundColor: '#1a3555',
+                                color: 'rgba(0, 212, 249, 1)',
+                                borderWidth: 0.3,
+                                borderColor: 'rgba(0, 212, 249, 1)'
+                            }
+                        },
+                    }
+                },
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    enabled: true,
+                    backgroundColor: '#1a3555',
+                    titleColor: '#7a92b0',
+                    bodyColor: 'rgba(0, 212, 249, 1)',
+                    borderColor: '#2b5876',
+                    borderWidth: 1,
+                    displayColors: false
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#7a92b0'
+                    },
+                    grid: {
+                        color: '#1f3652'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Horário',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
+                        }
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#7a92b0'
+                    },
+                    grid: {
+                        color: '#1f3652',
+                        borderDash: [5, 5]
+                    },
+                    min: 0,
+                    max: 100,
+                    title: {
+                        display: true,
+                        text: 'RAM (%)',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+
+    new Chart(graf1Disco, {
+        type: 'line',
+        data: {
+            labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
+            datasets: [{
+                label: 'Horário',
+                data: [12, 24, 18, 21, 17, 32, 38, 45, 39, 43],
+                borderColor: 'rgba(0, 212, 249, 1)',
+                fill: true,
+                backgroundColor: 'rgba(0, 212, 249, 0.4)',
+                borderWidth: 3,
+                tension: 0.2,
+                pointRadius: 0,
+                pointHoverRadius: 6,
+                pointHoverBorderWidth: 2,
+                pointHoverBorderColor: '#ffffff',
+                pointHoverBackgroundColor: '#ffffff'
+            }]
+        },
+        options: {
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            hover: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                annotation: {
+                    annotations: {
+                        line1: {
+                            type: 'line',
+                            yMin: 70,
+                            yMax: 70,
+                            borderColor: '#ff3366',
+                            borderWidth: 2,
+                            label: {
+                                content: 'Crítico > 70%',
+                                font: {
+                                    size: 10
+                                },
+                                enabled: true,
+                                position: 'start',
+                                backgroundColor: '#1a3555',
+                                color: 'rgba(0, 212, 249, 1)',
+                                borderWidth: 0.3,
+                                borderColor: 'rgba(0, 212, 249, 1)'
+                            }
+                        },
+                        line2: {
+                            type: 'line',
+                            yMin: 50,
+                            yMax: 50,
+                            borderColor: '#ffd500',
+                            borderWidth: 2,
+                            label: {
+                                content: 'Alerta > 50%',
+                                font: {
+                                    size: 10
+                                },
+                                enabled: true,
+                                position: 'start',
+                                backgroundColor: '#1a3555',
+                                color: 'rgba(0, 212, 249, 1)',
+                                borderWidth: 0.3,
+                                borderColor: 'rgba(0, 212, 249, 1)'
+                            }
+                        },
+                    }
+                },
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    enabled: true,
+                    backgroundColor: '#1a3555',
+                    titleColor: '#7a92b0',
+                    bodyColor: 'rgba(0, 212, 249, 1)',
+                    borderColor: '#2b5876',
+                    borderWidth: 1,
+                    displayColors: false
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#7a92b0'
+                    },
+                    grid: {
+                        color: '#1f3652'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Horário',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
+                        }
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#7a92b0'
+                    },
+                    grid: {
+                        color: '#1f3652',
+                        borderDash: [5, 5]
+                    },
+                    min: 0,
+                    max: 100,
+                    title: {
+                        display: true,
+                        text: 'Disco (%)',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+
+
+
+
+
+    // Segunda MRI
+    new Chart(graf2Cpu, {
+        type: 'line',
+        data: {
+            labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
+            datasets: [{
+                label: 'Horário',
+                data: [22, 34, 31, 46, 55, 42, 37, 28, 35, 47],
+                borderColor: '#8B5CF6',
+                fill: true,
+                backgroundColor: 'rgba(139, 92, 246, 0.4)',
+                borderWidth: 3,
+                tension: 0.2,
+                pointRadius: 0,
+                pointHoverRadius: 6,
+                pointHoverBorderWidth: 2,
+                pointHoverBorderColor: '#ffffff',
+                pointHoverBackgroundColor: '#ffffff'
+            }]
+        },
+        options: {
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            hover: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                annotation: {
+                    annotations: {
+                        line1: {
+                            type: 'line',
+                            yMin: 80,
+                            yMax: 80,
+                            borderColor: 'rgba(0, 212, 249, 1)',
+                            borderWidth: 2,
+                            label: {
+                                content: 'Em uso > 80%',
+                                font: {
+                                    size: 14
+                                },
+                                enabled: true,
+                                position: 'start',
+                                backgroundColor: '#1a3555',
+                                color: 'rgba(0, 212, 249, 1)',
+                                borderWidth: 0.3,
+                                borderColor: 'rgba(0, 212, 249, 1)'
+                            }
+                        }
+                    }
+                },
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    enabled: true,
+                    backgroundColor: '#1a3555',
+                    titleColor: '#7a92b0',
+                    bodyColor: 'rgba(0, 212, 249, 1)',
+                    borderColor: '#2b5876',
+                    borderWidth: 1,
+                    displayColors: false
+                },
+                title: {
+                    display: true,
+                    color: '#ffffff'
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#7a92b0'
+                    },
+                    grid: {
+                        color: '#1f3652'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Horário',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
+                        }
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#7a92b0'
+                    },
+                    grid: {
+                        color: '#1f3652',
+                        borderDash: [5, 5]
+                    },
+                    min: 0,
+                    max: 100,
+                    title: {
+                        display: true,
+                        text: 'CPU (%)',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            }
+        }
+    });
+    
+
+
+    new Chart(graf2Ram, {
+        type: 'line',
+        data: {
+            labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
+            datasets: [{
+                label: 'Horário',
+                data: [23, 35, 31, 38, 36, 29, 35, 42, 56, 62],
+                borderColor: 'rgba(0, 212, 249, 1)',
+                fill: true,
+                backgroundColor: 'rgba(0, 212, 249, 0.4)',
+                borderWidth: 3,
+                tension: 0.2,
+                pointRadius: 0,
+                pointHoverRadius: 6,
+                pointHoverBorderWidth: 2,
+                pointHoverBorderColor: '#ffffff',
+                pointHoverBackgroundColor: '#ffffff'
+            }]
+        },
+        options: {
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            hover: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                annotation: {
+                    annotations: {
+                        line1: {
+                            type: 'line',
+                            yMin: 70,
+                            yMax: 70,
+                            borderColor: '#ff3366',
+                            borderWidth: 2,
+                            label: {
+                                content: 'Crítico > 70%',
+                                font: {
+                                    size: 10
+                                },
+                                enabled: true,
+                                position: 'start',
+                                backgroundColor: '#1a3555',
+                                color: 'rgba(0, 212, 249, 1)',
+                                borderWidth: 0.3,
+                                borderColor: 'rgba(0, 212, 249, 1)'
+                            }
+                        },
+                        line2: {
+                            type: 'line',
+                            yMin: 40,
+                            yMax: 40,
+                            borderColor: '#ffd500',
+                            borderWidth: 2,
+                            label: {
+                                content: 'Alerta > 40%',
+                                font: {
+                                    size: 10
+                                },
+                                enabled: true,
+                                position: 'start',
+                                backgroundColor: '#1a3555',
+                                color: 'rgba(0, 212, 249, 1)',
+                                borderWidth: 0.3,
+                                borderColor: 'rgba(0, 212, 249, 1)'
+                            }
+                        },
+                    }
+                },
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    enabled: true,
+                    backgroundColor: '#1a3555',
+                    titleColor: '#7a92b0',
+                    bodyColor: 'rgba(0, 212, 249, 1)',
+                    borderColor: '#2b5876',
+                    borderWidth: 1,
+                    displayColors: false
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#7a92b0'
+                    },
+                    grid: {
+                        color: '#1f3652'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Horário',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
+                        }
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#7a92b0'
+                    },
+                    grid: {
+                        color: '#1f3652',
+                        borderDash: [5, 5]
+                    },
+                    min: 0,
+                    max: 100,
+                    title: {
+                        display: true,
+                        text: 'RAM (%)',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+
+    new Chart(graf2Disco, {
+        type: 'line',
+        data: {
+            labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
+            datasets: [{
+                label: 'Horário',
+                data: [31, 27, 35, 41, 37, 32, 30, 44, 39, 47],
+                borderColor: 'rgba(0, 212, 249, 1)',
+                fill: true,
+                backgroundColor: 'rgba(0, 212, 249, 0.4)',
+                borderWidth: 3,
+                tension: 0.2,
+                pointRadius: 0,
+                pointHoverRadius: 6,
+                pointHoverBorderWidth: 2,
+                pointHoverBorderColor: '#ffffff',
+                pointHoverBackgroundColor: '#ffffff'
+            }]
+        },
+        options: {
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            hover: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                annotation: {
+                    annotations: {
+                        line1: {
+                            type: 'line',
+                            yMin: 70,
+                            yMax: 70,
+                            borderColor: '#ff3366',
+                            borderWidth: 2,
+                            label: {
+                                content: 'Crítico > 70%',
+                                font: {
+                                    size: 10
+                                },
+                                enabled: true,
+                                position: 'start',
+                                backgroundColor: '#1a3555',
+                                color: 'rgba(0, 212, 249, 1)',
+                                borderWidth: 0.3,
+                                borderColor: 'rgba(0, 212, 249, 1)'
+                            }
+                        },
+                        line2: {
+                            type: 'line',
+                            yMin: 50,
+                            yMax: 50,
+                            borderColor: '#ffd500',
+                            borderWidth: 2,
+                            label: {
+                                content: 'Alerta > 50%',
+                                font: {
+                                    size: 10
+                                },
+                                enabled: true,
+                                position: 'start',
+                                backgroundColor: '#1a3555',
+                                color: 'rgba(0, 212, 249, 1)',
+                                borderWidth: 0.3,
+                                borderColor: 'rgba(0, 212, 249, 1)'
+                            }
+                        },
+                    }
+                },
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    enabled: true,
+                    backgroundColor: '#1a3555',
+                    titleColor: '#7a92b0',
+                    bodyColor: 'rgba(0, 212, 249, 1)',
+                    borderColor: '#2b5876',
+                    borderWidth: 1,
+                    displayColors: false
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#7a92b0'
+                    },
+                    grid: {
+                        color: '#1f3652'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Horário',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
+                        }
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#7a92b0'
+                    },
+                    grid: {
+                        color: '#1f3652',
+                        borderDash: [5, 5]
+                    },
+                    min: 0,
+                    max: 100,
+                    title: {
+                        display: true,
+                        text: 'Disco (%)',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+
+
+
+
+
+
+
+    // Terceira MRI
+    new Chart(graf3Cpu, {
+        type: 'line',
+        data: {
+            labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
+            datasets: [{
+                label: 'Horário',
+                data: [29, 34, 53, 59, 63, 75, 61, 79, 83, 97],
+                borderColor: '#8B5CF6',
+                fill: true,
+                backgroundColor: 'rgba(139, 92, 246, 0.4)',
+                borderWidth: 3,
+                tension: 0.2,
+                pointRadius: 0,
+                pointHoverRadius: 6,
+                pointHoverBorderWidth: 2,
+                pointHoverBorderColor: '#ffffff',
+                pointHoverBackgroundColor: '#ffffff'
+            }]
+        },
+        options: {
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            hover: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                annotation: {
+                    annotations: {
+                        line1: {
+                            type: 'line',
+                            yMin: 80,
+                            yMax: 80,
+                            borderColor: 'rgba(0, 212, 249, 1)',
+                            borderWidth: 2,
+                            label: {
+                                content: 'Em uso > 80%',
+                                font: {
+                                    size: 14
+                                },
+                                enabled: true,
+                                position: 'start',
+                                backgroundColor: '#1a3555',
+                                color: 'rgba(0, 212, 249, 1)',
+                                borderWidth: 0.3,
+                                borderColor: 'rgba(0, 212, 249, 1)'
+                            }
+                        }
+                    }
+                },
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    enabled: true,
+                    backgroundColor: '#1a3555',
+                    titleColor: '#7a92b0',
+                    bodyColor: 'rgba(0, 212, 249, 1)',
+                    borderColor: '#2b5876',
+                    borderWidth: 1,
+                    displayColors: false
+                },
+                title: {
+                    display: true,
+                    color: '#ffffff'
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#7a92b0'
+                    },
+                    grid: {
+                        color: '#1f3652'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Horário',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
+                        }
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#7a92b0'
+                    },
+                    grid: {
+                        color: '#1f3652',
+                        borderDash: [5, 5]
+                    },
+                    min: 0,
+                    max: 100,
+                    title: {
+                        display: true,
+                        text: 'CPU (%)',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            }
+        }
+    });
+    
+
+
+    new Chart(graf3Ram, {
+        type: 'line',
+        data: {
+            labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
+            datasets: [{
+                label: 'Horário',
+                data: [23, 35, 31, 38, 29, 46, 28, 37, 61, 72],
+                borderColor: 'rgba(0, 212, 249, 1)',
+                fill: true,
+                backgroundColor: 'rgba(0, 212, 249, 0.4)',
+                borderWidth: 3,
+                tension: 0.2,
+                pointRadius: 0,
+                pointHoverRadius: 6,
+                pointHoverBorderWidth: 2,
+                pointHoverBorderColor: '#ffffff',
+                pointHoverBackgroundColor: '#ffffff'
+            }]
+        },
+        options: {
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            hover: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                annotation: {
+                    annotations: {
+                        line1: {
+                            type: 'line',
+                            yMin: 70,
+                            yMax: 70,
+                            borderColor: '#ff3366',
+                            borderWidth: 2,
+                            label: {
+                                content: 'Crítico > 70%',
+                                font: {
+                                    size: 10
+                                },
+                                enabled: true,
+                                position: 'start',
+                                backgroundColor: '#1a3555',
+                                color: 'rgba(0, 212, 249, 1)',
+                                borderWidth: 0.3,
+                                borderColor: 'rgba(0, 212, 249, 1)'
+                            }
+                        },
+                        line2: {
+                            type: 'line',
+                            yMin: 40,
+                            yMax: 40,
+                            borderColor: '#ffd500',
+                            borderWidth: 2,
+                            label: {
+                                content: 'Alerta > 40%',
+                                font: {
+                                    size: 10
+                                },
+                                enabled: true,
+                                position: 'start',
+                                backgroundColor: '#1a3555',
+                                color: 'rgba(0, 212, 249, 1)',
+                                borderWidth: 0.3,
+                                borderColor: 'rgba(0, 212, 249, 1)'
+                            }
+                        },
+                    }
+                },
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    enabled: true,
+                    backgroundColor: '#1a3555',
+                    titleColor: '#7a92b0',
+                    bodyColor: 'rgba(0, 212, 249, 1)',
+                    borderColor: '#2b5876',
+                    borderWidth: 1,
+                    displayColors: false
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#7a92b0'
+                    },
+                    grid: {
+                        color: '#1f3652'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Horário',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
+                        }
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#7a92b0'
+                    },
+                    grid: {
+                        color: '#1f3652',
+                        borderDash: [5, 5]
+                    },
+                    min: 0,
+                    max: 100,
+                    title: {
+                        display: true,
+                        text: 'RAM (%)',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+
+    new Chart(graf3Disco, {
+        type: 'line',
+        data: {
+            labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
+            datasets: [{
+                label: 'Horário',
+                data: [21, 27, 35, 21, 17, 32, 42, 44, 56, 64],
+                borderColor: 'rgba(0, 212, 249, 1)',
+                fill: true,
+                backgroundColor: 'rgba(0, 212, 249, 0.4)',
+                borderWidth: 3,
+                tension: 0.2,
+                pointRadius: 0,
+                pointHoverRadius: 6,
+                pointHoverBorderWidth: 2,
+                pointHoverBorderColor: '#ffffff',
+                pointHoverBackgroundColor: '#ffffff'
+            }]
+        },
+        options: {
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            hover: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                annotation: {
+                    annotations: {
+                        line1: {
+                            type: 'line',
+                            yMin: 70,
+                            yMax: 70,
+                            borderColor: '#ff3366',
+                            borderWidth: 2,
+                            label: {
+                                content: 'Crítico > 70%',
+                                font: {
+                                    size: 10
+                                },
+                                enabled: true,
+                                position: 'start',
+                                backgroundColor: '#1a3555',
+                                color: 'rgba(0, 212, 249, 1)',
+                                borderWidth: 0.3,
+                                borderColor: 'rgba(0, 212, 249, 1)'
+                            }
+                        },
+                        line2: {
+                            type: 'line',
+                            yMin: 50,
+                            yMax: 50,
+                            borderColor: '#ffd500',
+                            borderWidth: 2,
+                            label: {
+                                content: 'Alerta > 50%',
+                                font: {
+                                    size: 10
+                                },
+                                enabled: true,
+                                position: 'start',
+                                backgroundColor: '#1a3555',
+                                color: 'rgba(0, 212, 249, 1)',
+                                borderWidth: 0.3,
+                                borderColor: 'rgba(0, 212, 249, 1)'
+                            }
+                        },
+                    }
+                },
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    enabled: true,
+                    backgroundColor: '#1a3555',
+                    titleColor: '#7a92b0',
+                    bodyColor: 'rgba(0, 212, 249, 1)',
+                    borderColor: '#2b5876',
+                    borderWidth: 1,
+                    displayColors: false
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#7a92b0'
+                    },
+                    grid: {
+                        color: '#1f3652'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Horário',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
+                        }
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#7a92b0'
+                    },
+                    grid: {
+                        color: '#1f3652',
+                        borderDash: [5, 5]
+                    },
+                    min: 0,
+                    max: 100,
+                    title: {
+                        display: true,
+                        text: 'Disco (%)',
+                        color: '#7a92b0',
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+
+    function alertas() {
+        window.location.href = "telaAlertas.html";
+    }
+
+
     var nomeUsuario = sessionStorage.NOME_USUARIO
     spanNome.innerHTML = nomeUsuario
 
-    async function adicionarMaquina() {
-        var num_serie = input_num_serie.value
-        var modelo = input_modelo.value
-        var fkFabricante = sessionStorage.ID_EMPRESA
-
-        let response = await adicionarMaquinaService(num_serie, modelo, fkFabricante)
-
-        console.log(response);
-
-        alert(response);        
+    function usuario() {
+        window.location.href = "dashusuario.html"
     }
+
+
+
+    // var porcCpu = "87%"
+
+    // function mudar() {
+    //     componenteCpu.classList.toogle = ('compoenenteVermelho')
+    //     cpuPorc.innerHTML = porcCpu
+    //     progressCpu.style.width = porcCpu
+    //     progressCpu.style.backgroundColor = "#ff3366"
+    // }
 </script>

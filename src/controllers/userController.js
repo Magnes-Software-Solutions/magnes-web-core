@@ -23,7 +23,7 @@ function autenticar(req, res) {
                     email: resultadoAutenticar[0].email,
                     nome: resultadoAutenticar[0].nome,
                     fkSupervisor: resultadoAutenticar[0].fkSupervisor,
-                    fkFabricante: resultadoAutenticar[0].fkFabricante
+                    fkHospital: resultadoAutenticar[0].fkHospital
                 });
                 } else if (resultadoAutenticar.length == 0) {
                     res.status(403).send("Email e/ou senha inválido(s)");
@@ -89,7 +89,7 @@ function cadastrarEmpresa(req, res) {
 
 async function cadastrarFuncionario(req, res) {
    
-    const { nome, email, cpf, telefone, senha, sessionFK_FABRICANTE, sessionId } = req.body
+    const { nome, email, cpf, telefone, senha, sessionFK_HOSPITAL, sessionId } = req.body
 
     if (nome == undefined) {
         res.status(400).json("nome está undefined!");
@@ -105,7 +105,7 @@ async function cadastrarFuncionario(req, res) {
          
 
         // res.status(200).json(fkFabricante)
-        usuarioModel.cadastrarFuncionario(nome, email, cpf, telefone, senha, sessionFK_FABRICANTE, sessionId)
+        usuarioModel.cadastrarFuncionario(nome, email, cpf, telefone, senha, sessionFK_HOSPITAL, sessionId)
             .then(
                 function (resultado) {
                     console.log("Funcionário cadastrado com sucesso!");
@@ -143,9 +143,82 @@ async function atualizarSenha(req, res) {
     }
 }
 
+async function cadastrarMaquina(req, res) {
+    const { macAddress, numSerie, tipoModelo, sessionFK_HOSPITAL, sessionEstabelecimento } = req.body
+
+    if (numSerie == undefined) {
+        res.status(400).json("numSerie está undefined!");
+    } else if (tipoModelo == undefined) {
+        res.status(400).json("tipoModelo está undefined!");
+    } else {
+        usuarioModel.cadastrarMaquina(macAddress, numSerie, tipoModelo, sessionFK_HOSPITAL, sessionEstabelecimento)
+            .then(
+                function (resultado) {
+                    console.log("Máquina cadastrada com sucesso!");
+                    res.json(resultado);
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
+}
+
+async function cadastrarComponente(req, res) {
+    const {nomeComponente, tipo } = req.body
+
+    if (nomeComponente == undefined) {
+        res.status(400).json("nomeComponente está undefined!");
+    } else if (tipo == undefined) {
+        res.status(400).json("tipo está undefined!");
+    } else if (maquinaId == undefined) {
+        res.status(400).json("maquinaId está undefined!");
+    } else {
+        usuarioModel.cadastrarMaquinaComponente(nomeComponente, tipo)
+            .then(
+                function (resultado) {
+                    console.log("Componente cadastrado com sucesso!");
+                    res.json(resultado);
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
+
+}
+
+async function buscarIdEstabelecimento(req, res) {
+    const { sessionFK_HOSPITAL } = req.body
+
+    if (sessionFK_HOSPITAL == undefined) {
+        res.status(400).json("sessionFK_HOSPITAL está undefined!");
+    } else {
+        usuarioModel.buscarIdEstabelecimento(sessionFK_HOSPITAL)
+            .then(
+                function (resultado) {
+                    console.log("ID do estabelecimento encontrado com sucesso!");
+                    res.json(resultado);
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
+}
+
 module.exports = {
     autenticar,
     cadastrarEmpresa,
     cadastrarFuncionario,
-    atualizarSenha
+    atualizarSenha,
+    cadastrarMaquina,
+    cadastrarComponente,
+    buscarIdEstabelecimento
 }

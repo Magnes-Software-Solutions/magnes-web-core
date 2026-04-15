@@ -646,6 +646,11 @@ progress {
   }
 }
 
+.display-4 span {
+  color: var(--cor00);
+  font-weight: bold;
+}
+
 .display-4 {
   font-weight: 300;
   line-height: 1.2;
