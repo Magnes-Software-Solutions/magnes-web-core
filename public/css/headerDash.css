@@ -54,6 +54,7 @@
 
 .navBarNav {
     height: 50%;
+    width: 50%; /* Largura dos itens do header */
     padding: 0px;
     justify-content: space-evenly !important;
 }

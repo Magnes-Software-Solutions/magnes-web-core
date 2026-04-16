@@ -189,7 +189,7 @@
     padding: 0.5%;
     display: flex;
     justify-content: center;
-    width: 30%;
+    width: 100px;
     height: fit-content;
 }
 
@@ -239,6 +239,21 @@
 
 .bodyImgAmarelo p {
     color: #ffd500;
+    margin: 0;
+}
+
+/* Status Azul */
+.bodyImgAzul {
+    background: linear-gradient(
+      135deg,
+      #104c68,
+      #123550
+    );
+    border-color: #0e5875;
+}
+
+.bodyImgAzul p {
+    color: #00d4f9;
     margin: 0;
 }
 
@@ -404,8 +419,21 @@
 .dialogGraf-header {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: start;
     justify-content: space-between;
+}
+
+.dialogUso {
+    width: fit-content;
+    height: -webkit-fill-available;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    direction: rtl;
+}
+
+.closeDialog {
+    width: 20px;
 }
 
 .graficos-dois {
