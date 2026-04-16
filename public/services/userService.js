@@ -50,20 +50,45 @@ async function cadastrarMaquinaService(macAddress, numSerie, tipoModelo, session
     return response
 }
 
-async function cadastrarComponenteService(nomeComponente, tipo) {
+async function cadastrarComponenteService(nomeComponente, tipoComponente, unidadeMedida, capacidadeMaxima) {
     const body = {
-        nomeComponente, tipo
+        nomeComponente, tipoComponente, unidadeMedida, capacidadeMaxima
     }
     const response = await api.post("/user/cadastrarComponente", body)
     console.log(response);
     return response
 }
 
-async function buscarIdEstabelecimentoService( sessionFK_HOSPITAL) {
+async function cadastrarEstabelecimentoService(razaoSocial, tipoEstabelecimento, cep, numeroEstabelecimento) {
     const body = {
-        sessionFK_HOSPITAL
+        razaoSocial, tipoEstabelecimento, cep, numeroEstabelecimento
+    }
+    const response = await api.post("/user/cadastrarEstabelecimento", body)
+    console.log(response);
+    return response
+}
+
+async function buscarIdEstabelecimentoService( razaoSocial) {
+    const body = {
+        razaoSocial
     }
     const response = await api.post("/user/buscarIdEstabelecimento", body)
+    console.log(response);
+    return response
+}
+
+async function buscarIdsComponenteService() {
+    const body = {}
+    const response = await api.get("/user/buscarIdsComponente")
+    console.log(response);
+    return response
+}
+
+async function cadastrarComponenteMaquinaService(macAddress, idComponente, limite) {
+    const body = {
+        macAddress, idComponente, limite
+    }
+    const response = await api.post("/user/cadastrarComponenteMaquina", body)
     console.log(response);
     return response
 }
