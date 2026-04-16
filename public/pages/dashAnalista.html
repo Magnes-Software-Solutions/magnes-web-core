@@ -16,38 +16,28 @@
 <body style="background-color: #0a1628;">
     <div class="container-fluid">
         <div class="row">
-            <nav class="navbar fixed-top navBarTop">
+            <nav class="navbar bg-body-tertiary fixed-top navBarTop">
                 <div class="container-fluid">
-                    <div class="d-flex align-items-center gap-2">
-                        <img onclick="dashboardVoltar" src="../assets/imgs/Logo.png" alt="Logo" class="navLogo"
-                            onerror="this.style.display='none'" />
-                        <div>
-                            <p class="tituloLogo mb-0">MAGNES</p>
-                            <p class="textoLogo mb-0">MRI MONITOR</p>
-                        </div>
+                    <img src="../assets/imgs/Logo.png" alt="" width="5%" height="85%">
+                    <div class="titulo">
+                        <p class="tituloLogo">MAGNES</p>
+                        <p class="textoLogo">MRI MONITOR</p>
                     </div>
-
-                    <button class="navbar-toggler navBarToggler" type="button" data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
-                        <span class="navbar-toggler-icon navBarTogglerIcon"></span>
+                    <button class="navbar-toggler navBarToggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon navBarTogglerIcon"></span>
                     </button>
-
-                    <div class="offcanvas offcanvas-end offCanvas" tabindex="-1" id="offcanvasNavbar"
-                        aria-labelledby="offcanvasNavbarLabel">
-
+                    <div class="offcanvas offcanvas-end offCanvas" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                         <div class="offcanvas-header">
                             <h5 class="offcanvas-title offCanvasTitle" id="offcanvasNavbarLabel">MAGNES</h5>
-                            <button type="button" class="btn-close offCanvasButton" data-bs-dismiss="offcanvas"
-                                aria-label="Fechar"></button>
+                            <button type="button" class="btn-close offCanvasButton" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
-
                         <div class="offcanvas-body offcanvasBody">
-                            <ul class="navbar-nav flex-column gap-1 navBarNav">
-                                <li class="nav-item navLi" onclick="window.location.href='dashAnalista.html'">
+                            <ul class="navbar-nav flex-column navBarNav">
+                                <li class="nav-item navLi navLiActive" onclick="window.location.href='dashAnalista.html'">
                                     <img src="../assets/imgs/dashboard.svg" alt="" class="navItemIcon" />
                                     <a class="nav-link">Dashboard</a>
                                 </li>
-                                <li class="nav-item navLi navLiActive">
+                                <li class="nav-item navLi">
                                     <img src="../assets/imgs/alert.svg" alt="" class="navItemIcon" />
                                     <a class="nav-link">Alerta</a>
                                 </li>
@@ -64,15 +54,15 @@
                                     <a class="nav-link" href="#">Cadastrar Máquina</a>
                                 </li>
                             </ul>
+                            </form>
                         </div>
-
-                        <div class="offcanvas-header perfil">
-                            <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Perfil" />
+                        <div class="offcanvas-header perfil" onclick="usuario()">
+                            <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Simbolo de perfil">
                             <div class="textosPerfil">
-                                <h5 class="offcanvas-title mb-0" id="nomeUsuarioNav">—</h5>
-                                <p class="mb-0 text-muted" style="font-size:12px;" id="cargoUsuarioNav">Analista de Sistemas</p>
+                                <h5 class="offcanvas-title" id="spanNome">(nome do banco)</h5>
+                                <p>(cargo do banco)</p>
                             </div>
-                            <img class="perfilConfig" src="../assets/imgs/gear.svg" alt="Configurações" />
+                            <img class="perfilConfig" src="../assets/imgs/gear.svg" alt="Simbolo de configurações">
                         </div>
                     </div>
                 </div>
