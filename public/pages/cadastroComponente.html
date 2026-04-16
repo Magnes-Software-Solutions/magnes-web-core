@@ -19,8 +19,7 @@
                 <p class="textoLogo">MRI MONITOR</p>
             </div>
             <button class="navbar-toggler navBarToggler" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar"
-                aria-label="Toggle navigation">
+                data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon navBarTogglerIcon"></span>
             </button>
             <div class="offcanvas offcanvas-end offCanvas" tabindex="-1" id="offcanvasNavbar"
@@ -142,8 +141,9 @@
                         </div>
 
                         <div class="col-12 mt-4">
-                            <button type="button" class="botao-magnes" onclick="cadastrarComponente()">
+                            <button type="button" class="botao-magnes" onclick="cadastrarMaquina()">
                                 Finalizar Cadastro
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -246,7 +246,7 @@
         bootstrapModal.show();
     }
 
-    function proximaEtapa() {   
+    function proximaEtapa() {
         document.getElementById('etapa1').style.display = 'none';
         document.getElementById('etapa2').style.display = 'block';
     }
@@ -267,9 +267,35 @@
         window.location.href = "dashAnalista.html";
     }
 
+    /*
+    Criar a função para cadastrar estabelecimento
+    atribuir as variaveis e criar os caminhos inclusive o service
+    depois trocar a referencia para conseguir pegar o id do estabelecimento 
+    por fim ajeitar certinho qnd cada função vai iniciar
+    */
+
+    async function cadastrarEstabelecimento() {
+
+        const razaoSocial = input_razaoSocialEstabelecimento.value;
+        const tipoEstabelecimento = input_tipoEstabelecimento.value;
+        const cep = input_cep.value;
+        const numeroEstabelecimento = input_numeroEstabelecimento.value;
+
+        const resposta = await cadastrarEstabelecimentoService(razaoSocial, tipoEstabelecimento, cep, numeroEstabelecimento)
+        if (resposta.ok) {
+            console.log("Estabelecimento cadastrado com sucesso");
+        }
+        else {
+            console.log("Erro ao cadastrar estabelecimento", resposta.mensagem);
+            return null;
+        }
+    }
 
     async function buscarIdEstabelecimento() {
-        const resposta = await buscarIdEstabelecimentoService(sessionStorage.FK_HOSPITAL)
+
+        const razaoSocial = input_razaoSocialEstabelecimento.value;
+
+        const resposta = await buscarIdEstabelecimentoService(razaoSocial)
         if (resposta.ok) {
             const json = await resposta.json();
             console.log("ID do Estabelecimento: " + json[0].idEstabelecimento);
@@ -282,16 +308,38 @@
     }
 
     async function cadastrarMaquina() {
-
-        await buscarIdEstabelecimento();
-
         const numeroSerie = input_numSerie.value;
         const tipoModelo = input_tipoModelo.value;
         const macAddress = input_macAddress.value;
 
+        sessionStorage.MAC_ADDRESS = macAddress;
+
 
         if (!numeroSerie || !tipoModelo || !macAddress) {
             alert('Por favor, preencha todos os campos obrigatórios.');
+            return;
+        }
+
+        const respostaBusca = await buscarIdEstabelecimentoService(input_razaoSocialEstabelecimento.value);
+
+        if (respostaBusca.ok) {
+            const json = await respostaBusca.json();
+
+            if (json.length > 0) {
+                sessionStorage.ID_ESTABELECIMENTO = json[0].idEstabelecimento;
+                alert("Estabelecimento já existe e foi vinculado à máquina.");
+                return;
+            }
+            else {
+                await cadastrarEstabelecimento();
+                await buscarIdEstabelecimento();
+                await cadastrarComponenteBD();
+                await cadastrarComponente();
+                cadastrarComponentesMaquina();
+            }
+        }
+        else {
+            alert('Erro ao buscar ID do estabelecimento: ' + respostaBusca.mensagem);
             return;
         }
 
@@ -304,22 +352,61 @@
 
     }
 
-    // async function cadastrarComponente() {
-    //     const nomeComponente = input_nomeComponente.value;
-    //     const tipo = select_tipo.value;
+    async function cadastrarComponenteBD() {
 
-    //     if (!nomeComponente || !tipo) {
-    //         alert('Por favor, preencha todos os campos obrigatórios.');
-    //         return;
-    //     }
+        ListaNomeComponentes = ["CPU", "RAM", "Disco"];
+        ListaTipoComponentes = ["Unidade central de processamento", "Memória de acesso aleatório", "Disco rígido"];
+        ListaUnidadeMedida = ["Hertz(Hz)", "Gigabyte(GB)", "Terabyte(TB)"];
+        ListaCapacidadeMaxima = ["100", "70", "1"];
 
-    //     const resposta = await cadastrarComponenteService(nomeComponente, tipo)
-    //     if (resposta.ok) {
-    //         alert('Componente cadastrado com sucesso!');
-    //     } else {
-    //         alert('Erro ao cadastrar componente: ' + resposta.mensagem);
-    //     }
-    // }
+        for (var i = 0; i < 3; i++) {
+
+            const nomeComponente = ListaNomeComponentes[i];
+            const tipoComponente = ListaTipoComponentes[i];
+            const unidadeMedida = ListaUnidadeMedida[i];
+            const capacidadeMaxima = ListaCapacidadeMaxima[i];
+
+            const resposta = await cadastrarComponenteService(nomeComponente, tipoComponente, unidadeMedida, capacidadeMaxima)
+            if (resposta.ok) {
+                alert('Componente cadastrado com sucesso!');
+            } else {
+                alert('Erro ao cadastrar componente: ' + resposta.mensagem);
+            }
+        }
+    }
+
+    async function cadastrarComponentesMaquina() {
+
+
+        ListaIdsComponentes = [];
+        ListaLimites = ["100", "70", "700"];
+
+        const respostaBusca = await buscarIdsComponenteService();
+
+        if (respostaBusca.ok) {
+            const json = await respostaBusca.json();
+            console.log("ID do Componente: " + json[0].idComponente);
+            for (var i = 0; i < 3; i++) {
+                ListaIdsComponentes.push(json[i].idComponente);
+            }
+        } else {
+            alert('Erro ao buscar ID do componente: ' + respostaBusca.mensagem);
+            return null;
+        }
+
+        for (var i = 0; i < 3; i++) {
+            const idComponenteAtual = ListaIdsComponentes[i];
+            const limiteAtual = ListaLimites[i];
+
+            const respostaCadastro = await cadastrarComponenteMaquinaService(sessionStorage.MAC_ADDRESS, idComponenteAtual, limiteAtual);
+
+            if (respostaCadastro.ok) {
+                alert('Componentes vinculados à máquina com sucesso!');
+            } else {
+                alert('Erro ao vincular componentes à máquina: ' + respostaCadastro.mensagem);
+            }
+        }
+    }
 
 
 

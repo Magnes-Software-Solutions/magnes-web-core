@@ -37,14 +37,30 @@ function cadastrarMaquina(macAddress, numSerie, tipoModelo, sessionFK_HOSPITAL, 
     return database.executar(instrucaoSql);
 }
 
-function cadastrarComponente(nomeComponente, tipo) {
-    var instrucaoSql = `INSERT INTO componente (nomeComponente, tipoComponente) 
-    VALUES ('${nomeComponente}', '${tipo}')`
+
+function cadastrarComponente(nomeComponente, tipoComponente, unidadeMedida, capacidadeMaxima){
+    var instrucaoSql = `INSERT INTO componente (nomeComponente, tipoComponente, unidadeMedida, capacidadeMaxima) 
+    VALUES ('${nomeComponente}','${tipoComponente}','${unidadeMedida}', '${capacidadeMaxima}')`
     return database.executar(instrucaoSql); 
 }
 
-function buscarIdEstabelecimento(sessionFK_HOSPITAL) {
-    var instrucaoSql = `SELECT idEstabelecimento FROM estabelecimento WHERE idEstabelecimento = ${sessionFK_HOSPITAL}`
+function buscarIdEstabelecimento(razaoSocial) {
+    var instrucaoSql = `SELECT idEstabelecimento FROM estabelecimento WHERE razaoSocialEstabelecimento = '${razaoSocial}'`
+    return database.executar(instrucaoSql);
+}
+
+function cadastrarEstabelecimento(razaoSocial, tipoEstabelecimento, cep, numeroEstabelecimento) {
+    var instrucaoSql = `INSERT INTO estabelecimento (razaoSocialEstabelecimento, tipoEstabelecimento, cep, numeroEstabelecimento) 
+    VALUES ('${razaoSocial}', '${tipoEstabelecimento}', '${cep}', '${numeroEstabelecimento}')`
+    return database.executar(instrucaoSql);
+}
+function buscarIdsComponente() {
+    var instrucaoSql = `SELECT idComponente FROM componente ORDER BY idComponente DESC LIMIT 3;`
+    return database.executar(instrucaoSql);
+}
+function cadastrarComponenteMaquina(fkMaquina, fkComponente, limite) {
+    var instrucaoSql = `INSERT INTO componente_maquina (fkComponente, fkMaquina, limite) 
+    VALUES ('${fkComponente}', '${fkMaquina}', '${limite}')`
     return database.executar(instrucaoSql);
 }
 
@@ -57,5 +73,8 @@ module.exports = {
     atualizarSenha,
     cadastrarMaquina,
     cadastrarComponente,
-    buscarIdEstabelecimento
+    buscarIdEstabelecimento,
+    cadastrarEstabelecimento,
+    buscarIdsComponente,
+    cadastrarComponenteMaquina
 };
