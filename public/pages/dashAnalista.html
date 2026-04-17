@@ -146,23 +146,29 @@
                             <div class="dialogUso">
                                 <img class="closeDialog" type="button" src="../assets/imgs/x-lg.svg" alt="" onclick="document.getElementById('dialog_graf1').close()">
                                 <div class="bodyImg bodyImgAzul">
-                                        <p>Em uso</p>
+                                    <p>Em uso</p>
                                 </div>
                             </div>
                         </div>
                         <div class="grafico-principal">
-                            <p>CPU X Horário</p>
-                            <canvas id="graf1Cpu"></canvas>
+                            <p class="textoChart">Relação da porcentagem de uso da CPU por horário</p>
+                            <div class="divCanvas">
+                                <canvas id="graf1Cpu"></canvas>
+                            </div>
                         </div>
                         <br><br><br>
                         <div class="graficos-dois">
                             <div class="grafico">
-                                <p>RAM X Horário</p>
-                                <canvas id="graf1Ram"></canvas>
+                                <p class="textoChart">Relação da porcentagem de uso da RAM por horário</p>
+                                <div class="divCanvas">
+                                    <canvas id="graf1Ram"></canvas>
+                                </div>
                             </div>
                             <div class="grafico">
-                                <p>Disco X Horário</p>
-                                <canvas id="graf1Disco"></canvas>
+                                <p class="textoChart">Relação da porcentagem de uso do Disco por horário</p>
+                                <div class="divCanvas">
+                                    <canvas id="graf1Disco"></canvas>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -245,23 +251,29 @@
                                 <div class="dialogUso">
                                     <img class="closeDialog" type="button" src="../assets/imgs/x-lg.svg" alt="" onclick="document.getElementById('dialog_graf2').close()">
                                     <div class="bodyImg bodyImgAzul">
-                                            <p>Em uso</p>
+                                        <p>Em uso</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="grafico-principal">
-                                <p>CPU X Horário</p>
-                                <canvas id="graf2Cpu"></canvas>
+                                <p class="textoChart">Relação da porcentagem de uso da CPU por horário</p>
+                                <div class="divCanvas">
+                                    <canvas id="graf2Cpu"></canvas>
+                                </div>
                             </div>
                             <br><br><br>
                             <div class="graficos-dois">
                                 <div class="grafico">
-                                    <p>RAM X Horário</p>
-                                    <canvas id="graf2Ram"></canvas>
+                                    <p class="textoChart">Relação da porcentagem de uso da RAM por horário</p>
+                                    <div class="divCanvas">
+                                        <canvas id="graf2Ram"></canvas>
+                                    </div>
                                 </div>
                                 <div class="grafico">
-                                    <p>Disco X Horário</p>
-                                    <canvas id="graf2Disco"></canvas>
+                                    <p class="textoChart">Relação da porcentagem de uso do Disco por horário</p>
+                                    <div class="divCanvas">
+                                        <canvas id="graf2Disco"></canvas>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -348,18 +360,24 @@
                                 </div>
                             </div>
                             <div class="grafico-principal">
-                                <p>CPU X Horário</p>
-                                <canvas id="graf3Cpu"></canvas>
+                                <p class="textoChart">Relação da porcentagem de uso da CPU por horário</p>
+                                <div class="divCanvas">
+                                    <canvas id="graf3Cpu"></canvas>
+                                </div>
                             </div>
                             <br><br><br>
                             <div class="graficos-dois">
                                 <div class="grafico">
-                                    <p>RAM X Horário</p>
-                                    <canvas id="graf3Ram"></canvas>
+                                    <p class="textoChart">Relação da porcentagem de uso da RAM por horário</p>
+                                    <div class="divCanvas">
+                                        <canvas id="graf3Ram"></canvas>
+                                    </div>
                                 </div>
                                 <div class="grafico">
-                                    <p>Disco X Horário</p>
-                                    <canvas id="graf3Disco"></canvas>
+                                    <p class="textoChart">Relação da porcentagem de uso do Disco por horário</p>
+                                    <div class="divCanvas">
+                                        <canvas id="graf3Disco"></canvas>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -697,7 +715,7 @@
             data: {
                 labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
                 datasets: [{
-                    label: 'Horário',
+                    label: 'Porcentagem por Horário',
                     data: [24, 29, 51, 67, 41, 37, 24, 27, 31, 59],
                     borderColor: '#8B5CF6',
                     fill: true,
@@ -745,7 +763,10 @@
                         }
                     },
                     legend: {
-                        display: false
+                        display: true,
+                        labels: {
+                            color: '#ffffff'
+                        }
                     },
                     tooltip: {
                         enabled: true,
@@ -808,7 +829,7 @@
             data: {
                 labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
                 datasets: [{
-                    label: 'Horário',
+                    label: 'Porcentagem por Horário',
                     data: [24, 35, 17, 20, 35, 26, 19, 13, 26, 38],
                     borderColor: 'rgba(0, 212, 249, 1)',
                     fill: true,
@@ -874,7 +895,10 @@
                         }
                     },
                     legend: {
-                        display: false
+                        display: true,
+                        labels: {
+                            color: '#ffffff'
+                        }
                     },
                     tooltip: {
                         enabled: true,
@@ -932,7 +956,7 @@
             data: {
                 labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
                 datasets: [{
-                    label: 'Horário',
+                    label: 'Porcentagem por Horário',
                     data: [12, 24, 18, 21, 17, 32, 38, 45, 39, 43],
                     borderColor: 'rgba(0, 212, 249, 1)',
                     fill: true,
@@ -999,7 +1023,10 @@
                         }
                     },
                     legend: {
-                        display: false
+                        display: true,
+                        labels: {
+                            color: '#ffffff'
+                        }
                     },
                     tooltip: {
                         enabled: true,
@@ -1063,7 +1090,7 @@
             data: {
                 labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
                 datasets: [{
-                    label: 'Horário',
+                    label: 'Porcentagem por Horário',
                     data: [22, 34, 31, 46, 55, 42, 37, 28, 35, 47],
                     borderColor: '#8B5CF6',
                     fill: true,
@@ -1111,7 +1138,10 @@
                         }
                     },
                     legend: {
-                        display: false
+                        display: true,
+                        labels: {
+                            color: '#ffffff'
+                        }
                     },
                     tooltip: {
                         enabled: true,
@@ -1174,7 +1204,7 @@
             data: {
                 labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
                 datasets: [{
-                    label: 'Horário',
+                    label: 'Porcentagem por Horário',
                     data: [23, 35, 31, 38, 36, 29, 35, 42, 56, 62],
                     borderColor: 'rgba(0, 212, 249, 1)',
                     fill: true,
@@ -1241,7 +1271,10 @@
                         }
                     },
                     legend: {
-                        display: false
+                        display: true,
+                        labels: {
+                            color: '#ffffff'
+                        }
                     },
                     tooltip: {
                         enabled: true,
@@ -1299,7 +1332,7 @@
             data: {
                 labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
                 datasets: [{
-                    label: 'Horário',
+                    label: 'Porcentagem por Horário',
                     data: [31, 27, 35, 41, 37, 32, 30, 44, 39, 47],
                     borderColor: 'rgba(0, 212, 249, 1)',
                     fill: true,
@@ -1366,7 +1399,10 @@
                         }
                     },
                     legend: {
-                        display: false
+                        display: true,
+                        labels: {
+                            color: '#ffffff'
+                        }
                     },
                     tooltip: {
                         enabled: true,
@@ -1430,7 +1466,7 @@
             data: {
                 labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
                 datasets: [{
-                    label: 'Horário',
+                    label: 'Porcentagem por Horário',
                     data: [29, 34, 53, 59, 63, 75, 61, 79, 83, 97],
                     borderColor: '#8B5CF6',
                     fill: true,
@@ -1478,7 +1514,10 @@
                         }
                     },
                     legend: {
-                        display: false
+                        display: true,
+                        labels: {
+                            color: '#ffffff'
+                        }
                     },
                     tooltip: {
                         enabled: true,
@@ -1541,7 +1580,7 @@
             data: {
                 labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
                 datasets: [{
-                    label: 'Horário',
+                    label: 'Porcentagem por Horário',
                     data: [23, 35, 31, 38, 29, 46, 28, 37, 61, 72],
                     borderColor: 'rgba(0, 212, 249, 1)',
                     fill: true,
@@ -1608,7 +1647,10 @@
                         }
                     },
                     legend: {
-                        display: false
+                        display: true,
+                        labels: {
+                            color: '#ffffff'
+                        }
                     },
                     tooltip: {
                         enabled: true,
@@ -1666,7 +1708,7 @@
             data: {
                 labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
                 datasets: [{
-                    label: 'Horário',
+                    label: 'Porcentagem por Horário',
                     data: [21, 27, 35, 21, 17, 32, 42, 44, 56, 64],
                     borderColor: 'rgba(0, 212, 249, 1)',
                     fill: true,
@@ -1733,7 +1775,10 @@
                         }
                     },
                     legend: {
-                        display: false
+                        display: true,
+                        labels: {
+                            color: '#ffffff'
+                        }
                     },
                     tooltip: {
                         enabled: true,
