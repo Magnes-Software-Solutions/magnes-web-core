@@ -89,7 +89,7 @@ function cadastrarEmpresa(req, res) {
 
 async function cadastrarFuncionario(req, res) {
 
-    const { nome, email, cpf, telefone, senha, sessionFK_HOSPITAL, sessionId } = req.body
+    const { nome, email, cpf, telefone, senha, sessionFK_REDE_HOSPITAL, sessionId } = req.body
 
     if (nome == undefined) {
         res.status(400).json("nome está undefined!");
@@ -105,7 +105,7 @@ async function cadastrarFuncionario(req, res) {
 
 
         // res.status(200).json(fkFabricante)
-        usuarioModel.cadastrarFuncionario(nome, email, cpf, telefone, senha, sessionFK_HOSPITAL, sessionId)
+        usuarioModel.cadastrarFuncionario(nome, email, cpf, telefone, senha, sessionFK_REDE_HOSPITAL, sessionId)
             .then(
                 function (resultado) {
                     console.log("Funcionário cadastrado com sucesso!");
@@ -144,14 +144,14 @@ async function atualizarSenha(req, res) {
 }
 
 async function cadastrarMaquina(req, res) {
-    const { macAddress, numSerie, tipoModelo, sessionFK_HOSPITAL, sessionEstabelecimento } = req.body
+    const { macAddress, numSerie, tipoModelo, sessionFK_REDE_HOSPITAL, sessionEnderecoHospital } = req.body
 
     if (numSerie == undefined) {
         res.status(400).json("numSerie está undefined!");
     } else if (tipoModelo == undefined) {
         res.status(400).json("tipoModelo está undefined!");
     } else {
-        usuarioModel.cadastrarMaquina(macAddress, numSerie, tipoModelo, sessionFK_HOSPITAL, sessionEstabelecimento)
+        usuarioModel.cadastrarMaquina(macAddress, numSerie, tipoModelo, sessionFK_REDE_HOSPITAL, sessionEnderecoHospital)
             .then(
                 function (resultado) {
                     console.log("Máquina cadastrada com sucesso!");
@@ -196,16 +196,18 @@ async function cadastrarComponente(req, res) {
     }
 }
 
-async function buscarIdEstabelecimento(req, res) {
-    const { razaoSocial } = req.body
+async function buscarIdEnderecoHospital(req, res) {
+    const { cep, numeroHospital } = req.body
 
-    if (razaoSocial == undefined) {
-        res.status(400).json("razaoSocial está undefined!");
+    if (cep == undefined) {
+        res.status(400).json("cep está undefined!");
+    } else if (numeroHospital == undefined) {
+        res.status(400).json("numeroHospital está undefined!");
     } else {
-        usuarioModel.buscarIdEstabelecimento(razaoSocial)
+        usuarioModel.buscarIdEnderecoHospital(cep, numeroHospital)
             .then(
                 function (resultado) {
-                    console.log("ID do estabelecimento encontrado com sucesso!");
+                    console.log("ID do endereço do hospital encontrado com sucesso!");
                     res.json(resultado);
                 }
             ).catch(
@@ -217,22 +219,22 @@ async function buscarIdEstabelecimento(req, res) {
     }
 }
 
-async function cadastrarEstabelecimento(req, res) {
-    const { razaoSocial, tipoEstabelecimento, cep, numeroEstabelecimento } = req.body
+async function cadastrarEnderecoHospital(req, res) {
+    const { bairro, cidade, cep, numeroHospital } = req.body
 
-    if (razaoSocial == undefined) {
-        res.status(400).json("razaoSocial está undefined!");
-    } else if (tipoEstabelecimento == undefined) {
-        res.status(400).json("tipoEstabelecimento está undefined!");
+    if (bairro == undefined) {
+        res.status(400).json("bairro está undefined!");
+    } else if (cidade == undefined) {
+        res.status(400).json("cidade está undefined!");
     } else if (cep == undefined) {
         res.status(400).json("cep está undefined!");
-    } else if (numeroEstabelecimento == undefined) {
-        res.status(400).json("numeroEstabelecimento está undefined!");
+    } else if (numeroHospital == undefined) {
+        res.status(400).json("numeroHospital está undefined!");
     } else {
-        usuarioModel.cadastrarEstabelecimento(razaoSocial, tipoEstabelecimento, cep, numeroEstabelecimento)
+        usuarioModel.cadastrarEnderecoHospital(bairro, cidade, cep, numeroHospital)
             .then(
                 function (resultado) {
-                    console.log("Estabelecimento cadastrado com sucesso!");
+                    console.log("Endereço do hospital cadastrado com sucesso!");
                     res.json(resultado);
                 }
             ).catch(
@@ -289,8 +291,8 @@ module.exports = {
     atualizarSenha,
     cadastrarMaquina,
     cadastrarComponente,
-    buscarIdEstabelecimento,
-    cadastrarEstabelecimento,
+    buscarIdEnderecoHospital,
+    cadastrarEnderecoHospital,
     buscarIdsComponente,
     cadastrarComponenteMaquina
 }
