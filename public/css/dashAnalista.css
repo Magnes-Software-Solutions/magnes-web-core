@@ -426,23 +426,30 @@
 
 .dialogGraf-header {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: start;
     justify-content: space-between;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 
 .dialogUso {
-    width: fit-content;
-    height: -webkit-fill-available;
-    display: flex;
-    flex-direction: column;
+    width: 100%;
     justify-content: space-between;
-    direction: rtl;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+}
+
+.dialogUso-texto {
+    margin: 0px;
+    color: #7a92b0;
+    font-size: 16px;
+    text-decoration: underline;
 }
 
 .closeDialog {
     width: 20px;
+
 }
 
 .graficos-dois {

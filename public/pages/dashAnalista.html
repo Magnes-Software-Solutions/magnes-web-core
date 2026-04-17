@@ -137,52 +137,53 @@
                 <dialog id="dialog_graf1" class="dialog-graf">
                     <div class="dialog-content">
                         <div class="dialogGraf-header">
-                            <div>
+                            <div class="dialogUso">
                                 <h2>Dashboard MRI-01</h2>
-                                <div class="bodyImg bodyImgVerde">
-                                    <p>Estável</p>
-                                </div>
+                                <img class="closeDialog" type="button" src="../assets/imgs/x-lg.svg" alt="" onclick="document.getElementById('dialog_graf1').close()">
                             </div>
                             <div class="dialogUso">
-                                <img class="closeDialog" type="button" src="../assets/imgs/x-lg.svg" alt="" onclick="document.getElementById('dialog_graf1').close()">
+                                <div class="bodyImg bodyImgVerde">
+                                    <p >Estável</p>
+                                </div>
+                                <p class="dialogUso-texto">Atualizado a 10 min atrás</p>
                                 <div class="bodyImg bodyImgAzul">
                                     <p>Em uso</p>
                                 </div>
                             </div>
                         </div>
                         <div class="grafico-principal">
-                            <p class="textoChart">Relação da porcentagem de uso da CPU por horário</p>
+                            <p class="textoChart">Relação de uso em porcentagem atual por componente</p>
                             <div class="divCanvas">
-                                <canvas id="graf1Cpu"></canvas>
+                                <canvas id="graf1Barra"></canvas>
                             </div>
                         </div>
                         <br><br><br>
                         <div class="graficos-dois">
                             <div class="grafico">
-                                <p class="textoChart">Relação da porcentagem de uso da RAM por horário</p>
+                                <p class="textoChart">Relação da porcentagem de uso da CPU por horário</p>
+                                <div class="divCanvas">
+                                    <canvas id="graf1Cpu"></canvas>
+                                </div>
+                            </div>
+                            <div class="grafico">
+                                <p class="textoChart">Relação da porcentagem de uso do RAM por horário</p>
                                 <div class="divCanvas">
                                     <canvas id="graf1Ram"></canvas>
                                 </div>
                             </div>
-                            <div class="grafico">
-                                <p class="textoChart">Relação da porcentagem de uso do Disco por horário</p>
-                                <div class="divCanvas">
-                                    <canvas id="graf1Disco"></canvas>
-                                </div>
-                            </div>
                         </div>
                         <br><br><br>
                         <div class="graficos-dois">
                             <div class="grafico">
-                                <p class="textoChart">Relação da quantidade de processos por horário</p>
+                                <p class="textoChart">Relação da quantidade de Disco por horário</p>
                                 <div class="divCanvas">
-                                    <canvas id="graf1Processos"></canvas>
+                                    <canvas id="graf1Disco"></canvas>
                                 </div>
                             </div>
                             <div class="grafico">
-                                <p class="textoChart">Relação de uso de porcentagem atual por componente</p>
+                                <p class="textoChart">Relação de quantidade de processos por horário</p>
                                 <div class="divCanvas">
-                                    <canvas id="graf1Barra"></canvas>
+                                    <canvas id="graf1Processos"></canvas>
                                 </div>
                             </div>
                         </div>
@@ -206,7 +207,7 @@
                                         </div>
                                     </div>
                                     <div class="bodyMaquina-body">
-                                        <p>Verificado 10 min atrás</p>
+                                        <p>Atualizado 10 min atrás</p>
                                         <hr>
                                         <div class="componentes compoenenteAzul">
                                             <div id="componenteCpu" class="componentes-titulo">
@@ -257,37 +258,53 @@
                     <dialog id="dialog_graf2" class="dialog-graf">
                         <div class="dialog-content">
                             <div class="dialogGraf-header">
-                                <div>
+                                <div class="dialogUso">
                                     <h2>Dashboard MRI-02</h2>
-                                    <div class="bodyImg bodyImgAmarelo">
-                                        <p>Alerta</p>
-                                    </div>
+                                    <img class="closeDialog" type="button" src="../assets/imgs/x-lg.svg" alt="" onclick="document.getElementById('dialog_graf1').close()">
                                 </div>
                                 <div class="dialogUso">
-                                    <img class="closeDialog" type="button" src="../assets/imgs/x-lg.svg" alt="" onclick="document.getElementById('dialog_graf2').close()">
+                                    <div class="bodyImg bodyImgVerde">
+                                        <p >Estável</p>
+                                    </div>
+                                    <p class="dialogUso-texto">Atualizado a 10 min atrás</p>
                                     <div class="bodyImg bodyImgAzul">
                                         <p>Em uso</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="grafico-principal">
-                                <p class="textoChart">Relação da porcentagem de uso da CPU por horário</p>
+                                <p class="textoChart">Relação de uso em porcentagem atual por componente</p>
                                 <div class="divCanvas">
-                                    <canvas id="graf2Cpu"></canvas>
+                                    <canvas id="graf1Barra"></canvas>
                                 </div>
                             </div>
                             <br><br><br>
                             <div class="graficos-dois">
                                 <div class="grafico">
-                                    <p class="textoChart">Relação da porcentagem de uso da RAM por horário</p>
+                                    <p class="textoChart">Relação da porcentagem de uso da CPU por horário</p>
+                                    <div class="divCanvas">
+                                        <canvas id="graf2Cpu"></canvas>
+                                    </div>
+                                </div>
+                                <div class="grafico">
+                                    <p class="textoChart">Relação da porcentagem de uso do RAM por horário</p>
                                     <div class="divCanvas">
                                         <canvas id="graf2Ram"></canvas>
                                     </div>
                                 </div>
+                            </div>
+                            <br><br><br>
+                            <div class="graficos-dois">
                                 <div class="grafico">
-                                    <p class="textoChart">Relação da porcentagem de uso do Disco por horário</p>
+                                    <p class="textoChart">Relação da quantidade de Disco por horário</p>
                                     <div class="divCanvas">
                                         <canvas id="graf2Disco"></canvas>
+                                    </div>
+                                </div>
+                                <div class="grafico">
+                                    <p class="textoChart">Relação de quantidade de processos por horário</p>
+                                    <div class="divCanvas">
+                                        <canvas id="graf2Processos"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -310,7 +327,7 @@
                                         </div>
                                     </div>
                                     <div class="bodyMaquina-body">
-                                        <p>Verificado 10 min atrás</p>
+                                        <p>Atualizado 10 min atrás</p>
                                         <hr>
                                         <div class="componentes compoenenteAzul">
                                             <div class="componentes-titulo">
@@ -361,37 +378,53 @@
                     <dialog id="dialog_graf3" class="dialog-graf">
                         <div class="dialog-content">
                             <div class="dialogGraf-header">
-                                <div>
+                                <div class="dialogUso">
                                     <h2>Dashboard MRI-03</h2>
-                                    <div class="bodyImg bodyImgVermelho">
-                                        <p>Crítico</p>
-                                    </div>
+                                    <img class="closeDialog" type="button" src="../assets/imgs/x-lg.svg" alt="" onclick="document.getElementById('dialog_graf1').close()">
                                 </div>
                                 <div class="dialogUso">
-                                    <img class="closeDialog" type="button" src="../assets/imgs/x-lg.svg" alt="" onclick="document.getElementById('dialog_graf3').close()">
+                                    <div class="bodyImg bodyImgVerde">
+                                        <p >Estável</p>
+                                    </div>
+                                    <p class="dialogUso-texto">Atualizado a 10 min atrás</p>
                                     <div class="bodyImg bodyImgAzul">
-                                            <p>Em uso</p>
+                                        <p>Em uso</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="grafico-principal">
-                                <p class="textoChart">Relação da porcentagem de uso da CPU por horário</p>
+                                <p class="textoChart">Relação de uso em porcentagem atual por componente</p>
                                 <div class="divCanvas">
-                                    <canvas id="graf3Cpu"></canvas>
+                                    <canvas id="graf3Barra"></canvas>
                                 </div>
                             </div>
                             <br><br><br>
                             <div class="graficos-dois">
                                 <div class="grafico">
-                                    <p class="textoChart">Relação da porcentagem de uso da RAM por horário</p>
+                                    <p class="textoChart">Relação da porcentagem de uso da CPU por horário</p>
+                                    <div class="divCanvas">
+                                        <canvas id="graf3Cpu"></canvas>
+                                    </div>
+                                </div>
+                                <div class="grafico">
+                                    <p class="textoChart">Relação da porcentagem de uso do RAM por horário</p>
                                     <div class="divCanvas">
                                         <canvas id="graf3Ram"></canvas>
                                     </div>
                                 </div>
+                            </div>
+                            <br><br><br>
+                            <div class="graficos-dois">
                                 <div class="grafico">
-                                    <p class="textoChart">Relação da porcentagem de uso do Disco por horário</p>
+                                    <p class="textoChart">Relação da quantidade de Disco por horário</p>
                                     <div class="divCanvas">
                                         <canvas id="graf3Disco"></canvas>
+                                    </div>
+                                </div>
+                                <div class="grafico">
+                                    <p class="textoChart">Relação de quantidade de processos por horário</p>
+                                    <div class="divCanvas">
+                                        <canvas id="graf3Processos"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -414,7 +447,7 @@
                                         </div>
                                     </div>
                                     <div class="bodyMaquina-body">
-                                        <p>Verificado 10 min atrás</p>
+                                        <p>Atualizado 10 min atrás</p>
                                         <hr>
                                         <div class="componentes compoenenteVermelho">
                                             <div class="componentes-titulo">
@@ -482,7 +515,7 @@
                                         </div>
                                     </div>
                                     <div class="bodyMaquina-body">
-                                        <p>Verificado 10 min atrás</p>
+                                        <p>Atualizado 10 min atrás</p>
                                         <hr>
                                         <div class="componentes compoenenteAzul">
                                             <div class="componentes-titulo">
@@ -548,7 +581,7 @@
                                         </div>
                                     </div>
                                     <div class="bodyMaquina-body">
-                                        <p>Verificado 10 min atrás</p>
+                                        <p>Atualizado 10 min atrás</p>
                                         <hr>
                                         <div class="componentes compoenenteVermelho">
                                             <div class="componentes-titulo">
@@ -614,7 +647,7 @@
                                         </div>
                                     </div>
                                     <div class="bodyMaquina-body">
-                                        <p>Verificado 10 min atrás</p>
+                                        <p>Atualizado 10 min atrás</p>
                                         <hr>
                                         <div class="componentes compoenenteAzul">
                                             <div id="componenteCpu" class="componentes-titulo">
@@ -725,6 +758,87 @@
 
     // Primeira MRI
     function criarGrafico1() {
+        new Chart(graf1Barra, {
+            type: 'bar',
+            data: {
+                labels: ['CPU', 'RAM', 'Disco'],
+                datasets: [{
+                    label: 'Porcentagem',
+                    data: [59, 38, 43],
+                    borderColor: [
+                        'rgba(170, 0, 255, 1)',
+                        'rgba(0, 212, 249, 1)',
+                        'rgba(255, 0, 200, 1)'
+                    ],
+                    backgroundColor: [
+                        'rgba(170, 0, 255, 0.4)',
+                        'rgba(0, 212, 249, 0.4)',
+                        'rgba(255, 0, 200, 0.4)'
+                    ],
+
+
+                    borderWidth: 3
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        enabled: true,
+                        backgroundColor: '#1a3555',
+                        titleColor: '#7a92b0',
+                        bodyColor: 'rgba(0, 212, 249, 1)',
+                        borderColor: '#2b5876',
+                        borderWidth: 1,
+                        displayColors: false
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: '#7a92b0'
+                        },
+                        grid: {
+                            color: '#1f3652'
+                        },
+                        min: 0,
+                        max: 100,
+                        title: {
+                            display: true,
+                            text: 'Porcentagem',
+                            color: '#7a92b0',
+                            font: {
+                                size: 14
+                            }
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: '#7a92b0'
+                        },
+                        grid: {
+                            color: '#1f3652',
+                            borderDash: [5, 5]
+                        },
+                        title: {
+                            display: true,
+                            text: 'Componentes',
+                            color: '#7a92b0',
+                            font: {
+                                size: 14
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+
+
         new Chart(graf1Cpu, {
             type: 'line',
             data: {
@@ -1099,7 +1213,7 @@
             data: {
                 labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
                 datasets: [{
-                    label: 'Porcentagem por Horário',
+                    label: 'Quantidade por Horário',
                     data: [12, 24, 18, 21, 17, 32, 38, 45, 39, 43],
                     borderColor: 'rgba(0, 255, 200, 1)',
                     fill: true,
@@ -1123,48 +1237,48 @@
                     intersect: false
                 },
                 plugins: {
-                    annotation: {
-                        annotations: {
-                            line1: {
-                                type: 'line',
-                                yMin: 70,
-                                yMax: 70,
-                                borderColor: '#ff3366',
-                                borderWidth: 2,
-                                label: {
-                                    content: 'Crítico > 70%',
-                                    font: {
-                                        size: 10
-                                    },
-                                    enabled: true,
-                                    position: 'start',
-                                    backgroundColor: '#1a3555',
-                                    color: 'rgba(0, 212, 249, 1)',
-                                    borderWidth: 0.3,
-                                    borderColor: 'rgba(0, 212, 249, 1)'
-                                }
-                            },
-                            line2: {
-                                type: 'line',
-                                yMin: 50,
-                                yMax: 50,
-                                borderColor: '#ffd500',
-                                borderWidth: 2,
-                                label: {
-                                    content: 'Alerta > 50%',
-                                    font: {
-                                        size: 10
-                                    },
-                                    enabled: true,
-                                    position: 'start',
-                                    backgroundColor: '#1a3555',
-                                    color: 'rgba(0, 212, 249, 1)',
-                                    borderWidth: 0.3,
-                                    borderColor: 'rgba(0, 212, 249, 1)'
-                                }
-                            },
-                        }
-                    },
+                    // annotation: {
+                    //     annotations: {
+                    //         line1: {
+                    //             type: 'line',
+                    //             yMin: 70,
+                    //             yMax: 70,
+                    //             borderColor: '#ff3366',
+                    //             borderWidth: 2,
+                    //             label: {
+                    //                 content: 'Crítico > 70%',
+                    //                 font: {
+                    //                     size: 10
+                    //                 },
+                    //                 enabled: true,
+                    //                 position: 'start',
+                    //                 backgroundColor: '#1a3555',
+                    //                 color: 'rgba(0, 212, 249, 1)',
+                    //                 borderWidth: 0.3,
+                    //                 borderColor: 'rgba(0, 212, 249, 1)'
+                    //             }
+                    //         },
+                    //         line2: {
+                    //             type: 'line',
+                    //             yMin: 50,
+                    //             yMax: 50,
+                    //             borderColor: '#ffd500',
+                    //             borderWidth: 2,
+                    //             label: {
+                    //                 content: 'Alerta > 50%',
+                    //                 font: {
+                    //                     size: 10
+                    //                 },
+                    //                 enabled: true,
+                    //                 position: 'start',
+                    //                 backgroundColor: '#1a3555',
+                    //                 color: 'rgba(0, 212, 249, 1)',
+                    //                 borderWidth: 0.3,
+                    //                 borderColor: 'rgba(0, 212, 249, 1)'
+                    //             }
+                    //         },
+                    //     }
+                    // },
                     legend: {
                         display: true,
                         labels: {
@@ -1207,92 +1321,9 @@
                             borderDash: [5, 5]
                         },
                         min: 0,
-                        max: 100,
                         title: {
                             display: true,
-                            text: 'Processos (%)',
-                            color: '#7a92b0',
-                            font: {
-                                size: 14
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-
-        new Chart(graf1Barra, {
-            type: 'bar',
-            data: {
-                labels: ['CPU', 'RAM', 'Disco', 'Processos'],
-                datasets: [{
-                    label: 'Porcentagem',
-                    data: [59, 38, 43, 43],
-                    borderColor: [
-                        'rgba(170, 0, 255, 1)',
-                        'rgba(0, 212, 249, 1)',
-                        'rgba(255, 0, 200, 1)',
-                        'rgba(0, 255, 200, 1)',
-                    ],
-                    backgroundColor: [
-                        'rgba(170, 0, 255, 0.4)',
-                        'rgba(0, 212, 249, 0.4)',
-                        'rgba(255, 0, 200, 0.4)',
-                        'rgba(0, 255, 200, 0.4)',
-                    ],
-
-
-                    borderWidth: 3
-                }]
-            },
-            options: {
-                indexAxis: 'y',
-                responsive: true,
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                    tooltip: {
-                        enabled: true,
-                        backgroundColor: '#1a3555',
-                        titleColor: '#7a92b0',
-                        bodyColor: 'rgba(0, 212, 249, 1)',
-                        borderColor: '#2b5876',
-                        borderWidth: 1,
-                        displayColors: false
-                    }
-                },
-                scales: {
-                    x: {
-                        ticks: {
-                            color: '#7a92b0'
-                        },
-                        grid: {
-                            color: '#1f3652'
-                        },
-                        min: 0,
-                        max: 100,
-                        title: {
-                            display: true,
-                            text: 'Porcentagem',
-                            color: '#7a92b0',
-                            font: {
-                                size: 14
-                            }
-                        }
-                    },
-                    y: {
-                        ticks: {
-                            color: '#7a92b0'
-                        },
-                        grid: {
-                            color: '#1f3652',
-                            borderDash: [5, 5]
-                        },
-                        title: {
-                            display: true,
-                            text: 'Disco (%)',
+                            text: 'Quantidade',
                             color: '#7a92b0',
                             font: {
                                 size: 14
