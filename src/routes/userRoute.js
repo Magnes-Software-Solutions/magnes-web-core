@@ -28,11 +28,11 @@ routes.post("/cadastrarMaquina", async (req, res) => {
 routes.post("/cadastrarComponente", async (req, res) => {
     await user.cadastrarComponente(req, res)
 })
-routes.post("/buscarIdEstabelecimento", async (req, res) => {
-    await user.buscarIdEstabelecimento(req, res)
+routes.post("/buscarIdEnderecoHospital", async (req, res) => {
+    await user.buscarIdEnderecoHospital(req, res)
 })
-routes.post("/cadastrarEstabelecimento", async (req, res) => {
-    await user.cadastrarEstabelecimento(req, res)
+routes.post("/cadastrarEnderecoHospital", async (req, res) => {
+    await user.cadastrarEnderecoHospital(req, res)
 })
 routes.get("/buscarIdsComponente", async (req, res) => {
     await user.buscarIdsComponente(req, res)

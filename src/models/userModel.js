@@ -3,7 +3,7 @@ const database = require('../database/config.js')
 function autenticar(email, senha) {
 
     const instrucaoSql = `
-    SELECT idUsuario, nome, email, fkSupervisor, fkHospital from usuario WHERE email = '${email}' AND senha = '${senha}'
+    SELECT idUsuario, nome, email, fkSupervisor, fkRedeHospital from usuario WHERE email = '${email}' AND senha = '${senha}'
     `;
     return database.executar(instrucaoSql)
 
@@ -15,9 +15,9 @@ function cadastrarEmpresa(nomeFabricante, cnpj, email, tel_corporativo, token) {
     return database.executar(instrucaoSql);
 }
 
-function cadastrarFuncionario(nome, email, cpf, telefone, senha, sessionFK_HOSPITAL, sessionId) {
-    const instrucaoSql = `INSERT INTO usuario (nome, email, cpf, telefone, senha, fkHospital, fkSupervisor) 
-    VALUES ('${nome}', '${email}', '${cpf}', '${telefone}', '${senha}', '${sessionFK_HOSPITAL}', '${sessionId}');`
+function cadastrarFuncionario(nome, email, cpf, telefone, senha, sessionFK_REDE_HOSPITAL, sessionId) {
+    const instrucaoSql = `INSERT INTO usuario (nome, email, cpf, telefone, senha, fkRedeHospital, fkSupervisor) 
+    VALUES ('${nome}', '${email}', '${cpf}', '${telefone}', '${senha}', '${sessionFK_REDE_HOSPITAL}', '${sessionId}');`
     return database.executar(instrucaoSql);
 }
 
@@ -31,9 +31,9 @@ function atualizarSenha(novaSenha, sessionId) {
     return database.executar(instrucaoSql);
 }
 
-function cadastrarMaquina(macAddress, numSerie, tipoModelo, sessionFK_HOSPITAL, sessionEstabelecimento) {
-    var instrucaoSql = `INSERT INTO maquina (macAddress, numeroSerie, tipoModelo, fkHospital, fkEstabelecimento) 
-    VALUES ('${macAddress}', '${numSerie}', '${tipoModelo}', '${sessionFK_HOSPITAL}', '${sessionEstabelecimento}')`
+function cadastrarMaquina(macAddress, numSerie, tipoModelo, sessionREDE_HOSPITAL, sessionEnderecoHospital) {
+    var instrucaoSql = `INSERT INTO maquina (macAddress, numeroSerie, tipoModelo, fkRedeHospital, fkEnderecoHospital) 
+    VALUES ('${macAddress}', '${numSerie}', '${tipoModelo}', '${sessionREDE_HOSPITAL}', '${sessionEnderecoHospital}')`
     return database.executar(instrucaoSql);
 }
 
@@ -44,14 +44,14 @@ function cadastrarComponente(nomeComponente, tipoComponente, unidadeMedida, capa
     return database.executar(instrucaoSql); 
 }
 
-function buscarIdEstabelecimento(razaoSocial) {
-    var instrucaoSql = `SELECT idEstabelecimento FROM estabelecimento WHERE razaoSocialEstabelecimento = '${razaoSocial}'`
+function buscarIdEnderecoHospital(cep, numeroHospital) {
+    var instrucaoSql = `SELECT idEnderecoHospital FROM enderecoHospital WHERE cep = '${cep}' AND numeroEstabelecimento = '${numeroHospital}'`
     return database.executar(instrucaoSql);
 }
 
-function cadastrarEstabelecimento(razaoSocial, tipoEstabelecimento, cep, numeroEstabelecimento) {
-    var instrucaoSql = `INSERT INTO estabelecimento (razaoSocialEstabelecimento, tipoEstabelecimento, cep, numeroEstabelecimento) 
-    VALUES ('${razaoSocial}', '${tipoEstabelecimento}', '${cep}', '${numeroEstabelecimento}')`
+function cadastrarEnderecoHospital(bairro, cidade, cep, numeroHospital) {
+    var instrucaoSql = `INSERT INTO enderecoHospital (bairro, cidade, cep, numeroHospital) 
+    VALUES ('${bairro}', '${cidade}', '${cep}', '${numeroHospital}')`
     return database.executar(instrucaoSql);
 }
 function buscarIdsComponente() {
@@ -73,8 +73,8 @@ module.exports = {
     atualizarSenha,
     cadastrarMaquina,
     cadastrarComponente,
-    buscarIdEstabelecimento,
-    cadastrarEstabelecimento,
+    buscarIdEnderecoHospital,
+    cadastrarEnderecoHospital,
     buscarIdsComponente,
     cadastrarComponenteMaquina
 };

@@ -121,20 +121,20 @@
                         </div>
 
                         <div class="cabecalho-formulario mt-4">
-                            <h2>Dados do Estabelecimento</h2>
-                            <p>Vincule a máquina a uma unidade</p>
+                            <h2>Dados do Hospital</h2>
+                            <p>Vincule a máquina a uma unidade hospitalar</p>
                         </div>
 
                         <div class="col-md-8">
-                            <label class="form-label">Razão Social</label>
+                            <label class="form-label">Bairro</label>
                             <input type="text" class="form-control" placeholder="Nome da Empresa"
-                                id="input_razaoSocialEstabelecimento">
+                                id="input_BairroHospital">
                         </div>
 
                         <div class="col-md-4">
-                            <label class="form-label">Tipo</label>
+                            <label class="form-label">Cidade</label>
                             <input type="text" class="form-control" placeholder="Ex: Matriz/Filial"
-                                id="input_tipoEstabelecimento">
+                                id="input_CidadeHospital">
                         </div>
 
                         <div class="col-md-6">
@@ -144,7 +144,7 @@
 
                         <div class="col-md-6">
                             <label class="form-label">Número</label>
-                            <input type="text" class="form-control" placeholder="Nº" id="input_numeroEstabelecimento">
+                            <input type="text" class="form-control" placeholder="Nº" id="input_numeroHospital">
                         </div>
 
                         <div class="col-12 mt-4">
@@ -168,7 +168,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body text-center" style="color: black;">
-                        <p>A máquina e o estabelecimento foram registrados.</p>
+                        <p>A máquina e o hospital foram registrados.</p>
                         <hr>
                         <h5>Deseja cadastrar mais um componente adicional?</h5>
                         <p>Isso permite alocar componentes além de CPU, RAM e Disco.</p>
@@ -281,35 +281,36 @@
     por fim ajeitar certinho qnd cada função vai iniciar
     */
 
-    async function cadastrarEstabelecimento() {
+    async function cadastrarEnderecoHospital() {
 
-        const razaoSocial = input_razaoSocialEstabelecimento.value;
-        const tipoEstabelecimento = input_tipoEstabelecimento.value;
+        const bairro = input_BairroHospital.value;
+        const cidade = input_CidadeHospital.value;
         const cep = input_cep.value;
-        const numeroEstabelecimento = input_numeroEstabelecimento.value;
+        const numeroHospital = input_numeroHospital.value;
 
-        const resposta = await cadastrarEstabelecimentoService(razaoSocial, tipoEstabelecimento, cep, numeroEstabelecimento)
+        const resposta = await cadastrarEnderecoHospitalService(bairro, cidade, cep, numeroHospital)
         if (resposta.ok) {
-            console.log("Estabelecimento cadastrado com sucesso");
+            console.log("Endereço do Hospital cadastrado com sucesso");
         }
         else {
-            console.log("Erro ao cadastrar estabelecimento", resposta.mensagem);
+            console.log("Erro ao cadastrar endereço do hospital", resposta.mensagem);
             return null;
         }
     }
 
-    async function buscarIdEstabelecimento() {
+    async function buscarIdEnderecoHospital() {
 
-        const razaoSocial = input_razaoSocialEstabelecimento.value;
+        const cep = input_cep.value;
+        const numeroHospital = input_numeroHospital.value;
 
-        const resposta = await buscarIdEstabelecimentoService(razaoSocial)
+        const resposta = await buscarIdEnderecoHospitalService(cep, numeroHospital)
         if (resposta.ok) {
             const json = await resposta.json();
-            console.log("ID do Estabelecimento: " + json[0].idEstabelecimento);
-            sessionStorage.ID_ESTABELECIMENTO = json[0].idEstabelecimento;
+            console.log("ID do Endereço do Hospital: " + json[0].idEnderecoHospital);
+            sessionStorage.ID_ENDERECO_HOSPITAL = json[0].idEnderecoHospital;
 
         } else {
-            alert('Erro ao buscar ID do estabelecimento: ' + resposta.mensagem);
+            alert('Erro ao buscar ID do hospital: ' + resposta.mensagem);
             return null;
         }
     }
@@ -327,30 +328,30 @@
             return;
         }
 
-        const respostaBusca = await buscarIdEstabelecimentoService(input_razaoSocialEstabelecimento.value);
+        const respostaBusca = await buscarIdEnderecoHospitalService(input_cep.value, input_numeroHospital.value);
 
-        if (respostaBusca.ok) {
+        if (respostaBusca.ok) { 
             const json = await respostaBusca.json();
 
             if (json.length > 0) {
-                sessionStorage.ID_ESTABELECIMENTO = json[0].idEstabelecimento;
-                alert("Estabelecimento já existe e foi vinculado à máquina.");
+                sessionStorage.ID_ENDERECO_HOSPITAL = json[0].idEnderecoHospital;
+                alert("Endereço do Hospital já existe e foi vinculado à máquina.");
                 return;
             }
             else {
-                await cadastrarEstabelecimento();
-                await buscarIdEstabelecimento();
+                await cadastrarEnderecoHospital();
+                await buscarIdEnderecoHospital();
                 await cadastrarComponenteBD();
                 await cadastrarComponente();
                 cadastrarComponentesMaquina();
             }
         }
         else {
-            alert('Erro ao buscar ID do estabelecimento: ' + respostaBusca.mensagem);
+            alert('Erro ao buscar ID do endereço do hospital: ' + respostaBusca.mensagem);
             return;
         }
 
-        const resposta = await cadastrarMaquinaService(macAddress, numeroSerie, tipoModelo, sessionStorage.FK_HOSPITAL, sessionStorage.ID_ESTABELECIMENTO)
+        const resposta = await cadastrarMaquinaService(macAddress, numeroSerie, tipoModelo, sessionStorage.FK_REDE_HOSPITAL, sessionStorage.ID_ENDERECO_HOSPITAL)
         if (resposta.ok) {
             alert('Máquina cadastrada com sucesso!');
         } else {

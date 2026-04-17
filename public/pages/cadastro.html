@@ -310,7 +310,7 @@
             return false;
         }
 
-        const resposta = await cadastrarFuncionarioService(nomeVar, emailVar, cpfVar, telefoneVar, senhaVar, sessionStorage.FK_HOSPITAL, sessionStorage.ID_USUARIO)
+        const resposta = await cadastrarFuncionarioService(nomeVar, emailVar, cpfVar, telefoneVar, senhaVar, sessionStorage.FK_REDE_HOSPITAL, sessionStorage.ID_USUARIO)
         console.log("resposta: ", resposta);
 
         if (resposta.ok) {
