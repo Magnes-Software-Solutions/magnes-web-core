@@ -380,7 +380,7 @@
                             <div class="dialogGraf-header">
                                 <div class="dialogUso">
                                     <h2>Dashboard MRI-03</h2>
-                                    <img class="closeDialog" type="button" src="../assets/imgs/x-lg.svg" alt="" onclick="document.getElementById('dialog_graf1').close()">
+                                    <img class="closeDialog" type="button" src="../assets/imgs/x-lg.svg" alt="" onclick="document.getElementById('dialog_graf3').close()">
                                 </div>
                                 <div class="dialogUso">
                                     <div class="bodyImg bodyImgVerde">
@@ -1957,6 +1957,86 @@
 
     // Terceira MRI
     function criarGrafico3() {
+        new Chart(graf3Barra, {
+            type: 'bar',
+            data: {
+                labels: ['CPU', 'RAM', 'Disco'],
+                datasets: [{
+                    label: 'Porcentagem',
+                    data: [97, 72, 64],
+                    borderColor: [
+                        'rgba(170, 0, 255, 1)',
+                        'rgba(0, 212, 249, 1)',
+                        'rgba(255, 0, 200, 1)'
+                    ],
+                    backgroundColor: [
+                        'rgba(170, 0, 255, 0.4)',
+                        'rgba(0, 212, 249, 0.4)',
+                        'rgba(255, 0, 200, 0.4)'
+                    ],
+
+
+                    borderWidth: 3
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        enabled: true,
+                        backgroundColor: '#1a3555',
+                        titleColor: '#7a92b0',
+                        bodyColor: 'rgba(0, 212, 249, 1)',
+                        borderColor: '#2b5876',
+                        borderWidth: 1,
+                        displayColors: false
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: '#7a92b0'
+                        },
+                        grid: {
+                            color: '#1f3652'
+                        },
+                        min: 0,
+                        max: 100,
+                        title: {
+                            display: true,
+                            text: 'Porcentagem',
+                            color: '#7a92b0',
+                            font: {
+                                size: 14
+                            }
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: '#7a92b0'
+                        },
+                        grid: {
+                            color: '#1f3652',
+                            borderDash: [5, 5]
+                        },
+                        title: {
+                            display: true,
+                            text: 'Componentes',
+                            color: '#7a92b0',
+                            font: {
+                                size: 14
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+
 
         new Chart(graf3Cpu, {
             type: 'line',
@@ -2207,9 +2287,9 @@
                 datasets: [{
                     label: 'Porcentagem por Horário',
                     data: [21, 27, 35, 21, 17, 32, 42, 44, 56, 64],
-                    borderColor: 'rgba(0, 212, 249, 1)',
+                    borderColor: 'rgba(255, 0, 200, 1)',
                     fill: true,
-                    backgroundColor: 'rgba(0, 212, 249, 0.4)',
+                    backgroundColor: 'rgba(255, 0, 200, 0.4)',
                     borderWidth: 3,
                     tension: 0.2,
                     pointRadius: 0,
@@ -2317,6 +2397,151 @@
                         title: {
                             display: true,
                             text: 'Disco (%)',
+                            color: '#7a92b0',
+                            font: {
+                                size: 14
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+
+
+
+        new Chart(graf3Processos, {
+            type: 'line',
+            data: {
+                labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
+                datasets: [
+                    {
+                        label: 'Processos por Horário',
+                        data: [35, 21, 59, 44, 28, 53, 39, 46, 32, 57],
+                        borderColor: 'rgba(0, 255, 200, 1)',
+                        fill: true,
+                        backgroundColor: 'rgba(0, 255, 200, 0.4)',
+                        borderWidth: 3,
+                        tension: 0.2,
+                        pointRadius: 0,
+                        pointHoverRadius: 6,
+                        pointHoverBorderWidth: 2,
+                        pointHoverBorderColor: '#ffffff',
+                        pointHoverBackgroundColor: '#ffffff'
+                    },
+                    {
+                        label: 'Threads por Horário',
+                        data: [118, 276, 163, 209, 287, 142, 231, 199, 154, 268],
+                        borderColor: 'rgba(255, 140, 20, 1)',
+                        fill: true,
+                        backgroundColor: 'rgba(255, 140, 20, 0.4)',
+                        borderWidth: 3,
+                        tension: 0.2,
+                        pointRadius: 0,
+                        pointHoverRadius: 6,
+                        pointHoverBorderWidth: 2,
+                        pointHoverBorderColor: '#ffffff',
+                        pointHoverBackgroundColor: '#ffffff'
+                    }
+                ]
+            },
+            options: {
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
+                hover: {
+                    mode: 'index',
+                    intersect: false
+                },
+                plugins: {
+                    // annotation: {
+                    //     annotations: {
+                    //         line1: {
+                    //             type: 'line',
+                    //             yMin: 70,
+                    //             yMax: 70,
+                    //             borderColor: '#ff3366',
+                    //             borderWidth: 2,
+                    //             label: {
+                    //                 content: 'Crítico > 70%',
+                    //                 font: {
+                    //                     size: 10
+                    //                 },
+                    //                 enabled: true,
+                    //                 position: 'start',
+                    //                 backgroundColor: '#1a3555',
+                    //                 color: 'rgba(0, 212, 249, 1)',
+                    //                 borderWidth: 0.3,
+                    //                 borderColor: 'rgba(0, 212, 249, 1)'
+                    //             }
+                    //         },
+                    //         line2: {
+                    //             type: 'line',
+                    //             yMin: 50,
+                    //             yMax: 50,
+                    //             borderColor: '#ffd500',
+                    //             borderWidth: 2,
+                    //             label: {
+                    //                 content: 'Alerta > 50%',
+                    //                 font: {
+                    //                     size: 10
+                    //                 },
+                    //                 enabled: true,
+                    //                 position: 'start',
+                    //                 backgroundColor: '#1a3555',
+                    //                 color: 'rgba(0, 212, 249, 1)',
+                    //                 borderWidth: 0.3,
+                    //                 borderColor: 'rgba(0, 212, 249, 1)'
+                    //             }
+                    //         },
+                    //     }
+                    // },
+                    legend: {
+                        display: true,
+                        labels: {
+                            color: '#ffffff'
+                        }
+                    },
+                    tooltip: {
+                        enabled: true,
+                        backgroundColor: '#1a3555',
+                        titleColor: '#7a92b0',
+                        bodyColor: 'rgba(0, 212, 249, 1)',
+                        borderColor: '#2b5876',
+                        borderWidth: 1,
+                        displayColors: false
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: '#7a92b0'
+                        },
+                        grid: {
+                            color: '#1f3652'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Horário',
+                            color: '#7a92b0',
+                            font: {
+                                size: 14
+                            }
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: '#7a92b0'
+                        },
+                        grid: {
+                            color: '#1f3652',
+                            borderDash: [5, 5]
+                        },
+                        min: 0,
+                        title: {
+                            display: true,
+                            text: 'Quantidade',
                             color: '#7a92b0',
                             font: {
                                 size: 14
