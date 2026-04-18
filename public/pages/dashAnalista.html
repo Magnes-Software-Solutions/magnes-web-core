@@ -697,9 +697,9 @@
     const chatButton = document.getElementById('chatButton');
     const chatWindow = document.getElementById('chatWindow');
     const closeChat = document.getElementById('closeChat');
-    const sendButton = document.getElementById('sendMessage');
-    const messageInput = document.getElementById('messageInput');
     const chatBody = document.getElementById('chatBody');
+    const divResposta = document.getElementById('resposta');
+
         
     chatButton.addEventListener('click', () => {
     chatWindow.classList.add('open');
@@ -711,15 +711,11 @@
     chatButton.style.display = 'block';
     });
 
-    async function testar() {
-            const apiKey = document.getElementById('apiKey').value.trim();
-            const pergunta = document.getElementById('pergunta').value.trim();
-            const divResposta = document.getElementById('resposta');
-            
-            if (!apiKey || !pergunta) {
-                divResposta.innerHTML = 'API KEY está incorreta ou não preenchida';
-                return;
-            }
+    async function chat() {
+            const apiKey;
+            const sendMessage = document.getElementById('sendMessage').value.trim();
+            const messageInput = document.getElementById('messageInput').value.trim();
+            const sendButton = document.getElementById('sendMessage');
             
             divResposta.innerHTML = 'Enviando...';
             
@@ -731,7 +727,7 @@
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
                             contents: [{
-                                parts: [{ text: pergunta }]
+                                parts: [{ text: messageInput }]
                             }]
                         })
                     }
@@ -747,6 +743,7 @@
             } catch (erro) {
                 divResposta.innerHTML = `Erro: ${erro.message}`;
             }
+
         }
                 
     new Chart(graf1Cpu, {
