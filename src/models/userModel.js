@@ -3,7 +3,7 @@ const database = require('../database/config.js')
 function autenticar(email, senha) {
 
     const instrucaoSql = `
-    SELECT idUsuario, nome, email, fkSupervisor, fkHospital from usuario WHERE email = '${email}' AND senha = '${senha}'
+    SELECT idUsuario, nome, email, fkSupervisor, fkRedeHospital from usuario WHERE email = '${email}' AND senha = '${senha}'
     `;
     return database.executar(instrucaoSql)
 
@@ -15,9 +15,9 @@ function cadastrarEmpresa(nomeFabricante, cnpj, email, tel_corporativo, token) {
     return database.executar(instrucaoSql);
 }
 
-function cadastrarFuncionario(nome, email, cpf, telefone, senha, sessionFK_HOSPITAL, sessionId) {
-    const instrucaoSql = `INSERT INTO usuario (nome, email, cpf, telefone, senha, fkHospital, fkSupervisor) 
-    VALUES ('${nome}', '${email}', '${cpf}', '${telefone}', '${senha}', '${sessionFK_HOSPITAL}', '${sessionId}');`
+function cadastrarFuncionario(nome, email, cpf, telefone, senha, sessionFK_REDE_HOSPITAL, sessionId) {
+    const instrucaoSql = `INSERT INTO usuario (nome, email, cpf, telefone, senha, fkRedeHospital, fkSupervisor) 
+    VALUES ('${nome}', '${email}', '${cpf}', '${telefone}', '${senha}', '${sessionFK_REDE_HOSPITAL}', '${sessionId}');`
     return database.executar(instrucaoSql);
 }
 
@@ -31,20 +31,36 @@ function atualizarSenha(novaSenha, sessionId) {
     return database.executar(instrucaoSql);
 }
 
-function cadastrarMaquina(macAddress, numSerie, tipoModelo, sessionFK_HOSPITAL, sessionEstabelecimento) {
-    var instrucaoSql = `INSERT INTO maquina (macAddress, numeroSerie, tipoModelo, fkHospital, fkEstabelecimento) 
-    VALUES ('${macAddress}', '${numSerie}', '${tipoModelo}', '${sessionFK_HOSPITAL}', '${sessionEstabelecimento}')`
+function cadastrarMaquina(macAddress, numSerie, tipoModelo, sessionREDE_HOSPITAL, sessionEnderecoHospital) {
+    var instrucaoSql = `INSERT INTO maquina (macAddress, numeroSerie, tipoModelo, fkRedeHospital, fkEnderecoHospital) 
+    VALUES ('${macAddress}', '${numSerie}', '${tipoModelo}', '${sessionREDE_HOSPITAL}', '${sessionEnderecoHospital}')`
     return database.executar(instrucaoSql);
 }
 
-function cadastrarComponente(nomeComponente, tipo) {
-    var instrucaoSql = `INSERT INTO componente (nomeComponente, tipoComponente) 
-    VALUES ('${nomeComponente}', '${tipo}')`
+
+function cadastrarComponente(nomeComponente, tipoComponente, unidadeMedida, capacidadeMaxima){
+    var instrucaoSql = `INSERT INTO componente (nomeComponente, tipoComponente, unidadeMedida, capacidadeMaxima) 
+    VALUES ('${nomeComponente}','${tipoComponente}','${unidadeMedida}', '${capacidadeMaxima}')`
     return database.executar(instrucaoSql); 
 }
 
-function buscarIdEstabelecimento(sessionFK_HOSPITAL) {
-    var instrucaoSql = `SELECT idEstabelecimento FROM estabelecimento WHERE idEstabelecimento = ${sessionFK_HOSPITAL}`
+function buscarIdEnderecoHospital(cep, numeroHospital) {
+    var instrucaoSql = `SELECT idEnderecoHospital FROM enderecoHospital WHERE cep = '${cep}' AND numeroEstabelecimento = '${numeroHospital}'`
+    return database.executar(instrucaoSql);
+}
+
+function cadastrarEnderecoHospital(bairro, cidade, cep, numeroHospital) {
+    var instrucaoSql = `INSERT INTO enderecoHospital (bairro, cidade, cep, numeroHospital) 
+    VALUES ('${bairro}', '${cidade}', '${cep}', '${numeroHospital}')`
+    return database.executar(instrucaoSql);
+}
+function buscarIdsComponente() {
+    var instrucaoSql = `SELECT idComponente FROM componente ORDER BY idComponente DESC LIMIT 3;`
+    return database.executar(instrucaoSql);
+}
+function cadastrarComponenteMaquina(fkMaquina, fkComponente, limite) {
+    var instrucaoSql = `INSERT INTO componente_maquina (fkComponente, fkMaquina, limite) 
+    VALUES ('${fkComponente}', '${fkMaquina}', '${limite}')`
     return database.executar(instrucaoSql);
 }
 
@@ -57,5 +73,8 @@ module.exports = {
     atualizarSenha,
     cadastrarMaquina,
     cadastrarComponente,
-    buscarIdEstabelecimento
+    buscarIdEnderecoHospital,
+    cadastrarEnderecoHospital,
+    buscarIdsComponente,
+    cadastrarComponenteMaquina
 };

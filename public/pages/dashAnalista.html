@@ -16,7 +16,7 @@
 <body style="background-color: #0a1628;">
     <div class="container-fluid">
         <div class="row">
-            <nav class="navbar bg-body-tertiary fixed-top navBarTop">
+            <!-- <nav class="navbar bg-body-tertiary fixed-top navBarTop">
                 <div class="container-fluid">
                     <img src="../assets/imgs/Logo.png" alt="" width="5%" height="85%">
                     <div class="titulo">
@@ -64,6 +64,87 @@
                             </div>
                             <img class="perfilConfig" src="../assets/imgs/gear.svg" alt="Simbolo de configurações">
                         </div>
+                            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 navBarNav">
+                            <li class="nav-item navLi navLiActive">
+                                <img src="../assets/imgs/dashboard.svg" alt="Simbolo de Dashboard">
+                                <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
+                            </li>
+                            <li onclick="alertas()"class="nav-item navLi">
+                                <img src="../assets/imgs/alert.svg" alt="Simbolo de Alerta">
+                                <a class="nav-link" >Alerta</a>
+                            </li>
+                            </ul>
+                            </form>
+                        </div>
+                        <div class="offcanvas-header perfil">
+                            <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Simbolo de perfil">
+                            <div class="textosPerfil">
+                                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">(nome do banco)</h5>
+                                <p>(cargo do banco)</p>
+                            </div>
+                            <img class="perfilConfig"  src="../assets/imgs/gear.svg" alt="Simbolo de configurações">
+                        </div> 
+                         <script>
+                            function redirecionar() {
+                                window.location.href='dashUsuario.html';
+                            }
+                        </script> 
+                     </div> -->
+          <nav class="navbar fixed-top navBarTop">
+        <div class="container-fluid">
+            <div class="d-flex align-items-center gap-2">
+                <img onclick="dashboardVoltar" src="../assets/imgs/Logo.png" alt="Logo" class="navLogo"
+                    onerror="this.style.display='none'" />
+                <div>
+                    <p class="tituloLogo mb-0">MAGNES</p>
+                    <p class="textoLogo mb-0">MRI MONITOR</p>
+                </div>
+            </div>
+
+            <button class="navbar-toggler navBarToggler" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                <span class="navbar-toggler-icon navBarTogglerIcon"></span>
+            </button>
+
+            <div class="offcanvas offcanvas-end offCanvas" tabindex="-1" id="offcanvasNavbar"
+                aria-labelledby="offcanvasNavbarLabel">
+
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title offCanvasTitle" id="offcanvasNavbarLabel">MAGNES</h5>
+                    <button type="button" class="btn-close offCanvasButton" data-bs-dismiss="offcanvas"
+                        aria-label="Fechar"></button>
+                </div>
+
+                <div class="offcanvas-body offcanvasBody">
+                    <ul class="navbar-nav flex-column gap-1 navBarNav">
+                        <li class="nav-item navLi" onclick="window.location.href='dashAnalista.html'">
+                            <img src="../assets/imgs/dashboard.svg" alt="" class="navItemIcon" />
+                            <a class="nav-link">Dashboard</a>
+                        </li>
+                        <li class="nav-item navLi navLiActive">
+                            <img src="../assets/imgs/alert.svg" alt="" class="navItemIcon" />
+                            <a class="nav-link">Alerta</a>
+                        </li>
+                        <li class="nav-item navLi">
+                            <img src="../assets/imgs/bar.svg" alt="" class="navItemIcon" />
+                            <a class="nav-link" href="#">Relatório</a>
+                        </li>
+                        <li class="nav-item navLi">
+                            <img src="../assets/imgs/person.svg" alt="" class="navItemIcon" />
+                            <a class="nav-link" href="#">Cadastrar Analista</a>
+                        </li>
+                        <li class="nav-item navLi">
+                            <img src="../assets/imgs/build.svg" alt="" class="navItemIcon" />
+                            <a class="nav-link" href="#">Cadastrar Máquina</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="offcanvas-header perfil">
+                    <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Perfil" />
+                    <div class="textosPerfil">
+                        <h5 class="offcanvas-title mb-0" id="nomeUsuarioNav">—</h5>
+                        <p class="mb-0 text-muted" style="font-size:12px;" id="cargoUsuarioNav">Analista de Sistemas</p>
                     </div>
                 </div>
             </nav>
@@ -709,7 +790,7 @@
         
         <div class="chat-body" id="chatBody">
             <div class="message bot">
-                <div class="message-content">
+                <div class="message-content" id="resposta">
                     Olá! Como posso ajudar?
                 </div>
             </div>
@@ -718,7 +799,7 @@
         <div class="chat-footer">
             <div class="input-group">
                 <input type="text" class="form-control" id="messageInput" placeholder="Digite sua mensagem...">
-                <button class="btn btn-primary" id="sendMessage">
+                <button class="btn btn-primary" id="sendMessage" onclick="chat()">
                     <i class="bi bi-send"></i>
                 </button>
             </div>
@@ -779,6 +860,71 @@
 
                     borderWidth: 3
                 }]
+    async function testar() {
+            const apiKey = document.getElementById('apiKey').value.trim();
+            const pergunta = document.getElementById('pergunta').value.trim();
+            const divResposta = document.getElementById('resposta');
+            
+            if (!apiKey || !pergunta) {
+                divResposta.innerHTML = 'API KEY está incorreta ou não preenchida';
+                return;
+            }
+            
+            divResposta.innerHTML = 'Enviando...';
+            
+            try {
+                const response = await fetch(
+                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`,
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{
+                                parts: [{ text: pergunta }]
+                            }]
+                        })
+                    }
+                );
+                
+                const data = await response.json();
+                
+                if (data.candidates) {
+                    divResposta.innerHTML = data.candidates[0].content.parts[0].text;
+                } else {
+                    divResposta.innerHTML = `Erro: ${'Resposta inválida'}`;
+                }
+            } catch (erro) {
+                divResposta.innerHTML = `Erro: ${erro.message}`;
+            }
+        }
+                
+    new Chart(graf1Cpu, {
+        type: 'line',
+        data: {
+            labels: ['00:10', '00:20', '00:30', '00:40', '00:50', '00:60', '01:00', '01:10', '01:20', '01:30'],
+            datasets: [{
+                label: 'Horário',
+                data: [24, 29, 51, 67, 41, 37, 24, 27, 31, 59],
+                borderColor: '#8B5CF6',
+                fill: true,
+                backgroundColor: 'rgba(139, 92, 246, 0.4)',
+                borderWidth: 3,
+                tension: 0.2,
+                pointRadius: 0,
+                pointHoverRadius: 6,
+                pointHoverBorderWidth: 2,
+                pointHoverBorderColor: '#ffffff',
+                pointHoverBackgroundColor: '#ffffff'
+            }]
+        },
+        options: {
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            hover: {
+                mode: 'index',
+                intersect: false
             },
             options: {
                 indexAxis: 'y',
@@ -2577,4 +2723,26 @@
     //     progressCpu.style.width = porcCpu
     //     progressCpu.style.backgroundColor = "#ff3366"
     // }
+
+    // async function pegarDashboard() {
+    //     var idUsuario = sessionStorage.ID_USUARIO;
+    //     fetch(`/dash/PegarDashboard/${idUsuario}`)
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             console.log(data)
+    //             nomeUsuario.innerHTML = data[0].nome;
+
+    //             const fkSupervisor = data[0].fkSupervisor;
+    //             if (fkSupervisor === null) {
+    //                 cargo = "Gerente Tecnico";
+    //             } else {
+    //                 cargo = "Analista de Sistemas";
+    //             }
+    //             cargoUsuario.innerHTML = cargo;
+    //         })
+    //         .catch(error => {
+    //             console.error("Erro ao pegar dashboard:", error);
+    //         });
+    // }
+    // window.onload = pegarDashboard;
 </script>

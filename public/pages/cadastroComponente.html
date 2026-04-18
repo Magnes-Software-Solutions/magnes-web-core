@@ -121,20 +121,20 @@
                         </div>
 
                         <div class="cabecalho-formulario mt-4">
-                            <h2>Dados do Estabelecimento</h2>
-                            <p>Vincule a máquina a uma unidade</p>
+                            <h2>Dados do Hospital</h2>
+                            <p>Vincule a máquina a uma unidade hospitalar</p>
                         </div>
 
                         <div class="col-md-8">
-                            <label class="form-label">Razão Social</label>
+                            <label class="form-label">Bairro</label>
                             <input type="text" class="form-control" placeholder="Nome da Empresa"
-                                id="input_razaoSocialEstabelecimento">
+                                id="input_BairroHospital">
                         </div>
 
                         <div class="col-md-4">
-                            <label class="form-label">Tipo</label>
+                            <label class="form-label">Cidade</label>
                             <input type="text" class="form-control" placeholder="Ex: Matriz/Filial"
-                                id="input_tipoEstabelecimento">
+                                id="input_CidadeHospital">
                         </div>
 
                         <div class="col-md-6">
@@ -144,12 +144,13 @@
 
                         <div class="col-md-6">
                             <label class="form-label">Número</label>
-                            <input type="text" class="form-control" placeholder="Nº" id="input_numeroEstabelecimento">
+                            <input type="text" class="form-control" placeholder="Nº" id="input_numeroHospital">
                         </div>
 
                         <div class="col-12 mt-4">
-                            <button type="button" class="botao-magnes" onclick="cadastrarComponente()">
+                            <button type="button" class="botao-magnes" onclick="cadastrarMaquina()">
                                 Finalizar Cadastro
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -167,7 +168,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body text-center" style="color: black;">
-                        <p>A máquina e o estabelecimento foram registrados.</p>
+                        <p>A máquina e o hospital foram registrados.</p>
                         <hr>
                         <h5>Deseja cadastrar mais um componente adicional?</h5>
                         <p>Isso permite alocar componentes além de CPU, RAM e Disco.</p>
@@ -252,7 +253,7 @@
         bootstrapModal.show();
     }
 
-    function proximaEtapa() {   
+    function proximaEtapa() {
         document.getElementById('etapa1').style.display = 'none';
         document.getElementById('etapa2').style.display = 'block';
     }
@@ -273,27 +274,53 @@
         window.location.href = "dashAnalista.html";
     }
 
+    /*
+    Criar a função para cadastrar estabelecimento
+    atribuir as variaveis e criar os caminhos inclusive o service
+    depois trocar a referencia para conseguir pegar o id do estabelecimento 
+    por fim ajeitar certinho qnd cada função vai iniciar
+    */
 
-    async function buscarIdEstabelecimento() {
-        const resposta = await buscarIdEstabelecimentoService(sessionStorage.FK_HOSPITAL)
+    async function cadastrarEnderecoHospital() {
+
+        const bairro = input_BairroHospital.value;
+        const cidade = input_CidadeHospital.value;
+        const cep = input_cep.value;
+        const numeroHospital = input_numeroHospital.value;
+
+        const resposta = await cadastrarEnderecoHospitalService(bairro, cidade, cep, numeroHospital)
+        if (resposta.ok) {
+            console.log("Endereço do Hospital cadastrado com sucesso");
+        }
+        else {
+            console.log("Erro ao cadastrar endereço do hospital", resposta.mensagem);
+            return null;
+        }
+    }
+
+    async function buscarIdEnderecoHospital() {
+
+        const cep = input_cep.value;
+        const numeroHospital = input_numeroHospital.value;
+
+        const resposta = await buscarIdEnderecoHospitalService(cep, numeroHospital)
         if (resposta.ok) {
             const json = await resposta.json();
-            console.log("ID do Estabelecimento: " + json[0].idEstabelecimento);
-            sessionStorage.ID_ESTABELECIMENTO = json[0].idEstabelecimento;
+            console.log("ID do Endereço do Hospital: " + json[0].idEnderecoHospital);
+            sessionStorage.ID_ENDERECO_HOSPITAL = json[0].idEnderecoHospital;
 
         } else {
-            alert('Erro ao buscar ID do estabelecimento: ' + resposta.mensagem);
+            alert('Erro ao buscar ID do hospital: ' + resposta.mensagem);
             return null;
         }
     }
 
     async function cadastrarMaquina() {
-
-        await buscarIdEstabelecimento();
-
         const numeroSerie = input_numSerie.value;
         const tipoModelo = input_tipoModelo.value;
         const macAddress = input_macAddress.value;
+
+        sessionStorage.MAC_ADDRESS = macAddress;
 
 
         if (!numeroSerie || !tipoModelo || !macAddress) {
@@ -301,7 +328,30 @@
             return;
         }
 
-        const resposta = await cadastrarMaquinaService(macAddress, numeroSerie, tipoModelo, sessionStorage.FK_HOSPITAL, sessionStorage.ID_ESTABELECIMENTO)
+        const respostaBusca = await buscarIdEnderecoHospitalService(input_cep.value, input_numeroHospital.value);
+
+        if (respostaBusca.ok) { 
+            const json = await respostaBusca.json();
+
+            if (json.length > 0) {
+                sessionStorage.ID_ENDERECO_HOSPITAL = json[0].idEnderecoHospital;
+                alert("Endereço do Hospital já existe e foi vinculado à máquina.");
+                return;
+            }
+            else {
+                await cadastrarEnderecoHospital();
+                await buscarIdEnderecoHospital();
+                await cadastrarComponenteBD();
+                await cadastrarComponente();
+                cadastrarComponentesMaquina();
+            }
+        }
+        else {
+            alert('Erro ao buscar ID do endereço do hospital: ' + respostaBusca.mensagem);
+            return;
+        }
+
+        const resposta = await cadastrarMaquinaService(macAddress, numeroSerie, tipoModelo, sessionStorage.FK_REDE_HOSPITAL, sessionStorage.ID_ENDERECO_HOSPITAL)
         if (resposta.ok) {
             alert('Máquina cadastrada com sucesso!');
         } else {
@@ -310,22 +360,61 @@
 
     }
 
-    // async function cadastrarComponente() {
-    //     const nomeComponente = input_nomeComponente.value;
-    //     const tipo = select_tipo.value;
+    async function cadastrarComponenteBD() {
 
-    //     if (!nomeComponente || !tipo) {
-    //         alert('Por favor, preencha todos os campos obrigatórios.');
-    //         return;
-    //     }
+        ListaNomeComponentes = ["CPU", "RAM", "Disco"];
+        ListaTipoComponentes = ["Unidade central de processamento", "Memória de acesso aleatório", "Disco rígido"];
+        ListaUnidadeMedida = ["Hertz(Hz)", "Gigabyte(GB)", "Terabyte(TB)"];
+        ListaCapacidadeMaxima = ["100", "70", "1"];
 
-    //     const resposta = await cadastrarComponenteService(nomeComponente, tipo)
-    //     if (resposta.ok) {
-    //         alert('Componente cadastrado com sucesso!');
-    //     } else {
-    //         alert('Erro ao cadastrar componente: ' + resposta.mensagem);
-    //     }
-    // }
+        for (var i = 0; i < 3; i++) {
+
+            const nomeComponente = ListaNomeComponentes[i];
+            const tipoComponente = ListaTipoComponentes[i];
+            const unidadeMedida = ListaUnidadeMedida[i];
+            const capacidadeMaxima = ListaCapacidadeMaxima[i];
+
+            const resposta = await cadastrarComponenteService(nomeComponente, tipoComponente, unidadeMedida, capacidadeMaxima)
+            if (resposta.ok) {
+                alert('Componente cadastrado com sucesso!');
+            } else {
+                alert('Erro ao cadastrar componente: ' + resposta.mensagem);
+            }
+        }
+    }
+
+    async function cadastrarComponentesMaquina() {
+
+
+        ListaIdsComponentes = [];
+        ListaLimites = ["100", "70", "700"];
+
+        const respostaBusca = await buscarIdsComponenteService();
+
+        if (respostaBusca.ok) {
+            const json = await respostaBusca.json();
+            console.log("ID do Componente: " + json[0].idComponente);
+            for (var i = 0; i < 3; i++) {
+                ListaIdsComponentes.push(json[i].idComponente);
+            }
+        } else {
+            alert('Erro ao buscar ID do componente: ' + respostaBusca.mensagem);
+            return null;
+        }
+
+        for (var i = 0; i < 3; i++) {
+            const idComponenteAtual = ListaIdsComponentes[i];
+            const limiteAtual = ListaLimites[i];
+
+            const respostaCadastro = await cadastrarComponenteMaquinaService(sessionStorage.MAC_ADDRESS, idComponenteAtual, limiteAtual);
+
+            if (respostaCadastro.ok) {
+                alert('Componentes vinculados à máquina com sucesso!');
+            } else {
+                alert('Erro ao vincular componentes à máquina: ' + respostaCadastro.mensagem);
+            }
+        }
+    }
 
 
 

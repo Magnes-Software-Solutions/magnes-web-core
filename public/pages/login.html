@@ -108,13 +108,13 @@
           sessionStorage.NOME_USUARIO = json.nome;
           sessionStorage.EMAIL_USUARIO = json.email;
           sessionStorage.FK_SUPERVISOR = json.fkSupervisor;
-          sessionStorage.FK_HOSPITAL = json.fkHospital;
+          sessionStorage.FK_REDE_HOSPITAL = json.fkRedeHospital;
           
 
           if (json.fkSupervisor == null) {
 
             setTimeout(function () {
-              window.location = "dashAnalista.html";
+              window.location = "dashUsuario.html";
             }, 200);
 
           } 
@@ -129,7 +129,7 @@
           else {
 
             setTimeout(function () {
-              window.location = "dashUsuario.html";
+              window.location = "dashAnalista.html";
             }, 200);
           }
 

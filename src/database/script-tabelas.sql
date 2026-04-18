@@ -1,18 +1,18 @@
 CREATE DATABASE magnes;
 USE magnes;
 
-CREATE TABLE hospital(
-idHospital INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE redeHospital(
+idRedeHospital INT PRIMARY KEY AUTO_INCREMENT,
 razaoSocial VARCHAR(100) NOT NULL,
 cnpj CHAR(14) NOT NULL UNIQUE
 );
 
-CREATE TABLE estabelecimento(
-idEstabelecimento INT PRIMARY KEY AUTO_INCREMENT,
-razaoSocialEstabelecimento VARCHAR(100) NOT NULL,
-tipoEstabelecimento VARCHAR(45) NOT NULL,
-cep VARCHAR(10) NOT NULL,
-numeroEstabelecimento CHAR(5) NOT NULL
+CREATE TABLE enderecoHospital(
+idEnderecoHospital INT PRIMARY KEY AUTO_INCREMENT,
+bairro VARCHAR(100) NOT NULL,
+cidade VARCHAR(100) NOT NULL,
+numeroEstabelecimento CHAR(5) NOT NULL,
+cep VARCHAR(10) NOT NULL
 );
 
 CREATE TABLE componente(
@@ -28,12 +28,12 @@ macAddress VARCHAR(12) PRIMARY KEY,
 numeroSerie VARCHAR(45) NOT NULL UNIQUE,
 tipoModelo VARCHAR(45) NOT NULL,
 statusAtividade VARCHAR(10),
-fkEstabelecimento INT NOT NULL,
-FOREIGN KEY (fkEstabelecimento) 
-    REFERENCES estabelecimento(idEstabelecimento),
-fkHospital INT NOT NULL,
-FOREIGN KEY (fkHospital) 
-    REFERENCES hospital(idHospital)
+fkEnderecoHospital INT NOT NULL,
+FOREIGN KEY (fkEnderecoHospital) 
+    REFERENCES enderecoHospital(idEnderecoHospital),
+fkRedeHospital INT NOT NULL,
+FOREIGN KEY (fkRedeHospital) 
+    REFERENCES redeHospital(idRedeHospital)
 );
 
 CREATE TABLE componente_maquina(
@@ -65,9 +65,9 @@ email VARCHAR(100) NOT NULL UNIQUE,
 senha VARCHAR(255) NOT NULL,
 cpf CHAR(11) NOT NULL UNIQUE,
 telefone VARCHAR(20) UNIQUE,
-fkHospital INT,
-FOREIGN KEY (fkHospital) 
-    REFERENCES hospital(idHospital),
+fkRedeHospital INT,
+FOREIGN KEY (fkRedeHospital) 
+    REFERENCES redeHospital(idRedeHospital),
 fkSupervisor INT,
 FOREIGN KEY (fkSupervisor) 
     REFERENCES usuario(idUsuario)

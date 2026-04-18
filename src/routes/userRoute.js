@@ -1,7 +1,11 @@
 const express = require("express")
 const user = require("../controllers/userController")
+const e = require("express")
 
 const routes = express.Router()
+
+routes.use(express.json())
+routes.use(express.urlencoded({ extended: true }))
 
 routes.post("/autenticar", function (req, res) {
     user.autenticar(req, res);
@@ -24,9 +28,19 @@ routes.post("/cadastrarMaquina", async (req, res) => {
 routes.post("/cadastrarComponente", async (req, res) => {
     await user.cadastrarComponente(req, res)
 })
-routes.post("/buscarIdEstabelecimento", async (req, res) => {
-    await user.buscarIdEstabelecimento(req, res)
+routes.post("/buscarIdEnderecoHospital", async (req, res) => {
+    await user.buscarIdEnderecoHospital(req, res)
 })
+routes.post("/cadastrarEnderecoHospital", async (req, res) => {
+    await user.cadastrarEnderecoHospital(req, res)
+})
+routes.get("/buscarIdsComponente", async (req, res) => {
+    await user.buscarIdsComponente(req, res)
+})
+routes.post("/cadastrarComponenteMaquina", async (req, res) => {
+    await user.cadastrarComponenteMaquina(req, res)
+})
+
 
 
 module.exports = routes
