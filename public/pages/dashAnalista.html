@@ -66,10 +66,10 @@
                             </ul>
                         </div>
 
-                        <div class="offcanvas-header perfil">
+                        <div class="offcanvas-header perfil" onclick="window.location.href='dashUsuario.html'">
                             <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Perfil" />
                             <div class="textosPerfil">
-                                <h5 class="offcanvas-title mb-0" id="nomeUsuarioNav">—</h5>
+                                <h5 class="offcanvas-title mb-0" id="spanNome"></h5>
                                 <p class="mb-0 text-muted" style="font-size:12px;" id="cargoUsuarioNav">Analista de Sistemas</p>
                             </div>
                         </div>
@@ -803,17 +803,9 @@
         }
     }
 
-    function alertas() {
-        window.location.href = "telaAlertas.html";
-    }
-
-
+    // Visualização do usuário
     var nomeUsuario = sessionStorage.NOME_USUARIO
     spanNome.innerHTML = nomeUsuario
-
-    function usuario() {
-        window.location.href = "dashusuario.html"
-    }
                 
     // Primeira MRI
     function criarGrafico1() {
