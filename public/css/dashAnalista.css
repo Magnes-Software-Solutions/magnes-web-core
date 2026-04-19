@@ -1,6 +1,8 @@
 .corpo {
     padding: 50px 40px;
+    
 }
+
 
 .corpo .tituloCorpo {
     color: white;
@@ -13,6 +15,7 @@
     justify-content: space-evenly;
     width: 100%;
     margin-bottom: 30px;
+  
 }
 
 .cardKpi {
@@ -24,7 +27,9 @@
 
 .bodyKpi {
     padding: 25px;
+     
 }
+
 
 .bodyKpi p {
     color: #7a92b0;
