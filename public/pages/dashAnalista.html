@@ -729,7 +729,7 @@
         <div class="chat-footer">
             <div class="input-group">
                 <input type="text" class="form-control" id="messageInput" placeholder="Digite sua mensagem...">
-                <button class="btn btn-primary" id="sendMessage" onclick="chat()">
+                <button class="btn btn-primary" id="sendMessage" onclick="testar()">
                     <i class="bi bi-send"></i>
                 </button>
             </div>
@@ -748,6 +748,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.4.0"></script>
 <script>
+    // Chat bot
     const chatButton = document.getElementById('chatButton');
     const chatWindow = document.getElementById('chatWindow');
     const closeChat = document.getElementById('closeChat');
@@ -766,8 +767,8 @@
     });
 
     async function testar() {
-        const apiKey = document.getElementById('apiKey').value.trim();
-        const pergunta = document.getElementById('pergunta').value.trim();
+        const apiKey = ""; // Adicionar key do gemini
+        const pergunta = messageInput.value.trim();
         const divResposta = document.getElementById('resposta');
         
         if (!apiKey || !pergunta) {
