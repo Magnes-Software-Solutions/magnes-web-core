@@ -6,115 +6,9 @@
 
 body {
     background-color: #0c1f35;
-    font-family: 'DM Sans', 'Segoe UI', sans-serif;
     color: #fff;
 }
 
-/* ── NAVBAR ── */
-.navBarTop {
-    background: #0b1a2e !important;
-    border-bottom: 2px solid #10435f;
-    height: 68px;
-}
-
-.titulo {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-    line-height: 1.1;
-}
-
-.tituloLogo {
-    font-size: 17px;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    color: #ffffff;
-    margin: 0;
-    text-transform: uppercase;
-}
-
-.textoLogo {
-    font-size: 10px;
-    color: #7a92b0;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    margin: 0;
-}
-
-.navBarToggler {
-    background: transparent;
-    border: 1px solid #10435f;
-    border-radius: 8px;
-    color: #7a92b0;
-}
-
-.navBarTogglerIcon {
-    filter: invert(0.6) sepia(1) hue-rotate(180deg);
-}
-
-/* offcanvas */
-.offCanvas {
-    background: #0b1a2e !important;
-    border-left: 1px solid #10435f;
-}
-
-.offCanvasTitle {
-    color: #e2e8f2;
-    letter-spacing: 0.12em;
-}
-
-.offCanvasButton {
-    filter: invert(1);
-}
-
-.offcanvasBody {
-    padding: 0;
-}
-
-.navBarNav {
-    padding: 8px 0;
-}
-
-.navLi {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 20px;
-    border-radius: 10px;
-    margin: 4px 12px;
-    cursor: pointer;
-    transition: background 0.15s;
-    color: #7a92b0;
-    font-size: 14px;
-}
-
-.navLi:hover { background: #132943; }
-
-.navLiActive {
-    background: #104c68;
-    color: #00d4f9;
-}
-
-.navLi img { width: 18px; height: 18px; filter: invert(0.7) sepia(1) hue-rotate(180deg); }
-.navLi a { color: inherit; text-decoration: none; font-size: 14px; }
-
-.perfil {
-    border-top: 1px solid #10435f;
-    padding: 16px 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    transition: background 0.15s;
-}
-.perfil:hover { background: #132943; }
-
-.perfilImage { width: 36px; height: 36px; filter: invert(0.7) sepia(1) hue-rotate(180deg); }
-.perfilConfig { width: 18px; height: 18px; filter: invert(0.4); margin-left: auto; }
-
-.textosPerfil h5 { font-size: 13px; margin: 0; color: #e2e8f2; }
-.textosPerfil p  { font-size: 11px; margin: 0; color: #7a92b0; }
 
 /* ── KPI ROW ── */
 .kpi-row {
@@ -164,7 +58,6 @@ body {
 }
 
 .kpi-value {
-    font-family: 'JetBrains Mono', monospace;
     font-size: 34px;
     font-weight: 700;
     line-height: 1;
@@ -298,7 +191,6 @@ canvas {
 .machine-card strong {
     font-size: 14px;
     font-weight: 600;
-    font-family: 'JetBrains Mono', monospace;
     color: #e2e8f2;
     display: block;
     margin-bottom: 4px;
@@ -383,7 +275,6 @@ canvas {
 .nome-maquina {
     font-size: 14px;
     font-weight: 600;
-    font-family: 'JetBrains Mono', monospace;
     color: #00d4f9;
     margin-bottom: 12px;
 }
@@ -401,7 +292,6 @@ canvas {
     border-radius: 8px;
     padding: 7px 14px;
     font-size: 13px;
-    font-family: 'DM Sans', sans-serif;
     outline: none;
     width: 260px;
     margin-right: 8px;
@@ -426,7 +316,6 @@ canvas {
     border-radius: 8px;
     padding: 7px 12px;
     font-size: 12px;
-    font-family: 'DM Sans', sans-serif;
     outline: none;
     cursor: pointer;
 }
@@ -438,7 +327,6 @@ canvas {
     border-radius: 8px;
     padding: 7px 16px;
     font-size: 11px;
-    font-family: 'DM Sans', sans-serif;
     font-weight: 600;
     cursor: pointer;
     letter-spacing: 0.08em;
@@ -453,3 +341,4 @@ canvas {
 
 
 
+    
