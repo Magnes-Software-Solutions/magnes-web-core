@@ -11,6 +11,7 @@ body {
     padding-top: 85px;
 }
 
+/* ── KPI ROW ── */
 .kpi-row {
     display: flex;
     flex-direction: row;
@@ -18,13 +19,14 @@ body {
     width: 100%;
     gap: 16px;
     padding: 20px 40px 16px 40px;
-    margin-top: 0;
+    flex-wrap: wrap;
 }
 
 .kpi-card {
     background: #132943;
     border-radius: 16px;
     width: 20%;
+    min-width: 180px;
     border: 1px solid #10435f;
     padding: 25px;
     transition: transform 0.2s;
@@ -58,7 +60,7 @@ body {
 .kpi-card.normal .kpi-icon-box svg polyline { stroke: #00ff88; }
 .kpi-card.warning .kpi-icon-box svg path,
 .kpi-card.warning .kpi-icon-box svg line,
-.kpi-card.warning .kpi-icon-box svg circle { stroke: #ffd500; fill: #ffd500; }
+.kpi-card.warning .kpi-icon-box svg circle { stroke: #ffd500; }
 .kpi-card.danger .kpi-icon-box svg circle,
 .kpi-card.danger .kpi-icon-box svg line { stroke: #ff3366; }
 
@@ -516,4 +518,11 @@ canvas {
 .perfilConfig {
     filter: invert(63%) sepia(12%) saturate(608%) hue-rotate(177deg) brightness(90%) contrast(89%);
     width: 8%;
+}
+
+.graficos-extras {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    padding: 0 40px 16px;
 }
