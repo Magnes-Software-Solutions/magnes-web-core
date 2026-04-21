@@ -138,6 +138,7 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
+.env.example
 # Bibliotecas
 .node_modules
 .bootstrap-5.3.8-dist

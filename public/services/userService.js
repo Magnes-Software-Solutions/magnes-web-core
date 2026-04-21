@@ -23,7 +23,7 @@ async function cadastrarEmpresaService(nomeFabricanteVar, cnpjVar, emailEmpresaV
     return response
 }
 
-async function cadastrarFuncionarioService(nome, email, cpf, telefone, senha, sessionFK_HOSPITAL, sessionId) {
+async function cadastrarFuncionarioService(nome, email, cpf, telefone, senha, sessionFK_REDE_HOSPITAL, sessionId) {
     const body = {
         nome, email, cpf, telefone, senha, sessionFK_HOSPITAL, sessionId
     }
@@ -41,29 +41,54 @@ async function atualizarSenhaService(novaSenha, sessionId) {
     return response
 }
 
-async function cadastrarMaquinaService(macAddress, numSerie, tipoModelo, sessionFK_HOSPITAL, sessionEstabelecimento) {
+async function cadastrarMaquinaService(macAddress, numSerie, tipoModelo, sessionFK_REDE_HOSPITAL, sessionEnderecoHospital) {
     const body = {
-        macAddress, numSerie, tipoModelo, sessionFK_HOSPITAL, sessionEstabelecimento
+        macAddress, numSerie, tipoModelo, sessionFK_REDE_HOSPITAL, sessionEnderecoHospital
     }
     const response = await api.post("/user/cadastrarMaquina", body)
     console.log(response);
     return response
 }
 
-async function cadastrarComponenteService(nomeComponente, tipo) {
+async function cadastrarComponenteService(nomeComponente, tipoComponente, unidadeMedida, capacidadeMaxima) {
     const body = {
-        nomeComponente, tipo
+        nomeComponente, tipoComponente, unidadeMedida, capacidadeMaxima
     }
     const response = await api.post("/user/cadastrarComponente", body)
     console.log(response);
     return response
 }
 
-async function buscarIdEstabelecimentoService( sessionFK_HOSPITAL) {
+async function cadastrarEnderecoHospitalService(bairro, cidade, cep, numeroHospital) {
     const body = {
-        sessionFK_HOSPITAL
+        bairro, cidade, cep, numeroHospital
     }
-    const response = await api.post("/user/buscarIdEstabelecimento", body)
+    const response = await api.post("/user/cadastrarEnderecoHospital", body)
+    console.log(response);
+    return response
+}
+
+async function buscarIdEnderecoHospitalService(cep, numeroHospital) {
+    const body = {
+        cep, numeroHospital
+    }
+    const response = await api.post("/user/buscarIdEnderecoHospital", body)
+    console.log(response);
+    return response
+}
+
+async function buscarIdsComponenteService() {
+    const body = {}
+    const response = await api.get("/user/buscarIdsComponente")
+    console.log(response);
+    return response
+}
+
+async function cadastrarComponenteMaquinaService(macAddress, idComponente, limite) {
+    const body = {
+        macAddress, idComponente, limite
+    }
+    const response = await api.post("/user/cadastrarComponenteMaquina", body)
     console.log(response);
     return response
 }
