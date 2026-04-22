@@ -118,6 +118,18 @@
     }
 }
 
+.navLiLogout {
+    a {
+        color: #ff3366 !important;
+    }
+
+    img {
+        filter: invert(41%) sepia(96%) saturate(2103%) hue-rotate(321deg) brightness(101%) contrast(101%) !important;
+        width: 10%;
+        height: 76%;
+    }
+}
+
 .perfil {
     border-top: 0.5px solid #00d4f9 !important;
     align-items: center;
@@ -125,9 +137,15 @@
     justify-content: space-between;
 }
 
-.perfil:hover{
+.perfil:hover {
     cursor: pointer;
     background-color: #0c2b42;
+}
+
+.perfilActive {
+    border-top: 0.5px solid #00d4f9 !important;
+    cursor: pointer;
+    background-color: #134267 !important;
 }
 
 .perfilImage {

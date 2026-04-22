@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página inicial</title>
+    <title>Perfil do Usuário</title>
     <link rel="stylesheet" href="../bootstrap-5.3.8-dist/css/bootstrap.css" />
     <link rel="shortcut icon" href="../assets/imgs/Logo.png" type="image/x-icon" />
     <link rel="stylesheet" href="../css/headerDash.css">
@@ -47,7 +47,7 @@
                                 </li>
                                 <li class="nav-item navLi" onclick="window.location.href='dashGestor.html'">
                                     <img src="../assets/imgs/bar.svg" alt="" class="navItemIcon" />
-                                    <a class="nav-link">Dash Gestor</a>
+                                    <a class="nav-link">Relatório</a>
                                 </li>
                                 <li class="nav-item navLi" onclick="window.location.href='cadastro.html'">
                                     <img src="../assets/imgs/person.svg" alt="" class="navItemIcon" />
@@ -57,10 +57,14 @@
                                     <img src="../assets/imgs/build.svg" alt="" class="navItemIcon" />
                                     <a class="nav-link">Cadastrar Máquina</a>
                                 </li>
+                                <li class="nav-item navLi navLiLogout" onclick="limparSessao()">
+                                    <img src="../assets/imgs/box-arrow-left.svg" alt="" class="navItemIcon" />
+                                    <a class="nav-link">Logout</a>
+                                </li>
                             </ul>
                             </form>
                         </div>
-                        <div class="offcanvas-header perfil" onclick="window.location.href='dashUsuarioGestor.html'">
+                        <div class="offcanvas-header perfil perfilActive">
                             <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Simbolo de perfil">
                             <div class="textosPerfil">
                                 <h5 class="offcanvas-title" id="spanNome">(nome do banco)</h5>

@@ -4,13 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página inicial</title>
+    <title>Dashboard</title>
     <link rel="stylesheet" href="../bootstrap-5.3.8-dist/css/bootstrap.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="shortcut icon" href="../assets/imgs/Logo.png" type="image/x-icon" />
     <link rel="stylesheet" href="../css/dashAnalista.css">
     <link rel="stylesheet" href="../css/headerDash.css">
-    <link rel="stylesheet" href="../css/telaAlerta.css">
 </head>
 
 <body style="background-color: #0a1628;">
@@ -37,7 +36,7 @@
                         </div>
                         <div class="offcanvas-body offcanvasBody">
                             <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 navBarNav">
-                                <li class="nav-item navLi">
+                                <li class="nav-item navLi navLiActive">
                                     <img src="../assets/imgs/dashboard.svg" alt="Simbolo de Dashboard">
                                     <a class="nav-link" href="dashAnalistaGestor.html">Dashboard</a>
                                 </li>
@@ -47,7 +46,7 @@
                                 </li>
                                 <li class="nav-item navLi" onclick="window.location.href='dashGestor.html'">
                                     <img src="../assets/imgs/bar.svg" alt="" class="navItemIcon" />
-                                    <a class="nav-link">Dash Gestor</a>
+                                    <a class="nav-link">Relatório</a>
                                 </li>
                                 <li class="nav-item navLi" onclick="window.location.href='cadastro.html'">
                                     <img src="../assets/imgs/person.svg" alt="" class="navItemIcon" />
@@ -56,6 +55,10 @@
                                 <li class="nav-item navLi" onclick="window.location.href='cadastroComponente.html'">
                                     <img src="../assets/imgs/build.svg" alt="" class="navItemIcon" />
                                     <a class="nav-link">Cadastrar Máquina</a>
+                                </li>
+                                <li class="nav-item navLi navLiLogout" onclick="limparSessao()">
+                                    <img src="../assets/imgs/box-arrow-left.svg" alt="" class="navItemIcon" />
+                                    <a class="nav-link">Logout</a>
                                 </li>
                             </ul>
                         </div>
