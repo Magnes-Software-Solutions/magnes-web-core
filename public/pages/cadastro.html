@@ -7,48 +7,73 @@
     <title>Magnes | Cadastro</title>
     <link rel="stylesheet" href="../bootstrap-5.3.8-dist/css/bootstrap.css" />
     <link rel="shortcut icon" href="../assets/imgs/Logo.png" type="image/x-icon" />
-    <link rel="stylesheet" href="../css/login.css">
+    <!-- <link rel="stylesheet" href="../css/login.css"> -->
     <link rel="stylesheet" href="../css/cadastro.css">
-    <link rel="stylesheet" href="../css/style.css">
+    <!-- <link rel="stylesheet" href="../css/style.css"> -->
+    <link rel="stylesheet" href="../css/headerDash.css">
+    <link rel="stylesheet" href="../css/dashUsuario.css">
 </head>
 
-<body>
-
-    <nav id="navBarTimida" class="navbar navbar-expand-lg fixed-top border-bottom border-body">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <img class="" src="https://res.cloudinary.com/dmwq36uby/image/upload/v1771518341/Logo_hlyucq.png"
-                    alt="" />
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
-                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse align-items-center" id="navbarText">
-                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="../index.html">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../index.html">Funcionalidades</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../index.html">Quem Somos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../index.html">Contato</a>
-                    </li>
-                </ul>
-
-                <div class="d-grid gap-5 d-md-flex justify-content-center align-items-center">
-                    <div class="line"></div>
-                    <a style="color: #7a32cc;" class="text-decoration-none" href="./cadastro.html">Cadastrar</a>
-                    <a style="background-color: #7A32CC; border: none;"
-                        class="btn btn-primary text-white text-decoration-none" href="./login.html">Login</a>
+<body style="background-color: black;">
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="navbar bg-body-tertiary fixed-top navBarTop">
+                <div class="container-fluid">
+                    <img src="../assets/imgs/Logo.png" alt="" width="5%" height="85%">
+                    <div class="titulo">
+                        <p class="tituloLogo">MAGNES</p>
+                        <p class="textoLogo">MRI MONITOR</p>
+                    </div>
+                    <button class="navbar-toggler navBarToggler" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar"
+                        aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon navBarTogglerIcon"></span>
+                    </button>
+                    <div class="offcanvas offcanvas-end offCanvas" tabindex="-1" id="offcanvasNavbar"
+                        aria-labelledby="offcanvasNavbarLabel">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title offCanvasTitle" id="offcanvasNavbarLabel">MAGNES</h5>
+                            <button type="button" class="btn-close offCanvasButton" data-bs-dismiss="offcanvas"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body offcanvasBody">
+                            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 navBarNav">
+                                <li class="nav-item navLi">
+                                    <img src="../assets/imgs/dashboard.svg" alt="Simbolo de Dashboard">
+                                    <a class="nav-link" href="dashAnalistaGestor.html">Dashboard</a>
+                                </li>
+                                <li onclick="alertas()" class="nav-item navLi">
+                                    <img src="../assets/imgs/alert.svg" alt="Simbolo de Alerta">
+                                    <a class="nav-link" href="telaAlertasGestor.html">Alerta</a>
+                                </li>
+                                <li class="nav-item navLi" onclick="window.location.href='dashGestor.html'">
+                                    <img src="../assets/imgs/bar.svg" alt="" class="navItemIcon" />
+                                    <a class="nav-link">Dash Gestor</a>
+                                </li>
+                                <li class="nav-item navLi" onclick="window.location.href='cadastro.html'">
+                                    <img src="../assets/imgs/person.svg" alt="" class="navItemIcon" />
+                                    <a class="nav-link">Cadastrar Analista</a>
+                                </li>
+                                <li class="nav-item navLi" onclick="window.location.href='cadastroComponente.html'">
+                                    <img src="../assets/imgs/build.svg" alt="" class="navItemIcon" />
+                                    <a class="nav-link">Cadastrar Máquina</a>
+                                </li>
+                            </ul>
+                            </form>
+                        </div>
+                        <div class="offcanvas-header perfil" onclick="window.location.href='dashUsuarioGestor.html'">
+                            <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Simbolo de perfil">
+                            <div class="textosPerfil">
+                                <h5 class="offcanvas-title" id="spanNome">(nome do banco)</h5>
+                                <p id="nomeCargoNav">(cargo do banco)</p>
+                            </div>
+                            <img class="perfilConfig" src="../assets/imgs/gear.svg" alt="Simbolo de configurações">
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </nav>
         </div>
-    </nav>
+    </div>
 
     <div class="container-fluid right-container" style="height: 100%;">
         <div class="row" style="height: 100%;">
@@ -324,5 +349,27 @@
 
         return false;
     }
+
+    function pegarDashboard() {
+        var idUsuario = sessionStorage.ID_USUARIO;
+        fetch(`/dash/PegarDashboard/${idUsuario}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                spanNome.innerHTML = data[0].nome;
+                const fkSupervisor = data[0].fkSupervisor;
+                console.log(fkSupervisor)
+                if (fkSupervisor === null) {
+                    cargo = "Gerente Tecnico";
+                } else {
+                    cargo = "Analista de Sistemas";
+                }
+                nomeCargoNav.innerHTML = cargo;
+            })
+            .catch(error => {
+                console.error("Erro ao pegar dashboard:", error);
+            });
+    }
+    window.onload = pegarDashboard;
 
 </script>

@@ -48,11 +48,11 @@
                             </ul>
                             </form>
                         </div>
-                        <div class="offcanvas-header perfil" onclick="usuario()">
+                        <div class="offcanvas-header perfil" onclick="window.location.href='dashUsuario.html'">
                             <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Simbolo de perfil">
                             <div class="textosPerfil">
                                 <h5 class="offcanvas-title" id="spanNome">(nome do banco)</h5>
-                                <p id="cargoUsuario1">(cargo do banco)</p>
+                                <p id="cargoUsuarioNav">(cargo do banco)</p>
                             </div>
                             <img class="perfilConfig" src="../assets/imgs/gear.svg" alt="Simbolo de configurações">
                         </div>
@@ -168,7 +168,7 @@
                     cargo = "Analista de Sistemas";
                 }
                 cargoUsuario.innerHTML = cargo;
-                cargoUsuario1.innerHTML = cargo;
+                cargoUsuarioNav.innerHTML = cargo;
             })
             .catch(error => {
                 console.error("Erro ao pegar dashboard:", error);
