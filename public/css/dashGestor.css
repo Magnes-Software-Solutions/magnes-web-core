@@ -18,8 +18,8 @@ body {
     justify-content: space-evenly;
     width: 100%;
     gap: 16px;
-    padding: 20px 40px 16px 40px;
-    flex-wrap: wrap;
+    padding: 28px 24px 16px;
+    margin-top: 60px;
 }
 
 .kpi-card {
@@ -240,6 +240,7 @@ canvas {
     border: 1px solid #512d4d !important;
 }
 
+/*  GRÁFICOS   */
 .graficos-extras {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -252,6 +253,9 @@ canvas {
     border: 1px solid #10435f;
     border-radius: 16px;
     padding: 20px;
+    width: 1470px;
+    height: 100%;
+    /* margin-left: 200px; */
 }
 
 .grafico-extra-panel h6 {
