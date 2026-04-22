@@ -315,3 +315,144 @@ button:hover {
 #form_fabricante button {
   margin-top: 30px;
 }
+
+
+@media (max-width: 992px) {
+
+  .container {
+    padding: 30px 20px;
+  }
+
+  .card {
+    max-width: 90%;
+    padding: 25px;
+  }
+
+  .title-main {
+    font-size: 24px;
+  }
+
+  .cards-cadastro {
+    gap: 20px;
+  }
+
+  .card-fabricante,
+  .card-funcionário {
+    height: auto;
+    padding: 20px;
+  }
+
+  .card-fabricante img {
+    width: 200px;
+  }
+
+  #form_fabricante {
+    padding: 0px 20px;
+  }
+}
+
+
+@media (max-width: 576px) {
+
+  body {
+    height: auto; /* remove altura fixa */
+  }
+
+  .container {
+    padding: 15px;
+    margin-top: 90px;
+  }
+
+  .title-main {
+    font-size: 20px;
+  }
+
+  .sub {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .card {
+    max-width: 100%;
+    padding: 20px;
+    border-radius: 12px;
+  }
+
+  label {
+    font-size: 13px;
+  }
+
+  input {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  button {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  /* CARDS DE ESCOLHA */
+  .cards-cadastro {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .card-fabricante,
+  .card-funcionário {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .card-fabricante:hover,
+  .card-funcionário:hover {
+    scale: 1; /* remove zoom no mobile */
+  }
+
+  /* FORMULÁRIOS */
+  .div-inputs-cadastro {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .form-fabricante-col-1,
+  .form-fabricante-col-2 {
+    width: 100%;
+    align-items: center;
+  }
+
+  #form_funcionario div {
+    width: 100%;
+  }
+
+  #form_funcionario span input,
+  #form_fabricante span input {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* TITULO */
+  .div-titulo {
+    flex-direction: column;
+    gap: 10px;
+    margin: 20px 0;
+  }
+
+  .div-titulo img {
+    width: 25px;
+  }
+}
+
+
+/* TELAS MUITO GRANDES */
+@media (min-width: 1400px) {
+
+  .card {
+    max-width: 700px;
+  }
+
+  .container {
+    padding: 60px;
+  }
+}
