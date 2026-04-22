@@ -861,9 +861,6 @@ nav button {
   animation: opacidade linear;
   animation-timeline: view();
   animation-range: entry 10% cover 50%;
-
-
-
 }
 
 @media (max-width: 768px) {
@@ -945,25 +942,70 @@ nav button {
   box-shadow: #050a0e;
 }
 
-
-/* RESPONSIVIDADE MAGNES (LIMPA E CORRIGIDA - PODE SOFRER ALTERAÇÕES) */
-
 @media (max-width: 1024px) {
+  html, body {
+    overflow-x: hidden;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  #navBarTimida {
+    background-color: #050a0e;
+    border-bottom: 2px solid #7A32CC;
+  }
+
+  .navbar-collapse {
+    background-color: rgba(5, 10, 14, 0.95);
+    padding: 20px;
+    border-radius: 0 0 10px 10px;
+    text-align: center;
+  }
+
+  .inicial {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: 500px;
+    position: relative;
+  }
+
+  .inicial-video {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+  }
 
   .inicial-texto {
-    top: 55%;
-    left: 5%;
-    width: 90%;
-    transform: translateY(-50%);
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: none;
+    width: 100%;
+    padding: 100px 20px 40px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .inicial-texto h1 {
-    font-size: 45px;
+    font-size: 3.2rem;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
   }
 
   .inicial-texto p {
-    font-size: 22px;
-    margin-bottom: 20px;
+    font-size: 1.5rem;
+    line-height: 1.3;
+    margin-bottom: 30px;
+    width: 100%;
+  }
+
+  .inicial-texto p br {
+    display: none;
   }
 
   .inicial-texto .button {
@@ -978,105 +1020,111 @@ nav button {
     width: 100%;
     text-align: center;
     padding: 15px 20px;
-    font-size: 18px;
+    font-size: 1.2rem;
     display: block;
   }
 
-  .section-solucoes {
-    margin-top: 80px;
-    padding: 0 15px;
-  }
-
   .container-hardware {
+    display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 30px;
-    margin-top: 48px;
+    padding: 20px;
+    gap: 15px;
+    margin-top: 20px;
   }
 
   .monitor-card {
-    max-width: 100%;
-    width: 100%;
+    border-radius: 10px;
+    padding: 15px;
     flex-direction: column;
-    align-items: flex-start;
-    height: auto;
-    margin-bottom: 20px;
+    align-items: center;
+    text-align: center;
   }
 
   .overlay {
-    position: relative;
-    max-height: none;
-    opacity: 1;
-    z-index: 1;
-    top: 0;
-    padding: 15px 0 0 0;
-    background: transparent;
-    box-shadow: none;
-    text-align: left;
+    position: relative !important;
+    opacity: 1 !important;
+    max-height: none !important;
+    padding-top: 10px !important;
+    background: transparent !important;
+    box-shadow: none !important;
   }
 
-  .scroll-down {
-    flex-direction: column;
-    margin-top: 96px;
-    padding: 60px 20px;
-    height: auto;
-    border-radius: 40px 40px 0 0;
+  .title-scroll {
+    font-size: 2.2rem;
+    text-align: center;
+    margin-top: 50px;
+    width: 100%;
+    padding: 0 15px;
+  }
+
+  .carousel {
+    width: 100%;
+    overflow-x: auto;
+    display: flex;
+    padding: 40px 0;
+    white-space: nowrap;
+  }
+
+  .carousel .group {
+    display: flex;
+    flex-direction: row;
     gap: 50px;
+    width: max-content;
+    animation: girar 15s infinite linear;
   }
 
-  .container-down {
-    gap: 64px;
+  .carousel .group .cards {
+    flex: 0 0 auto;
+    width: 150px;
   }
 
-  .video-scroll {
+  .carousel .group .cards img {
+    width: 150px;
     height: auto;
-    width: 100%;
+    object-fit: contain;
+    filter: none;
   }
 
-  .inicial-video-scroll {
-    position: relative;
-    top: 0;
-    width: 100%;
+  .footer_wrapper .row{
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
 
-  .inicial-video-scroll video {
-    width: 100%;
-    max-width: 550px;
-    transform: none;
-    border-radius: 20px;
+  .secao-contato, .footer {
+    padding-left: 15px;
+    padding-right: 15px;
   }
 
   .grade-contato {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 30px;
   }
 
-  .secao-contato {
-    padding: 60px 5%;
+  .formulario-contato {
+    padding: 30px;
   }
 
-  .informacoes-contato h2 {
-    font-size: 32px;
+  .footer_wrapper .row {
+    flex-direction: column;
+    text-align: center;
+    gap: 30px;
+  }
+
+  .footer ul { 
+    padding: 0; 
+  }
+
+  .copyright-texto {
+    width: auto; 
+    display: block;
+    margin-left: -50px; 
+    margin-right: -50px;
+    padding: 20px 50px;
     text-align: center;
   }
-}
-
-@media (max-width: 480px) {
-  .inicial-texto h1 {
-    font-size: 32px;
-  }
-
-  .title-scroll {
-    font-size: 28px;
-    margin-top: 64px;
-    text-align: center;
-  }
-
-  .texto-cards h1 {
-    font-size: 26px;
-  }
-
-  .hardware-valor {
-    font-size: 28px;
+  
+  .redes-sociais-contato span {
+    justify-content: center;
   }
 }
