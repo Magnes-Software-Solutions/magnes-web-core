@@ -40,30 +40,30 @@
 
                 <div class="offcanvas-body offcanvasBody">
                     <ul class="navbar-nav flex-column gap-1 navBarNav">
-                        <li class="nav-item navLi" onclick="window.location.href='dashAnalista.html'">
+                        <li class="nav-item navLi" onclick="window.location.href='dashAnalistaGestor.html'">
                             <img src="../assets/imgs/dashboard.svg" alt="" class="navItemIcon" />
                             <a class="nav-link">Dashboard</a>
                         </li>
-                        <li class="nav-item navLi navLiActive">
+                        <li class="nav-item navLi navLiActive" onclick="window.location.href='telaAlertasGestor.html'">
                             <img src="../assets/imgs/alert.svg" alt="" class="navItemIcon" />
                             <a class="nav-link">Alerta</a>
                         </li>
-                        <li class="nav-item navLi">
+                        <li class="nav-item navLi" onclick="window.location.href='dashGestor.html'">
                             <img src="../assets/imgs/bar.svg" alt="" class="navItemIcon" />
                             <a class="nav-link" href="#">Relatório</a>
                         </li>
-                        <li class="nav-item navLi">
+                        <li class="nav-item navLi" onclick="window.location.href='cadastro.html'">
                             <img src="../assets/imgs/person.svg" alt="" class="navItemIcon" />
                             <a class="nav-link" href="#">Cadastrar Analista</a>
                         </li>
-                        <li class="nav-item navLi">
+                        <li class="nav-item navLi" onclick="window.location.href='cadastroComponente.html'">
                             <img src="../assets/imgs/build.svg" alt="" class="navItemIcon" />
                             <a class="nav-link" href="#">Cadastrar Máquina</a>
                         </li>
                     </ul>
                 </div>
 
-                <div class="offcanvas-header perfil">
+                <div class="offcanvas-header perfil" onclick="window.location.href='dashUsuarioGestor.html'">
                     <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Perfil" />
                     <div class="textosPerfil">
                         <h5 class="offcanvas-title mb-0" id="nomeUsuarioNav">—</h5>
@@ -271,7 +271,7 @@
     }
 
     function finalizarTudo() {
-        window.location.href = "dashAnalista.html";
+        window.location.href = "dashAnalistaGestor.html";
     }
 
     /*
@@ -416,6 +416,27 @@
         }
     }
 
+    function pegarDashboard() {
+        var idUsuario = sessionStorage.ID_USUARIO;
+        fetch(`/dash/PegarDashboard/${idUsuario}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                nomeUsuarioNav.innerHTML = data[0].nome;
+                const fkSupervisor = data[0].fkSupervisor;
+                console.log(fkSupervisor)
+                if (fkSupervisor === null) {
+                    cargo = "Gerente Tecnico";
+                } else {
+                    cargo = "Analista de Sistemas";
+                }
+                cargoUsuarioNav.innerHTML = cargo;
+            })
+            .catch(error => {
+                console.error("Erro ao pegar dashboard:", error);
+            });
+    }
+    window.onload = pegarDashboard;
 
 
 

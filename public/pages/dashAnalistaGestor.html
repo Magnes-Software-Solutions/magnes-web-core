@@ -43,18 +43,30 @@
 
                         <div class="offcanvas-body offcanvasBody">
                             <ul class="navbar-nav flex-column gap-1 navBarNav">
-                                <li class="nav-item navLi navLiActive" onclick="window.location.href='dashAnalista.html'">
+                                <li class="nav-item navLi navLiActive" onclick="window.location.href='dashAnalistaGestor.html'">
                                     <img src="../assets/imgs/dashboard.svg" alt="" class="navItemIcon" />
-                                    <a class="nav-link" >Dashboard</a>
+                                    <a class="nav-link" >Dashboard Analista</a>
                                 </li>
-                                <li class="nav-item navLi" onclick="window.location.href='telaAlertas.html'">
+                                <li class="nav-item navLi" onclick="window.location.href='telaAlertasGestor.html'">
                                     <img src="../assets/imgs/alert.svg" alt="" class="navItemIcon" />
                                     <a class="nav-link">Alerta</a>
+                                </li>
+                                <li class="nav-item navLi" onclick="window.location.href='dashGestor.html'">
+                                    <img src="../assets/imgs/bar.svg" alt="" class="navItemIcon" />
+                                    <a class="nav-link">Relatório</a>
+                                </li>
+                                <li class="nav-item navLi" onclick="window.location.href='cadastro.html'">
+                                    <img src="../assets/imgs/person.svg" alt="" class="navItemIcon" />
+                                    <a class="nav-link">Cadastrar Analista</a>
+                                </li>
+                                <li class="nav-item navLi" onclick="window.location.href='cadastroComponente.html'">
+                                    <img src="../assets/imgs/build.svg" alt="" class="navItemIcon" />
+                                    <a class="nav-link">Cadastrar Máquina</a>
                                 </li>
                             </ul>
                         </div>
 
-                        <div class="offcanvas-header perfil" onclick="window.location.href='dashUsuario.html'">
+                        <div class="offcanvas-header perfil" onclick="window.location.href='dashUsuarioGestor.html'">
                             <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Perfil" />
                             <div class="textosPerfil">
                                 <h5 class="offcanvas-title mb-0" id="spanNome"></h5>
@@ -791,6 +803,10 @@
             divResposta.innerHTML = `Erro: ${erro.message}`;
         }
     }
+
+    // Visualização do usuário
+    var nomeUsuario = sessionStorage.NOME_USUARIO
+    spanNome.innerHTML = nomeUsuario
                 
     // Primeira MRI
     function criarGrafico1() {
@@ -2599,7 +2615,7 @@
     //     progressCpu.style.backgroundColor = "#ff3366"
     // }
 
-   function pegarDashboard() {
+    function pegarDashboard() {
         var idUsuario = sessionStorage.ID_USUARIO;
         fetch(`/dash/PegarDashboard/${idUsuario}`)
             .then(response => response.json())
