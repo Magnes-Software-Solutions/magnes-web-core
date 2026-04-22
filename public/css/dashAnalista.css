@@ -575,3 +575,349 @@
     color: #212529;
     border: 1px solid #dee2e6;
 }
+
+@media (max-width: 1200px) {
+    .cards {
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    
+    .cardKpi {
+        width: calc(50% - 20px);
+        min-width: 200px;
+    }
+    
+    .divAuxiliar {
+        width: calc(50% - 20px);
+    }
+    
+    .cards .divAuxiliar {
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 992px) {
+    .corpo {
+        padding: 80px 25px 30px 25px;
+    }
+    
+    .cardKpi {
+        width: calc(50% - 15px);
+    }
+    
+    .bodyKpi {
+        padding: 20px;
+    }
+    
+    .kpiImg {
+        width: 35%;
+        padding: 6%;
+    }
+    
+    .numeroAzul, .numeroVerde, .numeroAmarelo, .numeroVermelho {
+        font-size: 1.8rem;
+    }
+    
+    .dialog-content {
+        padding: 20px 25px;
+    }
+    
+    .graficos-dois {
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .grafico {
+        width: 100%;
+    }
+    
+    .dialogUso {
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .corpo {
+        padding: 70px 15px 20px 15px;
+    }
+    
+    .corpo .tituloCorpo {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    
+    .cards {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .cardKpi {
+        width: 100%;
+    }
+    
+    .bodyKpi {
+        padding: 18px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .kpiImg {
+        width: 60px;
+        padding: 12px;
+        margin-bottom: 0;
+    }
+    
+    .kpiTextos {
+        flex: 1;
+    }
+    
+    .kpiTextos p {
+        font-size: 12px;
+    }
+    
+    .numeroAzul, .numeroVerde, .numeroAmarelo, .numeroVermelho {
+        font-size: 1.5rem;
+        margin: 5px 0;
+    }
+    
+    .miniTextos {
+        margin-left: 0;
+        text-align: center;
+        margin-top: 20px;
+    }
+    
+    .miniTitulo {
+        font-size: 1.3rem;
+    }
+    
+    .divAuxiliar {
+        width: 100%;
+    }
+    
+    .bodyMaquina {
+        padding: 18px;
+    }
+    
+    .bodyMaquina-header {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .bodyMaquina-header-texto {
+        width: 100%;
+    }
+    
+    .bodyMaquina-header-texto h6 {
+        font-size: 20px;
+        text-align: center;
+    }
+    
+    .bodyImg {
+        width: 80px;
+        align-self: center;
+    }
+    
+    .localizacao {
+        justify-content: center;
+    }
+    
+    .localizacao img {
+        width: 20px;
+    }
+    
+    .componentes-titulo {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .componentes-tituloBarra {
+        width: 100%;
+        justify-content: flex-start;
+        gap: 10px;
+    }
+    
+    .componentes-tituloBarra img {
+        width: 24px;
+    }
+    
+    .componentes-titulo > p {
+        text-align: right;
+    }
+    
+    .dialog-graf {
+        width: 95vw;
+        margin: auto;
+    }
+    
+    .dialog-content {
+        padding: 15px;
+    }
+    
+    .dialogGraf-header h2 {
+        font-size: 1.3rem;
+    }
+    
+    .dialogUso {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .textoChart {
+        font-size: 14px;
+        text-align: center;
+    }
+    
+    .divCanvas {
+        padding: 10px 10px 15px 10px;
+        overflow-x: auto;
+    }
+    
+    canvas {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    /* Chat responsivo */
+    .chat-window {
+        width: calc(100vw - 40px);
+        right: 20px;
+        bottom: 80px;
+        height: 60vh;
+        max-height: 500px;
+    }
+    
+    .chat-button {
+        bottom: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+    }
+}
+
+@media (max-width: 480px) {
+    .corpo {
+        padding: 60px 10px 15px 10px;
+    }
+    
+    .corpo .tituloCorpo {
+        font-size: 1.2rem;
+    }
+    
+    .bodyKpi {
+        padding: 12px;
+        gap: 10px;
+    }
+    
+    .kpiImg {
+        width: 45px;
+        padding: 8px;
+    }
+    
+    .kpiTextos p {
+        font-size: 10px;
+    }
+    
+    .numeroAzul, .numeroVerde, .numeroAmarelo, .numeroVermelho {
+        font-size: 1.2rem;
+    }
+    
+    .bodyMaquina {
+        padding: 12px;
+    }
+    
+    .bodyMaquina-header-texto h6 {
+        font-size: 18px;
+    }
+    
+    .localizacao p {
+        font-size: 11px;
+    }
+    
+    .bodyImg {
+        width: 65px;
+    }
+    
+    .bodyImg p {
+        font-size: 11px;
+    }
+    
+    .componentes-tituloBarra h9 {
+        font-size: 12px;
+    }
+    
+    .componentes-titulo > p {
+        font-size: 12px;
+    }
+    
+    .bodyMaquina-body p {
+        font-size: 12px;
+    }
+    
+    .dialogGraf-header h2 {
+        font-size: 1.1rem;
+    }
+    
+    .dialogUso-texto {
+        font-size: 12px;
+    }
+    
+    .closeDialog {
+        width: 16px;
+    }
+}
+
+@media (min-width: 1600px) {
+    .corpo {
+        padding: 60px 80px;
+        max-width: 1600px;
+        margin: 0 auto;
+    }
+    
+    .cards {
+        gap: 30px;
+    }
+    
+    .cardKpi {
+        width: 23%;
+    }
+    
+    .bodyKpi {
+        padding: 30px;
+    }
+    
+    .kpiImg {
+        width: 25%;
+    }
+    
+    .numeroAzul, .numeroVerde, .numeroAmarelo, .numeroVermelho {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-top: 0;
+    }
+}
+
+@media (hover: none) and (pointer: coarse) {
+    .cardMaquina {
+        cursor: pointer;
+        transition: none;
+    }
+    
+    .cardMaquina:active {
+        opacity: 0.8;
+    }
+    
+    .closeDialog {
+        padding: 10px;
+        min-width: 30px;
+        min-height: 30px;
+    }
+}
