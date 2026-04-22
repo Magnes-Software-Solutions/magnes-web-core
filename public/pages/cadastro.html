@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../css/cadastro.css">
     <!-- <link rel="stylesheet" href="../css/style.css"> -->
     <link rel="stylesheet" href="../css/headerDash.css">
+    <link rel="stylesheet" href="../css/cadastroComponente.css">
     <link rel="stylesheet" href="../css/dashUsuario.css">
 </head>
 
@@ -75,128 +76,38 @@
         </div>
     </div>
 
-    <div class="container-fluid right-container" style="height: 100%;">
-        <div class="row" style="height: 100%;">
-            <div class="col-md-6 banner-cadastro">
-            </div>
-            <div class="col-md-6 container-form" style="background-color: #E8E8FC;">
-                <div class="arrumando-primeiro-cad"></div>
-                <div class="div-titulo">
-                    <img src="../assets/imgs/retorno.svg" id="retorno" onclick="voltar()" style="display: none;">
-                    <h1 id="titulo" class="titulo-cadastro">CADASTRO</h1>
-                </div>
+    <div class="container">
+        <h1 class="title-main">Cadastro do Analista</h1>
+        <p class="sub">Cadastre aqui o analista da sua equipe</p>
 
-                <div id="cards_cadastro" class="cards-cadastro">
-                    <div class="card-fabricante col-12 col-xxl-6" onclick="escolher('fabricante')">
-                        <div class="container-fabricante">
-                            <div class="text-title">
-                                <h2>Fabricante</h2>
-                            </div>
-                            <div class="text">
-                                <p>Cadastre a empresa para que ela tenha acesso ao sistema</p>
-                            </div>
-                        </div>
-                        <div class="img-fabricante">
-                            <img src="../assets/imgs/img-fabricante.svg" class="img-fluid" alt="">
-                        </div>
-                    </div>
-                    <div class="card-funcionário col-12 col-xxl-6" onclick="escolher('funcionario')">
-                        <div class="container-funcionario">
-                            <div class="text-title">
-                                <h2>Gerente</h2>
-                            </div>
-                            <div class="text">
-                                <p>Cadastre o gerente responsável pela empresa</p>
-                            </div>
-                        </div>
-                        <div class="img-fabricante">
-                            <img src="../assets/imgs/img-funcionario.svg" class="img-fluid" alt="">
-                        </div>
-                    </div>
-                </div>
+        <div class="card">
+            <h2>Cadastro Analista</h2>
 
-                <form id="form_fabricante">
-                    <div class="div-inputs-cadastro">
-                        <div class="form-fabricante-col-1">
-                            <span>
-                                <label for="inputNomeEmpresa" class="form-label">Nome Completo:</label>
-                                <input type="text" id="inputNomeEmpresa" class="form-control">
-                            </span>
-                            <span>
-                                <label for="inputEmailEmpresa" class="form-label">Email:</label>
-                                <input type="email" id="inputEmailEmpresa" class="form-control">
-                            </span>
-                            <span>
-                                <label for="inputCNPJ" class="form-label">CNPJ:</label>
-                                <input type="text" id="inputCNPJ" class="form-control">
-                            </span>
-                            <span>
-                                <label for="inputTelefoneCorporativo" class="form-label">Telefone Corporativo:</label>
-                                <input type="tel" id="inputTelefoneCorporativo" class="form-control"
-                                    aria-describedby="passwordHelpBlock">
-                            </span>
-                        </div>
-                        <br>
-                    </div>
-                    <button type="button" onclick="cadastrarEmpresa()">CADASTRAR</button>
-                </form>
+            <form onsubmit="return cadastrarFuncionario()">
+                <label>Nome:</label>
+                <input type="text" id="inputNome">
 
+                <label>Email:</label>
+                <input type="email" id="inputEmail">
 
+                <label>CPF:</label>
+                <input type="text" id="inputCPF">
 
-                <form id="form_funcionario" style="display: none;">
-                    <span>
-                        <label for="inputNome" class="form-label">Nome :</label>
-                        <input type="text" id="inputNome" class="form-control">
-                    </span>
-                    <span>
-                        <label for="inputEmail" class="form-label">Email:</label>
-                        <input type="text" id="inputEmail" class="form-control">
-                    </span>
-                    <span>
-                        <label for="inputCPF" class="form-label">CPF:</label>
-                        <input type="text" id="inputCPF" class="form-control">
-                    </span>
-                    <span>
-                        <label for="inputTelefone" class="form-label">Telefone:</label>
-                        <input type="text" id="inputTelefone" class="form-control">
-                    </span>
-                    <span>
-                        <label for="inputPassword" class="form-label">Senha:</label>
-                        <input type="password" id="inputPassword" class="form-control">
-                    </span>
-                    <span>
-                        <label for="inputPasswordConfirm" class="form-label">Confirme sua senha:</label>
-                        <input type="password" id="inputPasswordConfirm" class="form-control"
-                            aria-describedby="passwordHelpBlock">
-                    </span>
-                    <br>
-                    <button type="button" onclick="cadastrarFuncionario()">CADASTRAR</button>
-                </form>
+                <label>Telefone:</label>
+                <input type="text" id="inputTelefone">
 
-            </div>
+                <label>Senha:</label>
+                <input type="password" id="inputPassword">
+
+                <label>Confirmar sua senha:</label>
+                <input type="password" id="inputPasswordConfirm">
+
+                <button type="submit" class="botao-magnes">
+                    FINALIZAR CADASTRO
+                </button>
+            </form>
         </div>
     </div>
-
-    <div class="modal fade" id="modalSucesso" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-
-      <div style="background-color: #746cc2;" class="modal-header">
-        <h5 style="color: #fbfbfb;" class="modal-title">Cadastro realizado</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-
-      <div style="background-color: #E8E8FC;"class="modal-body">
-        <p id="textoToken"></p>
-      </div>
-
-      <div style="background-color: #E8E8FC;"   class="modal-footer">
-        <button  style="color: #124685; background-color: #fbfbfb; border: 2px solid #746cc2"  class="btn" data-bs-dismiss="modal">OK</button>
-      </div>
-
-    </div>
-  </div>
-</div>
 
 </body>
 
@@ -248,19 +159,19 @@
         emailEmpresaVar = inputEmailEmpresa.value;
         tel_corporativoVar = inputTelefoneCorporativo.value;
 
-        if(nomeFabricanteVar.trim() === "" ){
+        if (nomeFabricanteVar.trim() === "") {
             alert("È necessario um nome para cadastrar!.");
             return false;
         }
-        else if(cnpjVar.trim() === ""){
+        else if (cnpjVar.trim() === "") {
             alert("È necessario um CNPJ para poder se cadastrar!.");
             return false;
         }
-        else if(emailEmpresaVar.trim() === ""){
+        else if (emailEmpresaVar.trim() === "") {
             alert("È necessario um email para poder se cadastrar!.");
             return false;
         }
-        else if(tel_corporativoVar.trim() === ""){
+        else if (tel_corporativoVar.trim() === "") {
             alert("È necessario um telefone corporativo para poder se cadastrar!.");
             return false;
         }
@@ -271,11 +182,11 @@
         if (resposta.ok) {
             const token = await resposta.json()
             document.getElementById("textoToken").innerHTML =
-            `Cadastro de Empresa concluído com sucesso! <br><br>Seu token: <span style="font-weight: bold;">${token}</span>`;
+                `Cadastro de Empresa concluído com sucesso! <br><br>Seu token: <span style="font-weight: bold;">${token}</span>`;
 
             const modal = new bootstrap.Modal(document.getElementById('modalSucesso'));
             modal.show();
-            
+
             setTimeout(() => {
                 // window.location = "login.html";
             }, 100);
@@ -288,7 +199,7 @@
         return false;
     }
 
-   
+
     async function cadastrarFuncionario() {
         let nomeVar = inputNome.value;
         let emailVar = inputEmail.value;
@@ -297,36 +208,36 @@
         let senhaVar = inputPassword.value;
         let confirmacaoSenhaVar = inputPasswordConfirm.value;
 
-        
-        if(nomeVar.trim() === "" ){
+
+        if (nomeVar.trim() === "") {
             alert("È necessario um nome para cadastrar!.");
             return false;
         }
-        else if(emailVar.trim() === ""){
+        else if (emailVar.trim() === "") {
             alert("È necessario um email para poder se cadastrar!.");
             return false;
         }
-        else if(cpfVar.trim() === ""){
+        else if (cpfVar.trim() === "") {
             alert("È necessario informar o CPF para continuar!.");
             return false;
         }
-        else if(telefoneVar.trim() === ""){
+        else if (telefoneVar.trim() === "") {
             alert("È necessario informar um telefone para continuar!.");
             return false;
         }
-        else if(senhaVar.trim() === ""){
+        else if (senhaVar.trim() === "") {
             alert("È necessario informar uma senha para continuar!.");
             return false;
         }
-        if(nomeVar.length <= 2){
+        if (nomeVar.length <= 2) {
             alert("Nome invalido, precisa ser maior que uma letra.");
             return false;
         }
-        if((emailVar.includes("@") && emailVar.includes(".com")) == false){
+        if ((emailVar.includes("@") && emailVar.includes(".com")) == false) {
             alert("Email precisa ter '@' e '.com'.");
             return false;
         }
-        if(senhaVar < 2){
+        if (senhaVar < 2) {
             alert("A senha precisa ser maior que dois digitos.");
             return false;
         }
@@ -345,7 +256,7 @@
             alert("Houve um erro ao tentar realizar o cadastro do funcionário!");
         }
 
-       sessionStorage.setItem("NOME_USUARIO", resposta.nome);
+        sessionStorage.setItem("NOME_USUARIO", resposta.nome);
 
         return false;
     }
