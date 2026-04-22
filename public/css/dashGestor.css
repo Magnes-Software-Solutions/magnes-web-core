@@ -526,3 +526,146 @@ canvas {
     gap: 16px;
     padding: 0 40px 16px;
 }
+
+@media (max-width: 992px) {
+    .grid-dashboard {
+        flex-direction: column;
+    }
+    
+    .grafico-status {
+        flex: 1;
+        width: 100%;
+    }
+    
+    .machines-panel {
+        width: 100%;
+    }
+    
+    .graficos-extras {
+        grid-template-columns: 1fr;
+        padding: 0 20px 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-top: 75px;
+    }
+    
+    .kpi-row {
+        padding: 16px 16px 12px 16px;
+        gap: 12px;
+    }
+    
+    .kpi-card {
+        width: calc(50% - 6px);
+        min-width: unset;
+        padding: 16px;
+    }
+    
+    .kpi-icon-box {
+        width: 25%;
+        padding: 5%;
+    }
+    
+    .kpi-value {
+        font-size: 28px;
+    }
+    
+    .kpi-label {
+        font-size: 12px;
+    }
+    
+    .kpi-trend {
+        font-size: 11px;
+    }
+    
+    .grid-dashboard {
+        padding: 0 16px 12px;
+        gap: 12px;
+    }
+    
+    .panel, .machines-panel, .grafico-extra-panel {
+        padding: 15px;
+    }
+    
+    .machine-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+    }
+    
+    .badge {
+        align-self: center;
+    }
+    
+    .exibicao-grafico {
+        margin: 0 16px 20px;
+        padding: 16px;
+    }
+    
+    .input-exibicao {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    
+    .select-metricas {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .select-metricas select,
+    .select-metricas button {
+        width: 100%;
+    }
+    
+    .machines-header {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+    }
+    
+    .legend {
+        justify-content: center;
+    }
+    
+    .panel-title {
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .kpi-card {
+        width: 100%;
+    }
+    
+    .kpi-value {
+        font-size: 24px;
+    }
+    
+    .kpi-icon-box {
+        width: 20%;
+    }
+    
+    .chart-container {
+        height: 160px;
+    }
+    
+    canvas {
+        max-height: 200px;
+    }
+    
+    .machine-card strong {
+        font-size: 13px;
+    }
+    
+    .machine-card p {
+        font-size: 10px;
+    }
+    
+    .badge {
+        font-size: 9px !important;
+        padding: 3px 10px !important;
+    }
+}
