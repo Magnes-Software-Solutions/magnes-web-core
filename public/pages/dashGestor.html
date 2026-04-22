@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DashBoard Gestor</title>
+    <title>Relatório</title>
     <link rel="stylesheet" href="../bootstrap-5.3.8-dist/css/bootstrap.css" />
     <link rel="shortcut icon" href="../assets/imgs/Logo.png" type="image/x-icon" />
     <link rel="stylesheet" href="../css/dashGestor.css">
@@ -44,9 +44,9 @@
                                     <img src="../assets/imgs/alert.svg" alt="Simbolo de Alerta">
                                     <a class="nav-link" href="telaAlertasGestor.html">Alerta</a>
                                 </li>
-                                <li class="nav-item navLi" onclick="window.location.href='dashGestor.html'">
+                                <li class="nav-item navLi navLiActive" onclick="window.location.href='dashGestor.html'">
                                     <img src="../assets/imgs/bar.svg" alt="" class="navItemIcon" />
-                                    <a class="nav-link">Dash Gestor</a>
+                                    <a class="nav-link">Relatório</a>
                                 </li>
                                 <li class="nav-item navLi" onclick="window.location.href='cadastro.html'">
                                     <img src="../assets/imgs/person.svg" alt="" class="navItemIcon" />
@@ -55,6 +55,10 @@
                                 <li class="nav-item navLi" onclick="window.location.href='cadastroComponente.html'">
                                     <img src="../assets/imgs/build.svg" alt="" class="navItemIcon" />
                                     <a class="nav-link">Cadastrar Máquina</a>
+                                </li>
+                                <li class="nav-item navLi navLiLogout" onclick="limparSessao()">
+                                    <img src="../assets/imgs/box-arrow-left.svg" alt="" class="navItemIcon" />
+                                    <a class="nav-link">Logout</a>
                                 </li>
                             </ul>
                         </div>
