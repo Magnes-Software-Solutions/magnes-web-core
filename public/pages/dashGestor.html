@@ -15,48 +15,66 @@
 <body style="background-color: #0a1628;">
 
     <!-- NAVBAR  -->
-    <nav class="navbar bg-body-tertiary fixed-top navBarTop">
-        <div class="container-fluid">
-            <img src="../assets/imgs/Logo.png" alt="" width="5%" height="85%">
-            <div class="titulo">
-                <p class="tituloLogo">MAGNES</p>
-                <p class="textoLogo">MRI MONITOR</p>
-            </div>
-            <button class="navbar-toggler navBarToggler" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon navBarTogglerIcon"></span>
-            </button>
-            <div class="offcanvas offcanvas-end offCanvas" tabindex="-1" id="offcanvasNavbar"
-                aria-labelledby="offcanvasNavbarLabel">
-                <div class="offcanvas-header">
-                    <h5 class="offcanvas-title offCanvasTitle" id="offcanvasNavbarLabel">MAGNES</h5>
-                    <button type="button" class="btn-close offCanvasButton" data-bs-dismiss="offcanvas"
-                        aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body offcanvasBody">
-                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 navBarNav">
-                        <li class="nav-item navLi navLiActive">
-                            <img src="../assets/imgs/dashboard.svg" alt="Simbolo de Dashboard">
-                            <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
-                        </li>
-                        <li onclick="alertas()" class="nav-item navLi">
-                            <img src="../assets/imgs/alert.svg" alt="Simbolo de Alerta">
-                            <a class="nav-link">Alerta</a>
-                        </li>
-                    </ul>
-                    </form>
-                </div>
-                <div class="offcanvas-header perfil" onclick="usuario()">
-                    <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Simbolo de perfil">
-                    <div class="textosPerfil">
-                        <h5 class="offcanvas-title" id="spanNome">(nome do banco)</h5>
-                        <p>(cargo do banco)</p>
+    <nav class="navbar fixed-top navBarTop">
+                <div class="container-fluid">
+                    <div class="d-flex align-items-center gap-2">
+                        <img onclick="dashboardVoltar" src="../assets/imgs/Logo.png" alt="Logo" width="35%"
+                            onerror="this.style.display='none'" />
+                        <div>
+                            <p class="tituloLogo mb-0">MAGNES</p>
+                            <p class="textoLogo mb-0">MRI MONITOR</p>
+                        </div>
                     </div>
-                    <img class="perfilConfig" src="../assets/imgs/gear.svg" alt="Simbolo de configurações">
+
+                    <button class="navbar-toggler navBarToggler" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                        <span class="navbar-toggler-icon navBarTogglerIcon"></span>
+                    </button>
+
+                    <div class="offcanvas offcanvas-end offCanvas" tabindex="-1" id="offcanvasNavbar"
+                        aria-labelledby="offcanvasNavbarLabel">
+
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title offCanvasTitle" id="offcanvasNavbarLabel">MAGNES</h5>
+                            <button type="button" class="btn-close offCanvasButton" data-bs-dismiss="offcanvas"
+                                aria-label="Fechar"></button>
+                        </div>
+
+                        <div class="offcanvas-body offcanvasBody">
+                            <ul class="navbar-nav flex-column gap-1 navBarNav">
+                                <li class="nav-item navLi navLiActive" onclick="window.location.href='dashAnalista.html'">
+                                    <img src="../assets/imgs/dashboard.svg" alt="" class="navItemIcon" />
+                                    <a class="nav-link" >Dashboard</a>
+                                </li>
+                                <li class="nav-item navLi" onclick="window.location.href='telaAlertas.html'">
+                                    <img src="../assets/imgs/alert.svg" alt="" class="navItemIcon" />
+                                    <a class="nav-link">Alerta</a>
+                                </li>
+                                <li class="nav-item navLi" onclick="window.location.href='dashGestor.html'">
+                                    <img src="../assets/imgs/bar.svg" alt="" class="navItemIcon" />
+                                    <a class="nav-link">Relatório</a>
+                                </li>
+                                <li class="nav-item navLi" onclick="window.location.href='cadastro.html'">
+                                    <img src="../assets/imgs/person.svg" alt="" class="navItemIcon" />
+                                    <a class="nav-link">Cadastrar Analista</a>
+                                </li>
+                                <li class="nav-item navLi" onclick="window.location.href='cadastroComponente.html'">
+                                    <img src="../assets/imgs/build.svg" alt="" class="navItemIcon" />
+                                    <a class="nav-link">Cadastrar Máquina</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="offcanvas-header perfil" onclick="window.location.href='dashUsuario.html'">
+                            <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Perfil" />
+                            <div class="textosPerfil">
+                                <h5 class="offcanvas-title mb-0" id="spanNome"></h5>
+                                <p class="mb-0 text-muted" style="font-size:12px;" id="cargoUsuarioNav">Analista de Sistemas</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </nav>
+            </nav>
 
     <!-- KPIs — adicionados ícones SVG inline em cada card -->
     <div class="kpi-row">
@@ -177,15 +195,10 @@
         </div>
     </div>
 
-    <div class="graficos-extras">
+    <div class="graficos-extras">   
 
-        <!-- Gráfico 1: Média de recursos por máquina (barras horizontais) -->
-        <div class="grafico-extra-panel">
-            <h6>Média de Recursos por Máquina</h6>
-            <canvas id="graficoRecursos" height="140"></canvas>
-        </div>
 
-        <!-- Gráfico 2: Histórico de alertas nos últimos 7 dias -->
+        <!-- Gráfico : Histórico de alertas nos últimos 7 dias -->
         <div class="grafico-extra-panel">
             <h6>Histórico de Alertas — Últimos 7 dias</h6>
             <canvas id="graficoAlertas" height="140"></canvas>
@@ -243,7 +256,7 @@
 
     function exibir() {
         const valor = document.getElementById("input-exibicao").value;
-        document.getElementById("nome-maquina").innerText = valor;
+        document.getElementById("nome-maquina").innerText = valor.toUpperCase();
         if (valor.trim() != "") {
             const secao = document.getElementById("exibir-comparacao-div");
             const secao2 = document.getElementById("selecao-div");
@@ -295,7 +308,7 @@
 
     let graficoCPU = new Chart(ctx2, {
         type: 'line',
-        data: { labels: ['1', '2', '3', '4', '5'], datasets: [] },
+        data: { labels: ['10', '20', '30', '40', '50'], datasets: [] },
         options: {
             scales: {
                 x: { ticks: { color: '#7fa3c9' }, grid: { color: '#0e1e30' } },
@@ -316,68 +329,15 @@
     }
     atualizarGrafico();
 
-    setInterval(() => {
-        ["cpu", "ram", "disco"].forEach(tipo => {
-            dados[tipo].push(Math.floor(Math.random() * 100));
-            dados[tipo].shift();
-        });
-        atualizarGrafico();
-    }, 3000);
+    // setInterval(() => {
+    //     ["cpu", "ram", "disco"].forEach(tipo => {
+    //         dados[tipo].push(Math.floor(Math.random() * 100));
+    //         dados[tipo].shift();
+    //     });
+    //     atualizarGrafico();
+    // }, 10000);
 
-    //Gráfico de média de recursos por máquina (barras horizontais) ─
-    const ctxRecursos = document.getElementById('graficoRecursos');
-    new Chart(ctxRecursos, {
-        type: 'bar',
-        data: {
-            labels: ['MRI-001', 'MRI-002', 'MRI-003', 'MRI-004', 'MRI-005'],
-            datasets: [
-                {
-                    label: 'CPU %',
-                    data: [34, 78, 92, 21, 67],
-                    backgroundColor: 'rgba(56,189,248,0.75)',
-                    borderRadius: 6
-                },
-                {
-                    label: 'RAM %',
-                    data: [62, 85, 97, 44, 73],
-                    backgroundColor: 'rgba(74,222,128,0.75)',
-                    borderRadius: 6
-                },
-                {
-                    label: 'Disco %',
-                    data: [51, 20, 67, 47, 79],
-                    backgroundColor: 'rgba(251,191,36,0.75)',
-                    borderRadius: 6
-                }
-            ]
-        },
-        options: {
-            indexAxis: 'y',
-            responsive: true,
-            plugins: {
-                legend: { labels: { color: '#7fa3c9', font: { size: 11 }, boxWidth: 12 } },
-                tooltip: {
-                    backgroundColor: '#0b1525',
-                    borderColor: '#1a2e4a',
-                    borderWidth: 1,
-                    titleColor: '#a0bcd8',
-                    bodyColor: '#e2e8f2'
-                }
-            },
-            scales: {
-                x: {
-                    min: 0, max: 100,
-                    ticks: { color: '#3a5070', font: { size: 11 }, callback: v => v + '%' },
-                    grid: { color: '#0e1e30' }
-                },
-                y: {
-                    ticks: { color: '#7fa3c9', font: { size: 11 } },
-                    grid: { display: false }
-                }
-            }
-        }
-    });
-
+    
     // Histórico de alertas dos últimos 7 dias 
     const ctxAlertas = document.getElementById('graficoAlertas');
     new Chart(ctxAlertas, {

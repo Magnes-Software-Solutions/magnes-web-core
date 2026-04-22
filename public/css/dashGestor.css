@@ -16,6 +16,7 @@ body {
     grid-template-columns: repeat(4, 1fr);
     gap: 16px;
     padding: 28px 24px 16px;
+    margin-top: 60px;
 }
 
 .kpi-card {
@@ -230,7 +231,7 @@ canvas {
     border: 1px solid #512d4d !important;
 }
 
-/* ── GRÁFICOS EXTRAS ── */
+/*  GRÁFICOS   */
 .graficos-extras {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -243,6 +244,9 @@ canvas {
     border: 1px solid #10435f;
     border-radius: 16px;
     padding: 20px;
+    width: 1470px;
+    height: 100%;
+    /* margin-left: 200px; */
 }
 
 .grafico-extra-panel h6 {
