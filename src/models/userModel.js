@@ -50,7 +50,7 @@ function buscarIdEnderecoHospital(cep, numeroHospital) {
 }
 
 function cadastrarEnderecoHospital(bairro, cidade, cep, numeroHospital) {
-    var instrucaoSql = `INSERT INTO enderecoHospital (bairro, cidade, cep, numeroHospital) 
+    var instrucaoSql = `INSERT INTO enderecoHospital (bairro, cidade, cep, numeroEstabelecimento) 
     VALUES ('${bairro}', '${cidade}', '${cep}', '${numeroHospital}')`
     return database.executar(instrucaoSql);
 }
