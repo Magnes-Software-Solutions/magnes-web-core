@@ -253,9 +253,8 @@ canvas {
     border: 1px solid #10435f;
     border-radius: 16px;
     padding: 20px;
-    width: 1470px;
-    height: 100%;
-    /* margin-left: 200px; */
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .grafico-extra-panel h6 {
