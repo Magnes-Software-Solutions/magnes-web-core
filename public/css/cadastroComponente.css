@@ -60,7 +60,6 @@ body.fundo-principal {
 }
 
 .cabecalho-formulario {
-    display: flex;
     align-items: center;
     gap: 15px;
     margin-bottom: 30px;
