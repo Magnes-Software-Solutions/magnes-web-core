@@ -15,51 +15,50 @@
 <body>
 
     <nav class="navbar fixed-top navBarTop">
-                <div class="container-fluid">
-                    <img src="../assets/imgs/Logo.png" alt="" width="5%" height="85%">
-                    <div class="titulo">
-                        <p class="tituloLogo">MAGNES</p>
-                        <p class="textoLogo">MRI MONITOR</p>
-                    </div>
-                    <button class="navbar-toggler navBarToggler" type="button" data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar"
-                        aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon navBarTogglerIcon"></span>
-                    </button>
-                    <div class="offcanvas offcanvas-end offCanvas" tabindex="-1" id="offcanvasNavbar"
-                        aria-labelledby="offcanvasNavbarLabel">
-                        <div class="offcanvas-header">
-                            <h5 class="offcanvas-title offCanvasTitle" id="offcanvasNavbarLabel">MAGNES</h5>
-                            <button type="button" class="btn-close offCanvasButton" data-bs-dismiss="offcanvas"
-                                aria-label="Close"></button>
-                        </div>
-                        <div class="offcanvas-body offcanvasBody">
-                            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 navBarNav">
-                                <li class="nav-item navLi">
-                                    <img src="../assets/imgs/dashboard.svg" alt="Simbolo de Dashboard">
-                                    <a class="nav-link" href="dashAnalista.html">Dashboard</a>
-                                </li>
-                                <li onclick="alertas()" class="nav-item navLi navLiActive">
-                                    <img src="../assets/imgs/alert.svg" alt="Simbolo de Alerta">
-                                    <a class="nav-link" href="#">Alerta</a>
-                                </li>
-                                <li class="nav-item navLi navLiLogout" onclick="limparSessao()">
-                                    <img src="../assets/imgs/box-arrow-left.svg" alt="" class="navItemIcon" />
-                                    <a class="nav-link">Logout</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="offcanvas-header perfil" onclick="window.location.href='dashUsuario.html'">
-                            <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Simbolo de perfil">
-                            <div class="textosPerfil">
-                                <h5 class="offcanvas-title" id="spanNome">(nome do banco)</h5>
-                                <p id="cargoUsuarioNav">(cargo do banco)</p>
-                            </div>
-                            <img class="perfilConfig" src="../assets/imgs/gear.svg" alt="Simbolo de configurações">
-                        </div>
-                    </div>
+        <div class="container-fluid">
+            <img src="../assets/imgs/Logo.png" alt="" width="5%" height="85%">
+            <div class="titulo">
+                <p class="tituloLogo">MAGNES</p>
+                <p class="textoLogo">MRI MONITOR</p>
+            </div>
+            <button class="navbar-toggler navBarToggler" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon navBarTogglerIcon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end offCanvas" tabindex="-1" id="offcanvasNavbar"
+                aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title offCanvasTitle" id="offcanvasNavbarLabel">MAGNES</h5>
+                    <button type="button" class="btn-close offCanvasButton" data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
                 </div>
-            </nav>
+                <div class="offcanvas-body offcanvasBody">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 navBarNav">
+                        <li class="nav-item navLi">
+                            <img src="../assets/imgs/dashboard.svg" alt="Simbolo de Dashboard">
+                            <a class="nav-link" href="dashAnalista.html">Dashboard</a>
+                        </li>
+                        <li onclick="alertas()" class="nav-item navLi navLiActive">
+                            <img src="../assets/imgs/alert.svg" alt="Simbolo de Alerta">
+                            <a class="nav-link" href="#">Alerta</a>
+                        </li>
+                        <li class="nav-item navLi navLiLogout" onclick="limparSessao()">
+                            <img src="../assets/imgs/box-arrow-left.svg" alt="" class="navItemIcon" />
+                            <a class="nav-link">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="offcanvas-header perfil" onclick="window.location.href='dashUsuario.html'">
+                    <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Simbolo de perfil">
+                    <div class="textosPerfil">
+                        <h5 class="offcanvas-title" id="spanNome">(nome do banco)</h5>
+                        <p id="cargoUsuarioNav">(cargo do banco)</p>
+                    </div>
+                    <img class="perfilConfig" src="../assets/imgs/gear.svg" alt="Simbolo de configurações">
+                </div>
+            </div>
+        </div>
+    </nav>
 
     <main>
         <h1>Central de Alertas</h1>
@@ -202,15 +201,11 @@
 
         function atualizarContadores() {
             const cards = document.querySelectorAll(".alert-card");
+            // Seleção de elementos com a mesma tipagem. 
 
-            let total = cards.length;
-            let crit = 0;
-            let warn = 0;
-
-            cards.forEach(card => {
-                if (card.classList.contains("critico")) crit++;
-                if (card.classList.contains("atencao")) warn++;
-            });
+            const crit = cards.querySelectorAll(".critico").length; // Contagem de quantos elementos há. 
+            const warn = cards.querySelectorAll(".atencao").length;
+            const total = cards.length;
 
             document.getElementById("count-total").textContent = total;
             document.getElementById("count-crit").textContent = crit;
@@ -221,7 +216,7 @@
             const alerta = gerarAlertaAleatorio();
             adicionarAlerta(alerta);
             atualizarContadores();
-        }, 4000); // a cada 4s
+        }, 4000); 
 
         function limparAlertas() {
             list.innerHTML = "<div class='loading-msg'>Nenhum alerta no momento</div>";
@@ -236,27 +231,27 @@
         }
 
         function pegarDashboard() {
-        var idUsuario = sessionStorage.ID_USUARIO;
-        fetch(`/dash/PegarDashboard/${idUsuario}`)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                spanNome.innerHTML = data[0].nome;
-                const fkSupervisor = data[0].fkSupervisor;
-                console.log(fkSupervisor)
-                if (fkSupervisor === null) {
-                    cargo = "Gerente Tecnico";
-                } else {
-                    cargo = "Analista de Sistemas";
-                }
-                cargoUsuarioNav.innerHTML = cargo;
-            })
-            .catch(error => {
-                console.error("Erro ao pegar dashboard:", error);
-            });
-    }
+            var idUsuario = sessionStorage.ID_USUARIO;
+            fetch(`/dash/PegarDashboard/${idUsuario}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    spanNome.innerHTML = data[0].nome;
+                    const fkSupervisor = data[0].fkSupervisor;
+                    console.log(fkSupervisor)
+                    if (fkSupervisor === null) {
+                        cargo = "Gerente Tecnico";
+                    } else {
+                        cargo = "Analista de Sistemas";
+                    }
+                    cargoUsuarioNav.innerHTML = cargo;
+                })
+                .catch(error => {
+                    console.error("Erro ao pegar dashboard:", error);
+                });
+        }
 
-    pegarDashboard();
+        pegarDashboard();
     </script>
 </body>
 
