@@ -117,90 +117,6 @@
 <script src="../services/userService.js"></script>
 <script src="../js/sessao.js"></script>
 <script>
-
-    const banner = document.querySelector('.banner-cadastro');
-    const cards_cadastro = document.getElementById('cards_cadastro');
-    const form_funcionario = document.getElementById('form_funcionario');
-    const form_fabricante = document.getElementById('form_fabricante');
-    const retorno = document.getElementById('retorno');
-    const titulo = document.getElementById('titulo');
-
-    function escolher(metodo) {
-        cards_cadastro.style.display = "none";
-        retorno.style.display = "flex";
-
-        if (metodo == 'funcionario') {
-            form_funcionario.style.display = "flex";
-            titulo.innerText = "CADASTRO - FUNCIONÁRIO";
-            banner.style.backgroundImage = "linear-gradient(rgba(4,9,30,0.3),rgba(4,9,30,0.3)),url(../assets/imgs/banner-cadastro-funcionario.png)";
-        } else {
-            form_fabricante.style.display = "flex";
-            titulo.innerText = "CADASTRO - FABRICANTE";
-            banner.style.backgroundImage = "linear-gradient(rgba(4,9,30,0.3),rgba(4,9,30,0.3)),url(../assets/imgs/banner-cadastro-fabricante.png)";
-        }
-    }
-
-    function voltar() {
-        cards_cadastro.style.display = "flex";
-        form_funcionario.style.display = "none";
-        form_fabricante.style.display = "none";
-        retorno.style.display = "none";
-        titulo.innerText = "CADASTRO";
-        banner.style.backgroundImage = "linear-gradient(rgba(4,9,30,0.3),rgba(4,9,30,0.3)),url(../assets/imgs/cadastro-img2.png)";
-    }
-
-    let listarEmpresasCadastradas = [];
-
-    async function cadastrarEmpresa() {
-
-
-        nomeFabricanteVar = inputNomeEmpresa.value;
-        console.log("NOME: ", nomeFabricanteVar, inputNomeEmpresa.value)
-        cnpjVar = inputCNPJ.value;
-        emailEmpresaVar = inputEmailEmpresa.value;
-        tel_corporativoVar = inputTelefoneCorporativo.value;
-
-        if (nomeFabricanteVar.trim() === "") {
-            alert("È necessario um nome para cadastrar!.");
-            return false;
-        }
-        else if (cnpjVar.trim() === "") {
-            alert("È necessario um CNPJ para poder se cadastrar!.");
-            return false;
-        }
-        else if (emailEmpresaVar.trim() === "") {
-            alert("È necessario um email para poder se cadastrar!.");
-            return false;
-        }
-        else if (tel_corporativoVar.trim() === "") {
-            alert("È necessario um telefone corporativo para poder se cadastrar!.");
-            return false;
-        }
-
-        const resposta = await cadastrarEmpresaService(nomeFabricanteVar, cnpjVar, emailEmpresaVar, tel_corporativoVar)
-        console.log("resposta: ", resposta);
-
-        if (resposta.ok) {
-            const token = await resposta.json()
-            document.getElementById("textoToken").innerHTML =
-                `Cadastro de Empresa concluído com sucesso! <br><br>Seu token: <span style="font-weight: bold;">${token}</span>`;
-
-            const modal = new bootstrap.Modal(document.getElementById('modalSucesso'));
-            modal.show();
-
-            setTimeout(() => {
-                // window.location = "login.html";
-            }, 100);
-        } else {
-            alert("Houve um erro ao tentar realizar o cadastro!");
-        }
-
-
-        console.log("FUNÇÃO CHAMOU")
-        return false;
-    }
-
-
     async function cadastrarFuncionario() {
         let nomeVar = inputNome.value;
         let emailVar = inputEmail.value;
@@ -209,59 +125,59 @@
         let senhaVar = inputPassword.value;
         let confirmacaoSenhaVar = inputPasswordConfirm.value;
 
-
-        if (nomeVar.trim() === "") {
+        if (nomeVar.trim() == "") {
             alert("È necessario um nome para cadastrar!.");
             return false;
         }
-        else if (emailVar.trim() === "") {
+        else if (emailVar.trim() == "") {
             alert("È necessario um email para poder se cadastrar!.");
             return false;
         }
-        else if (cpfVar.trim() === "") {
-            alert("È necessario informar o CPF para continuar!.");
+        else if (cpfVar.trim() == "" || cpfVar.length < 11) {
+            alert("CPF invalido, precisa ter 11 caracteres.");
             return false;
         }
-        else if (telefoneVar.trim() === "") {
-            alert("È necessario informar um telefone para continuar!.");
+        else if (telefoneVar.trim() == "" || telefoneVar.length > 20) {
+            alert("Telefone invalido, precisa ter no maximo 20 caracteres.");
             return false;
         }
-        else if (senhaVar.trim() === "") {
+        else if (senhaVar.trim() == "") {
             alert("È necessario informar uma senha para continuar!.");
             return false;
         }
-        if (nomeVar.length <= 2) {
-            alert("Nome invalido, precisa ser maior que uma letra.");
+        else if (nomeVar.length <= 2) {
+            alert("Nome invalido, precisa ser maior que duas letra.");
             return false;
         }
-        if ((emailVar.includes("@") && emailVar.includes(".com")) == false) {
+        else if ((emailVar.includes("@") && emailVar.includes(".com")) == false) {
             alert("Email precisa ter '@' e '.com'.");
             return false;
         }
-        if (senhaVar < 2) {
+        else if (senhaVar.length < 2) {
             alert("A senha precisa ser maior que dois digitos.");
             return false;
         }
-        if (senhaVar !== confirmacaoSenhaVar) {
+        else if (senhaVar != confirmacaoSenhaVar) {
             alert("As senhas não coincidem!");
             return false;
         }
+        else {
 
-        const resposta = await cadastrarFuncionarioService(nomeVar, emailVar, cpfVar, telefoneVar, senhaVar, sessionStorage.FK_REDE_HOSPITAL, sessionStorage.ID_USUARIO)
-        console.log("resposta: ", resposta);
+            const resposta = await cadastrarFuncionarioService(nomeVar, emailVar, cpfVar, telefoneVar, senhaVar, sessionStorage.FK_REDE_HOSPITAL, sessionStorage.ID_USUARIO)
+            console.log("resposta: ", resposta);
 
-        if (resposta.ok) {
-            alert("Cadastro de Funcionário concluído com sucesso!");
+            if (resposta.ok) {
+                alert("Cadastro de Funcionário concluído com sucesso!");
 
-        } else {
-            alert("Houve um erro ao tentar realizar o cadastro do funcionário!");
+            } else {
+                alert("Houve um erro ao tentar realizar o cadastro do funcionário!");
+            }
+
+            sessionStorage.setItem("NOME_USUARIO", resposta.nome);
+
+            return false;
         }
-
-        sessionStorage.setItem("NOME_USUARIO", resposta.nome);
-
-        return false;
     }
-
     function pegarDashboard() {
         var idUsuario = sessionStorage.ID_USUARIO;
         fetch(`/dash/PegarDashboard/${idUsuario}`)
