@@ -102,17 +102,17 @@ async function cadastrarFuncionario(req, res) {
     } else if (senha == undefined) {
         res.status(400).json("senha está undefined!");
     } else {
-
-        res.status(200).json("Funcionário cadastrado com sucesso!");
         usuarioModel.cadastrarFuncionario(nome, email, cpf, telefone, senha, sessionFK_REDE_HOSPITAL, sessionId)
             .then(
                 function (resultado) {
                     console.log("Funcionário cadastrado com sucesso!");
                     res.json(resultado);
+                    // res.status(200).json("Requisição feita");
                 }
             ).catch(
                 function (erro) {
                     console.log(erro);
+                    console.log(erro.sqlMessage)
                     res.status(500).json(erro.sqlMessage);
                 }
             );
