@@ -467,3 +467,21 @@ button {
     padding: 60px;
   }
 }
+
+/* Span das input */
+.span-mensagem {
+    display: flex;
+    justify-self: center;
+    align-self: center;
+    color: #ff3366;
+    margin-top: 5px;
+    font-size: 16px;
+}
+
+/* Imagem do abbr */
+.info img {
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
+    margin-left: 5px;
+}
