@@ -3,10 +3,12 @@ console.log("ANTES DO DOTENV");
 require('dotenv').config({ path: __dirname + '/.env.example' });
 
 console.log("DEPOIS DO DOTENV");
-console.log("ENV TESTE:", process.env.DB_USER);
+console.log("USER DB:", process.env.DB_USER);
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
+var PORTA_APP = process.env.APP_PORT;
+var HOST_APP = process.env.APP_HOST;
 
 const app = express();
 
@@ -26,7 +28,9 @@ app.use("/dash", dashRoutes)
 const PORT = process.env.dev || 3333;
 
 app.listen(PORT, () => {
-    console.log(`api is runing in port 3333`)
+    console.log(`api is runing in port 3333
+
+    Acesse o caminho a seguir para visualizar .: http://${HOST_APP}:${PORTA_APP} :. \n\n`)
 })
 
 

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro Analista</title>
+    <link rel="stylesheet" href="../bootstrap-5.3.8-dist/css/bootstrap.css" />
+    <link rel="shortcut icon" href="../assets/imgs/Logo.png" type="image/x-icon" />
+    <link rel="stylesheet" href="../css/cadastroAnalista.css">
+    <link rel="stylesheet" href="../css/headerDash.css">
+    <link rel="stylesheet" href="../css/cadastroComponente.css">
+    <link rel="stylesheet" href="../css/dashUsuario.css">
+</head>
+
+<body style="background-color: black;">
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="navbar bg-body-tertiary fixed-top navBarTop">
+                <div class="container-fluid">
+                    <img src="../assets/imgs/Logo.png" alt="" width="5%" height="85%">
+                    <div class="titulo">
+                        <p class="tituloLogo">MAGNES</p>
+                        <p class="textoLogo">MRI MONITOR</p>
+                    </div>
+                    <button class="navbar-toggler navBarToggler" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar"
+                        aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon navBarTogglerIcon"></span>
+                    </button>
+                    <div class="offcanvas offcanvas-end offCanvas" tabindex="-1" id="offcanvasNavbar"
+                        aria-labelledby="offcanvasNavbarLabel">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title offCanvasTitle" id="offcanvasNavbarLabel">MAGNES</h5>
+                            <button type="button" class="btn-close offCanvasButton" data-bs-dismiss="offcanvas"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body offcanvasBody">
+                            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 navBarNav">
+                                <li class="nav-item navLi" onclick="window.location.href='dashAnalistaGestor.html'">
+                                    <img src="../assets/imgs/dashboard.svg" alt="Simbolo de Dashboard">
+                                    <a class="nav-link">Dashboard</a>
+                                </li>
+                                <li class="nav-item navLi" onclick="window.location.href='telaAlertasGestor.html'">
+                                    <img src="../assets/imgs/alert.svg" alt="Simbolo de Alerta">
+                                    <a class="nav-link">Alerta</a>
+                                </li>
+                                <li class="nav-item navLi" onclick="window.location.href='dashGestor.html'">
+                                    <img src="../assets/imgs/bar.svg" alt="" class="navItemIcon" />
+                                    <a class="nav-link">Relatório</a>
+                                </li>
+                                <li class="nav-item navLi navLiActive" onclick="window.location.href='cadastroAnalista.html'">
+                                    <img src="../assets/imgs/person.svg" alt="" class="navItemIcon" />
+                                    <a class="nav-link">Cadastrar Analista</a>
+                                </li>
+                                <li class="nav-item navLi" onclick="window.location.href='cadastroMaquina.html'">
+                                    <img src="../assets/imgs/build.svg" alt="" class="navItemIcon" />
+                                    <a class="nav-link">Cadastrar Máquina</a>
+                                </li>
+                                <li class="nav-item navLi navLiLogout" onclick="limparSessao()">
+                                    <img src="../assets/imgs/box-arrow-left.svg" alt="" class="navItemIcon" />
+                                    <a class="nav-link">Logout</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="offcanvas-header perfil" onclick="window.location.href='dashUsuarioGestor.html'">
+                            <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Simbolo de perfil">
+                            <div class="textosPerfil">
+                                <h5 class="offcanvas-title" id="spanNome">(nome do banco)</h5>
+                                <p id="nomeCargoNav">(cargo do banco)</p>
+                            </div>
+                            <img class="perfilConfig" src="../assets/imgs/gear.svg" alt="Simbolo de configurações">
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1 class="title-main">Cadastro do Analista</h1>
+        <p class="sub">Cadastre aqui o analista da sua equipe</p>
+
+        <div class="card">
+            <form onsubmit="return cadastrarFuncionario(event)">
+                <label>Nome:</label>
+                <input type="text" id="inputNome" oninput="analisarNome()">
+                <span class="span-mensagem" id="span_nome"></span>
+
+                <label>CPF:</label>
+                <input type="number" id="inputCPF" oninput="analisarCpf()">
+                <span class="span-mensagem" id="span_cpf"></span>
+
+                <label>E-mail:</label>
+                <input type="text" id="inputEmail" oninput="analisarEmail()">
+                <span class="span-mensagem" id="span_email"></span>
+
+                <label>Telefone:</label>
+                <input type="number" id="inputTelefone" oninput="analisarTelefone()">
+                <span class="span-mensagem" id="span_telefone"></span>
+
+                <label>Senha:
+                    <abbr class="info" title="A senha deve conter mais de 8 dígitos, caractéres especiais e números!"><img src="../assets/imgs/info.png" alt="Símbolo de i"></abbr>
+                </label>
+                <input type="password" id="inputPassword" oninput="analisarSenha()">
+                <span class="span-mensagem" id="span_senha"></span>
+
+                <label>Confirmar sua senha:</label>
+                <input type="password" id="inputPasswordConfirm">
+
+                <button type="submit" class="botao-magnes">
+                    FINALIZAR CADASTRO
+                </button>
+            </form>
+        </div>
+    </div>
+
+</body>
+
+</html>
+<script src="../bootstrap-5.3.8-dist/js/bootstrap.js"></script>
+<script src="../services/api.js"></script>
+<script src="../services/userService.js"></script>
+<script src="../js/sessao.js"></script>
+<script>
+    // Variáveis de validação de campo
+    var listaNum = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+    var listaEsp = ["!", "@", "#", "$", "%", "&", "*", "."];
+    var listaLetra = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+    var nomeInvalido = false;
+    var cpfInvalido = false;
+    var emailInvalido = false;
+    var telefoneInvalido = false;
+    var senhaInvalido = true;
+
+    // Campo nome
+    function analisarNome() {
+        var nome = inputNome.value;
+
+        if (nome == '') { // Verifica se o sobrenome não é vazio
+            nomeInvalido = true;
+
+        } else if (nome.trim() == '') {
+            nomeInvalido = true;
+        
+        } else if (nome.length <= 2) { // Verifica se o nome tem tamanho suficiente
+            nomeInvalido = true;
+
+        } else {
+            nomeInvalido = false;
+        }
+        
+        for (var i = 0; i < listaNum.length; i++) { // Percorre toda a lista de números
+            if (nome.includes(listaNum[i])) {
+                nomeInvalido = true;
+                break;
+
+            } else if (nome.includes(listaEsp[i])) {
+                nomeInvalido = true;
+                break;
+            }
+        }
+
+        if (nomeInvalido) { // Exibe o resultado apenas uma vez no final
+            span_nome.innerHTML = "Nome Inválido!";
+
+        } else {
+            span_nome.innerHTML = "";
+        }
+    }
+
+    // Campo cpf
+    function analisarCpf() {
+        var cpf = inputCPF.value;
+
+        if (cpf == '') {
+            cpfInvalido = true;
+
+        } else if (cpf.trim() == '') {
+            cpfInvalido = true;
+        
+        } else if (cpf.length != 11) {
+            cpfInvalido = true;
+
+        } else {
+            cpfInvalido = false;
+        }
+
+        if (cpfInvalido) {
+            span_cpf.innerHTML = "CPF Inválido!";
+
+        } else {
+            span_cpf.innerHTML = "";
+        }
+    }
+
+    // Campo email
+    function analisarEmail() {
+        var email = inputEmail.value;
+
+        if (email == '') {
+            emailInvalido = true;
+
+        } else if (email.trim() == '') {
+            emailInvalido = true;
+        
+        } else if (!email.includes('@')) {
+            emailInvalido = true
+
+        } else if (!email.includes('.')) {
+            emailInvalido = true;
+
+        } else {
+            emailInvalido = false;
+        }
+
+        if (emailInvalido) {
+            span_email.innerHTML = "E-mail Inválido";
+
+        } else {
+            span_email.innerHTML = "";
+        }
+    }
+
+    // Campo telefone
+    function analisarTelefone() {
+        var telefone = inputTelefone.value;
+
+        if (telefone == '') {
+            telefoneInvalido = true;
+
+        } else if (telefone.trim() == '') {
+            telefoneInvalido = true;
+        
+        } else if (telefone.length != 11) {
+            telefoneInvalido = true;
+
+        } else {
+            telefoneInvalido = false;
+        }
+
+        if (telefoneInvalido) {
+            span_telefone.innerHTML = "Telefone Inválido!";
+
+        } else {
+            span_telefone.innerHTML = "";
+        }
+    }
+
+    // Campo senha
+    function analisarSenha() {
+        var senha = inputPassword.value;
+        var senhaTam = false;
+        var senhaNum = false;
+        var senhaEsp = false;
+
+        if (senha == '') {
+            senhaInvalido = true;
+
+        } else if (senha.trim() == '') {
+            senhaInvalido = true;
+        
+        } else if (senha.length >= 8) {
+            senhaTam = true;
+        }
+
+        for (var i = 0; i < listaNum.length; i++) {
+            if (senha.includes(listaNum[i])) {
+                senhaNum = true;
+            }
+        }
+
+        for (var i = 0; i < listaEsp.length; i++) {
+            if (senha.includes(listaEsp[i])) {
+                senhaEsp = true;
+            }
+        }
+
+        if (senhaTam && senhaEsp && senhaNum) {
+            senhaInvalido = false
+        }
+
+        if (senhaInvalido) {
+            span_senha.innerHTML = "Senha Inválida!";
+
+        } else {
+            span_senha.innerHTML = "";
+        }
+    }
+
+    async function cadastrarFuncionario(event) {
+        event.preventDefault(); // Não limpa as input
+
+        var nomeVar = inputNome.value;
+        var cpfVar = inputCPF.value;
+        var emailVar = inputEmail.value;
+        var telefoneVar = inputTelefone.value;
+        var senhaVar = inputPassword.value;
+        var confirmacaoSenhaVar = inputPasswordConfirm.value;
+
+        if (
+            nomeVar == "" ||
+            cpfVar == "" ||
+            emailVar == "" ||
+            telefoneVar == "" ||
+            senhaVar == "" ||
+            confirmacaoSenhaVar == ""
+        ) {
+            alert('Todos os campos devem estar preenchidos!')
+            return;
+
+        } else if (nomeInvalido) {
+            alert('Nome inválido!')
+            return;
+
+        } else if (cpfInvalido) {
+            alert('CPF inválido!')
+            return;
+
+        } else if (emailInvalido) {
+            alert('E-mail inválido!')
+            return;
+
+        } else if (telefoneInvalido) {
+            alert('Telefone inválido!')
+            return;
+
+        } else if (senhaInvalido) {
+            alert('Senha inválida!')
+            return;
+
+        } else if (senhaVar != confirmacaoSenhaVar) {
+            alert('Confirme sua senha corretamente!')
+            return;
+        
+        } else {
+            const resposta = await cadastrarFuncionarioService(nomeVar, emailVar, cpfVar, telefoneVar, senhaVar, sessionStorage.FK_REDE_HOSPITAL, sessionStorage.ID_USUARIO);
+
+            const respostaBanco = await resposta.json();
+            console.log(respostaBanco);
+
+            if (resposta.ok) {
+                alert("Cadastro de Funcionário concluído com sucesso!");
+                document.querySelector("form").reset(); // Limpa as input
+
+            }
+            else {
+                if (respostaBanco.includes("cpf")) {
+                    alert("Houve um erro ao tentar realizar o cadastro do funcionário! \nJá existe um funcionário com este CPF.");
+
+                } else if (respostaBanco.includes("email")) {
+                    alert("Houve um erro ao tentar realizar o cadastro do funcionário! \nJá existe um funcionário com este e-mail.");
+
+                } else if (respostaBanco.includes("telefone")) {
+                    alert("Houve um erro ao tentar realizar o cadastro do funcionário! \nJá existe um funcionário com este telefone.");
+                }
+            }
+        }
+    }
+
+    function pegarDashboard() {
+        var idUsuario = sessionStorage.ID_USUARIO;
+        fetch(`/dash/PegarDashboard/${idUsuario}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log("Dados do usuário logado:")
+                console.log(data[0])
+                spanNome.innerHTML = data[0].nome;
+                const fkSupervisor = data[0].fkSupervisor;
+                console.log(fkSupervisor)
+                if (fkSupervisor === null) {
+                    cargo = "Gerente Tecnico";
+                } else {
+                    cargo = "Analista de Sistemas";
+                }
+                nomeCargoNav.innerHTML = cargo;
+            })
+            .catch(error => {
+                console.error("Erro ao pegar dashboard:", error);
+            });
+    }
+    window.onload = pegarDashboard;
+
+</script>
