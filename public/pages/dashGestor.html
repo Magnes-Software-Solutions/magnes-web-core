@@ -1,80 +1,74 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Relatório</title>
+    <title>Relatório | Magnes</title>
     <link rel="stylesheet" href="../bootstrap-5.3.8-dist/css/bootstrap.css" />
     <link rel="shortcut icon" href="../assets/imgs/Logo.png" type="image/x-icon" />
     <link rel="stylesheet" href="../css/dashGestor.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="../css/headerDash.css">
 </head>
-
 <body style="background-color: #0a1628;">
 
-    <!-- NAVBAR  -->
     <nav class="navbar fixed-top navBarTop">
-                <div class="container-fluid">
-                    <img src="../assets/imgs/Logo.png" alt="" width="5%" height="85%">
-                    <div class="titulo">
-                        <p class="tituloLogo">MAGNES</p>
-                        <p class="textoLogo">MRI MONITOR</p>
-                    </div>
-                    <button class="navbar-toggler navBarToggler" type="button" data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar"
-                        aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon navBarTogglerIcon"></span>
-                    </button>
-                    <div class="offcanvas offcanvas-end offCanvas" tabindex="-1" id="offcanvasNavbar"
-                        aria-labelledby="offcanvasNavbarLabel">
-                        <div class="offcanvas-header">
-                            <h5 class="offcanvas-title offCanvasTitle" id="offcanvasNavbarLabel">MAGNES</h5>
-                            <button type="button" class="btn-close offCanvasButton" data-bs-dismiss="offcanvas"
-                                aria-label="Close"></button>
-                        </div>
-                        <div class="offcanvas-body offcanvasBody">
-                            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 navBarNav">
-                                <li class="nav-item navLi" onclick="window.location.href='dashAnalistaGestor.html'">
-                                    <img src="../assets/imgs/dashboard.svg" alt="Simbolo de Dashboard">
-                                    <a class="nav-link">Dashboard</a>
-                                </li>
-                                <li class="nav-item navLi" onclick="window.location.href='telaAlertasGestor.html'">
-                                    <img src="../assets/imgs/alert.svg" alt="Simbolo de Alerta">
-                                    <a class="nav-link">Alerta</a>
-                                </li>
-                                <li class="nav-item navLi navLiActive" onclick="window.location.href='dashGestor.html'">
-                                    <img src="../assets/imgs/bar.svg" alt="" class="navItemIcon" />
-                                    <a class="nav-link">Relatório</a>
-                                </li>
-                                <li class="nav-item navLi" onclick="window.location.href='cadastroAnalista.html'">
-                                    <img src="../assets/imgs/person.svg" alt="" class="navItemIcon" />
-                                    <a class="nav-link">Cadastrar Analista</a>
-                                </li>
-                                <li class="nav-item navLi" onclick="window.location.href='cadastroMaquina.html'">
-                                    <img src="../assets/imgs/build.svg" alt="" class="navItemIcon" />
-                                    <a class="nav-link">Cadastrar Máquina</a>
-                                </li>
-                                <li class="nav-item navLi navLiLogout" onclick="limparSessao()">
-                                    <img src="../assets/imgs/box-arrow-left.svg" alt="" class="navItemIcon" />
-                                    <a class="nav-link">Logout</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="offcanvas-header perfil" onclick="window.location.href='dashUsuarioGestor.html'">
-                            <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Simbolo de perfil">
-                            <div class="textosPerfil">
-                                <h5 class="offcanvas-title" id="spanNome">(nome do banco)</h5>
-                                <p id="cargoUsuarioNav">(cargo do banco)</p>
-                            </div>
-                            <img class="perfilConfig" src="../assets/imgs/gear.svg" alt="Simbolo de configurações">
-                        </div>
-                    </div>
+        <div class="container-fluid">
+            <img src="../assets/imgs/Logo.png" alt="" width="5%" height="85%">
+            <div class="titulo">
+                <p class="tituloLogo">MAGNES</p>
+                <p class="textoLogo">MRI MONITOR</p>
+            </div>
+            <button class="navbar-toggler navBarToggler" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon navBarTogglerIcon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end offCanvas" tabindex="-1" id="offcanvasNavbar"
+                aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title offCanvasTitle" id="offcanvasNavbarLabel">MAGNES</h5>
+                    <button type="button" class="btn-close offCanvasButton" data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
                 </div>
-            </nav>
+                <div class="offcanvas-body offcanvasBody">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 navBarNav">
+                        <li class="nav-item navLi" onclick="window.location.href='dashAnalistaGestor.html'">
+                            <img src="../assets/imgs/dashboard.svg" alt="Simbolo de Dashboard">
+                            <a class="nav-link">Dashboard</a>
+                        </li>
+                        <li class="nav-item navLi" onclick="window.location.href='telaAlertasGestor.html'">
+                            <img src="../assets/imgs/alert.svg" alt="Simbolo de Alerta">
+                            <a class="nav-link">Alerta</a>
+                        </li>
+                        <li class="nav-item navLi navLiActive" onclick="window.location.href='dashGestor.html'">
+                            <img src="../assets/imgs/bar.svg" alt="" class="navItemIcon" />
+                            <a class="nav-link">Relatório</a>
+                        </li>
+                        <li class="nav-item navLi" onclick="window.location.href='cadastroAnalista.html'">
+                            <img src="../assets/imgs/person.svg" alt="" class="navItemIcon" />
+                            <a class="nav-link">Cadastrar Analista</a>
+                        </li>
+                        <li class="nav-item navLi" onclick="window.location.href='cadastroMaquina.html'">
+                            <img src="../assets/imgs/build.svg" alt="" class="navItemIcon" />
+                            <a class="nav-link">Cadastrar Máquina</a>
+                        </li>
+                        <li class="nav-item navLi navLiLogout" onclick="limparSessao()">
+                            <img src="../assets/imgs/box-arrow-left.svg" alt="" class="navItemIcon" />
+                            <a class="nav-link">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="offcanvas-header perfil" onclick="window.location.href='dashUsuarioGestor.html'">
+                    <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Simbolo de perfil">
+                    <div class="textosPerfil">
+                        <h5 class="offcanvas-title" id="spanNome">(nome do banco)</h5>
+                        <p id="cargoUsuarioNav">(cargo do banco)</p>
+                    </div>
+                    <img class="perfilConfig" src="../assets/imgs/gear.svg" alt="Simbolo de configurações">
+                </div>
+            </div>
+        </div>
+    </nav>
 
-    <!-- KPIs — adicionados ícones SVG inline em cada card -->
     <div class="kpi-row">
         <div class="kpi-card total">
             <div class="kpi-icon-box">
@@ -126,294 +120,68 @@
         </div>
     </div>
 
-    <!-- GRID PRINCIPAL  -->
-    <div class="grid-dashboard">
-
-        <!-- GRÁFICO STATUS -->
-        <div class="panel grafico-status">
-            <div class="panel-title"><span>Estado das Máquinas</span></div>
-            <div class="legend">
-                <div class="legend-item">
-                    <div class="legend-dot" style="background:#4ade80"></div>Normal
-                </div>
-                <div class="legend-item">
-                    <div class="legend-dot" style="background:#fbbf24"></div>Alerta
-                </div>
-                <div class="legend-item">
-                    <div class="legend-dot" style="background:#f43f5e"></div>Crítico
-                </div>
-            </div>
-            <div class="chart-container">
-                <canvas id="graficoStatus" width="200" height="200"></canvas>
-            </div>
-        </div>
-
-        <!-- LISTA DE MÁQUINAS  -->
-        <div class="machines-panel">
-            <div class="machines-header">
-                <span>Máquinas Monitoradas</span>
-                <span class="update-time">Atualizado 2min atrás</span>
-            </div>
-
-            <div class="machine-card normal">
-                <div>
-                    <strong>MRI-001</strong>
-                    <p>CPU 34% &nbsp;&nbsp; RAM 62% &nbsp;&nbsp; DISCO: 51%</p>
-                </div>
-                <span class="badge normal">Normal</span>
-            </div>
-            <div class="machine-card alerta">
-                <div>
-                    <strong>MRI-002</strong>
-                    <p>CPU 78% &nbsp;&nbsp; RAM 85% &nbsp;&nbsp; DISCO: 20%</p>
-                </div>
-                <span class="badge alerta">Alerta</span>
-            </div>
-            <div class="machine-card critico">
-                <div>
-                    <strong>MRI-003</strong>
-                    <p>CPU 92% &nbsp;&nbsp; RAM 97% &nbsp;&nbsp; DISCO: 67%</p>
-                </div>
-                <span class="badge critico">Crítico</span>
-            </div>
-            <div class="machine-card normal">
-                <div>
-                    <strong>MRI-004</strong>
-                    <p>CPU 21% &nbsp;&nbsp; RAM 44% &nbsp;&nbsp; DISCO: 47%</p>
-                </div>
-                <span class="badge normal">Normal</span>
-            </div>
-            <div class="machine-card alerta">
-                <div>
-                    <strong>MRI-005</strong>
-                    <p>CPU 67% &nbsp;&nbsp; RAM 73% &nbsp;&nbsp; DISCO: 79%</p>
-                </div>
-                <span class="badge alerta">Alerta</span>
-            </div>
-        </div>
-    </div>
-
-    <div class="graficos-extras">   
-        <!-- Gráfico : Histórico de alertas nos últimos 7 dias -->
+    <div class="graficos-extras">
         <div class="grafico-extra-panel">
-            <h6>Histórico de Alertas — Últimos 7 dias</h6>
-            <canvas id="graficoAlertas" height="140"></canvas>
-        </div>
-
-    </div>
-
-    <!-- BUSCA / GRÁFICO DE LINHA -->
-    <div class="exibicao-grafico">
-        <div id="selecao-div">
-    <h5 class="text-center text-sm-start">Buscar Máquina</h5>
-    <input id="input-exibicao" class="input-exibicao" type="text" placeholder="Digite o nome da máquina...">
-    <button id="botao-buscar" class="button-atualizar" onclick="exibir()">Buscar</button>
-</div>
-
-        <div id="exibir-comparacao-div" style="display: none;">
-            <h5>Uso de Recursos</h5>
-            <p class="nome-maquina" id="nome-maquina"></p>
-            <p id="aviso-buscar" class="aviso"></p>
-
-            <div class="select-metricas">
-                <select id="select1">
-                    <option value="cpu">CPU</option>
-                    <option value="ram">RAM</option>
-                    <option value="disco">Disco</option>
-                </select>
-                <select id="select2">
-                    <option value="ram">RAM</option>
-                    <option value="cpu">CPU</option>
-                    <option value="disco">Disco</option>
-                </select>
-                <button onclick="atualizarGrafico()" class="button-atualizar">↻ Atualizar</button>
-                <button onclick="fechar()" class="button-atualizar">Voltar</button>
+            <h6>Gargalos Identificados no Workstation</h6>
+            <div class="gargalo-donut-container">
+                <canvas id="gargaloChart" width="180" height="180" style="max-width: 180px; max-height: 180px;"></canvas>
+                <div class="gargalo-legend">
+                    <div class="gargalo-legend-item">
+                        <div class="gargalo-dot" style="background: #f97316;"></div> Disco
+                    </div>
+                    <div class="gargalo-legend-item">
+                        <div class="gargalo-dot" style="background: #a855f7;"></div> Memória RAM
+                    </div>
+                </div>
+                <div style="font-size: 11px; color: #6c8db0; margin-top: 6px;">Principais bottlenecks</div>
             </div>
+        </div>
 
-            <canvas id="graficoCPU"></canvas>
+        <div class="grafico-extra-panel">
+            <h6>Eventos Ativos</h6>
+            <div class="events-table-wrapper">
+                <table id="eventsTable" class="events-table">
+                    <thead>
+                        <tr>
+                            <th><i></i>Máquina</th>
+                            <th><i></i>Data</th>
+                            <th><i></i>Gravidade</th>
+                            <th><i></i>Evento</th>
+                            <th><i></i>Sumário</th>
+                            <th><i></i>Objetivo</th>
+                        </tr>
+                    </thead>
+                    <tbody id="eventsTableBody"></tbody>
+                </table>
+            </div>
         </div>
     </div>
 
-</body>
-
-</html>
-
-<script src="../bootstrap-5.3.8-dist/js/bootstrap.js"></script>
-<script src="../services/api.js"></script>
-<script src="../services/maquinaService.js"></script>
-<script src="../js/sessao.js"></script>
-<script>
-     
-    // ── Busca de máquina 
-    const inputBusca = document.getElementById("input-exibicao");
-    const botaoBuscar = document.getElementById("botao-buscar");
-
-    inputBusca.addEventListener("keypress", function (event) {
-        if (event.key === "Enter") { event.preventDefault(); botaoBuscar.click(); }
-    });
-
-    function exibir() {
-        const valor = document.getElementById("input-exibicao").value;
-        document.getElementById("nome-maquina").innerText = valor.toUpperCase();
-        if (valor.trim() != "") {
-            const secao = document.getElementById("exibir-comparacao-div");
-            const secao2 = document.getElementById("selecao-div");
-            secao.style.display = secao.style.display === "none" ? "block" : "none";
-            secao2.style.display = secao2.style.display === "none" ? "block" : "none";
-        } else {
-            document.getElementById("aviso-buscar").innerText = "Por favor, insira o nome da máquina.";
-        }
-    }
-
-    function fechar() {
-        document.getElementById("exibir-comparacao-div").style.display = "none";
-        document.getElementById("selecao-div").style.display = "block";
-    }
-
-    // ── Gráfico de status
-    const ctxStatus = document.getElementById('graficoStatus');
-    new Chart(ctxStatus, {
-        type: 'doughnut',
-        data: {
-            labels: ['Normal', 'Alerta', 'Crítico'],
-            datasets: [{
-                data: [4, 5, 3],
-                backgroundColor: ['#4ade80', '#fbbf24', '#f43f5e'],
-                borderColor: '#0f1e33',
-                borderWidth: 5,
-                hoverOffset: 8
-            }]
-        },
-        options: {
-            cutout: '65%',
-            plugins: {
-                legend: { display: false },
-                tooltip: {
-                    backgroundColor: '#0b1525',
-                    borderColor: '#1a2e4a',
-                    borderWidth: 1,
-                    titleColor: '#a0bcd8',
-                    bodyColor: '#e2e8f2'
-                }
-            }
-        }
-    });
-
-    // ── Gráfico linha — busca por máquina
-    const ctx2 = document.getElementById('graficoCPU');
-    let dados = { cpu: [20, 30, 40, 35, 50], ram: [50, 60, 55, 70, 65], disco: [10, 20, 30, 25, 15] };
-    const cores = { cpu: '#38bdf8', ram: '#4ade80', disco: '#fbbf24' };
-
-    let graficoCPU = new Chart(ctx2, {
-        type: 'line',
-        data: { labels: ['10', '20', '30', '40', '50'], datasets: [] },
-        options: {
-            scales: {
-                x: { ticks: { color: '#7fa3c9' }, grid: { color: '#0e1e30' } },
-                y: { ticks: { color: '#7fa3c9' }, grid: { color: '#0e1e30' } }
-            },
-            plugins: { legend: { labels: { color: '#7fa3c9' } } }
-        }
-    });
-
-    function atualizarGrafico() {
-        const m1 = document.getElementById("select1").value;
-        const m2 = document.getElementById("select2").value;
-        graficoCPU.data.datasets = [
-            { label: m1.toUpperCase(), data: dados[m1], borderColor: cores[m1], backgroundColor: cores[m1] + "33", tension: 0.4 },
-            { label: m2.toUpperCase(), data: dados[m2], borderColor: cores[m2], backgroundColor: cores[m2] + "33", tension: 0.4 }
-        ];
-        graficoCPU.update();
-    }
-    atualizarGrafico();
-
-    // setInterval(() => {
-    //     ["cpu", "ram", "disco"].forEach(tipo => {
-    //         dados[tipo].push(Math.floor(Math.random() * 100));
-    //         dados[tipo].shift();
-    //     });
-    //     atualizarGrafico();
-    // }, 10000);
-
+    <div class="relatorios-cards-area">
+        <div class="relatorio-card-custom">
+            <div class="relatorio-titulo">Resumo executivo</div>
+            <div class="relatorio-desc">Análise consolidada das estações, índices de gargalo e recomendações operacionais.</div>
+            <div class="btn-simulado">Baixar PDF</div>
+        </div>
+        <div class="relatorio-card-custom">
+            <div class="relatorio-titulo">Relatório de alertas</div>
+            <div class="relatorio-desc">Registro de eventos críticos, manutenções realizadas e ações corretivas.</div>
+            <div class="btn-simulado">Baixar anexo</div>
+        </div>
+        <div class="relatorio-card-custom">
+            <div class="relatorio-titulo">Análise exploratória</div>
+            <div class="relatorio-desc">Projeção de armazenamento, uso de memória e tendências de desempenho.</div>
+            <div class="btn-simulado">Baixar CSV</div>
+        </div>
+    </div>
     
-    // Histórico de alertas dos últimos 7 dias 
-    const ctxAlertas = document.getElementById('graficoAlertas');
-    new Chart(ctxAlertas, {
-        type: 'line',
-        data: {
-            labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
-            datasets: [
-                {
-                    label: 'Alertas',
-                    data: [3, 5, 2, 7, 4, 6, 5],
-                    borderColor: '#fbbf24',
-                    backgroundColor: 'rgba(251,191,36,0.1)',
-                    fill: true,
-                    tension: 0.4,
-                    pointRadius: 4,
-                    pointBackgroundColor: '#fbbf24'
-                },
-                {
-                    label: 'Críticos',
-                    data: [1, 2, 0, 3, 1, 2, 3],
-                    borderColor: '#f43f5e',
-                    backgroundColor: 'rgba(244,63,94,0.08)',
-                    fill: true,
-                    tension: 0.4,
-                    pointRadius: 4,
-                    pointBackgroundColor: '#f43f5e'
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: { labels: { color: '#7fa3c9', font: { size: 11 }, boxWidth: 12 } },
-                tooltip: {
-                    backgroundColor: '#0b1525',
-                    borderColor: '#1a2e4a',
-                    borderWidth: 1,
-                    titleColor: '#a0bcd8',
-                    bodyColor: '#e2e8f2'
-                }
-            },
-            scales: {
-                x: {
-                    ticks: { color: '#3a5070', font: { size: 11 } },
-                    grid: { color: '#0e1e30' }
-                },
-                y: {
-                    ticks: { color: '#3a5070', font: { size: 11 }, stepSize: 1 },
-                    grid: { color: '#0e1e30' },
-                    min: 0
-                }
-            }
-        }
-    });
-
-     function pegarDashboard() {
-        var idUsuario = sessionStorage.ID_USUARIO;
-        fetch(`/dash/PegarDashboard/${idUsuario}`)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                spanNome.innerHTML = data[0].nome;
-                const fkSupervisor = data[0].fkSupervisor;
-                console.log(fkSupervisor)
-                if (fkSupervisor === null) {
-                    cargo = "Gerente Tecnico";
-                } else {
-                    cargo = "Analista de Sistemas";
-                }
-                cargoUsuarioNav.innerHTML = cargo;
-            })
-            .catch(error => {
-                console.error("Erro ao pegar dashboard:", error);
-            });
-    }
-
-    window.onload = pegarDashboard;
-
-   
-
-</script>
+    <div class="histContainer">
+        <canvas id="histStability" style="width: 100%; max-width: 100%;"></canvas>
+    </div>
+    <script src="../bootstrap-5.3.8-dist/js/bootstrap.js"></script>
+    <script src="../services/api.js"></script>
+    <script src="../services/maquinaService.js"></script>
+    <script src="../js/sessao.js"></script>
+    <script src="../js/relatorio.js"></script>
+</body>
+</html>
