@@ -37,10 +37,6 @@
                                     <img src="../assets/imgs/dashboard.svg" alt="Simbolo de Dashboard">
                                     <a class="nav-link">Dashboard</a>
                                 </li>
-                                <li class="nav-item navLi" onclick="window.location.href='telaAlertasGestor.html'">
-                                    <img src="../assets/imgs/alert.svg" alt="Simbolo de Alerta">
-                                    <a class="nav-link">Alerta</a>
-                                </li>
                                 <li class="nav-item navLi" onclick="window.location.href='dashGestor.html'">
                                     <img src="../assets/imgs/bar.svg" alt="" class="navItemIcon" />
                                     <a class="nav-link">Relatório</a>
@@ -103,17 +99,17 @@
 
                         <div class="col-md-6">
                             <label class="form-label">Mac Address</label>
-                            <input type="text" class="form-control" placeholder="Ex: X32JS" id="input_macAddress">
+                            <input type="text" class="form-control" value="X32JS" id="input_macAddress">
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label">Número de Série</label>
-                            <input type="text" class="form-control" placeholder="Ex: X32JS" id="input_numSerie">
+                            <input type="text" class="form-control" value="JDK76" id="input_numSerie">
                         </div>
 
                         <div class="col-12">
                             <label class="form-label">Tipo/Modelo</label>
-                            <input type="text" class="form-control" placeholder="Ex: Modelo" id="input_tipoModelo">
+                            <input type="text" class="form-control" value="Modelo" id="input_tipoModelo">
                         </div>
 
                         <div class="cabecalho-formulario mt-4">
@@ -123,24 +119,24 @@
 
                         <div class="col-md-8">
                             <label class="form-label">Bairro</label>
-                            <input type="text" class="form-control" placeholder="Nome da Empresa"
+                            <input type="text" class="form-control" value="Tatuapé"
                                 id="input_BairroHospital">
                         </div>
 
                         <div class="col-md-4">
                             <label class="form-label">Cidade</label>
-                            <input type="text" class="form-control" placeholder="Ex: Matriz/Filial"
+                            <input type="text" class="form-control" value="São-Paulo"
                                 id="input_CidadeHospital">
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label">CEP</label>
-                            <input type="text" class="form-control" placeholder="00000-000" id="input_cep">
+                            <input type="text" class="form-control" value="05625-900" id="input_cep">
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label">Número</label>
-                            <input type="text" class="form-control" placeholder="Nº" id="input_numeroHospital">
+                            <input type="text" class="form-control" value="500" id="input_numeroHospital">
                         </div>
 
                         <div class="col-12 mt-4">
@@ -271,13 +267,6 @@
         window.location.href = "dashAnalistaGestor.html";
     }
 
-    /*
-    Criar a função para cadastrar estabelecimento
-    atribuir as variaveis e criar os caminhos inclusive o service
-    depois trocar a referencia para conseguir pegar o id do estabelecimento 
-    por fim ajeitar certinho qnd cada função vai iniciar
-    */
-
     async function cadastrarEnderecoHospital() {
 
         const bairro = input_BairroHospital.value;
@@ -325,34 +314,35 @@
             return;
         }
 
-        const respostaBusca = await buscarIdEnderecoHospitalService(input_cep.value, input_numeroHospital.value);
+        //const respostaBusca = await buscarIdEnderecoHospitalService(input_cep.value, input_numeroHospital.value);
 
-        if (respostaBusca.ok) { 
-            const json = await respostaBusca.json();
+        await cadastrarEnderecoHospital();
+        await buscarIdEnderecoHospital();
+        await cadastrarComponenteBD();
+        await cadastrarComponente();
+        cadastrarComponentesMaquina();
 
-            if (json.length > 0) {
-                sessionStorage.ID_ENDERECO_HOSPITAL = json[0].idEnderecoHospital;
-                alert("Endereço do Hospital já existe e foi vinculado à máquina.");
-                return;
-            }
-            else {
-                await cadastrarEnderecoHospital();
-                await buscarIdEnderecoHospital();
-                await cadastrarComponenteBD();
-                await cadastrarComponente();
-                cadastrarComponentesMaquina();
-            }
-        }
-        else {
-            alert('Erro ao buscar ID do endereço do hospital: ' + respostaBusca.mensagem);
-            return;
-        }
+        // if (respostaBusca.ok) { 
+        //     const json = await respostaBusca.json();
+
+        //     if (json.length > 0) {
+        //         sessionStorage.ID_ENDERECO_HOSPITAL = json[0].idEnderecoHospital;
+        //         alert("Endereço do Hospital já existe e foi vinculado à máquina.");
+        //         return;
+        //     }
+        //     else {
+        //     }
+        // }
+        // else {
+        //     alert('Erro ao buscar ID do endereço do hospital: ' + respostaBusca.mensagem);
+        //     return;
+        // }
 
         const resposta = await cadastrarMaquinaService(macAddress, numeroSerie, tipoModelo, sessionStorage.FK_REDE_HOSPITAL, sessionStorage.ID_ENDERECO_HOSPITAL)
         if (resposta.ok) {
-            alert('Máquina cadastrada com sucesso!');
+            console.log('Máquina cadastrada com sucesso!');
         } else {
-            alert('Erro ao cadastrar máquina: ' + resposta.mensagem);
+            console.log('Erro ao cadastrar máquina: ' + resposta.mensagem);
         }
 
     }
@@ -372,17 +362,22 @@
             const capacidadeMaxima = ListaCapacidadeMaxima[i];
 
             const resposta = await cadastrarComponenteService(nomeComponente, tipoComponente, unidadeMedida, capacidadeMaxima)
-            if (resposta.ok) {
-                alert('Componente cadastrado com sucesso!');
+            
+            if(resposta.ok) {
+                respostaOk = true;
             } else {
-                alert('Erro ao cadastrar componente: ' + resposta.mensagem);
+                respostaOk = false;
             }
+        }
+
+        if (respostaOk) {
+            console.log('Componente cadastrado com sucesso!');
+        } else {
+            console.log('Erro ao cadastrar componente: ' + resposta.mensagem);
         }
     }
 
     async function cadastrarComponentesMaquina() {
-
-
         ListaIdsComponentes = [];
         ListaLimites = ["100", "70", "700"];
 
@@ -404,13 +399,12 @@
             const limiteAtual = ListaLimites[i];
 
             const respostaCadastro = await cadastrarComponenteMaquinaService(sessionStorage.MAC_ADDRESS, idComponenteAtual, limiteAtual);
-
-            if (respostaCadastro.ok) {
+        }
+        if (respostaCadastro.ok) {
                 alert('Componentes vinculados à máquina com sucesso!');
             } else {
                 alert('Erro ao vincular componentes à máquina: ' + respostaCadastro.mensagem);
             }
-        }
     }
 
     function pegarDashboard() {
@@ -423,7 +417,7 @@
                 const fkSupervisor = data[0].fkSupervisor;
                 console.log(fkSupervisor)
                 if (fkSupervisor === null) {
-                    cargo = "Gerente Tecnico";
+                    cargo = "Supervisor de Sistemas";
                 } else {
                     cargo = "Analista de Sistemas";
                 }

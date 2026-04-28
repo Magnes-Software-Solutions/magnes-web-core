@@ -403,7 +403,7 @@ var idUsuario = sessionStorage.ID_USUARIO;
                 const fkSupervisor = data[0].fkSupervisor;
                 console.log(fkSupervisor)
                 if (fkSupervisor === null) {
-                    cargo = "Gerente Tecnico";
+                    cargo = "Supervisor de Sistemas";
                 } else {
                     cargo = "Analista de Sistemas";
                 }
