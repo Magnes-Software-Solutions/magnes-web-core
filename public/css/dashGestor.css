@@ -12,6 +12,83 @@ body {
     padding-top: 85px;
 }
 
+.tituloCorpo {
+    color: white;
+    margin-bottom: 2%;
+    margin-top: 60px;
+    margin-left: 20px;
+    align-items: center;
+    display: flex;
+    text-align: center;
+}
+
+.titulo-pesquisa {
+    margin-left: 50px;
+}
+
+.titulo-pesquisa p {
+    color: rgb(122, 146, 176);
+}
+
+.ferramenta-pesquisa input::placeholder {
+    color: rgb(122, 146, 176);
+}
+
+
+.ferramenta-pesquisa {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    margin-left: 50px;
+    margin-bottom: 40px;
+    height: 35px;
+}
+
+.ferramenta-pesquisa input {
+    width: 700px;
+    outline: none;
+    border-radius: 5px 0 0 5px;
+    border-color: #00d4f9a6;
+    border-width: 1px;
+    border-style: solid;
+    background-color: #0f2a44;
+    color: white;
+    font-size: 15px;
+    padding: 10px;
+}
+
+.ferramenta-pesquisa input:focus {
+    background-color: #0a1628;
+    color: white;
+    border-color: #35bfed;
+    box-shadow: 0 0 8px rgba(53, 191, 237, 0.2);
+    transition: all 1s;
+}
+
+.ferramenta-pesquisa button {
+    border-radius: 0 5px 5px 0 ;
+    border: none;
+    background-color: #0f2a44;
+    color: #00d4f9;
+    font-weight: 500;
+    font-size: 15px;
+    align-items: center;
+    transition: all 1s;
+}
+
+.ferramenta-pesquisa button:hover {
+    background-color: #85dfef82;
+}
+
+@media (max-width: 480px) {
+    .titulo-pesquisa h4 {
+        font-size: 1.1rem;
+    }
+    .titulo-pesquisa p {
+        font-size: 0.9rem;
+    }
+}
+
 /* ── KPI ROW ── */
 .kpi-row {
     display: flex;
@@ -383,6 +460,15 @@ canvas {
     font-weight: bold;
 }
 
+.badge-estavel {
+    background: rgba(30, 255, 158, 0.344);
+    color: #36e995;
+    padding: 4px 10px;
+    border-radius: 40px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
 /* ── RELATÓRIOS CARDS ── */
 .relatorios-cards-area {
     display: flex;
@@ -440,6 +526,16 @@ canvas {
 
 /* ── HISTÓRICO DE ESTABILIDADE ── */
 .histContainer {
+    background: #132943;
+    border: 1px solid #10435f;
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin: 0 auto;
+    max-width: 100%;
+    width: 96%;
+}
+
+.histContainer2 {
     background: #132943;
     border: 1px solid #10435f;
     border-radius: 16px;
