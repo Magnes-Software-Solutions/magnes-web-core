@@ -394,9 +394,25 @@ new Chart(ctx2, {
 
 // Funções auxiliares
 function pegarDashboard() {
-    if (document.getElementById('spanNome')) document.getElementById('spanNome').innerHTML = "Gestor Técnico";
-    if (document.getElementById('cargoUsuarioNav')) document.getElementById('cargoUsuarioNav').innerHTML = "Supervisor de Operações";
-}
+var idUsuario = sessionStorage.ID_USUARIO;
+        fetch(`/dash/PegarDashboard/${idUsuario}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                spanNome.innerHTML = data[0].nome;
+                const fkSupervisor = data[0].fkSupervisor;
+                console.log(fkSupervisor)
+                if (fkSupervisor === null) {
+                    cargo = "Gerente Tecnico";
+                } else {
+                    cargo = "Analista de Sistemas";
+                }
+                cargoUsuarioNav.innerHTML = cargo;
+            })
+            .catch(error => {
+                console.error("Erro ao pegar dashboard:", error);
+            });
+}    
 
 function limparSessao() {
     console.log("Logout acionado");
