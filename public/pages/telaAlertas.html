@@ -127,7 +127,7 @@
             <circle cx="10" cy="13" r=".9" fill="#f43f5e"/>
         </svg>`;
 
-            if (type === "atencao") return `
+            if (type === "aviso") return `
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#f59e0b" stroke-width="1.8">
             <path d="M10 2.5L18.5 17H1.5L10 2.5z"/>
             <line x1="10" y1="9" x2="10" y2="12.5"/>
@@ -144,7 +144,7 @@
 
         function badgeClass(type) {
             if (type === "critico") return "badge-critico";
-            if (type === "atencao") return "badge-atencao";
+            if (type === "aviso") return "badge-aviso";
             return "badge-info";
         }
 
@@ -163,18 +163,18 @@
         }
 
         function gerarAlertaAleatorio() {
-            const tipos = ["critico", "atencao", "info"];
+            const tipos = ["critico", "aviso", "info"];
 
             const tipo = tipos[Math.floor(Math.random() * tipos.length)];
 
             return {
                 type: tipo,
                 title: tipo === "critico" ? "CPU acima de 90%" :
-                    tipo === "atencao" ? "Uso de RAM elevado" :
+                    tipo === "aviso" ? "Uso de RAM elevado" :
                         "Backup concluído",
 
                 desc: "Alerta gerado automaticamente pelo sistema",
-                machine: "Workstation-" + Math.floor(Math.random() * 10),
+                machine: "Workstation-" + (Math.floor(Math.random() * 6) + 1),
                 time: "Periodicamente em 10 minutos",
                 badge: tipo.toUpperCase()
             };
@@ -202,11 +202,15 @@
 
         function atualizarContadores() {
             const cards = document.querySelectorAll(".alert-card");
-            // Seleção de elementos com a mesma tipagem. 
 
-            const crit = cards.querySelectorAll(".critico").length; // Contagem de quantos elementos há. 
-            const warn = cards.querySelectorAll(".atencao").length;
-            const total = cards.length;
+            let total = cards.length;
+            let crit = 0;
+            let warn = 0;
+
+            cards.forEach(card => {
+                if (card.classList.contains("critico")) crit++;
+                if (card.classList.contains("aviso")) warn++;
+            });
 
             document.getElementById("count-total").textContent = total;
             document.getElementById("count-crit").textContent = crit;
@@ -217,7 +221,7 @@
             const alerta = gerarAlertaAleatorio();
             adicionarAlerta(alerta);
             atualizarContadores();
-        }, 4000); 
+        }, 5000); // a cada 5s
 
         function limparAlertas() {
             list.innerHTML = "<div class='loading-msg'>Nenhum alerta no momento</div>";
@@ -241,7 +245,7 @@
                     const fkSupervisor = data[0].fkSupervisor;
                     console.log(fkSupervisor)
                     if (fkSupervisor === null) {
-                        cargo = "Gerente Tecnico";
+                        cargo = "Supervisor de Sistemas";
                     } else {
                         cargo = "Analista de Sistemas";
                     }

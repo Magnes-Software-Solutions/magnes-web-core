@@ -41,10 +41,6 @@
                                     <img src="../assets/imgs/dashboard.svg" alt="Simbolo de Dashboard">
                                     <a class="nav-link">Dashboard</a>
                                 </li>
-                                <li class="nav-item navLi" onclick="window.location.href='telaAlertasGestor.html'">
-                                    <img src="../assets/imgs/alert.svg" alt="Simbolo de Alerta">
-                                    <a class="nav-link">Alerta</a>
-                                </li>
                                 <li class="nav-item navLi" onclick="window.location.href='dashGestor.html'">
                                     <img src="../assets/imgs/bar.svg" alt="" class="navItemIcon" />
                                     <a class="nav-link">Relatório</a>
@@ -179,7 +175,7 @@
 
                 const fkSupervisor = data[0].fkSupervisor;
                 if (fkSupervisor === null) {
-                    cargo = "Gerente Tecnico";
+                    cargo = "Supervisor de Sistemas";
                 } else {
                     cargo = "Analista de Sistemas";
                 }
