@@ -45,7 +45,8 @@
                                     <img src="../assets/imgs/bar.svg" alt="" class="navItemIcon" />
                                     <a class="nav-link">Relatório</a>
                                 </li>
-                                <li class="nav-item navLi navLiActive" onclick="window.location.href='cadastroAnalista.html'">
+                                <li class="nav-item navLi navLiActive"
+                                    onclick="window.location.href='cadastroAnalista.html'">
                                     <img src="../assets/imgs/person.svg" alt="" class="navItemIcon" />
                                     <a class="nav-link">Cadastrar Analista</a>
                                 </li>
@@ -96,7 +97,9 @@
                 <span class="span-mensagem" id="span_telefone"></span>
 
                 <label>Senha:
-                    <abbr class="info" title="A senha deve conter mais de 8 dígitos, caractéres especiais e números!"><img src="../assets/imgs/info.png" alt="Símbolo de i"></abbr>
+                    <abbr class="info"
+                        title="A senha deve conter mais de 8 dígitos, caractéres especiais e números!"><img
+                            src="../assets/imgs/info.png" alt="Símbolo de i"></abbr>
                 </label>
                 <input type="password" id="inputPassword" value="julia123@" oninput="analisarSenha()">
                 <span class="span-mensagem" id="span_senha"></span>
@@ -138,14 +141,14 @@
 
         } else if (nome.trim() == '') {
             nomeInvalido = true;
-        
+
         } else if (nome.length <= 2) { // Verifica se o nome tem tamanho suficiente
             nomeInvalido = true;
 
         } else {
             nomeInvalido = false;
         }
-        
+
         for (var i = 0; i < listaNum.length; i++) { // Percorre toda a lista de números
             if (nome.includes(listaNum[i])) {
                 nomeInvalido = true;
@@ -174,7 +177,7 @@
 
         } else if (cpf.trim() == '') {
             cpfInvalido = true;
-        
+
         } else if (cpf.length != 11) {
             cpfInvalido = true;
 
@@ -199,7 +202,7 @@
 
         } else if (email.trim() == '') {
             emailInvalido = true;
-        
+
         } else if (!email.includes('@')) {
             emailInvalido = true
 
@@ -227,7 +230,7 @@
 
         } else if (telefone.trim() == '') {
             telefoneInvalido = true;
-        
+
         } else if (telefone.length != 11) {
             telefoneInvalido = true;
 
@@ -255,7 +258,7 @@
 
         } else if (senha.trim() == '') {
             senhaInvalido = true;
-        
+
         } else if (senha.length >= 8) {
             senhaTam = true;
         }
@@ -328,7 +331,7 @@
         } else if (senhaVar != confirmacaoSenhaVar) {
             alert('Confirme sua senha corretamente!')
             return;
-        
+
         } else {
             const resposta = await cadastrarFuncionarioService(nomeVar, emailVar, cpfVar, telefoneVar, senhaVar, sessionStorage.FK_REDE_HOSPITAL, sessionStorage.ID_USUARIO);
 
