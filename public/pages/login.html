@@ -2,14 +2,14 @@
 <html lang="pt-br">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Magnes | Login</title>
-    <link rel="stylesheet" href="../bootstrap-5.3.8-dist/css/bootstrap.css" />
-    <link rel="shortcut icon" href="../assets/imgs/Logo.png" type="image/x-icon" />
-    <link rel="stylesheet" href="../css/login.css">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/cadastroAnalista.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Magnes | Login</title>
+  <link rel="stylesheet" href="../bootstrap-5.3.8-dist/css/bootstrap.css" />
+  <link rel="shortcut icon" href="../assets/imgs/Logo.png" type="image/x-icon" />
+  <link rel="stylesheet" href="../css/login.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/cadastroAnalista.css">
 </head>
 
 <body onscroll="scrolar(), trocar(), trocarRam(), trocarDisk()">
@@ -101,7 +101,7 @@
         console.log(resposta);
 
         resposta.json().then(json => {
-          console.log("Jason aqui: " +json);
+          console.log("Jason aqui: " + json);
           console.log(JSON.stringify(json));
 
           sessionStorage.ID_USUARIO = json.idUsuario;
@@ -109,7 +109,7 @@
           sessionStorage.EMAIL_USUARIO = json.email;
           sessionStorage.FK_SUPERVISOR = json.fkSupervisor;
           sessionStorage.FK_REDE_HOSPITAL = json.fkRedeHospital;
-          
+
 
           if (json.fkSupervisor == null) {
 
@@ -117,15 +117,15 @@
               window.location = "dashGestor.html";
             }, 200);
 
-          } 
+          }
           // else if(json.email.includes("@magnes.com")){
 
           //   setTimeout(function () {
           //     window.location = "";
           //   }, 200);
-            
+
           // } 
-          
+
           else {
 
             setTimeout(function () {

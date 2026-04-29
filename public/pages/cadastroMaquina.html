@@ -8,63 +8,62 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/cadastroComponente.css" />
     <link rel="stylesheet" href="../css/headerDash.css">
-     <link rel="shortcut icon" href="../assets/imgs/Logo.png" type="image/x-icon" />
+    <link rel="shortcut icon" href="../assets/imgs/Logo.png" type="image/x-icon" />
 </head>
 
 <body class="fundo-principal">
- <nav class="navbar fixed-top navBarTop">
+    <nav class="navbar fixed-top navBarTop">
         <div class="container-fluid">
-                    <img src="../assets/imgs/Logo.png" alt="" width="5%" height="85%">
-                    <div class="titulo">
-                        <p class="tituloLogo">MAGNES</p>
-                        <p class="textoLogo">WORKSTATION MONITOR</p>
-                    </div>
-                    <button class="navbar-toggler navBarToggler" type="button" data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar"
-                        aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon navBarTogglerIcon"></span>
-                    </button>
-                    <div class="offcanvas offcanvas-end offCanvas" tabindex="-1" id="offcanvasNavbar"
-                        aria-labelledby="offcanvasNavbarLabel">
-                        <div class="offcanvas-header">
-                            <h5 class="offcanvas-title offCanvasTitle" id="offcanvasNavbarLabel">MAGNES</h5>
-                            <button type="button" class="btn-close offCanvasButton" data-bs-dismiss="offcanvas"
-                                aria-label="Close"></button>
-                        </div>
-                        <div class="offcanvas-body offcanvasBody">
-                            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 navBarNav">
-                                <li class="nav-item navLi" onclick="window.location.href='dashAnalistaGestor.html'">
-                                    <img src="../assets/imgs/dashboard.svg" alt="Simbolo de Dashboard">
-                                    <a class="nav-link">Dashboard</a>
-                                </li>
-                                <li class="nav-item navLi" onclick="window.location.href='dashGestor.html'">
-                                    <img src="../assets/imgs/bar.svg" alt="" class="navItemIcon" />
-                                    <a class="nav-link">Relatório</a>
-                                </li>
-                                <li class="nav-item navLi" onclick="window.location.href='cadastroAnalista.html'">
-                                    <img src="../assets/imgs/person.svg" alt="" class="navItemIcon" />
-                                    <a class="nav-link">Cadastrar Analista</a>
-                                </li>
-                                <li class="nav-item navLi navLiActive" onclick="window.location.href='cadastroMaquina.html'">
-                                    <img src="../assets/imgs/build.svg" alt="" class="navItemIcon" />
-                                    <a class="nav-link">Cadastrar Máquina</a>
-                                </li>
-                                <li class="nav-item navLi navLiLogout" onclick="limparSessao()">
-                                    <img src="../assets/imgs/box-arrow-left.svg" alt="" class="navItemIcon" />
-                                    <a class="nav-link">Logout</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="offcanvas-header perfil" onclick="window.location.href='dashUsuarioGestor.html'">
-                            <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Simbolo de perfil">
-                            <div class="textosPerfil">
-                                <h5 class="offcanvas-title" id="spanNome">(nome do banco)</h5>
-                                <p id="cargoUsuarioNav">(cargo do banco)</p>
-                            </div>
-                            <img class="perfilConfig" src="../assets/imgs/gear.svg" alt="Simbolo de configurações">
-                        </div>
-                    </div>
+            <img src="../assets/imgs/Logo.png" alt="" width="5%" height="85%">
+            <div class="titulo">
+                <p class="tituloLogo">MAGNES</p>
+                <p class="textoLogo">WORKSTATION MONITOR</p>
+            </div>
+            <button class="navbar-toggler navBarToggler" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon navBarTogglerIcon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end offCanvas" tabindex="-1" id="offcanvasNavbar"
+                aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title offCanvasTitle" id="offcanvasNavbarLabel">MAGNES</h5>
+                    <button type="button" class="btn-close offCanvasButton" data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
                 </div>
+                <div class="offcanvas-body offcanvasBody">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 navBarNav">
+                        <li class="nav-item navLi" onclick="window.location.href='dashAnalistaGestor.html'">
+                            <img src="../assets/imgs/dashboard.svg" alt="Simbolo de Dashboard">
+                            <a class="nav-link">Dashboard</a>
+                        </li>
+                        <li class="nav-item navLi" onclick="window.location.href='dashGestor.html'">
+                            <img src="../assets/imgs/bar.svg" alt="" class="navItemIcon" />
+                            <a class="nav-link">Relatório</a>
+                        </li>
+                        <li class="nav-item navLi" onclick="window.location.href='cadastroAnalista.html'">
+                            <img src="../assets/imgs/person.svg" alt="" class="navItemIcon" />
+                            <a class="nav-link">Cadastrar Analista</a>
+                        </li>
+                        <li class="nav-item navLi navLiActive" onclick="window.location.href='cadastroMaquina.html'">
+                            <img src="../assets/imgs/build.svg" alt="" class="navItemIcon" />
+                            <a class="nav-link">Cadastrar Máquina</a>
+                        </li>
+                        <li class="nav-item navLi navLiLogout" onclick="limparSessao()">
+                            <img src="../assets/imgs/box-arrow-left.svg" alt="" class="navItemIcon" />
+                            <a class="nav-link">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="offcanvas-header perfil" onclick="window.location.href='dashUsuarioGestor.html'">
+                    <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Simbolo de perfil">
+                    <div class="textosPerfil">
+                        <h5 class="offcanvas-title" id="spanNome">(nome do banco)</h5>
+                        <p id="cargoUsuarioNav">(cargo do banco)</p>
+                    </div>
+                    <img class="perfilConfig" src="../assets/imgs/gear.svg" alt="Simbolo de configurações">
+                </div>
+            </div>
+        </div>
     </nav>
     <main class="container-fluid corpo">
         <header class="cabecalho-pagina">
@@ -119,14 +118,12 @@
 
                         <div class="col-md-8">
                             <label class="form-label">Bairro</label>
-                            <input type="text" class="form-control" value="Tatuapé"
-                                id="input_BairroHospital">
+                            <input type="text" class="form-control" value="Tatuapé" id="input_BairroHospital">
                         </div>
 
                         <div class="col-md-4">
                             <label class="form-label">Cidade</label>
-                            <input type="text" class="form-control" value="São-Paulo"
-                                id="input_CidadeHospital">
+                            <input type="text" class="form-control" value="São-Paulo" id="input_CidadeHospital">
                         </div>
 
                         <div class="col-md-6">
@@ -362,8 +359,8 @@
             const capacidadeMaxima = ListaCapacidadeMaxima[i];
 
             const resposta = await cadastrarComponenteService(nomeComponente, tipoComponente, unidadeMedida, capacidadeMaxima)
-            
-            if(resposta.ok) {
+
+            if (resposta.ok) {
                 respostaOk = true;
             } else {
                 respostaOk = false;
@@ -401,10 +398,10 @@
             const respostaCadastro = await cadastrarComponenteMaquinaService(sessionStorage.MAC_ADDRESS, idComponenteAtual, limiteAtual);
         }
         if (respostaCadastro.ok) {
-                alert('Componentes vinculados à máquina com sucesso!');
-            } else {
-                alert('Erro ao vincular componentes à máquina: ' + respostaCadastro.mensagem);
-            }
+            alert('Componentes vinculados à máquina com sucesso!');
+        } else {
+            alert('Erro ao vincular componentes à máquina: ' + respostaCadastro.mensagem);
+        }
     }
 
     function pegarDashboard() {
