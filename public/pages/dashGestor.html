@@ -187,9 +187,9 @@
 
     <div class="ferramenta-pesquisa">
         <input type="text" placeholder="Filtre pelo endereço da sua workstation">
-        <button type="button" onclick="buscar()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                class="lucide lucide-map-pin-search-icon lucide-map-pin-search">
+        <button type="button" onclick="buscar()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" class="lucide lucide-map-pin-search-icon lucide-map-pin-search">
                 <path
                     d="M 12.248 21.969 a 1 1 0 0 1 -0.849 -0.17 C 9.539 20.193 4 14.993 4 10 a 8 8 0 0 1 16 0 C 20 10.42 19.961 10.841 19.888 11.262" />
                 <path d="m22 22-1.88-1.88" />
@@ -216,20 +216,20 @@
 
 </html>
 <script>
-function buscar() {
-    var grafico1 = document.querySelector(".histContainer");  
-    var grafico2 = document.querySelector(".histContainer2");
+    function buscar() {
+        var grafico1 = document.querySelector(".histContainer");
+        var grafico2 = document.querySelector(".histContainer2");
 
-    var busca = document.querySelector(".ferramenta-pesquisa input").value;
+        var busca = document.querySelector(".ferramenta-pesquisa input").value;
 
-    if (busca != "Alphaville") {
-        grafico1.style.display = "block";
-        grafico2.style.display = "none";
-    } else {
-        grafico1.style.display = "none";
-        grafico2.style.display = "block";
+        if (busca != "Alphaville") {
+            grafico1.style.display = "block";
+            grafico2.style.display = "none";
+        } else {
+            grafico1.style.display = "none";
+            grafico2.style.display = "block";
+        }
     }
-}
 
 
 </script>
