@@ -44,9 +44,5 @@ class Api {
     }
 }
 
-var PORTA_APP = process.env.APP_PORT;
-var HOST_APP = process.env.APP_HOST;
-
-const url = `http://${HOST_APP}:${PORTA_APP}`
-
+const url = `http://${window.location.hostname}:3333`
 const api = new Api(url)
