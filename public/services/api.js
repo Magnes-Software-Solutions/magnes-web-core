@@ -44,6 +44,9 @@ class Api {
     }
 }
 
-const url = "http://localhost:3333"
+var PORTA_APP = process.env.APP_PORT;
+var HOST_APP = process.env.APP_HOST;
+
+const url = `http://${HOST_APP}:${PORTA_APP}`
 
 const api = new Api(url)
