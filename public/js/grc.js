@@ -8,56 +8,74 @@ function scoreComponente(pct) {
 }
 
 function scoreServidor(cpu, ram, disco) {
-  const sCpu   = scoreComponente(cpu);
-  const sRam   = scoreComponente(ram);
+  const sCpu = scoreComponente(cpu);
+  const sRam = scoreComponente(ram);
   const sDisco = scoreComponente(disco);
   return Math.round(sCpu * 0.40 + sRam * 0.35 + sDisco * 0.25);
 }
 
 function scoreAmbiente(servidores) {
   if (!servidores.length) return 0;
-  const scores = servidores.map(s => scoreServidor(s.cpu, s.ram, s.disco));
-  const media  = scores.reduce((a, b) => a + b, 0) / scores.length;
-  const pior   = Math.max(...scores);
+  let soma = 0;
+  let pior = 0;
+  for (let i = 0; i < servidores.length; i++) {
+    const s = servidores[i];
+    const score = scoreServidor(s.cpu, s.ram, s.disco);
+    soma += score;
+    if (score > pior) pior = score;
+  }
+  const media = soma / servidores.length;
   return Math.round(media * 0.70 + pior * 0.30);
 }
 
 function agruparPorMaquina(data) {
   const mapa = {};
-  data.forEach(linha => {
+  for (let i = 0; i < data.length; i++) {
+    const linha = data[i];
     const id = linha.macAddress;
     if (!mapa[id] || linha.horario > mapa[id].horario) {
       mapa[id] = linha;
     }
-  });
-  return Object.values(mapa).map(m => ({
-    id:          m.macAddress,
-    label:       m.empresa || m.macAddress,
-    cpu:         m.cpuUso,
-    ram:         m.ramUso,
-    disco:       m.discoUso,
-    alertaCPU:   m.alertaCPU,
-    alertaRAM:   m.alertaRAM,
-    alertaDisco: m.alertaDisco,
-    horario:     m.horario,
-    limiteCPU:   m.limiteCPU,
-    limiteRAM:   m.limiteRAM,
-    limiteDisco: m.limiteDisco
-  }));
+  }
+  const resultado = [];
+  const chaves = Object.keys(mapa);
+  for (let i = 0; i < chaves.length; i++) {
+    const m = mapa[chaves[i]];
+    resultado.push({
+      id: m.macAddress,
+      label: m.empresa || m.macAddress,
+      cpu: m.cpuUso,
+      ram: m.ramUso,
+      disco: m.discoUso,
+      alertaCPU: m.alertaCPU,
+      alertaRAM: m.alertaRAM,
+      alertaDisco: m.alertaDisco,
+      horario: m.horario,
+      limiteCPU: m.limiteCPU,
+      limiteRAM: m.limiteRAM,
+      limiteDisco: m.limiteDisco
+    });
+  }
+  return resultado;
 }
 
 function gerarTickets(maquinas) {
   const tickets = [];
-  maquinas.forEach(m => {
-    if (m.alertaCPU)
-      tickets.push({ id: `CPU-${m.id.slice(-5)}`, descricao: `CPU acima do limite — ${m.label}`, severidade: "Crítico", tempo: m.horario });
-    if (m.alertaRAM)
-      tickets.push({ id: `RAM-${m.id.slice(-5)}`, descricao: `RAM acima do limite — ${m.label}`, severidade: "Crítico", tempo: m.horario });
-    if (m.alertaDisco)
-      tickets.push({ id: `DSC-${m.id.slice(-5)}`, descricao: `Disco acima do limite — ${m.label}`, severidade: "Atenção", tempo: m.horario });
-  });
-  if (tickets.length === 0)
+  for (let i = 0; i < maquinas.length; i++) {
+    const m = maquinas[i];
+    if (m.alertaCPU) {
+      tickets.push({ id: "CPU-" + m.id.slice(-5), descricao: "CPU acima do limite — " + m.label, severidade: "Crítico", tempo: m.horario });
+    }
+    if (m.alertaRAM) {
+      tickets.push({ id: "RAM-" + m.id.slice(-5), descricao: "RAM acima do limite — " + m.label, severidade: "Crítico", tempo: m.horario });
+    }
+    if (m.alertaDisco) {
+      tickets.push({ id: "DSC-" + m.id.slice(-5), descricao: "Disco acima do limite — " + m.label, severidade: "Atenção", tempo: m.horario });
+    }
+  }
+  if (tickets.length === 0) {
     tickets.push({ id: "—", descricao: "Nenhum alerta ativo no momento", severidade: "Resolvido", tempo: "—" });
+  }
   return tickets;
 }
 
@@ -70,68 +88,89 @@ function nivelCor(pct) {
 function setStatus(ok) {
   const el = document.getElementById("s3-status");
   if (!el) return;
-  el.textContent = ok ? "● Dados S3 ao vivo" : "● Dados mockados";
-  el.style.color  = ok ? "#3B6D11" : "#854F0B";
+  
+  if (ok) {
+    el.textContent = "Dados S3";
+    el.style.color = "#3B6D11";
+  } else {
+    el.textContent = "Blablá";
+    el.style.color = "#854F0B";
+  }
 }
 
 function renderHeatmap(servidores) {
   const grid = document.getElementById("heatmap-grid");
   if (!grid) return;
-  const header = `<div class="hh"></div><div class="hh">CPU</div><div class="hh">RAM</div><div class="hh">Disco</div>`;
-  const rows = servidores.map(s => {
-    const cpu   = nivelCor(s.cpu);
-    const ram   = nivelCor(s.ram);
+  let html = '<div class="hh"></div><div class="hh">CPU</div><div class="hh">RAM</div><div class="hh">Disco</div>';
+  for (let i = 0; i < servidores.length; i++) {
+    const s = servidores[i];
+    const cpu = nivelCor(s.cpu);
+    const ram = nivelCor(s.ram);
     const disco = nivelCor(s.disco);
-    return `
-      <div class="hs">${s.label || s.id}</div>
-      <div class="hc ${cpu.cls}">${cpu.label}</div>
-      <div class="hc ${ram.cls}">${ram.label}</div>
-      <div class="hc ${disco.cls}">${disco.label}</div>`;
-  }).join("");
-  grid.innerHTML = header + rows;
+    html += '<div class="hs">' + (s.label || s.id) + '</div>';
+    html += '<div class="hc ' + cpu.cls + '">' + cpu.label + '</div>';
+    html += '<div class="hc ' + ram.cls + '">' + ram.label + '</div>';
+    html += '<div class="hc ' + disco.cls + '">' + disco.label + '</div>';
+  }
+  grid.innerHTML = html;
 }
 
 function renderCVEs(cves) {
   const el = document.getElementById("cve-list");
   if (!el) return;
   if (!cves || cves.length === 0) {
-    el.innerHTML = `<tr><td colspan="6" style="color:#7a92b0;text-align:center;padding:20px;">Nenhuma CVE no momento</td></tr>`;
+    el.innerHTML = '<tr><td colspan="6" style="color:#7a92b0;text-align:center;padding:20px;">Nenhuma CVE no momento</td></tr>';
     return;
   }
-  const barW  = cvss => Math.round(cvss / 10 * 36);
-  const barCl = cvss => cvss >= 9 ? "var(--red)"        : "var(--amber)";
-  const numCl = cvss => cvss >= 9 ? "var(--red-text)"   : "var(--amber-text)";
-  const srvCl = cvss => cvss >= 9 ? "pill-crit"         : "pill-warn";
-  const stCl  = st   => st === "Em teste" ? "pill-purple" : "pill-crit";
-  el.innerHTML = cves.map(c => `
-    <tr>
-      <td><span class="cve-id">${c.id}</span></td>
-      <td><div class="cvss-wrap">
-        <div class="cvss-bar" style="width:${barW(c.cvss)}px;background:${barCl(c.cvss)}"></div>
-        <span class="cvss-num" style="color:${numCl(c.cvss)}">${c.cvss}</span>
-      </div></td>
-      <td>${c.componente}</td>
-      <td><span class="pill ${srvCl(c.cvss)}">${c.servidores.join(", ")}</span></td>
-      <td><span class="pill ${stCl(c.status)}">${c.status}</span></td>
-      <td style="color:var(--text-tertiary);font-size:11px">${c.diasAberto}d</td>
-    </tr>`).join("");
+  let html = '';
+  for (let i = 0; i < cves.length; i++) {
+    const c = cves[i];
+    const barW = Math.round(c.cvss / 10 * 36);
+    const critico = c.cvss >= 9;
+    const barCor = critico ? "#f43f5e" : "#fbbf24";
+    const numCor = critico ? "#f87171" : "#fde68a";
+    const srvCl = critico ? "pill-crit" : "pill-warn";
+    const stCl = c.status === "Em teste" ? "pill-purple" : "pill-crit";
+    html += '<tr>';
+    html += '<td><span class="cve-id">' + c.id + '</span></td>';
+    html += '<td><div class="cvss-wrap"><div class="cvss-bar" style="width:' + barW + 'px;background:' + barCor + '"></div><span class="cvss-num" style="color:' + numCor + '">' + c.cvss + '</span></div></td>';
+    html += '<td>' + c.componente + '</td>';
+    html += '<td><span class="pill ' + srvCl + '">' + c.servidores.join(", ") + '</span></td>';
+    html += '<td><span class="pill ' + stCl + '">' + c.status + '</span></td>';
+    html += '<td style="color:#5a7a9c;font-size:11px">' + c.diasAberto + 'd</td>';
+    html += '</tr>';
+  }
+  el.innerHTML = html;
 }
 
 function renderTickets(tickets) {
   const el = document.getElementById("ticket-list");
   if (!el) return;
-  const cls = s => s === "Crítico" ? "pill-crit" : s === "Atenção" ? "pill-warn" : "pill-ok";
-  el.innerHTML = tickets.map(t => `
-    <div class="ticket-row">
-      <div class="tid">${t.id}</div>
-      <div class="tdesc">${t.descricao}</div>
-      <span class="pill ${cls(t.severidade)}">${t.severidade}</span>
-      <div class="tage">${typeof t.tempo === 'string' ? t.tempo : 'agora'}</div>
-    </div>`).join("");
+  let html = '';
+  for (let i = 0; i < tickets.length; i++) {
+    const t = tickets[i];
+    let cls = "pill-ok";
+    if (t.severidade === "Crítico") cls = "pill-crit";
+    else if (t.severidade === "Atenção") cls = "pill-warn";
+    const tempo = typeof t.tempo === 'string' ? t.tempo : 'agora';
+    html += '<div class="ticket-row">';
+    html += '<div class="tid">' + t.id + '</div>';
+    html += '<div class="tdesc">' + t.descricao + '</div>';
+    html += '<span class="pill ' + cls + '">' + t.severidade + '</span>';
+    html += '<div class="tage">' + tempo + '</div>';
+    html += '</div>';
+  }
+  el.innerHTML = html;
 }
 
 function renderKPIs(data) {
-  const criticas = (data.cves || []).filter(c => c.cvss >= 9 && c.status !== "Resolvido").length;
+  let criticas = 0;
+  const cves = data.cves || [];
+  for (let i = 0; i < cves.length; i++) {
+    if (cves[i].cvss >= 9 && cves[i].status !== "Resolvido") {
+      criticas++;
+    }
+  }
   const el = document.getElementById("kpi-cves");
   if (el) el.textContent = criticas;
   const el2 = document.getElementById("kpi-cves2");
@@ -144,10 +183,10 @@ function renderKPIs(data) {
 }
 
 async function carregarDados() {
-  const elRisco    = document.getElementById("kpi-risco");
-  const elAlertas  = document.getElementById("kpi-alertas");
-  const elServs    = document.getElementById("kpi-servidores");
-  const elStatus   = document.getElementById("last-update");
+  const elRisco = document.getElementById("kpi-risco");
+  const elAlertas = document.getElementById("kpi-alertas");
+  const elServs = document.getElementById("kpi-servidores");
+  const elStatus = document.getElementById("last-update");
 
   if (!S3_API_ENDPOINT) {
     renderHeatmap(MOCK_DATA.servidores);
@@ -165,16 +204,19 @@ async function carregarDados() {
     const res = await fetch(S3_API_ENDPOINT, { cache: "no-cache" });
     if (!res.ok) throw new Error("HTTP " + res.status);
 
-    const raw      = await res.json();
+    const raw = await res.json();
     const maquinas = agruparPorMaquina(raw);
-    const risco    = scoreAmbiente(maquinas);
-    const tickets  = gerarTickets(maquinas);
-    const criticos = tickets.filter(t => t.severidade === "Crítico").length;
+    const risco = scoreAmbiente(maquinas);
+    const tickets = gerarTickets(maquinas);
+    let criticos = 0;
+    for (let i = 0; i < tickets.length; i++) {
+      if (tickets[i].severidade === "Crítico") criticos++;
+    }
 
-    if (elRisco)   elRisco.textContent   = risco;
+    if (elRisco) elRisco.textContent = risco;
     if (elAlertas) elAlertas.textContent = criticos;
-    if (elServs)   elServs.textContent   = maquinas.length;
-    if (elStatus)  elStatus.textContent  = "Atualizado: " + new Date().toLocaleString("pt-BR");
+    if (elServs) elServs.textContent = maquinas.length;
+    if (elStatus) elStatus.textContent = "Atualizado: " + new Date().toLocaleString("pt-BR");
 
     renderHeatmap(maquinas);
     renderTickets(tickets);
@@ -194,7 +236,6 @@ async function carregarDados() {
   }
 }
 
-// ── Mock Data ─────────────────────────────────
 const MOCK_DATA = {
   atualizado: "2026-05-08T09:42:00Z",
   servidores: [
@@ -224,39 +265,77 @@ const MOCK_DATA = {
 carregarDados();
 setInterval(carregarDados, REFRESH_INTERVAL_MS);
 
-
-const labels7=['02/mai','03/mai','04/mai','05/mai','06/mai','07/mai','08/mai'];
-new Chart(document.getElementById('trendChart'),{
+const labels7 = ['02/mai','03/mai','04/mai','05/mai','06/mai','07/mai','08/mai'];
+new Chart(document.getElementById('trendChart'), {
   type:'bar',
-  data:{labels:labels7,datasets:[
-    {type:'line',label:'CPU',data:[62,65,71,78,80,83,84],borderColor:'#378ADD',borderWidth:2,pointRadius:3,fill:false,tension:.35,yAxisID:'y'},
-    {type:'line',label:'RAM',data:[64,66,68,69,71,70,72],borderColor:'#1D9E75',borderWidth:2,pointRadius:3,fill:false,tension:.35,borderDash:[5,3],yAxisID:'y'},
-    {type:'line',label:'Disco',data:[48,52,55,59,63,67,70],borderColor:'#BA7517',borderWidth:2,pointRadius:3,fill:false,tension:.35,borderDash:[2,2],yAxisID:'y'},
-    {type:'line',label:'Limiar',data:Array(7).fill(85),borderColor:'#E24B4A',borderWidth:1.5,borderDash:[6,4],pointRadius:0,fill:false,yAxisID:'y'},
-    {type:'bar',label:'Novas CVEs',data:[1,0,2,1,3,2,3],backgroundColor:'rgba(83,74,183,0.22)',borderColor:'#534AB7',borderWidth:1,yAxisID:'y2',borderRadius:3}
-  ]},
-  options:{responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+(ctx.dataset.yAxisID==='y2'?ctx.parsed.y+' CVEs':ctx.parsed.y+'%')}}},
-    scales:{
-      x:{ticks:{font:{size:11},color:'#888'},grid:{display:false}},
-      y:{min:20,max:100,ticks:{font:{size:11},color:'#888',stepSize:20,callback:v=>v+'%'},grid:{color:'rgba(0,0,0,0.05)'},position:'left'},
-      y2:{min:0,max:6,ticks:{font:{size:11},color:'#aaa',stepSize:2,callback:v=>Math.round(v)},grid:{display:false},position:'right'}
-    }}
+  data: {
+    labels: labels7,
+    datasets: [
+      { type:'line', label:'CPU', data:[62,65,71,78,80,83,84], borderColor:'#378ADD', borderWidth:2, pointRadius:3, fill:false, tension:.35, yAxisID:'y' },
+      { type:'line', label:'RAM', data:[64,66,68,69,71,70,72], borderColor:'#1D9E75', borderWidth:2, pointRadius:3, fill:false, tension:.35, borderDash:[5,3], yAxisID:'y' },
+      { type:'line', label:'Disco', data:[48,52,55,59,63,67,70], borderColor:'#BA7517', borderWidth:2, pointRadius:3, fill:false, tension:.35, borderDash:[2,2], yAxisID:'y' },
+      { type:'line', label:'Limiar', data:[85,85,85,85,85,85,85], borderColor:'#E24B4A', borderWidth:1.5, borderDash:[6,4], pointRadius:0, fill:false, yAxisID:'y' },
+      { type:'bar', label:'Novas CVEs', data:[1,0,2,1,3,2,3], backgroundColor:'rgba(83,74,183,0.22)', borderColor:'#534AB7', borderWidth:1, yAxisID:'y2', borderRadius:3 }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: function(ctx) {
+            if (ctx.dataset.yAxisID === 'y2') {
+              return ctx.dataset.label + ': ' + ctx.parsed.y + ' CVEs';
+            }
+            return ctx.dataset.label + ': ' + ctx.parsed.y + '%';
+          }
+        }
+      }
+    },
+    scales: {
+      x: { ticks: { font: { size:11 }, color:'#888' }, grid: { display:false } },
+      y: { min:20, max:100, ticks: { font: { size:11 }, color:'#888', stepSize:20, callback: function(v) { return v + '%'; } }, grid: { color:'rgba(0,0,0,0.05)' }, position:'left' },
+      y2: { min:0, max:6, ticks: { font: { size:11 }, color:'#aaa', stepSize:2, callback: function(v) { return Math.round(v); } }, grid: { display:false }, position:'right' }
+    }
+  }
 });
 
-new Chart(document.getElementById('cveTrend'),{
+new Chart(document.getElementById('cveTrend'), {
   type:'bar',
-  data:{labels:['Nov','Dez','Jan','Fev','Mar','Abr'],datasets:[
-    {label:'Críticas',data:[2,1,2,3,4,5],backgroundColor:'#E24B4A',borderWidth:0},
-    {label:'Altas',data:[4,3,4,5,6,8],backgroundColor:'#EF9F27',borderWidth:0},
-    {label:'Médias',data:[5,4,5,6,5,7],backgroundColor:'#85B7EB',borderWidth:0}
-  ]},
-  options:{responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.parsed.y+' CVEs'}}},
-    scales:{
-      x:{stacked:true,ticks:{font:{size:11},color:'#888'},grid:{display:false}},
-      y:{stacked:true,ticks:{font:{size:11},color:'#888',stepSize:5,callback:v=>Math.round(v)},grid:{color:'rgba(0,0,0,0.05)'}}
-    }}
+  data: {
+    labels: ['Nov','Dez','Jan','Fev','Mar','Abr'],
+    datasets: [
+      { label:'Críticas', data:[2,1,2,3,4,5], backgroundColor:'#E24B4A', borderWidth:0 },
+      { label:'Altas', data:[4,3,4,5,6,8], backgroundColor:'#EF9F27', borderWidth:0 },
+      { label:'Médias', data:[5,4,5,6,5,7], backgroundColor:'#85B7EB', borderWidth:0 }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: function(ctx) {
+            return ctx.dataset.label + ': ' + ctx.parsed.y + ' CVEs';
+          }
+        }
+      }
+    },
+    scales: {
+      x: { stacked:true, ticks: { font: { size:11 }, color:'#888' }, grid: { display:false } },
+      y: { stacked:true, ticks: { font: { size:11 }, color:'#888', stepSize:5, callback: function(v) { return Math.round(v); } }, grid: { color:'rgba(0,0,0,0.05)' } }
+    }
+  }
 });
 
-function setPeriod(btn){btn.closest('.period-group').querySelectorAll('.pbtn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+function setPeriod(btn) {
+  const botoes = btn.parentElement.querySelectorAll('.pbtn');
+  for (let i = 0; i < botoes.length; i++) {
+    botoes[i].classList.remove('active');
+  }
+  btn.classList.add('active');
+}
