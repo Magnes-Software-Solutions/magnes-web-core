@@ -145,7 +145,6 @@
 }
 
 .divAuxiliar {
-    width: 28%;
 }
 
 .cardMaquina {
@@ -843,10 +842,6 @@
     }
 }
 
-#maquina {
-    width: fit-content;
-}
-
 .macAddressCard {
     font-size: 24px;
     color: white;
@@ -990,4 +985,13 @@ a {
 
 .corAzul {
     color: #00d4f9 !important
+}
+
+.tabela-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    justify-self: center;
+    padding: 10px 40px;
 }
