@@ -20,22 +20,91 @@ async function carregarDados() {
 
 function classificarCor(componente, variavel, valor) {
     if (variavel == "status") {
+        var itens = document.querySelectorAll(`#uso_${componente}`);
+
         if (valor == "Estável") {
-            var itens = document.querySelectorAll(`#statusComponente${componente}`);
-            var cor = ".corVerde"
+            var cor = "corVerde";
+
+        } else if (valor == "Anormal") {
+            var cor = "corAmarelo";
+
+        }else if (valor == "Crítico") {
+            var cor = "corVermelho";
 
         } else {
-            var itens = document.querySelectorAll(`#statusComponente${componente}`);
-            var cor = ".corVermelho"
+            var cor = "corAzul";
         }
 
-    } else {
+    } else if (variavel == "oscilacao") {
+        var itens = document.querySelectorAll(`#oscilacao_${componente}`);
 
+        if (valor == "Baixa (abaixo que 1σ)") {
+            var cor = "corVerde";
+
+        } else if (valor == "Média (entre 1σ e 2σ)") {
+            var cor = "corAmarelo";
+
+        } else if (valor == "Alta  (entre 2σ e 3σ)") {
+            var cor = "corLaranja";
+
+        } else if (valor == "Severa (acima de 3σ)") {
+            var cor = "corVermelho";
+
+        } else {
+            var cor = "corAzul";
+        }
+
+    } else if (variavel == "degradacao") {
+        var itens = document.querySelectorAll(`#ultimas2h_${componente}`);
+
+        if (valor == "Recuperação") {
+            var cor = "corVerde";
+
+        } else if (valor == "Degradação Média") {
+            var cor = "corAmarelo";
+
+        }else if (valor == "Degradação Alta") {
+            var cor = "corVermelho";
+
+        } else {
+            var cor = "corAzul";
+        }
+
+    } else if (variavel == "previsao100") {
+        var itens = document.querySelectorAll(`#criticidade_${componente}`);
+
+        if (valor == "Sem previsão") {
+            var cor = "corAzul";
+
+        } else {
+            var cor = "corVermelho";
+        }
     }
 
     itens.forEach(item => {
         item.classList.add(cor);
     });
+}
+
+function chamarCor(elemento) {
+    var componentes = ["cpu", "ram"];
+    var variaveis = ["status", "oscilacao", "degradacao", "previsao100"];
+    // var status = ["Estável", "Anormal", "Crítico", "Baixa (abaixo que 1σ)", "Média (entre 1σ e 2σ)", "Alta  (entre 2σ e 3σ)", ]
+
+    for (let componente of componentes) {
+        for (let variavel of variaveis) {
+            let valor
+
+            if (variavel == "previsao100") {
+                valor = elemento[componente].previsao.previsao100;
+
+            } else {
+                valor = elemento[componente][variavel];
+            }
+
+            classificarCor(componente, variavel, valor);
+        }
+    }
 }
 
 async function exibirMRI(registro) {
@@ -68,7 +137,7 @@ async function exibirMRI(registro) {
                         <div class="dialog-tituloComponente">
                             <p class="tituloComponente">CPU</p>
                             <div id="statusCpu" class="status statusVerde">
-                                <p id="statusComponenteCpu">${maquina.cpu.status}</p>
+                                <p id="statusComponente_cpu">${maquina.cpu.status}</p>
                             </div>
                         </div>
                         <div class="graficos">
@@ -80,15 +149,15 @@ async function exibirMRI(registro) {
                                 <div class="informacoes">
                                     <div class="dialogComponentes-corpo">
                                         <p>Uso Atual:</p>&nbsp
-                                        <p id="cpuPorc" class="client">${maquina.cpu.uso}% (${maquina.cpu.status})</p>
+                                        <p id="uso_cpu" class="client">${maquina.cpu.uso}% (${maquina.cpu.status})</p>
                                     </div>
                                     <div class="dialogComponentes-corpo">
                                         <p>Limite Crítico:</p>&nbsp
-                                        <p id="limiteCritico" class="client">${maquina.cpu.limite}%</p>
+                                        <p id="limiteCritico" class="client corAzul">${maquina.cpu.limite}%</p>
                                     </div>
                                     <div class="dialogComponentes-corpo">
                                         <p>Oscilação:</p>&nbsp
-                                        <p id="oscilacaoCpu" class="client">${maquina.cpu.oscilacao}</p>
+                                        <p id="oscilacao_cpu" class="client">${maquina.cpu.oscilacao}</p>
                                     </div>
                                 </div>
                             </div>
@@ -100,11 +169,11 @@ async function exibirMRI(registro) {
                                 <div class="informacoes">
                                     <div class="dialogComponentes-corpo">
                                         <p>Últimas 2 horas:</p>&nbsp
-                                        <p id="ultimas2hCpu" class="client">${maquina.cpu.degradacao}</</p>
+                                        <p id="ultimas2h_cpu" class="client">${maquina.cpu.degradacao}</</p>
                                     </div>
                                     <div class="dialogComponentes-corpo">
                                         <p>Horário de previsão de criticidade:</p>&nbsp
-                                        <p id="criticidadeCpu" class="client">${maquina.cpu.previsao.previsao100}</p>
+                                        <p id="criticidade_cpu" class="client">${maquina.cpu.previsao.previsao100}</p>
                                     </div>
                                 </div>
                             </div>
@@ -114,7 +183,7 @@ async function exibirMRI(registro) {
                         <div class="dialog-tituloComponente">
                             <p class="tituloComponente">RAM</p>
                             <div id="statusRam" class="status statusVerde">
-                                <p id="statusComponenteRam">${maquina.ram.status}</p>
+                                <p id="statusComponente_ram">${maquina.ram.status}</p>
                             </div>
                         </div>
                         <div class="graficos">
@@ -126,15 +195,15 @@ async function exibirMRI(registro) {
                                 <div class="informacoes">
                                     <div class="dialogComponentes-corpo">
                                         <p>Uso Atual:</p>&nbsp
-                                        <p id="ramPorc" class="client">${maquina.ram.uso}% (${maquina.ram.status})</p>
+                                        <p id="uso_ram" class="client">${maquina.ram.uso}% (${maquina.ram.status})</p>
                                     </div>
                                     <div class="dialogComponentes-corpo">
                                         <p>Limite Crítico:</p>&nbsp
-                                        <p id="limiteCritico" class="client">${maquina.ram.limite}%</p>
+                                        <p id="limiteCritico" class="client corAzul">${maquina.ram.limite}%</p>
                                     </div>
                                     <div class="dialogComponentes-corpo">
                                         <p>Oscilação:</p>&nbsp
-                                        <p id="oscilacaoRam" class="client">${maquina.ram.oscilacao}</p>
+                                        <p id="oscilacao_ram" class="client">${maquina.ram.oscilacao}</p>
                                     </div>
                                 </div>
                             </div>
@@ -146,11 +215,11 @@ async function exibirMRI(registro) {
                                 <div class="informacoes">
                                     <div class="dialogComponentes-corpo">
                                         <p>Últimas 2 horas:</p>&nbsp
-                                        <p id="ultimas2hRam" class="client">${maquina.ram.degradacao}</p>
+                                        <p id="ultimas2h_ram" class="client">${maquina.ram.degradacao}</p>
                                     </div>
                                     <div class="dialogComponentes-corpo">
                                         <p>Horário de previsão de criticidade:</p>&nbsp
-                                        <p id="criticidadeRam" class="client">${maquina.ram.previsao.previsao100}</p>
+                                        <p id="criticidade_ram" class="client">${maquina.ram.previsao.previsao100}</p>
                                     </div>
                                 </div>
                             </div>
@@ -181,23 +250,23 @@ async function exibirMRI(registro) {
                                             <img src="../assets/imgs/cpu.svg" alt="">&nbsp &nbsp
                                             <h9>CPU</p>
                                         </div>
-                                        <p id="cpuPorc">${maquina.cpu.uso}%</p>
+                                        <p id="uso_cpu">${maquina.cpu.uso}%</p>
                                         <div id="statusCpu" class="status statusVerde">
-                                            <p id="statusComponenteCpu">${maquina.cpu.status}</p>
+                                            <p id="statusComponente_cpu">${maquina.cpu.status}</p>
                                         </div>
                                     </div>
                                     <div>
                                         <div class="componentes-corpo">
                                             <p>Oscilação:</p>&nbsp
-                                            <p id="oscilacaoCpu" class="client">${maquina.cpu.oscilacao}</p>
+                                            <p id="oscilacao_cpu" class="client">${maquina.cpu.oscilacao}</p>
                                         </div>
                                         <div class="componentes-corpo">
                                             <p>Últimas 2 horas:</p>&nbsp
-                                            <p id="ultimas2hCpu" class="client">${maquina.cpu.degradacao}</p>
+                                            <p id="ultimas2h_cpu" class="client">${maquina.cpu.degradacao}</p>
                                         </div>
                                         <div class="componentes-corpo">
                                             <p>Previsão criticidade:</p>&nbsp
-                                            <p id="criticidadeCpu" class="client">${maquina.cpu.previsao.previsao100}</p>
+                                            <p id="criticidade_cpu" class="client">${maquina.cpu.previsao.previsao100}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -208,23 +277,23 @@ async function exibirMRI(registro) {
                                             <img src="../assets/imgs/memory.svg" alt="">&nbsp &nbsp
                                             <h9>RAM</p>
                                         </div>
-                                        <p id="ramPorc">${maquina.ram.uso}%</p>
+                                        <p id="uso_ram">${maquina.ram.uso}%</p>
                                         <div id="statusRam" class="status statusVerde">
-                                            <p id="statusComponenteRam">${maquina.ram.status}</p>
+                                            <p id="statusComponente_ram">${maquina.ram.status}</p>
                                         </div>
                                     </div>
                                     <div>
                                         <div class="componentes-corpo">
                                             <p>Oscilação:</p>&nbsp
-                                            <p id="oscilacaoRam" class="client">${maquina.ram.oscilacao}</p>
+                                            <p id="oscilacao_ram" class="client">${maquina.ram.oscilacao}</p>
                                         </div>
                                         <div class="componentes-corpo">
                                             <p>Últimas 2 horas:</p>&nbsp
-                                            <p id="ultimas2hRam" class="client">${maquina.ram.degradacao}</p>
+                                            <p id="ultimas2h_ram" class="client">${maquina.ram.degradacao}</p>
                                         </div>
                                         <div class="componentes-corpo">
                                             <p>Previsão criticidade:</p>&nbsp
-                                            <p id="criticidadeRam" class="client">${maquina.ram.previsao.previsao100}</p>
+                                            <p id="criticidade_ram" class="client">${maquina.ram.previsao.previsao100}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -237,7 +306,7 @@ async function exibirMRI(registro) {
             </div>
         `;
 
-        classificarCor("Cpu", "status", maquina.status)
+        chamarCor(maquina)
     });
 }
 
