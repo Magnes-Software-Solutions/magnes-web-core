@@ -12,7 +12,7 @@ class NVDIntegration {
     this.lastFetch = null;
   }
 
-  async fetchCVEs(keywords = ['linux', 'kernel', 'openssl', 'apache', 'windows']) {
+  async fetchCVEs(keywords = ['ubuntu', 'mysql', 'node.js']) {
     try {
       const url = new URL(NVD_CONFIG.BASE_URL, window.location.origin);
 
@@ -74,23 +74,19 @@ class CVEProcessor {
 
   mapToComponent(cpeProduct) {
     const mapping = {
-      'linux:linux_kernel': 'Kernel Linux',
-      'openssl:openssl': 'OpenSSL',
-      'gnu:glibc': 'glibc',
-      'apache:http_server': 'Apache HTTP',
-      'microsoft:windows': 'Windows Server'
-    };
+  'canonical:ubuntu_linux': 'Ubuntu',
+  'mysql:mysql': 'MySQL',
+  'nodejs:node.js': 'Node.js'
+};
     return mapping[cpeProduct] || cpeProduct.split(':').pop()?.replace(/_/g, ' ') || 'Unknown';
   }
 
   matchToServers(products) {
     const serverMapping = {
-      'Kernel Linux': ['SRV-01', 'SRV-02', 'SRV-05'],
-      'OpenSSL': ['SRV-01', 'SRV-02'],
-      'Apache HTTP': ['SRV-03', 'SRV-04'],
-      'Windows Server': ['SRV-06'],
-      'glibc': ['SRV-02']
-    };
+  'Ubuntu': ['SRV-01', 'SRV-02', 'SRV-05'],
+  'MySQL': ['SRV-03', 'SRV-04'],
+  'Node.js': ['SRV-02', 'SRV-04']
+};
 
     const affectedServers = new Set();
     products.forEach(product => {
