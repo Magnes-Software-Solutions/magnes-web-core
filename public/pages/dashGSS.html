@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="../bootstrap-5.3.8-dist/css/bootstrap.css" />
+  <link rel="stylesheet" href="../css/dashSupervisor.css" />
+  <link rel="stylesheet" href="../css/dashGestor.css" />
+  <link rel="stylesheet" href="../css/dashAnalista.css" />
+
+  <link rel="shortcut icon" href="../assets/imgs/Logo.png" type="image/x-icon" />
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <title>Dashboard supervisor | Magnes</title>
+</head>
+
+<body style="background-color: #0a1628;">
+  <dialog id="dialogEmpesa" class="dialogEmpesa">
+
+    <h2>
+      Selecione a rede hospitalar
+    </h2>
+
+    <div class="select_redeEmpresa">
+
+      <select id="select_rede" class="form-select">
+
+        <option value="" disabled selected>
+          Selecione a rede hospitalar
+        </option>
+
+      </select>
+
+      <button class='botaoDialog' onclick='fecharDialog()'>Entrar</button>
+
+
+
+    </div>
+
+  </dialog>
+
+
+  <nav class="navbar fixed-top navBarTop">
+    <div class="container-fluid">
+      <img src="../assets/imgs/Logo.png" alt="" width="5%" height="85%">
+      <div class="titulo">
+        <p class="tituloLogo">MAGNES</p>
+        <p class="textoLogo">WORKSTATION MONITOR</p>
+      </div>
+      <button class="botaoAlterarRede" onclick="document.getElementById('dialogEmpesa').showModal();">
+        Alterar rede hospitalar
+      </button>
+      <button class="navbar-toggler navBarToggler" type="button" data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon navBarTogglerIcon"></span>
+      </button>
+      <div class="offcanvas offcanvas-end offCanvas" tabindex="-1" id="offcanvasNavbar"
+        aria-labelledby="offcanvasNavbarLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title offCanvasTitle" id="offcanvasNavbarLabel">MAGNES</h5>
+          <button type="button" class="btn-close offCanvasButton" data-bs-dismiss="offcanvas"
+            aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body offcanvasBody">
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 navBarNav">
+            <li class="nav-item navLi" onclick="window.location.href='dashAnalistaGestor.html'">
+              <img src="../assets/imgs/dashboard.svg" alt="Simbolo de Dashboard">
+              <a class="nav-link">Dashboard</a>
+            </li>
+            <li class="nav-item navLi navLiActive" onclick="window.location.href='dashBoardGSS.html'">
+              <img src="../assets/imgs/dashboard.svg" alt="" class="navItemIcon" />
+              <a class="nav-link">Dashboard supervisor</a>
+            </li>
+            <li class="nav-item navLi" onclick="window.location.href='dashGestor.html'">
+              <img src="../assets/imgs/bar.svg" alt="" class="navItemIcon" />
+              <a class="nav-link">Relatório</a>
+            </li>
+            <li class="nav-item navLi" onclick="window.location.href='cadastroAnalista.html'">
+              <img src="../assets/imgs/person.svg" alt="" class="navItemIcon" />
+              <a class="nav-link">Cadastrar Analista</a>
+            </li>
+            <li class="nav-item navLi" onclick="window.location.href='cadastroMaquina.html'">
+              <img src="../assets/imgs/build.svg" alt="" class="navItemIcon" />
+              <a class="nav-link">Cadastrar Máquina</a>
+            </li>
+            <li class="nav-item navLi navLiLogout" onclick="limparSessao()">
+              <img src="../assets/imgs/box-arrow-left.svg" alt="" class="navItemIcon" />
+              <a class="nav-link">Logout</a>
+            </li>
+          </ul>
+        </div>
+        <div class="offcanvas-header perfil" onclick="window.location.href='dashUsuarioGestor.html'">
+          <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Simbolo de perfil">
+          <div class="textosPerfil">
+            <h5 class="offcanvas-title" id="spanNome">(nome do banco)</h5>
+            <p id="cargoUsuarioNav">(cargo do banco)</p>
+          </div>
+          <img class="perfilConfig" src="../assets/imgs/gear.svg" alt="Simbolo de configurações">
+        </div>
+      </div>
+    </div>
+
+  </nav>
+  <div style="display: none;" id="paginaInteira_div">
+    <h2 class="tituloCorpo">Workstations Monitoradas</h2>
+
+    <div class="kpi-row">
+
+      <div class="kpi-card total">
+        <div class="kpi-label">TOTAL DE WORKSTATIONS</div>
+        <div class="kpi-value total" id="total_workstations">0</div>
+        <div class="kpi-trend" style="color: white;"><b> Dispositivos monitorados</b></div>
+        <div class="ajuda-container">
+          <span onclick="document.getElementById('dialogLegenda').showModal();" class="icone-interrogacao">?</span>
+          <div class="caixa-informacao">
+
+          </div>
+        </div>
+      </div>
+
+      <div class="kpi-card normal">
+        <div class="kpi-label">WORKSTATIONS ESTÁVEIS</div>
+        <div class="kpi-value normal" id="normal_workstations">0</div>
+        <div class="kpi-trend" style="color: white;"><b>Operando normalmente</b></div>
+        <div class="ajuda-container">
+          <span onclick="document.getElementById('dialogLegendaEstaveis').showModal();"
+            class="icone-interrogacao">?</span>
+          <div class="caixa-informacao">
+
+          </div>
+        </div>
+      </div>
+
+      <div class="kpi-card warning">
+        <div class="kpi-label">WORKSTATIONS EM ALERTA</div>
+        <div class="kpi-value warning" id="warning_workstations">0</div>
+        <div class="kpi-trend" style="color: white; "><b>Requer atenção</b></div>
+        <div class="ajuda-container">
+          <span onclick="document.getElementById('dialogLegendaAlerta').showModal();"
+            class="icone-interrogacao">?</span>
+          <div class="caixa-informacao">
+
+          </div>
+        </div>
+      </div>
+
+      <div class="kpi-card danger">
+        <div class="kpi-label">WORKSTATIONS CRÍTICAS</div>
+        <div class="kpi-value danger" id="critical_workstations">0</div>
+        <div class="kpi-trend" style="color: white; "><b>Intervenção imediata</b></div>
+        <div style="margin-top: 10px;" class="ajuda-container">
+          <p id="maquina_critica"></p>
+          <span onclick="document.getElementById('dialogLegendaCritica').showModal();"
+            class="icone-interrogacao">?</span>
+          <div class="caixa-informacao">
+
+          </div>
+        </div>
+      </div>
+
+      <!-- DIalog de legenda - Total -->
+
+      <dialog id="dialogLegenda" class="dialogLegenda">
+        <button class='botaoDialogLegenda' onclick='document.getElementById("dialogLegenda").close()'>X</button>
+        <h3>
+          Indicadores de Status das Workstations
+        </h3>
+
+        <p>
+          Os KPIs acima representam o estado atual das máquinas monitoradas pela plataforma MAGNES.
+          As workstations são classificadas automaticamente com base no uso de CPU, memória RAM
+          e disco, permitindo identificar rapidamente dispositivos estáveis, em alerta ou críticos.
+        </p>
+
+
+    </div>
+
+    </dialog>
+
+    <!-- Dialog de legenda - Alerta -->
+    <dialog id="dialogLegendaAlerta" class="dialogLegendaAlerta">
+      <button class='botaoDialogAlerta' onclick='document.getElementById("dialogLegendaAlerta").close()'>X</button>
+      <h3>Workstations em Alerta</h3>
+
+      <p>
+        Máquinas com uso acima de 70% em pelo menos um recurso
+        (CPU, RAM ou Disco), exigindo atenção preventiva.
+      </p>
+
+
+  </div>
+
+  </dialog>
+  <!-- Dialog de legenda - Estaveis -->
+  <dialog id="dialogLegendaEstaveis" class="dialogLegendaEstaveis">
+    <button class='botaoDialogEstaveis' onclick='document.getElementById("dialogLegendaEstaveis").close()'>X</button>
+
+    <h3>Workstations Estáveis</h3>
+
+    <p>
+      Máquinas com uso de CPU, RAM e Disco abaixo de 70%,
+      operando normalmente sem riscos imediatos.
+    </p>
+
+
+    </div>
+
+  </dialog>
+  <!-- Dialog de legenda - Critica -->
+  <dialog id="dialogLegendaCritica" class="dialogLegendaCritica">
+    <button class='botaoDialogCritica' onclick='document.getElementById("dialogLegendaCritica").close()'>X</button>
+    <h3>Workstations Críticas</h3>
+
+    <p>
+      Máquinas com uso acima de 90% em CPU, RAM ou Disco,
+      apresentando alto risco de falha ou indisponibilidade.
+    </p>
+
+
+    
+
+
+    </div>
+
+  </dialog>
+
+
+
+
+  <div class="conteudo">
+
+    <div class="alertas">
+      <h2>Alertas</h2>
+      <div id="lista_alertas" data-options="option1:value;option2:value"></div>
+      <a href="" class="ver-jira" onclick="linkJira()">
+        Ver todos os alertas no Jira
+      </a>
+
+    </div>
+    <div class="area-grafico">
+
+      <div class="pesquisa-end" id="pesquisa_end">
+
+        <h2>Pesquisa avançada por máquina</h2>
+
+        <select onchange="selecionarMaquina()" id="select_workstation" class="form-select">
+
+          <option value="" disabled selected>
+            Selecione a workstation
+          </option>
+
+        </select>
+
+      </div>
+
+      <div style="display: none;" class="graficos">
+
+        <p id="nome_maquina_titulo"></p>
+
+        <canvas id="grafico"></canvas>
+
+      </div>
+
+    </div>
+
+
+
+    <div class="risco">
+      <h2>Risco de Falha</h2>
+      <p id="maquina_nome"></p>
+      <canvas id="graficoRisco"></canvas>
+      <p>Principais fatores de risco</p>
+      <div id="fatores_risco"></div>
+    </div>
+
+  </div>
+  </div>
+
+
+
+  </div>
+
+  </div>
+  <script src="https://connect-cdn.atl-paas.net/all.js"></script>
+  <script src="../bootstrap-5.3.8-dist/js/bootstrap.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="../services/api.js"></script>
+  <script src="../services/maquinaService.js"></script>
+  <script src="../js/sessao.js"></script>
+  <script src="../js/relatorio.js"></script>
+  <script>
+
+    var hospitalSelecionado = null;
+    var maquinaSelecionada = null;
+
+    function linkJira() {
+      window.open(
+        "https://sptech-team-zx1nvla7.atlassian.net/jira/software/projects/KAN/list?jql=project%20%3D%20KAN%20ORDER%20BY%20cf%5B10019%5D%20ASC",
+        "_blank"
+      );
+    }
+
+    // Alertas do Jira via proxy no backend
+    async function receberAlertasJira() {
+      var listaAlertas = document.getElementById("lista_alertas");
+      listaAlertas.innerHTML = "";
+
+      try {
+        var resposta = await fetch("http://localhost:3333/jira-alertas");
+        var dados = await resposta.json();
+
+        console.log("DEBUG ALERTAS:", dados);
+
+        var issues = dados.issues || [];
+
+        if (issues.length == 0) {
+          listaAlertas.innerHTML = "<p>Nenhum alerta encontrado</p>";
+          return;
+        }
+
+        for (var i = 0; i < issues.length; i++) {
+          var ticket = issues[i];
+
+          listaAlertas.innerHTML +=
+            "<div class='alerta'><p>" +
+            ticket.key + " - " + ticket.fields.summary +
+            "</p></div>";
+        }
+
+      } catch (err) {
+        console.log(err);
+        listaAlertas.innerHTML = "<p>Erro ao carregar alertas</p>";
+      }
+    }
+
+    // Seleciona uma máquina e recarrega os dados
+    function selecionarMaquina() {
+      maquinaSelecionada = document.getElementById("select_workstation").value;
+      carregarDados();
+
+    }
+
+    // Carrega as empresas no select do dialog
+
+    async function carregarEmpresas() {
+      var select = document.getElementById("select_rede");
+
+
+      var resposta = await fetch("http://localhost:3333/client");
+      var dados = await resposta.json();
+
+      var empresasAdicionadas = [];
+
+      for (var i = 0; i < dados.length; i++) {
+        var empresa = dados[i].empresa || "Sem empresa";
+
+        if (!empresasAdicionadas.includes(empresa)) {
+          empresasAdicionadas.push(empresa);
+          select.innerHTML += `<option value="${empresa}">${empresa}</option>`;
+        }
+      }
+    }
+
+    // Fecha o dialog e inicializa o dashboard
+    function fecharDialog() {
+      hospitalSelecionado = document.getElementById("select_rede").value;
+      document.getElementById("dialogEmpesa").close();
+
+      maquinaSelecionada = null;
+
+      document.getElementById("paginaInteira_div").style.display = "block";
+      document.querySelector(".graficos").style.display = "block";
+
+      receberAlertasJira();
+      carregarDados();
+      carregarMaquinas();
+    }
+
+    // Carrega os MACs únicos no select da pesquisa avançada
+    async function carregarMaquinas() {
+      var resposta = await fetch("http://localhost:3333/client");
+      var dados = await resposta.json();
+
+      var maquinas = dados.filter(function (m) {
+        return (m.empresa || "Sem empresa") == hospitalSelecionado;
+      });
+
+      var select = document.getElementById("select_workstation");
+      select.innerHTML = `<option value="" disabled selected>Selecione a workstation</option>`;
+
+      var maquinasAdicionadas = [];
+
+      for (var i = 0; i < maquinas.length; i++) {
+        var mac = maquinas[i].macAddress;
+        if (!maquinasAdicionadas.includes(mac)) {
+          maquinasAdicionadas.push(mac);
+          select.innerHTML += `<option value="${mac}">${mac}</option>`;
+        }
+      }
+    }
+
+    // Gráfico de linha
+    var grafico = new Chart(document.getElementById("grafico"), {
+      type: "line",
+      data: {
+        labels: [],
+        datasets: [
+          {
+            label: "CPU",
+            data: [],
+            borderColor: "rgba(170, 0, 255, 1)",
+            backgroundColor: "rgba(170, 0, 255, 0.1)",
+            tension: 0.3
+          },
+          {
+            label: "RAM",
+            data: [],
+            borderColor: "rgba(0, 212, 249, 1)",
+            backgroundColor: "rgba(0, 212, 249, 0.1)",
+            tension: 0.3
+          },
+          {
+            label: "Disco",
+            data: [],
+            borderColor: "yellow",
+            backgroundColor: "yellow",
+            tension: 0.3
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { labels: { color: "white" } } },
+        scales: {
+          x: { ticks: { color: "white", maxRotation: 45 }, grid: { color: "rgba(255,255,255,0.08)" } },
+          y: { min: 0, max: 100, ticks: { stepSize: 10, color: "white" }, grid: { color: "rgba(255,255,255,0.08)" } }
+        }
+      }
+    });
+
+    // Gráfico de risco
+    var graficoRisco = new Chart(document.getElementById("graficoRisco"), {
+      type: "doughnut",
+      data: {
+        datasets: [{
+          data: [0, 100],
+          backgroundColor: ["#FF5C5C", "#1e293b"],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        rotation: -90,
+        circumference: 180,
+        cutout: "75%",
+        plugins: { legend: { display: false }, tooltip: { enabled: false } }
+      },
+      plugins: [{
+        id: "textoCentral",
+        beforeDraw(chart) {
+          var largura = chart.width;
+          var altura = chart.height;
+          var ctx = chart.ctx;
+          var risco = chart.config.data.datasets[0].data[0];
+          ctx.restore();
+          ctx.font = "bold 28px Arial";
+          ctx.fillStyle = "#ffffff";
+          ctx.textAlign = "center";
+          ctx.fillText(risco + "%", largura / 2, altura - 30);
+          ctx.font = "16px Arial";
+          ctx.fillStyle = "#FF5C5C";
+          ctx.fillText("ALTO", largura / 2, altura - 5);
+          ctx.save();
+        }
+      }]
+    });
+
+    async function carregarDados() {
+
+      // =========================================================
+      // BUSCA DADOS DA API
+      // =========================================================
+
+      var resposta = await fetch("http://localhost:3333/client");
+
+      var todos = await resposta.json();
+
+
+      // =========================================================
+      // FILTRA PELA EMPRESA SELECIONADA
+      // =========================================================
+
+      var resultado = [];
+
+      for (var i = 0; i < todos.length; i++) {
+
+        var empresa = todos[i].empresa || "Sem empresa";
+
+        if (empresa == hospitalSelecionado) {
+
+          resultado.push(todos[i]);
+
+        }
+      }
+
+      if (resultado.length == 0) {
+
+        return;
+
+      }
+
+
+      // =========================================================
+      // PEGA MACS ÚNICOS
+      // =========================================================
+
+      var macsUnicos = [];
+
+      for (var i = 0; i < resultado.length; i++) {
+
+        var mac = resultado[i].macAddress;
+
+        if (!macsUnicos.includes(mac)) {
+
+          macsUnicos.push(mac);
+
+        }
+      }
+
+
+      // =========================================================
+      // DEFINE MÁQUINA SELECIONADA
+      // =========================================================
+
+      var macAlvo = maquinaSelecionada;
+
+      if (!macAlvo) {
+
+        macAlvo = macsUnicos[0];
+
+      }
+
+
+      // =========================================================
+      // PEGA REGISTROS DA MÁQUINA
+      // =========================================================
+
+      var registrosMaquina = [];
+
+      for (var i = 0; i < resultado.length; i++) {
+
+        if (resultado[i].macAddress == macAlvo) {
+
+          registrosMaquina.push(resultado[i]);
+
+        }
+      }
+
+
+      // =========================================================
+      // CONTADORES DOS STATUS
+      // =========================================================
+
+      var estaveis = 0;
+
+      var alerta = 0;
+
+      var criticas = 0;
+
+
+      // limpa lista das máquinas críticas
+      document.getElementById("maquina_critica").innerHTML = "";
+
+
+      // =========================================================
+      // VERIFICA STATUS DE CADA WORKSTATION
+      // =========================================================
+
+      for (var i = 0; i < macsUnicos.length; i++) {
+
+        var macAtual = macsUnicos[i];
+
+        var registros = [];
+
+
+        // pega registros da máquina
+        for (var j = 0; j < resultado.length; j++) {
+
+          if (resultado[j].macAddress == macAtual) {
+
+            registros.push(resultado[j]);
+
+          }
+        }
+
+
+        // pega último registro
+        var ultimo = registros[registros.length - 1];
+
+
+        var cpu = 0;
+        var ram = 0;
+        var disco = 0;
+
+
+        if (ultimo.cpu) {
+
+          cpu = ultimo.cpu.uso;
+
+        }
+
+        if (ultimo.ram) {
+
+          ram = ultimo.ram.uso;
+
+        }
+
+        if (ultimo.disco) {
+
+          disco = ultimo.disco.uso;
+
+        }
+
+
+        // =========================================================
+        // CLASSIFICAÇÃO
+        // =========================================================
+
+        if (cpu > 90 || ram > 90 || disco > 90) {
+
+          criticas++;
+
+
+          // adiciona máquina crítica na tela
+          document.getElementById("maquina_critica").innerHTML +=
+            macAtual + "<br>";
+
+        }
+
+        else if (cpu > 70 || ram > 70 || disco > 70) {
+
+          alerta++;
+
+        }
+
+        else {
+
+          estaveis++;
+
+        }
+      }
+
+
+      // =========================================================
+      // SE NÃO TIVER CRÍTICAS
+      // =========================================================
+
+      if (document.getElementById("maquina_critica").innerHTML == "") {
+
+        document.getElementById("maquina_critica").innerHTML =
+          "Nenhuma máquina crítica";
+
+      }
+
+
+      // =========================================================
+      // ATUALIZA KPIs
+      // =========================================================
+
+      document.getElementById("total_workstations").innerText =
+        macsUnicos.length;
+
+      document.getElementById("normal_workstations").innerText =
+        estaveis;
+
+      document.getElementById("warning_workstations").innerText =
+        alerta;
+
+      document.getElementById("critical_workstations").innerText =
+        criticas;
+
+
+      // =========================================================
+      // DADOS DOS GRÁFICOS
+      // =========================================================
+
+      var labels = [];
+
+      var cpu = [];
+
+      var ram = [];
+
+      var disco = [];
+
+
+      for (var i = 0; i < registrosMaquina.length; i++) {
+
+        var m = registrosMaquina[i];
+
+
+        // horário
+        labels.push(m.horario.substring(11, 16));
+
+
+        // cpu
+        if (m.cpu) {
+
+          cpu.push(m.cpu.uso);
+
+        } else {
+
+          cpu.push(0);
+
+        }
+
+
+        // ram
+        if (m.ram) {
+
+          ram.push(m.ram.uso);
+
+        } else {
+
+          ram.push(0);
+
+        }
+
+
+        // disco
+        if (m.disco) {
+
+          disco.push(m.disco.uso);
+
+        } else {
+
+          disco.push(0);
+
+        }
+      }
+
+
+      // =========================================================
+      // ATUALIZA GRÁFICO PRINCIPAL
+      // =========================================================
+
+      grafico.data.labels = labels;
+
+      grafico.data.datasets[0].data = cpu;
+
+      grafico.data.datasets[1].data = ram;
+
+      grafico.data.datasets[2].data = disco;
+
+      grafico.update();
+
+
+      // =========================================================
+      // ÚLTIMO REGISTRO
+      // =========================================================
+
+      var ultimo = registrosMaquina[registrosMaquina.length - 1];
+
+
+      var cpuFinal = 0;
+      var ramFinal = 0;
+      var discoFinal = 0;
+
+
+      if (ultimo.cpu) {
+
+        cpuFinal = ultimo.cpu.uso;
+
+      }
+
+      if (ultimo.ram) {
+
+        ramFinal = ultimo.ram.uso;
+
+      }
+
+      if (ultimo.disco) {
+
+        discoFinal = ultimo.disco.uso;
+
+      }
+
+
+      // =========================================================
+      // RISCO
+      // =========================================================
+
+      var risco = cpuFinal;
+
+      if (ramFinal > risco) {
+
+        risco = ramFinal;
+
+      }
+
+      if (discoFinal > risco) {
+
+        risco = discoFinal;
+
+      }
+
+
+      graficoRisco.data.datasets[0].data = [
+        risco,
+        100 - risco
+      ];
+
+      graficoRisco.update();
+
+
+      // =========================================================
+      // FATORES DE RISCO
+      // =========================================================
+
+      var fatores =
+        document.getElementById("fatores_risco");
+
+      fatores.innerHTML = "";
+
+
+      if (cpuFinal > 70) {
+
+        fatores.innerHTML +=
+          "<div class='alerta'><p>CPU elevada (" +
+          cpuFinal +
+          "%)</p></div>";
+
+      }
+
+      if (ramFinal > 70) {
+
+        fatores.innerHTML +=
+          "<div class='alerta'><p>RAM elevada (" +
+          ramFinal +
+          "%)</p></div>";
+
+      }
+
+      if (discoFinal > 70) {
+
+        fatores.innerHTML +=
+          "<div class='alerta'><p>Disco elevado (" +
+          discoFinal +
+          "%)</p></div>";
+
+      }
+
+
+      if (fatores.innerHTML == "") {
+
+        fatores.innerHTML =
+          "<div class='alerta'><p>Máquina estável</p></div>";
+
+      }
+    }
+
+    // Inicializa
+    carregarEmpresas();
+    receberAlertasJira();
+    window.onload = function () {
+      document.getElementById("dialogEmpesa").showModal();
+    };
+  </script>
+</body>
+
+</html>

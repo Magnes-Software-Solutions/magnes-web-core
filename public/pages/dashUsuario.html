@@ -9,7 +9,7 @@
     <link rel="shortcut icon" href="../assets/imgs/Logo.png" type="image/x-icon" />
     <link rel="stylesheet" href="../css/headerDash.css">
     <link rel="stylesheet" href="../css/dashUsuario.css">
-   
+
 
 </head>
 
@@ -21,7 +21,7 @@
                     <img src="../assets/imgs/Logo.png" alt="" width="5%" height="85%">
                     <div class="titulo">
                         <p class="tituloLogo">MAGNES</p>
-                        <p class="textoLogo">MRI MONITOR</p>
+                        <p class="textoLogo">WORKSTATION MONITOR</p>
                     </div>
                     <button class="navbar-toggler navBarToggler" type="button" data-bs-toggle="offcanvas"
                         data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar"
@@ -37,13 +37,13 @@
                         </div>
                         <div class="offcanvas-body offcanvasBody">
                             <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 navBarNav">
-                                <li class="nav-item navLi">
+                                <li class="nav-item navLi" onclick="window.location.href='dashAnalista.html'">
                                     <img src="../assets/imgs/dashboard.svg" alt="Simbolo de Dashboard">
-                                    <a class="nav-link" href="dashAnalista.html">Dashboard</a>
+                                    <a class="nav-link">Dashboard</a>
                                 </li>
-                                <li onclick="alertas()" class="nav-item navLi">
+                                <li class="nav-item navLi" onclick="window.location.href='telaAlertas.html'">
                                     <img src="../assets/imgs/alert.svg" alt="Simbolo de Alerta">
-                                    <a class="nav-link" href="telaAlertas.html">Alerta</a>
+                                    <a class="nav-link">Alerta</a>
                                 </li>
                                 <li class="nav-item navLi navLiLogout" onclick="limparSessao()">
                                     <img src="../assets/imgs/box-arrow-left.svg" alt="" class="navItemIcon" />
@@ -52,7 +52,8 @@
                             </ul>
                             </form>
                         </div>
-                        <div class="offcanvas-header perfil perfilActive" onclick="window.location.href='dashUsuario.html'">
+                        <div class="offcanvas-header perfil perfilActive"
+                            onclick="window.location.href='dashUsuario.html'">
                             <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Simbolo de perfil">
                             <div class="textosPerfil">
                                 <h5 class="offcanvas-title" id="spanNome">(nome do banco)</h5>
@@ -168,7 +169,7 @@
 
                 const fkSupervisor = data[0].fkSupervisor;
                 if (fkSupervisor === null) {
-                    cargo = "Gerente Tecnico";
+                    cargo = "Supervisor de Sistemas";
                 } else {
                     cargo = "Analista de Sistemas";
                 }
