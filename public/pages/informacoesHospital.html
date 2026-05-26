@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magnes - Dashboard Financeira</title>
+    <link rel="stylesheet" href="../bootstrap-5.3.8-dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="../css/headerDash.css">
+    <link rel="stylesheet" href="../css/dashFinanceira.css">
+    <link rel="stylesheet" href="../css/informacoesHospital.css">
+</head>
+
+<body style="background-color: #0a1628;">
+    <div class="container-fluid">
+        <div class="row">
+
+            <nav class="navbar bg-body-tertiary fixed-top navBarTop">
+                <div class="container-fluid">
+                    <img src="../assets/imgs/Logo.png" alt="" width="5%" height="85%">
+                    <div class="titulo">
+                        <p class="tituloLogo">MAGNES</p>
+                        <p class="textoLogo">WORKSTATION MONITOR</p>
+                    </div>
+                    <button class="navbar-toggler navBarToggler" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                        <span class="navbar-toggler-icon navBarTogglerIcon"></span>
+                    </button>
+                    <div class="offcanvas offcanvas-end offCanvas" tabindex="-1" id="offcanvasNavbar">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title offCanvasTitle">MAGNES</h5>
+                            <button type="button" class="btn-close offCanvasButton"
+                                data-bs-dismiss="offcanvas"></button>
+                        </div>
+                        <div class="offcanvas-body offcanvasBody">
+                            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 navBarNav">
+                                <li class="nav-item navLi" onclick="window.location.href='dashboardGRC.html'">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="#7A92B0" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="lucide lucide-earth-icon lucide-earth">
+                                        <path d="M21.54 15H17a2 2 0 0 0-2 2v4.54" />
+                                        <path
+                                            d="M7 3.34V5a3 3 0 0 0 3 3a2 2 0 0 1 2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2c0-1.1.9-2 2-2h3.17" />
+                                        <path d="M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05" />
+                                        <circle cx="12" cy="12" r="10"/>
+                                    </svg><a class="nav-link">Dashboard
+                                        GRC</a>
+                                </li>
+                                <li class="nav-item navLi" onclick="window.location.href='dashboardFinanceira.html'">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"
+                                        fill="none" stroke="#7A92B0" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="lucide lucide-coins-icon lucide-coins">
+                                        <path d="M13.744 17.736a6 6 0 1 1-7.48-7.48" />
+                                        <path d="M15 6h1v4" />
+                                        <path d="m6.134 14.768.866-.5 2 3.464" />
+                                        <circle cx="16" cy="8" r="6" />
+                                    </svg>><a class="nav-link">Dashboard Financeira</a>
+                                </li>
+                                <li class="nav-item navLi" onclick="window.location.href='informacoesHospital.html'">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"
+                                        fill="none" stroke="#7A92B0" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="lucide lucide-square-chart-gantt-icon lucide-square-chart-gantt">
+                                        <rect width="18" height="18" x="3" y="3" rx="2" />
+                                        <path d="M9 8h7" />
+                                        <path d="M8 12h6" />
+                                        <path d="M11 16h5" />
+                                    </svg>/><a class="nav-link">Informações
+                                        Hospital</a>
+                                </li>
+                                <li class="nav-item navLi navLiLogout" onclick="limparSessao()">
+                                    <img src="../assets/imgs/box-arrow-left.svg" alt="" class="navItemIcon" /><a
+                                        class="nav-link">Logout</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="offcanvas-header perfil perfilActive"
+                            onclick="window.location.href='dashUsuarioGestor.html'">
+                            <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Simbolo de perfil">
+                            <div class="textosPerfil">
+                                <h5 class="offcanvas-title" id="spanNome">Jonas</h5>
+                                <p id="cargoUsuario1">Supervisor Governança TI</p>
+                            </div>
+                            <img class="perfilConfig" src="../assets/imgs/gear.svg" alt="Simbolo de configurações">
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <main class="container-fluid corpo">
+                <header class="cabecalho-pagina">
+                    <h1>Configuração de Exames e Custos</h1>
+                    <p>Faça o registro dessses novos campos</p>
+                </header>
+
+                <section class="row g-4">
+                    <div class="col-lg-4">
+                        <div class="cartao-info text-center cartao-escuro">
+                            <div class="circulo-icone">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24"
+                                    fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="lucide lucide-hospital-icon lucide-hospital">
+                                    <path d="M12 7v4" />
+                                    <path d="M14 21v-3a2 2 0 0 0-4 0v3" />
+                                    <path d="M14 9h-4" />
+                                    <path
+                                        d="M18 11h2a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2h2" />
+                                    <path d="M18 21V5a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16" />
+                                </svg>
+                            </div>
+                            <h3>Gestão de Eficiência</h3>
+                            <p>Certifique-se de atribuir os valores corretos.</p>
+
+                            <div class="alerta-seguranca">
+                                <span>DICA DE SEGURANÇA</span>
+                                <p>Leia atentamente os campos exigidos e confira se os valores são coerentes.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8">
+                        <div class="cartao-escuro cartao-formulario">
+                            <form id="form_cadastro" class="row g-3">
+
+                                <div class="cabecalho-formulario">
+                                    <h2>Dados para Registro</h2>
+                                    <p>Preencha as especificações</p>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label">Valor Médio por Exame</label>
+                                    <input type="text" class="form-control" value="1200" id="input_valor_medio">
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label">Quantidade de Exames por Hora</label>
+                                    <input type="text" class="form-control" value="3" id="input_quantidade_exames">
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label">Meta SLA</label>
+                                    <input type="text" class="form-control" value="98.5" id="input_meta_sla">
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class=" form-label">Custo da Manutenção Corretiva</label>
+                                    <input type="text" class="form-control" value="8500" id="input_meta_sla">
+                                </div>
+                        </div>
+                        </form>
+                    </div>
+        </div>
+        </section>
+        </main>
+
+        <script src="../bootstrap-5.3.8-dist/js/bootstrap.js"></script>
+
+</body>
+</html>
