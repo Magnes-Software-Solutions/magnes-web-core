@@ -1,0 +1,109 @@
+body.fundo-principal {
+    background-color: #0a1628;
+    color: #fbfbfb;
+    font-family: 'Poppins', sans-serif;
+    margin-top: 60px;
+}
+
+.corpo {
+    padding: 60px 5%;
+}
+
+.cabecalho-pagina h1 {
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.cabecalho-pagina p {
+    color: #8892b0;
+    margin-bottom: 40px;
+}
+
+.cartao-escuro {
+    background-color: #132943;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 30px;
+    height: 100%;
+}
+
+.circulo-icone {
+    background-color: #7a32cc;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.circulo-icone img {
+    width: 40px;
+    filter: brightness(0) invert(1);
+}
+
+.alerta-seguranca {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 15px;
+    margin-top: 30px;
+}
+
+.alerta-seguranca span {
+    color: #7a32cc;
+    font-size: 11px;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.cabecalho-formulario {
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.form-label {
+    color: #8892b0;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.form-control, .form-select {
+    background-color: #0d1c36;
+    border: 1px solid #233554;
+    color: white;
+    padding: 12px;
+}
+
+.form-control:focus{
+    background-color: #0a1628;
+    color: white;
+    border-color: #35bfed;
+    box-shadow: 0 0 8px rgba(53, 191, 237, 0.2);
+}
+
+.botao-magnes {
+    background-color: #35bfed;
+    color: #0a1628;
+    border: none;
+    width: 100%;
+    padding: 15px;
+    border-radius: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    transition: 0.3s;
+}
+
+.botao-magnes:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(53, 191, 237, 0.4);
+}
+
+.modal-title {
+    color: black;
+}
