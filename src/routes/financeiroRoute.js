@@ -1,8 +1,7 @@
-const express = require("express")
-const routes = express.Router()
+const express = require("express");
+const routes = express.Router();
+const financeiroController = require("../controllers/financeiroController");
 
-const finaceiroController = require("../controllers/finaceiroController")
+routes.post("/cadastrar", financeiroController.cadastrarFinanceiro);
 
-routes.get("/", finaceiroController.teste)
-
-module.exports = routes
+module.exports = routes;
