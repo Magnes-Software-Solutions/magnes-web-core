@@ -51,11 +51,11 @@
           <div class="container-input">
             <span>
               <label for="inputEmail" class="form-label">Email:</label>
-              <input type="email" id="inputEmail" class="form-control">
+              <input type="email" id="inputEmail" class="form-control" value="cleber@email.com">
             </span>
             <span>
               <label for="inputPassword" class="form-label">Password:</label>
-              <input type="password" id="inputPassword" class="form-control" aria-describedby="passwordHelpBlock">
+              <input type="password" id="inputPassword" class="form-control" aria-describedby="passwordHelpBlock" value="12345678">
             </span>
           </div>
           <p style="color: red; font-weight: bolder;" id="errorMessage"></p>
@@ -136,7 +136,7 @@
         });
 
       } else {
-
+        alert("Houve um erro ao tentar realizar o login!");
         console.log("Houve um erro ao tentar realizar o login!");
 
         resposta.text().then(texto => {
