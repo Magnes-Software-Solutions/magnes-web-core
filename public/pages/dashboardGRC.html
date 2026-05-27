@@ -69,7 +69,6 @@
                     </div>
                 </div>
             </nav>
-
             <div class="page">
                 <div class="topbar">
                     <div class="topbar-left">
@@ -77,7 +76,7 @@
                             <div class="topbar-title">Painel GRC — Infraestrutura</div>
                             <div class="topbar-sub">
                                 <span id="last-update"></span>
-                                <span id="s3-status" style="font-size:10px;font-weight:600;">● Aguardando</span>
+                                <span id="s3-status" style="font-size:10px;font-weight:600;">Aguardando</span>
                             </div>
                         </div>
                     </div>
@@ -116,9 +115,7 @@
                 <div class="g2">
                     <div class="card">
                         <div class="card-title">Mapa de risco — componentes por servidor</div>
-                        <div class="heatmap" id="heatmap-grid">
-                            <div style="grid-column:1/-1;color:#7a92b0;text-align:center;padding:20px;font-size:12px;">Carregando...</div>
-                        </div>
+                        <div class="heatmap" id="heatmap-grid"></div>
                         <div class="hm-legend">
                             <div class="hm-li"><div class="hm-dot" style="background:#4ade80;"></div> Normal (&lt;70%)</div>
                             <div class="hm-li"><div class="hm-dot" style="background:#fbbf24;"></div> Atenção (70–89%)</div>
@@ -127,13 +124,8 @@
                     </div>
 
                     <div class="card">
-                        <div class="card-title">Score de risco por componente</div>
+                        <div class="card-title">Risco por componente</div>
                         <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;">
-                            <div class="risk-circle"><div class="risk-num" id="score-circle">—</div><div class="risk-max">/100</div></div>
-                            <div>
-                                <div style="font-size:13px;font-weight:600;color:#f87171;margin-bottom:4px;">Risco operacional</div>
-                                <div style="font-size:11px;color:#7a92b0;line-height:1.5;">Score calculado a partir das métricas reais de CPU, RAM e disco das máquinas monitoradas.</div>
-                            </div>
                         </div>
                         <div class="bar-row"><div class="bar-name">CPU</div><div class="bar-track"><div class="bar-fill" id="bar-cpu" style="width:0%; background:#f43f5e;"></div></div><div class="bar-pct" id="pct-cpu">—</div></div>
                         <div class="bar-row"><div class="bar-name">RAM</div><div class="bar-track"><div class="bar-fill" id="bar-ram" style="width:0%; background:#fbbf24;"></div></div><div class="bar-pct" id="pct-ram">—</div></div>
@@ -165,9 +157,7 @@
                 <div class="g2">
                     <div class="card">
                         <div class="card-title">Tickets — alertas ativos</div>
-                        <div id="ticket-list">
-                            <div style="color:#7a92b0;text-align:center;padding:20px;font-size:12px;">Carregando...</div>
-                        </div>
+                        <div id="ticket-list"></div>
                         <div style="margin-top:14px;padding-top:12px;border-top:0.5px solid #1d3557;">
                             <div class="sla-row"><div class="sla-cat">CPU</div><div class="sla-track"><div class="sla-fill" style="width:76%; background:#f43f5e;"></div></div><div class="sla-pct">76%</div></div>
                             <div class="sla-row"><div class="sla-cat">RAM</div><div class="sla-track"><div class="sla-fill" style="width:85%; background:#fbbf24;"></div></div><div class="sla-pct">85%</div></div>
@@ -213,9 +203,7 @@
                             <thead>
                                 <tr><th style="width:110px">ID</th><th style="width:70px">CVSS</th><th>Componente</th><th style="width:70px">Servidor</th><th style="width:72px">Status</th><th style="width:44px">Dias</th></tr>
                             </thead>
-                            <tbody id="cve-list">
-                                <tr><td colspan="6" style="color:#7a92b0;text-align:center;padding:20px;">Carregando CVEs...</td></tr>
-                            </tbody>
+                            <tbody id="cve-list"></tbody>
                         </table>
                     </div>
                 </div>

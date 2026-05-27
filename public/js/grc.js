@@ -1,360 +1,827 @@
-// ─────────────────────────────────────────────
-//  GRC.js — Dashboard GRC Magnes
-//  Integração dinâmica com /client (dadosPerfeitos.json)
-//  Sem dados mockados — estado de indisponível em caso de falha
-// ─────────────────────────────────────────────
+const S3_API_ENDPOINT = "/client";
+const JIRA_API_ENDPOINT = "/jira/tickets";
+const REFRESH_INTERVAL_MS = 60000;
 
-const S3_API_ENDPOINT   = "/client";   // ← substituir pela URL pré-assinada em produção
-const REFRESH_INTERVAL_MS = 60_000;
+let nvdIntegration = null;
+if (typeof NVDIntegration !== "undefined") {
+  nvdIntegration = new NVDIntegration();
+}
 
-// ─── NVD (consumido separadamente via nvd.js) ───
-// A instância é criada aqui e usada em carregarDados()
-const nvdIntegration = typeof NVDIntegration !== "undefined" ? new NVDIntegration() : null;
+function parseHorario(horario) {
+  if (!horario) {
+    return 0;
+  }
 
-// ════════════════════════════════════════════════
-//  ADAPTADOR — converte JSON real → modelo interno
-// ════════════════════════════════════════════════
+  const texto = String(horario).replace(" ", "T");
+  const data = Date.parse(texto);
+
+  if (Number.isNaN(data)) {
+    return 0;
+  }
+
+  return data;
+}
+
+function pegarListaMaquinas(raw) {
+  if (Array.isArray(raw)) {
+    return raw;
+  }
+
+  if (raw && Array.isArray(raw.maquinas)) {
+    return raw.maquinas;
+  }
+
+  return [];
+}
+
 function adaptarMaquina(m) {
-  const fd = m.financeiroDashboard || {};
+  let fd = {};
+  let metricas = {};
+  let alertas = {};
+  let indicadores = {};
+  let sla = {};
+  let financeiro = {};
+
+  if (m && m.financeiroDashboard) {
+    fd = m.financeiroDashboard;
+  }
+
+  if (fd.metricas) {
+    metricas = fd.metricas;
+  }
+
+  if (fd.alertas) {
+    alertas = fd.alertas;
+  }
+
+  if (fd.indicadores) {
+    indicadores = fd.indicadores;
+  }
+
+  if (fd.sla) {
+    sla = fd.sla;
+  }
+
+  if (fd.financeiro) {
+    financeiro = fd.financeiro;
+  }
+
+  let mac = "maquina-sem-mac";
+  if (m && m.macAddress) {
+    mac = m.macAddress;
+  } else if (m && m.id) {
+    mac = m.id;
+  }
+
+  let label = mac;
+  if (m && m.empresa) {
+    label = m.empresa;
+  }
+
+  let horario = "";
+  if (m && m.horario) {
+    horario = m.horario;
+  }
+
+  let cpu = 0;
+  if (m && m.cpu && m.cpu.uso !== undefined && m.cpu.uso !== null) {
+    cpu = m.cpu.uso;
+  }
+
+  let ram = 0;
+  if (m && m.ramUso !== undefined && m.ramUso !== null) {
+    ram = m.ramUso;
+  } else if (m && m.ram && m.ram.uso !== undefined && m.ram.uso !== null) {
+    ram = m.ram.uso;
+  } else if (metricas.ramUso !== undefined && metricas.ramUso !== null) {
+    ram = metricas.ramUso;
+  }
+
+  let disco = 0;
+  if (m && m.discoUso !== undefined && m.discoUso !== null) {
+    disco = m.discoUso;
+  } else if (metricas.discoUso !== undefined && metricas.discoUso !== null) {
+    disco = metricas.discoUso;
+  } else if (m && m.disco && m.disco.uso !== undefined && m.disco.uso !== null) {
+    disco = m.disco.uso;
+  }
+
+  let alertaCPU = false;
+  if (alertas.cpu === true) {
+    alertaCPU = true;
+  }
+
+  let alertaRAM = false;
+  if (alertas.ram === true) {
+    alertaRAM = true;
+  }
+
+  let alertaDisco = false;
+  if (alertas.disco === true) {
+    alertaDisco = true;
+  } else if (m && m.disco && m.disco.alerta === true) {
+    alertaDisco = true;
+  }
+
+  let scoreRisco = 0;
+  if (indicadores.scoreRisco !== undefined && indicadores.scoreRisco !== null) {
+    scoreRisco = indicadores.scoreRisco;
+  }
+
+  let severidade = "DESCONHECIDO";
+  if (indicadores.severidade) {
+    severidade = indicadores.severidade;
+  }
+
+  let slaConformidade = 100;
+  if (sla.conformidade !== undefined && sla.conformidade !== null) {
+    slaConformidade = sla.conformidade;
+  }
+
+  let custoPotencialFalha = 0;
+  if (financeiro.custoPotencialFalha !== undefined && financeiro.custoPotencialFalha !== null) {
+    custoPotencialFalha = financeiro.custoPotencialFalha;
+  }
+
   return {
-    id:          m.macAddress,
-    label:       m.empresa || m.macAddress,
-    horario:     m.horario,
-
-    // Métricas de uso
-    cpu:         m.cpu?.uso         ?? 0,
-    ram:         m.ram?.uso         ?? m.ramUso ?? 0,
-    disco:       m.disco?.uso       ?? 0,
-
-    // Alertas vindos do financeiroDashboard
-    alertaCPU:   fd.alertas?.cpu    ?? false,
-    alertaRAM:   fd.alertas?.ram    ?? false,
-    alertaDisco: fd.alertas?.disco  ?? m.disco?.alerta ?? false,
-
-    // Score e severidade já calculados pela ETL
-    scoreRisco:  fd.indicadores?.scoreRisco      ?? 0,
-    severidade:  fd.indicadores?.severidade      ?? "DESCONHECIDO",
-
-    // SLA
-    slaConformidade: fd.sla?.conformidade ?? 100,
-    slaStatus:       fd.sla?.status       ?? "DESCONHECIDO",
-
-    // Financeiro
-    custoPotencialFalha: fd.financeiro?.custoPotencialFalha ?? 0,
-
-    // Limites (podem ser null se não cadastrados)
-    limiteCPU:   m.cpu?.limite   ?? null,
-    limiteRAM:   m.ram?.limite   ?? null,
-    limiteDisco: m.disco?.limite ?? null,
+    id: mac,
+    label: label,
+    horario: horario,
+    cpu: cpu,
+    ram: ram,
+    disco: disco,
+    alertaCPU: alertaCPU,
+    alertaRAM: alertaRAM,
+    alertaDisco: alertaDisco,
+    scoreRisco: scoreRisco,
+    severidade: severidade,
+    slaConformidade: slaConformidade,
+    custoPotencialFalha: custoPotencialFalha
   };
 }
 
-function adaptarDados(raw) {
-  // Suporta tanto array direto quanto { maquinas: [...] }
-  const lista = Array.isArray(raw) ? raw : (raw.maquinas || []);
-  return lista.map(adaptarMaquina);
+function agruparPorMaquina(raw) {
+  const lista = pegarListaMaquinas(raw);
+  const maquinasUnicas = [];
+
+  for (let i = 0; i < lista.length; i++) {
+    const maquina = lista[i];
+    let mac = "desconhecido";
+
+    if (maquina && maquina.macAddress) {
+      mac = maquina.macAddress;
+    } else if (maquina && maquina.id) {
+      mac = maquina.id;
+    }
+
+    let posicaoEncontrada = -1;
+
+    for (let j = 0; j < maquinasUnicas.length; j++) {
+      let macExistente = "desconhecido";
+
+      if (maquinasUnicas[j] && maquinasUnicas[j].macAddress) {
+        macExistente = maquinasUnicas[j].macAddress;
+      } else if (maquinasUnicas[j] && maquinasUnicas[j].id) {
+        macExistente = maquinasUnicas[j].id;
+      }
+
+      if (macExistente === mac) {
+        posicaoEncontrada = j;
+      }
+    }
+
+    if (posicaoEncontrada === -1) {
+      maquinasUnicas.push(maquina);
+    } else {
+      const horarioNovo = parseHorario(maquina.horario);
+      const horarioAntigo = parseHorario(maquinasUnicas[posicaoEncontrada].horario);
+
+      if (horarioNovo >= horarioAntigo) {
+        maquinasUnicas[posicaoEncontrada] = maquina;
+      }
+    }
+  }
+
+  const resultado = [];
+  for (let i = 0; i < maquinasUnicas.length; i++) {
+    resultado.push(adaptarMaquina(maquinasUnicas[i]));
+  }
+
+  console.log("[GRC] Agrupamento: " + lista.length + " registros -> " + resultado.length + " maquinas unicas");
+  return resultado;
 }
 
-// ════════════════════════════════════════════════
-//  SCORING
-// ════════════════════════════════════════════════
 function scoreComponente(pct) {
-  if (pct < 70) return Math.round((pct / 70) * 30);
-  if (pct < 90) return Math.round(30 + ((pct - 70) / 20) * 40);
+  if (pct < 70) {
+    return Math.round((pct / 70) * 30);
+  }
+
+  if (pct < 90) {
+    return Math.round(30 + ((pct - 70) / 20) * 40);
+  }
+
   return Math.round(70 + ((pct - 90) / 10) * 30);
 }
 
 function scoreServidor(cpu, ram, disco) {
-  return Math.round(
-    scoreComponente(cpu)   * 0.40 +
-    scoreComponente(ram)   * 0.35 +
-    scoreComponente(disco) * 0.25
-  );
+  const scoreCPU = scoreComponente(cpu) * 0.40;
+  const scoreRAM = scoreComponente(ram) * 0.35;
+  const scoreDisco = scoreComponente(disco) * 0.25;
+  return Math.round(scoreCPU + scoreRAM + scoreDisco);
 }
 
 function scoreAmbiente(maquinas) {
-  if (!maquinas.length) return 0;
-  let soma = 0, pior = 0;
-  for (let i = 0; i < maquinas.length; i++) {
-    // Usa scoreRisco da ETL se disponível, senão calcula
-    const s = maquinas[i].scoreRisco > 0
-      ? maquinas[i].scoreRisco
-      : scoreServidor(maquinas[i].cpu, maquinas[i].ram, maquinas[i].disco);
-    soma += s;
-    if (s > pior) pior = s;
+  if (maquinas.length === 0) {
+    return 0;
   }
+
+  let soma = 0;
+  let pior = 0;
+
+  for (let i = 0; i < maquinas.length; i++) {
+    let score = 0;
+
+    if (maquinas[i].scoreRisco > 0) {
+      score = maquinas[i].scoreRisco;
+    } else {
+      score = scoreServidor(maquinas[i].cpu, maquinas[i].ram, maquinas[i].disco);
+    }
+
+    soma = soma + score;
+
+    if (score > pior) {
+      pior = score;
+    }
+  }
+
   return Math.round((soma / maquinas.length) * 0.70 + pior * 0.30);
 }
 
-// ════════════════════════════════════════════════
-//  GERAÇÃO DE TICKETS A PARTIR DOS ALERTAS REAIS
-// ════════════════════════════════════════════════
-function gerarTickets(maquinas) {
+function gerarTicketsLocais(maquinas) {
   const tickets = [];
+
   for (let i = 0; i < maquinas.length; i++) {
-    const m = maquinas[i];
-    if (m.alertaCPU)
-      tickets.push({ id: "CPU-" + m.id.slice(-5), descricao: "CPU acima do limite — " + m.label, severidade: "Crítico",  tempo: m.horario });
-    if (m.alertaRAM)
-      tickets.push({ id: "RAM-" + m.id.slice(-5), descricao: "RAM acima do limite — " + m.label, severidade: "Crítico",  tempo: m.horario });
-    if (m.alertaDisco)
-      tickets.push({ id: "DSC-" + m.id.slice(-5), descricao: "Disco acima do limite — " + m.label, severidade: "Atenção", tempo: m.horario });
+    const maquina = maquinas[i];
+    const fimId = maquina.id.slice(-5);
+
+    if (maquina.alertaCPU) {
+      tickets.push({
+        id: "CPU-" + fimId,
+        descricao: "CPU acima do limite - " + maquina.label,
+        severidade: "Critico",
+        tempo: maquina.horario
+      });
+    }
+
+    if (maquina.alertaRAM) {
+      tickets.push({
+        id: "RAM-" + fimId,
+        descricao: "RAM acima do limite - " + maquina.label,
+        severidade: "Critico",
+        tempo: maquina.horario
+      });
+    }
+
+    if (maquina.alertaDisco) {
+      tickets.push({
+        id: "DSC-" + fimId,
+        descricao: "Disco acima do limite - " + maquina.label,
+        severidade: "Atencao",
+        tempo: maquina.horario
+      });
+    }
   }
+
   return tickets;
 }
 
-// ════════════════════════════════════════════════
-//  SLA MÉDIO DO AMBIENTE
-// ════════════════════════════════════════════════
+function normalizarSeveridade(ticket) {
+  if (ticket && ticket.severidade) {
+    return ticket.severidade;
+  }
+
+  if (ticket && ticket.status) {
+    const status = String(ticket.status).toUpperCase();
+
+    if (status === "DONE") {
+      return "Resolvido";
+    }
+  }
+
+  return "Atencao";
+}
+
+async function buscarTicketsJira() {
+  const resposta = await fetch(JIRA_API_ENDPOINT, { cache: "no-cache" });
+
+  if (!resposta.ok) {
+    throw new Error("HTTP " + resposta.status);
+  }
+
+  const data = await resposta.json();
+
+  if (!Array.isArray(data)) {
+    throw new Error("Resposta Jira invalida");
+  }
+
+  const tickets = [];
+  const idsJaAdicionados = [];
+
+  for (let i = 0; i < data.length; i++) {
+    const ticket = data[i];
+
+    let id = "";
+    if (ticket && ticket.id !== undefined && ticket.id !== null) {
+      id = String(ticket.id).trim();
+    }
+
+    let descricao = "";
+    if (ticket && ticket.descricao !== undefined && ticket.descricao !== null) {
+      descricao = String(ticket.descricao).trim();
+    }
+
+    if (id === "" || descricao === "") {
+      continue;
+    }
+
+    if (idsJaAdicionados.includes(id)) {
+      continue;
+    }
+
+    idsJaAdicionados.push(id);
+
+    let tempo = "agora";
+    if (ticket && ticket.tempo) {
+      tempo = ticket.tempo;
+    }
+
+    let status = "";
+    if (ticket && ticket.status) {
+      status = ticket.status;
+    }
+
+    tickets.push({
+      id: id,
+      descricao: descricao,
+      severidade: normalizarSeveridade(ticket),
+      tempo: tempo,
+      status: status
+    });
+  }
+
+  console.log("[Jira] " + tickets.length + " tickets unicos");
+  return tickets;
+}
+
 function calcularSLAMedio(maquinas) {
-  if (!maquinas.length) return 0;
-  const soma = maquinas.reduce((acc, m) => acc + (m.slaConformidade ?? 100), 0);
+  if (maquinas.length === 0) {
+    return 0;
+  }
+
+  let soma = 0;
+
+  for (let i = 0; i < maquinas.length; i++) {
+    let sla = 100;
+
+    if (maquinas[i].slaConformidade !== undefined && maquinas[i].slaConformidade !== null) {
+      sla = maquinas[i].slaConformidade;
+    }
+
+    soma = soma + sla;
+  }
+
   return Math.round(soma / maquinas.length);
 }
 
-// ════════════════════════════════════════════════
-//  UTILITÁRIOS DE COR
-// ════════════════════════════════════════════════
 function nivelCor(pct) {
-  if (pct >= 90) return { cls: "h-crit", label: pct.toFixed(1) + "%" };
-  if (pct >= 70) return { cls: "h-warn", label: pct.toFixed(1) + "%" };
-  return              { cls: "h-ok",   label: pct.toFixed(1) + "%" };
+  const label = pct.toFixed(1) + "%";
+
+  if (pct >= 90) {
+    return { cls: "h-crit", label: label };
+  }
+
+  if (pct >= 70) {
+    return { cls: "h-warn", label: label };
+  }
+
+  return { cls: "h-ok", label: label };
 }
 
-// ════════════════════════════════════════════════
-//  INDICADOR DE FONTE DE DADOS
-// ════════════════════════════════════════════════
 function setStatus(ok) {
   const el = document.getElementById("s3-status");
-  if (!el) return;
-  el.textContent = ok ? "● Dados ao vivo" : "● Indisponível";
-  el.style.color  = ok ? "#4ade80" : "#f43f5e";
+
+  if (!el) {
+    return;
+  }
+
+  if (ok) {
+    el.textContent = "Dados ao vivo";
+    el.style.color = "#4ade80";
+  } else {
+    el.textContent = "Indisponivel";
+    el.style.color = "#f43f5e";
+  }
 }
 
-// ════════════════════════════════════════════════
-//  ESTADO DE INDISPONÍVEL (sem mock)
-// ════════════════════════════════════════════════
+function escapeHtml(valor) {
+  const div = document.createElement("div");
+  div.textContent = valor;
+  return div.innerHTML;
+}
+
+function limparKPIs() {
+  const ids = ["kpi-risco", "kpi-alertas", "kpi-cves", "kpi-sla", "kpi-servidores", "kpi-cves2"];
+
+  for (let i = 0; i < ids.length; i++) {
+    const el = document.getElementById(ids[i]);
+
+    if (el) {
+      el.textContent = "-";
+    }
+  }
+}
+
 function exibirIndisponivel() {
-  // KPIs
-  ["kpi-risco","kpi-alertas","kpi-cves","kpi-sla","kpi-servidores","kpi-cves2"]
-    .forEach(id => { const el = document.getElementById(id); if (el) el.textContent = "—"; });
+  limparKPIs();
 
-  // Heatmap
   const grid = document.getElementById("heatmap-grid");
-  if (grid) grid.innerHTML =
-    `<div class="hh"></div><div class="hh">CPU</div><div class="hh">RAM</div><div class="hh">Disco</div>
-     <div style="grid-column:1/-1;color:#7a92b0;text-align:center;padding:20px;font-size:12px;">
-       Dados indisponíveis — verifique a conexão
-     </div>`;
+  if (grid) {
+    grid.innerHTML = "";
+    grid.innerHTML += '<div class="hh"></div>';
+    grid.innerHTML += '<div class="hh">CPU</div>';
+    grid.innerHTML += '<div class="hh">RAM</div>';
+    grid.innerHTML += '<div class="hh">Disco</div>';
+    grid.innerHTML += '<div style="grid-column:1/-1;color:#7a92b0;text-align:center;padding:20px;font-size:12px;">Dados indisponiveis - verifique a conexao</div>';
+  }
 
-  // Tickets
-  const tl = document.getElementById("ticket-list");
-  if (tl) tl.innerHTML =
-    `<div class="ticket-row" style="justify-content:center;color:#7a92b0;font-size:12px;">
-       Dados indisponíveis
-     </div>`;
+  const ticketList = document.getElementById("ticket-list");
+  if (ticketList) {
+    ticketList.innerHTML = '<div class="ticket-row" style="justify-content:center;color:#7a92b0;font-size:12px;">Dados indisponiveis</div>';
+  }
 
-  // CVEs
-  const cl = document.getElementById("cve-list");
-  if (cl) cl.innerHTML =
-    `<tr><td colspan="6" style="color:#7a92b0;text-align:center;padding:20px;">Dados indisponíveis</td></tr>`;
+  const cveList = document.getElementById("cve-list");
+  if (cveList) {
+    cveList.innerHTML = '<tr><td colspan="6" style="color:#7a92b0;text-align:center;padding:20px;">Dados indisponiveis</td></tr>';
+  }
 
   setStatus(false);
 }
 
-// ════════════════════════════════════════════════
-//  RENDERIZADORES
-// ════════════════════════════════════════════════
 function renderHeatmap(maquinas) {
   const grid = document.getElementById("heatmap-grid");
-  if (!grid) return;
-  let html = '<div class="hh"></div><div class="hh">CPU</div><div class="hh">RAM</div><div class="hh">Disco</div>';
+
+  if (!grid) {
+    return;
+  }
+
+  let html = "";
+  html += '<div class="hh"></div>';
+  html += '<div class="hh">CPU</div>';
+  html += '<div class="hh">RAM</div>';
+  html += '<div class="hh">Disco</div>';
+
   for (let i = 0; i < maquinas.length; i++) {
-    const m   = maquinas[i];
-    const cpu   = nivelCor(m.cpu);
-    const ram   = nivelCor(m.ram);
-    const disco = nivelCor(m.disco);
-    html += '<div class="hs">' + (m.label || m.id) + '</div>';
-    html += '<div class="hc ' + cpu.cls   + '">' + cpu.label   + '</div>';
-    html += '<div class="hc ' + ram.cls   + '">' + ram.label   + '</div>';
+    const maquina = maquinas[i];
+    const cpu = nivelCor(maquina.cpu);
+    const ram = nivelCor(maquina.ram);
+    const disco = nivelCor(maquina.disco);
+
+    html += '<div class="hs">' + escapeHtml(maquina.label) + '</div>';
+    html += '<div class="hc ' + cpu.cls + '">' + cpu.label + '</div>';
+    html += '<div class="hc ' + ram.cls + '">' + ram.label + '</div>';
     html += '<div class="hc ' + disco.cls + '">' + disco.label + '</div>';
   }
+
   grid.innerHTML = html;
+}
+
+function classeSeveridade(severidade) {
+  const texto = String(severidade).toLowerCase();
+
+  if (texto.indexOf("crit") === 0) {
+    return "pill-crit";
+  }
+
+  if (texto.indexOf("aten") === 0) {
+    return "pill-warn";
+  }
+
+  return "pill-ok";
 }
 
 function renderTickets(tickets) {
   const el = document.getElementById("ticket-list");
-  if (!el) return;
-  if (!tickets.length) {
-    el.innerHTML = '<div class="ticket-row" style="justify-content:center;color:#4ade80;font-size:12px;">Nenhum alerta ativo no momento</div>';
+
+  if (!el) {
     return;
   }
-  let html = '';
+
+  if (tickets.length === 0) {
+    el.innerHTML = '<div class="ticket-row" style="justify-content:center;color:#4ade80;font-size:12px;">Nenhum alerta ativo</div>';
+    return;
+  }
+
+  let html = "";
+
   for (let i = 0; i < tickets.length; i++) {
-    const t   = tickets[i];
-    const cls = t.severidade === "Crítico" ? "pill-crit" : t.severidade === "Atenção" ? "pill-warn" : "pill-ok";
-    const tempo = typeof t.tempo === "string" ? t.tempo : "agora";
+    const ticket = tickets[i];
+    const classe = classeSeveridade(ticket.severidade);
+
+    let tempo = "agora";
+    if (ticket.tempo) {
+      tempo = ticket.tempo;
+    }
+
+    let status = "";
+    if (ticket.status) {
+      status = ticket.status + " - ";
+    }
+
     html += '<div class="ticket-row">';
-    html += '<div class="tid">'   + t.id        + '</div>';
-    html += '<div class="tdesc">' + t.descricao + '</div>';
-    html += '<span class="pill '  + cls + '">'  + t.severidade + '</span>';
-    html += '<div class="tage">'  + tempo        + '</div>';
+    html += '<div class="tid">' + escapeHtml(ticket.id) + '</div>';
+    html += '<div class="tdesc">' + escapeHtml(ticket.descricao) + '</div>';
+    html += '<span class="pill ' + classe + '">' + escapeHtml(ticket.severidade) + '</span>';
+    html += '<div class="tage">' + escapeHtml(status + tempo) + '</div>';
     html += '</div>';
   }
+
   el.innerHTML = html;
 }
 
 function renderCVEs(cves) {
   const el = document.getElementById("cve-list");
-  if (!el) return;
-  if (!cves || !cves.length) {
+
+  if (!el) {
+    return;
+  }
+
+  if (!cves || cves.length === 0) {
     el.innerHTML = '<tr><td colspan="6" style="color:#7a92b0;text-align:center;padding:20px;">Nenhuma CVE no momento</td></tr>';
     return;
   }
-  let html = '';
+
+  let html = "";
+
   for (let i = 0; i < cves.length; i++) {
-    const c      = cves[i];
-    const barW   = Math.round(c.cvss / 10 * 36);
-    const critico = c.cvss >= 9;
-    const barCor  = critico ? "#f43f5e" : "#fbbf24";
-    const numCor  = critico ? "#f87171" : "#fde68a";
-    const srvCl   = critico ? "pill-crit" : "pill-warn";
-    const stCl    = c.status === "Em teste" ? "pill-purple" : "pill-crit";
-    const srvs    = Array.isArray(c.servidores) ? c.servidores.join(", ") : (c.servidores || "—");
-    html += '<tr>';
-    html += '<td><span class="cve-id">' + c.id + '</span></td>';
-    html += '<td><div class="cvss-wrap"><div class="cvss-bar" style="width:' + barW + 'px;background:' + barCor + '"></div><span class="cvss-num" style="color:' + numCor + '">' + c.cvss + '</span></div></td>';
-    html += '<td>' + c.componente + '</td>';
-    html += '<td><span class="pill ' + srvCl + '">' + srvs + '</span></td>';
-    html += '<td><span class="pill ' + stCl  + '">' + c.status + '</span></td>';
-    html += '<td style="color:#5a7a9c;font-size:11px">' + c.diasAberto + 'd</td>';
-    html += '</tr>';
+    const cve = cves[i];
+    const largura = Math.round(cve.cvss / 10 * 36);
+
+    let corBarra = "#fbbf24";
+    let corNumero = "#fde68a";
+    let classeServidor = "pill-warn";
+
+    if (cve.cvss >= 9) {
+      corBarra = "#f43f5e";
+      corNumero = "#f87171";
+      classeServidor = "pill-crit";
+    }
+
+    let classeStatus = "pill-crit";
+    if (cve.status === "Em teste") {
+      classeStatus = "pill-purple";
+    }
+
+    let servidores = "-";
+    if (Array.isArray(cve.servidores)) {
+      servidores = cve.servidores.join(", ");
+    } else if (cve.servidores) {
+      servidores = cve.servidores;
+    }
+
+    html += "<tr>";
+    html += '<td><span class="cve-id">' + escapeHtml(cve.id) + "</span></td>";
+    html += '<td><div class="cvss-wrap"><div class="cvss-bar" style="width:' + largura + "px;background:" + corBarra + '"></div><span class="cvss-num" style="color:' + corNumero + '">' + cve.cvss + "</span></div></td>";
+    html += "<td>" + escapeHtml(cve.componente) + "</td>";
+    html += '<td><span class="pill ' + classeServidor + '">' + escapeHtml(servidores) + "</span></td>";
+    html += '<td><span class="pill ' + classeStatus + '">' + escapeHtml(cve.status) + "</span></td>";
+    html += '<td style="color:#5a7a9c;font-size:11px">' + cve.diasAberto + "d</td>";
+    html += "</tr>";
   }
+
   el.innerHTML = html;
 }
 
-function renderKPIs(risco, alertas, cves, sla, totalServs) {
-  const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
-  set("kpi-risco",      risco);
-  set("kpi-alertas",    alertas);
-  set("kpi-cves",       cves);
-  set("kpi-cves2",      cves);
-  set("kpi-sla",        sla + "%");
-  set("kpi-servidores", totalServs);
-  const ts = document.getElementById("last-update");
-  if (ts) ts.textContent = "Atualizado: " + new Date().toLocaleString("pt-BR");
+function colocarTexto(id, valor) {
+  const el = document.getElementById(id);
+
+  if (el) {
+    el.textContent = valor;
+  }
 }
 
-// ════════════════════════════════════════════════
-//  FETCH PRINCIPAL
-// ════════════════════════════════════════════════
-async function carregarDados() {
+function renderKPIs(risco, alertas, cves, sla, totalServs) {
+  colocarTexto("kpi-risco", risco);
+  colocarTexto("kpi-alertas", alertas);
+  colocarTexto("kpi-cves", cves);
+  colocarTexto("kpi-cves2", cves);
+  colocarTexto("kpi-sla", sla + "%");
+  colocarTexto("kpi-servidores", totalServs);
 
-  // ── 1. Busca dados de monitoramento do S3 ──
-  let maquinas = [];
-  let s3ok = false;
+  const ts = document.getElementById("last-update");
+  if (ts) {
+    ts.textContent = "Atualizado: " + new Date().toLocaleString("pt-BR");
+  }
+}
 
-  try {
-    const res = await fetch(S3_API_ENDPOINT, { cache: "no-cache" });
-    if (!res.ok) throw new Error("HTTP " + res.status);
-    const raw = await res.json();
-    maquinas  = adaptarDados(raw);
-    s3ok      = true;
-  } catch (err) {
-    console.warn("[S3] Falha ao carregar dados:", err);
-    exibirIndisponivel();
-    return; // Para aqui — sem mock, sem dados falsos
+async function buscarDadosS3() {
+  const resposta = await fetch(S3_API_ENDPOINT, { cache: "no-cache" });
+
+  if (!resposta.ok) {
+    throw new Error("HTTP " + resposta.status);
   }
 
-  // ── 2. Busca CVEs da NVD (paralelo, não bloqueia o resto) ──
-  let cves = [];
-  if (nvdIntegration) {
-    try {
-      cves = await nvdIntegration.fetchCVEs();
-    } catch (err) {
-      console.warn("[NVD] Falha ao carregar CVEs:", err);
-      cves = [];
+  const dados = await resposta.json();
+  return agruparPorMaquina(dados);
+}
+
+async function buscarCVEs() {
+  if (!nvdIntegration) {
+    return [];
+  }
+
+  try {
+    return await nvdIntegration.fetchCVEs();
+  } catch (erro) {
+    console.warn("[NVD] Falha:", erro);
+    return [];
+  }
+}
+
+async function buscarTickets(maquinas) {
+  try {
+    return await buscarTicketsJira();
+  } catch (erro) {
+    console.warn("[Jira] Falha, usando alertas locais:", erro);
+    return gerarTicketsLocais(maquinas);
+  }
+}
+
+function contarAlertasCriticos(tickets) {
+  let total = 0;
+
+  for (let i = 0; i < tickets.length; i++) {
+    const severidade = String(tickets[i].severidade).toLowerCase();
+
+    if (severidade.indexOf("crit") === 0) {
+      total = total + 1;
     }
   }
 
-  // ── 3. Calcula KPIs ──
-  const tickets    = gerarTickets(maquinas);
-  const risco      = scoreAmbiente(maquinas);
-  const alertas    = tickets.filter(t => t.severidade === "Crítico").length;
-  const cvesCrit   = cves.filter(c => c.cvss >= 9).length;
-  const sla        = calcularSLAMedio(maquinas);
-  const totalServs = maquinas.length;
+  return total;
+}
 
-  // ── 4. Renderiza tudo ──
-  renderKPIs(risco, alertas, nvdIntegration ? cvesCrit : "—", sla, totalServs);
+function contarCVEsCriticas(cves) {
+  let total = 0;
+
+  for (let i = 0; i < cves.length; i++) {
+    if (cves[i].cvss >= 9) {
+      total = total + 1;
+    }
+  }
+
+  return total;
+}
+
+async function carregarDados() {
+  let maquinas = [];
+
+  try {
+    maquinas = await buscarDadosS3();
+  } catch (erro) {
+    console.warn("[S3] Falha:", erro);
+    exibirIndisponivel();
+    return;
+  }
+
+  const cves = await buscarCVEs();
+  const tickets = await buscarTickets(maquinas);
+
+  const risco = scoreAmbiente(maquinas);
+  const alertas = contarAlertasCriticos(tickets);
+  const cvesCriticas = contarCVEsCriticas(cves);
+  const sla = calcularSLAMedio(maquinas);
+  const totalServidores = maquinas.length;
+
+  renderKPIs(risco, alertas, cvesCriticas, sla, totalServidores);
   renderHeatmap(maquinas);
   renderTickets(tickets);
   renderCVEs(cves);
-  setStatus(s3ok);
+  setStatus(true);
 }
 
-// ════════════════════════════════════════════════
-//  INICIALIZAÇÃO
-// ════════════════════════════════════════════════
 carregarDados();
 setInterval(carregarDados, REFRESH_INTERVAL_MS);
 
-// ════════════════════════════════════════════════
-//  GRÁFICOS — dados estáticos por ora
-//  TODO: dinamizar com histórico do S3 quando disponível
-// ════════════════════════════════════════════════
-const labels7 = ['02/mai','03/mai','04/mai','05/mai','06/mai','07/mai','08/mai'];
-new Chart(document.getElementById('trendChart'), {
-  type: 'bar',
+new Chart(document.getElementById("trendChart"), {
+  type: "bar",
   data: {
-    labels: labels7,
+    labels: ["02/mai", "03/mai", "04/mai", "05/mai", "06/mai", "07/mai", "08/mai"],
     datasets: [
-      { type:'line', label:'CPU',   data:[62,65,71,78,80,83,84], borderColor:'#378ADD', borderWidth:2, pointRadius:3, fill:false, tension:.35, yAxisID:'y' },
-      { type:'line', label:'RAM',   data:[64,66,68,69,71,70,72], borderColor:'#1D9E75', borderWidth:2, pointRadius:3, fill:false, tension:.35, borderDash:[5,3], yAxisID:'y' },
-      { type:'line', label:'Disco', data:[48,52,55,59,63,67,70], borderColor:'#BA7517', borderWidth:2, pointRadius:3, fill:false, tension:.35, borderDash:[2,2], yAxisID:'y' },
-      { type:'line', label:'Limiar',data:[85,85,85,85,85,85,85], borderColor:'#E24B4A', borderWidth:1.5, borderDash:[6,4], pointRadius:0, fill:false, yAxisID:'y' },
-      { type:'bar',  label:'Novas CVEs', data:[1,0,2,1,3,2,3], backgroundColor:'rgba(83,74,183,0.22)', borderColor:'#534AB7', borderWidth:1, yAxisID:'y2', borderRadius:3 }
+      { type: "line", label: "CPU", data: [62, 65, 71, 78, 80, 83, 84], borderColor: "#378ADD", borderWidth: 2, pointRadius: 3, fill: false, tension: 0.35, yAxisID: "y" },
+      { type: "line", label: "RAM", data: [64, 66, 68, 69, 71, 70, 72], borderColor: "#1D9E75", borderWidth: 2, pointRadius: 3, fill: false, tension: 0.35, borderDash: [5, 3], yAxisID: "y" },
+      { type: "line", label: "Disco", data: [48, 52, 55, 59, 63, 67, 70], borderColor: "#BA7517", borderWidth: 2, pointRadius: 3, fill: false, tension: 0.35, borderDash: [2, 2], yAxisID: "y" },
+      { type: "line", label: "Limiar", data: [85, 85, 85, 85, 85, 85, 85], borderColor: "#E24B4A", borderWidth: 1.5, borderDash: [6, 4], pointRadius: 0, fill: false, yAxisID: "y" },
+      { type: "bar", label: "Novas CVEs", data: [1, 0, 2, 1, 3, 2, 3], backgroundColor: "rgba(83,74,183,0.22)", borderColor: "#534AB7", borderWidth: 1, yAxisID: "y2", borderRadius: 3 }
     ]
   },
   options: {
-    responsive: true, maintainAspectRatio: false,
+    responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: { display: false },
-      tooltip: { callbacks: { label: ctx => ctx.dataset.yAxisID === 'y2' ? ctx.dataset.label + ': ' + ctx.parsed.y + ' CVEs' : ctx.dataset.label + ': ' + ctx.parsed.y + '%' } }
+      tooltip: {
+        callbacks: {
+          label: function(ctx) {
+            if (ctx.dataset.yAxisID === "y2") {
+              return ctx.dataset.label + ": " + ctx.parsed.y + " CVEs";
+            }
+
+            return ctx.dataset.label + ": " + ctx.parsed.y + "%";
+          }
+        }
+      }
     },
     scales: {
-      x:  { ticks: { font:{size:11}, color:'#888' }, grid: { display:false } },
-      y:  { min:20, max:100, position:'left',  ticks: { font:{size:11}, color:'#888', stepSize:20, callback: v => v + '%' }, grid: { color:'rgba(0,0,0,0.05)' } },
-      y2: { min:0,  max:6,   position:'right', ticks: { font:{size:11}, color:'#aaa', stepSize:2,  callback: v => Math.round(v) }, grid: { display:false } }
+      x: { ticks: { font: { size: 11 }, color: "#888" }, grid: { display: false } },
+      y: {
+        min: 20,
+        max: 100,
+        position: "left",
+        ticks: {
+          font: { size: 11 },
+          color: "#888",
+          stepSize: 20,
+          callback: function(valor) {
+            return valor + "%";
+          }
+        },
+        grid: { color: "rgba(0,0,0,0.05)" }
+      },
+      y2: {
+        min: 0,
+        max: 6,
+        position: "right",
+        ticks: {
+          font: { size: 11 },
+          color: "#aaa",
+          stepSize: 2,
+          callback: function(valor) {
+            return Math.round(valor);
+          }
+        },
+        grid: { display: false }
+      }
     }
   }
 });
 
-new Chart(document.getElementById('cveTrend'), {
-  type: 'bar',
+new Chart(document.getElementById("cveTrend"), {
+  type: "bar",
   data: {
-    labels: ['Nov','Dez','Jan','Fev','Mar','Abr'],
+    labels: ["Nov", "Dez", "Jan", "Fev", "Mar", "Abr"],
     datasets: [
-      { label:'Críticas', data:[2,1,2,3,4,5], backgroundColor:'#E24B4A', borderWidth:0 },
-      { label:'Altas',    data:[4,3,4,5,6,8], backgroundColor:'#EF9F27', borderWidth:0 },
-      { label:'Médias',   data:[5,4,5,6,5,7], backgroundColor:'#85B7EB', borderWidth:0 }
+      { label: "Criticas", data: [2, 1, 2, 3, 4, 5], backgroundColor: "#E24B4A", borderWidth: 0 },
+      { label: "Altas", data: [4, 3, 4, 5, 6, 8], backgroundColor: "#EF9F27", borderWidth: 0 },
+      { label: "Medias", data: [5, 4, 5, 6, 5, 7], backgroundColor: "#85B7EB", borderWidth: 0 }
     ]
   },
   options: {
-    responsive: true, maintainAspectRatio: false,
+    responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: { display: false },
-      tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y + ' CVEs' } }
+      tooltip: {
+        callbacks: {
+          label: function(ctx) {
+            return ctx.dataset.label + ": " + ctx.parsed.y + " CVEs";
+          }
+        }
+      }
     },
     scales: {
-      x: { stacked:true, ticks: { font:{size:11}, color:'#888' }, grid: { display:false } },
-      y: { stacked:true, ticks: { font:{size:11}, color:'#888', stepSize:5, callback: v => Math.round(v) }, grid: { color:'rgba(0,0,0,0.05)' } }
+      x: { stacked: true, ticks: { font: { size: 11 }, color: "#888" }, grid: { display: false } },
+      y: {
+        stacked: true,
+        ticks: {
+          font: { size: 11 },
+          color: "#888",
+          stepSize: 5,
+          callback: function(valor) {
+            return Math.round(valor);
+          }
+        },
+        grid: { color: "rgba(0,0,0,0.05)" }
+      }
     }
   }
 });
 
 function setPeriod(btn) {
-  const botoes = btn.parentElement.querySelectorAll('.pbtn');
-  for (let i = 0; i < botoes.length; i++) botoes[i].classList.remove('active');
-  btn.classList.add('active');
+  const botoes = btn.parentElement.querySelectorAll(".pbtn");
+
+  for (let i = 0; i < botoes.length; i++) {
+    botoes[i].classList.remove("active");
+  }
+
+  btn.classList.add("active");
 }
