@@ -15,6 +15,7 @@ const app = express();
 const userRoutes = require("./src/routes/userRoute")
 const maquinaRoutes = require("./src/routes/maquinaRoute")
 const dashRoutes = require("./src/routes/dashRoute")
+const financeiroRoutes = require("./src/routes/financeiroRoute")
 
 app.use(express.json());
 app.use(cors());
@@ -24,17 +25,18 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/user", userRoutes)
 app.use("/maquina", maquinaRoutes)
 app.use("/dash", dashRoutes)
+app.use("/financeiro", financeiroRoutes)
 
-const { S3Client, GetObjectCommand } = require("@aws-sdk/client-s3");
+// const { S3Client, GetObjectCommand } = require("@aws-sdk/client-s3");
 
-const s3Client = new S3Client({ 
-    region: process.env.AWS_REGION,
-    credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-        sessionToken: process.env.AWS_SESSION_TOKEN
-    }
-});
+// const s3Client = new S3Client({ 
+//     region: process.env.AWS_REGION,
+//     credentials: {
+//         accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+//         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+//         sessionToken: process.env.AWS_SESSION_TOKEN
+//     }
+// });
 
 app.get("/client", async (req, res) => {
     try {

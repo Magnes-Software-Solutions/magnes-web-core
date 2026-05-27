@@ -42,7 +42,7 @@
                                         <path
                                             d="M7 3.34V5a3 3 0 0 0 3 3a2 2 0 0 1 2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2c0-1.1.9-2 2-2h3.17" />
                                         <path d="M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05" />
-                                        <circle cx="12" cy="12" r="10"/>
+                                        <circle cx="12" cy="12" r="10" />
                                     </svg><a class="nav-link">Dashboard
                                         GRC</a>
                                 </li>
@@ -127,6 +127,13 @@
                                     <p>Preencha as especificações</p>
                                 </div>
 
+                                <div class="col-md-12">
+                                    <label class="form-label">Selecione a Workstation para configurar:</label>
+                                    <select class="form-select" id="select_workstation">
+                                        <option value="">Carregando máquinas...</option>
+                                    </select>
+                                </div>
+
                                 <div class="col-md-6">
                                     <label class="form-label">Valor Médio por Exame</label>
                                     <input type="text" class="form-control" value="1200" id="input_valor_medio">
@@ -144,8 +151,13 @@
 
                                 <div class="col-md-6">
                                     <label class=" form-label">Custo da Manutenção Corretiva</label>
-                                    <input type="text" class="form-control" value="8500" id="input_meta_sla">
+                                    <input type="text" class="form-control" value="8500"
+                                        id="input_manutencao_corretiva">
                                 </div>
+
+                                <button type="button" class="botao-cadastrar-financeiro"
+                                    onclick="cadastrarFinanceiro()">Cadastrar
+                                    Informações</button>
                         </div>
                         </form>
                     </div>
@@ -156,4 +168,65 @@
         <script src="../bootstrap-5.3.8-dist/js/bootstrap.js"></script>
 
 </body>
+
 </html>
+<script>
+    window.onload = function () {
+        const fkRedeHospital = sessionStorage.FK_REDE_HOSPITAL;
+
+        if (!fkRedeHospital) {
+            alert("Rede hospitalar não encontrada.");
+            return;
+        }
+
+        buscarWorkstations(fkRedeHospital);
+    };
+
+    async function buscarWorkstations(fkRedeHospital) {
+
+        const resposta = await fetch(`/maquina/listar/${fkRedeHospital}`);
+
+        const maquinas = await resposta.json();
+
+        const select = document.getElementById("select_workstation");
+
+        select.innerHTML = '<option value="">Selecione uma máquina</option>';
+
+        maquinas.forEach(maquina => {
+
+            select.innerHTML += `
+        <option value="${maquina.macAddress}">
+            ${maquina.macAddress} (${maquina.tipoModelo})
+        </option>
+    `;
+        });
+    }
+
+    async function cadastrarFinanceiro() {
+        const macAddress = document.getElementById("select_workstation").value;
+        const valorMedio = document.getElementById("input_valor_medio").value;
+        const examesHora = document.getElementById("input_quantidade_exames").value;
+        const metaSla = document.getElementById("input_meta_sla").value;
+        const custoCorretiva = document.getElementById("input_manutencao_corretiva").value;
+
+        if (!macAddress || !valorMedio || !examesHora || !metaSla || !custoCorretiva) {
+            alert('Por favor, selecione uma máquina e preencha todos os campos.');
+            return;
+        }
+
+        const resposta = await fetch("/financeiro/cadastrar", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                valorMedio,
+                examesHora,
+                metaSla,
+                custoCorretiva,
+                macAddress
+            })
+        });
+
+        const data = await resposta.json();
+        alert(data.mensagem);
+    }
+</script>

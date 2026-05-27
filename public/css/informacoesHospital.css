@@ -87,7 +87,7 @@ body.fundo-principal {
     box-shadow: 0 0 8px rgba(53, 191, 237, 0.2);
 }
 
-.botao-magnes {
+.botao-cadastrar-financeiro {
     background-color: #35bfed;
     color: #0a1628;
     border: none;
@@ -99,7 +99,7 @@ body.fundo-principal {
     transition: 0.3s;
 }
 
-.botao-magnes:hover {
+.botao-cadastrar-financeiro:hover {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(53, 191, 237, 0.4);
 }
@@ -107,3 +107,4 @@ body.fundo-principal {
 .modal-title {
     color: black;
 }
+
