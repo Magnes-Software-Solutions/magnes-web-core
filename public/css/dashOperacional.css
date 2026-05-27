@@ -357,6 +357,7 @@
     max-height: 90vh;
     overflow-y: auto;
     padding: 30px 40px;
+    outline: none;
 }
 
 .divCanvas {
@@ -903,6 +904,21 @@
 
     p {
         color: #ffd500;
+        margin: 0;
+    }
+}
+
+/* Status azul */
+.statusAzul {
+    background: linear-gradient(
+      135deg,
+      #104c68,
+      #123550
+    );
+    border-color: #0e5875;
+
+    p {
+        color: #00d4f9;
         margin: 0;
     }
 }

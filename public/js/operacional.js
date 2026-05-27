@@ -20,19 +20,24 @@ async function carregarDados() {
 
 function classificarCor(componente, variavel, valor) {
     if (variavel == "status") {
+        var itensStatus = document.querySelectorAll(`#status_${componente}`);
         var itens = document.querySelectorAll(`#uso_${componente}`);
 
         if (valor == "Estável") {
             var cor = "corVerde";
+            var corStatus = "statusVerde";
 
         } else if (valor == "Anormal") {
             var cor = "corAmarelo";
+            var corStatus = "statusAmarelo";
 
         }else if (valor == "Crítico") {
             var cor = "corVermelho";
+            var corStatus = "statusVermelho";
 
         } else {
             var cor = "corAzul";
+            var corStatus = "statusAzul";
         }
 
     } else if (variavel == "oscilacao") {
@@ -81,6 +86,12 @@ function classificarCor(componente, variavel, valor) {
         }
     }
 
+    if (itensStatus != undefined) {
+        itensStatus.forEach(itemStatus => {
+        itemStatus.classList.add(corStatus);
+        });
+    }
+
     itens.forEach(item => {
         item.classList.add(cor);
     });
@@ -111,7 +122,7 @@ async function exibirMRI(registro) {
     var maquinas = registro;
     maquinas.forEach(maquina => {
         var hora = maquina.horario.split(" ")
-        hora = hora[1]
+        hora = hora[1].slice(0, 5);
 
         document.getElementById("cards").innerHTML += `
             <div class="divAuxiliar">
@@ -136,7 +147,7 @@ async function exibirMRI(registro) {
                         <hr>
                         <div class="dialog-tituloComponente">
                             <p class="tituloComponente">CPU</p>
-                            <div id="statusCpu" class="status statusVerde">
+                            <div id="status_cpu" class="status">
                                 <p id="statusComponente_cpu">${maquina.cpu.status}</p>
                             </div>
                         </div>
@@ -144,7 +155,7 @@ async function exibirMRI(registro) {
                             <div class="graficoPadrao">
                                 <p class="textoChart">Relação da porcentagem de uso da CPU por horário</p>
                                 <div class="divCanvas">
-                                    <canvas id="graf1Cpu"></canvas>
+                                    <canvas id="grafUsoCpu_${maquina.macAddress}"></canvas>
                                 </div>
                                 <div class="informacoes">
                                     <div class="dialogComponentes-corpo">
@@ -155,16 +166,19 @@ async function exibirMRI(registro) {
                                         <p>Limite Crítico:</p>&nbsp
                                         <p id="limiteCritico" class="client corAzul">${maquina.cpu.limite}%</p>
                                     </div>
-                                    <div class="dialogComponentes-corpo">
+                                    <div class="dialogComponentes-corpo" style="margin-bottom: 0px !important;">
                                         <p>Oscilação:</p>&nbsp
                                         <p id="oscilacao_cpu" class="client">${maquina.cpu.oscilacao}</p>
+                                    </div>
+                                    <div class="dialogComponentes-corpo">
+                                        <p style="font-size: 16px !important;">σ = desvio padão</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="graficoPadrao">
                                 <p class="textoChart">Regressão Linear de CPU por horário</p>
                                 <div class="divCanvas">
-                                    <canvas id="graf2Cpu"></canvas>
+                                    <canvas id="grafRegCpu_${maquina.macAddress}"></canvas>
                                 </div>
                                 <div class="informacoes">
                                     <div class="dialogComponentes-corpo">
@@ -182,7 +196,7 @@ async function exibirMRI(registro) {
                         <hr>
                         <div class="dialog-tituloComponente">
                             <p class="tituloComponente">RAM</p>
-                            <div id="statusRam" class="status statusVerde">
+                            <div id="status_ram" class="status">
                                 <p id="statusComponente_ram">${maquina.ram.status}</p>
                             </div>
                         </div>
@@ -190,7 +204,7 @@ async function exibirMRI(registro) {
                             <div class="graficoPadrao">
                                 <p class="textoChart">Relação da porcentagem de uso da RAM por horário</p>
                                 <div class="divCanvas">
-                                    <canvas id="graf1Ram"></canvas>
+                                    <canvas id="grafUsoRam_${maquina.macAddress}"></canvas>
                                 </div>
                                 <div class="informacoes">
                                     <div class="dialogComponentes-corpo">
@@ -201,16 +215,19 @@ async function exibirMRI(registro) {
                                         <p>Limite Crítico:</p>&nbsp
                                         <p id="limiteCritico" class="client corAzul">${maquina.ram.limite}%</p>
                                     </div>
-                                    <div class="dialogComponentes-corpo">
+                                    <div class="dialogComponentes-corpo" style="margin-bottom: 0px !important;">
                                         <p>Oscilação:</p>&nbsp
                                         <p id="oscilacao_ram" class="client">${maquina.ram.oscilacao}</p>
+                                    </div>
+                                    <div class="dialogComponentes-corpo">
+                                        <p style="font-size: 16px !important;">σ = desvio padão</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="graficoPadrao">
                                 <p class="textoChart">Regressão Linear de RAM por horário</p>
                                 <div class="divCanvas">
-                                    <canvas id="graf2Ram"></canvas>
+                                    <canvas id="grafRegRam_${maquina.macAddress}"></canvas>
                                 </div>
                                 <div class="informacoes">
                                     <div class="dialogComponentes-corpo">
@@ -251,7 +268,7 @@ async function exibirMRI(registro) {
                                             <h9>CPU</p>
                                         </div>
                                         <p id="uso_cpu">${maquina.cpu.uso}%</p>
-                                        <div id="statusCpu" class="status statusVerde">
+                                        <div id="status_cpu" class="status">
                                             <p id="statusComponente_cpu">${maquina.cpu.status}</p>
                                         </div>
                                     </div>
@@ -278,7 +295,7 @@ async function exibirMRI(registro) {
                                             <h9>RAM</p>
                                         </div>
                                         <p id="uso_ram">${maquina.ram.uso}%</p>
-                                        <div id="statusRam" class="status statusVerde">
+                                        <div id="status_ram" class="status">
                                             <p id="statusComponente_ram">${maquina.ram.status}</p>
                                         </div>
                                     </div>
