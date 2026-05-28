@@ -92,6 +92,10 @@
     font-weight: bold;
 }
 
+.kpiExplicacaoVerde{
+    color: #00ff88 !important;
+}
+
 .kpiAmarelo {
     background: linear-gradient(
       135deg,
@@ -112,6 +116,10 @@
     font-weight: bold;
 }
 
+.kpiExplicacaoAmarelo{
+    color: #ffd500 !important;
+}
+
 .kpiVermelho {
     background: linear-gradient(
       135deg,
@@ -130,6 +138,10 @@
     color: #ff3366;
     margin: 10px 0px;
     font-weight: bold;
+}
+
+.kpiExplicacaoVermelho{
+    color: #ff3366 !important;
 }
 
 .miniTextos {
