@@ -152,7 +152,7 @@
         <div class="kpi-value danger" id="critical_workstations">0</div>
         <div class="kpi-trend" style="color: white; "><b>Intervenção imediata</b></div>
         <div style="margin-top: 10px;" class="ajuda-container">
-          <p id="maquina_critica"></p>
+          <div class="alertas-kpiCritica" id="maquina_critica"></div>
           <span onclick="document.getElementById('dialogLegendaCritica').showModal();"
             class="icone-interrogacao">?</span>
           <div class="caixa-informacao">
@@ -160,6 +160,20 @@
           </div>
         </div>
       </div>
+
+      <!-- Dialog principais fatores de risco -->
+      <dialog id="dialogFatoresRisco" class="dialogLegenda">
+        <button class='botaoDialogLegenda' onclick='document.getElementById("dialogFatoresRisco").close()'>X</button>
+        <h3>
+          Fatores de Risco
+        </h3>
+        <p id="maquina_nome"></p>
+        <div id="fatores_risco"></div>
+
+
+
+
+      </dialog>
 
       <!-- DIalog de legenda - Total -->
 
@@ -220,7 +234,7 @@
     </p>
 
 
-    
+
 
 
     </div>
@@ -268,20 +282,7 @@
 
 
 
-    <div class="risco">
-      <h2>Risco de Falha</h2>
-      <p id="maquina_nome"></p>
-      <canvas id="graficoRisco"></canvas>
-      <p>Principais fatores de risco</p>
-      <div id="fatores_risco"></div>
-    </div>
 
-  </div>
-  </div>
-
-
-
-  </div>
 
   </div>
   <script src="https://connect-cdn.atl-paas.net/all.js"></script>
@@ -290,7 +291,7 @@
   <script src="../services/api.js"></script>
   <script src="../services/maquinaService.js"></script>
   <script src="../js/sessao.js"></script>
-  <script src="../js/relatorio.js"></script>
+
   <script>
 
     var hospitalSelecionado = null;
@@ -309,24 +310,21 @@
       listaAlertas.innerHTML = "";
 
       try {
-        var resposta = await fetch("http://localhost:3333/jira-alertas");
-        var dados = await resposta.json();
+        var resposta = await fetch("http://localhost:3333/jira/tickets");
+        var issues = await resposta.json();
 
-        console.log("DEBUG ALERTAS:", dados);
+        console.log("JIRA RESPONSE:", issues);
 
-        var issues = dados.issues || [];
-
-        if (issues.length == 0) {
+        if (!Array.isArray(issues) || issues.length == 0) {
           listaAlertas.innerHTML = "<p>Nenhum alerta encontrado</p>";
           return;
         }
 
         for (var i = 0; i < issues.length; i++) {
           var ticket = issues[i];
-
           listaAlertas.innerHTML +=
             "<div class='alerta'><p>" +
-            ticket.key + " - " + ticket.fields.summary +
+            ticket.id + " - " + ticket.descricao +
             "</p></div>";
         }
 
@@ -335,12 +333,30 @@
         listaAlertas.innerHTML = "<p>Erro ao carregar alertas</p>";
       }
     }
+    // Função para abrir o dialog de detalhes da máquina com os fatores de risco
 
-    // Seleciona uma máquina e recarrega os dados
-    function selecionarMaquina() {
-      maquinaSelecionada = document.getElementById("select_workstation").value;
-      carregarDados();
+    function abrirDetalhesMaquina(mac, cpu, ram, disco) {
 
+      document.getElementById("maquina_nome").innerHTML =
+        "<b>Workstation:</b> " + mac;
+
+      document.getElementById("fatores_risco").innerHTML = `
+
+    <div class="alerta">
+      <p>CPU: ${cpu}%</p>
+    </div>
+
+    <div class="alerta">
+      <p>RAM: ${ram}%</p>
+    </div>
+
+    <div class="alerta">
+      <p>Disco: ${disco}%</p>
+    </div>
+
+  `;
+
+      document.getElementById("dialogFatoresRisco").showModal();
     }
 
     // Carrega as empresas no select do dialog
@@ -364,7 +380,7 @@
       }
     }
 
-    // Fecha o dialog e inicializa o dashboard
+    // Fecha o dialog e inicializa a dashboard
     function fecharDialog() {
       hospitalSelecionado = document.getElementById("select_rede").value;
       document.getElementById("dialogEmpesa").close();
@@ -441,56 +457,18 @@
       }
     });
 
-    // Gráfico de risco
-    var graficoRisco = new Chart(document.getElementById("graficoRisco"), {
-      type: "doughnut",
-      data: {
-        datasets: [{
-          data: [0, 100],
-          backgroundColor: ["#FF5C5C", "#1e293b"],
-          borderWidth: 0
-        }]
-      },
-      options: {
-        rotation: -90,
-        circumference: 180,
-        cutout: "75%",
-        plugins: { legend: { display: false }, tooltip: { enabled: false } }
-      },
-      plugins: [{
-        id: "textoCentral",
-        beforeDraw(chart) {
-          var largura = chart.width;
-          var altura = chart.height;
-          var ctx = chart.ctx;
-          var risco = chart.config.data.datasets[0].data[0];
-          ctx.restore();
-          ctx.font = "bold 28px Arial";
-          ctx.fillStyle = "#ffffff";
-          ctx.textAlign = "center";
-          ctx.fillText(risco + "%", largura / 2, altura - 30);
-          ctx.font = "16px Arial";
-          ctx.fillStyle = "#FF5C5C";
-          ctx.fillText("ALTO", largura / 2, altura - 5);
-          ctx.save();
-        }
-      }]
-    });
+
 
     async function carregarDados() {
 
-      // =========================================================
       // BUSCA DADOS DA API
-      // =========================================================
 
       var resposta = await fetch("http://localhost:3333/client");
 
       var todos = await resposta.json();
 
 
-      // =========================================================
       // FILTRA PELA EMPRESA SELECIONADA
-      // =========================================================
 
       var resultado = [];
 
@@ -512,9 +490,7 @@
       }
 
 
-      // =========================================================
       // PEGA MACS ÚNICOS
-      // =========================================================
 
       var macsUnicos = [];
 
@@ -530,9 +506,7 @@
       }
 
 
-      // =========================================================
       // DEFINE MÁQUINA SELECIONADA
-      // =========================================================
 
       var macAlvo = maquinaSelecionada;
 
@@ -543,9 +517,7 @@
       }
 
 
-      // =========================================================
       // PEGA REGISTROS DA MÁQUINA
-      // =========================================================
 
       var registrosMaquina = [];
 
@@ -559,9 +531,7 @@
       }
 
 
-      // =========================================================
       // CONTADORES DOS STATUS
-      // =========================================================
 
       var estaveis = 0;
 
@@ -574,9 +544,7 @@
       document.getElementById("maquina_critica").innerHTML = "";
 
 
-      // =========================================================
       // VERIFICA STATUS DE CADA WORKSTATION
-      // =========================================================
 
       for (var i = 0; i < macsUnicos.length; i++) {
 
@@ -624,9 +592,7 @@
         }
 
 
-        // =========================================================
-        // CLASSIFICAÇÃO
-        // =========================================================
+        // classifica máquina e atualiza contadores na KPI
 
         if (cpu > 90 || ram > 90 || disco > 90) {
 
@@ -653,9 +619,7 @@
       }
 
 
-      // =========================================================
       // SE NÃO TIVER CRÍTICAS
-      // =========================================================
 
       if (document.getElementById("maquina_critica").innerHTML == "") {
 
@@ -665,9 +629,7 @@
       }
 
 
-      // =========================================================
       // ATUALIZA KPIs
-      // =========================================================
 
       document.getElementById("total_workstations").innerText =
         macsUnicos.length;
@@ -682,9 +644,7 @@
         criticas;
 
 
-      // =========================================================
       // DADOS DOS GRÁFICOS
-      // =========================================================
 
       var labels = [];
 
@@ -741,9 +701,7 @@
       }
 
 
-      // =========================================================
       // ATUALIZA GRÁFICO PRINCIPAL
-      // =========================================================
 
       grafico.data.labels = labels;
 
@@ -756,9 +714,7 @@
       grafico.update();
 
 
-      // =========================================================
       // ÚLTIMO REGISTRO
-      // =========================================================
 
       var ultimo = registrosMaquina[registrosMaquina.length - 1];
 
@@ -787,36 +743,11 @@
       }
 
 
-      // =========================================================
-      // RISCO
-      // =========================================================
-
-      var risco = cpuFinal;
-
-      if (ramFinal > risco) {
-
-        risco = ramFinal;
-
-      }
-
-      if (discoFinal > risco) {
-
-        risco = discoFinal;
-
-      }
 
 
-      graficoRisco.data.datasets[0].data = [
-        risco,
-        100 - risco
-      ];
-
-      graficoRisco.update();
 
 
-      // =========================================================
       // FATORES DE RISCO
-      // =========================================================
 
       var fatores =
         document.getElementById("fatores_risco");
@@ -858,6 +789,49 @@
           "<div class='alerta'><p>Máquina estável</p></div>";
 
       }
+      var htmlCriticas = "";
+
+      for (var i = 0; i < macsUnicos.length; i++) {
+
+        var mac = macsUnicos[i];
+
+        var registros = resultado.filter(function (m) {
+          return m.macAddress == mac;
+        });
+
+        var ultimo = registros[registros.length - 1];
+
+        var cpu = ultimo.cpu ? ultimo.cpu.uso : 0;
+        var ram = ultimo.ram ? ultimo.ram.uso : 0;
+        var disco = ultimo.disco ? ultimo.disco.uso : 0;
+
+        // Máquina crítica
+        if (cpu > 90 || ram > 90 || disco > 90) {
+
+          htmlCriticas += `
+  <p
+    style="
+      cursor:pointer;
+      color:#ff5c5c;
+      margin-top:8px;
+      font-weight:bold;
+    "
+
+    onclick="abrirDetalhesMaquina('${mac}', ${cpu}, ${ram}, ${disco})"
+  >
+    ${mac}
+  </p>
+`;
+        }
+      }
+
+      if (htmlCriticas == "") {
+
+        htmlCriticas = "Nenhuma workstation crítica";
+
+      }
+
+      document.getElementById("maquina_critica").innerHTML = htmlCriticas;
     }
 
     // Inicializa
