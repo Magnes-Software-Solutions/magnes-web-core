@@ -24,7 +24,24 @@ function classificarCor(cardAtual, componente, variavel, valor) {
     let cor = "";
     let corStatus = "";
 
-    if (variavel == "status") {
+    if (variavel == "indice_saude") {
+        itensStatus = cardAtual.querySelectorAll(`.${variavel}`)
+        valor = valor.split("/")[0]
+
+        if (valor > 75) {
+            corStatus = "statusVerde";
+
+        } else if (valor > 50) {
+            corStatus = "statusAmarelo";
+
+        } else if (valor <= 50) {
+            corStatus = "statusVermelho";
+
+        } else {
+            corStatus = "statusAzul"
+        }
+
+    } else if (variavel == "status") {
         itensStatus = cardAtual.querySelectorAll(`.status_${componente}`);
         itens = cardAtual.querySelectorAll(`.uso_${componente}`);
 
@@ -45,8 +62,7 @@ function classificarCor(cardAtual, componente, variavel, valor) {
             corStatus = "statusAzul";
         }
 
-    } else
-         if (variavel == "oscilacao") {
+    } else if (variavel == "oscilacao") {
         itens = cardAtual.querySelectorAll(`.oscilacao_${componente}`);
 
         if (valor == "Baixa (abaixo que 1σ)") {
@@ -116,13 +132,16 @@ function classificarCor(cardAtual, componente, variavel, valor) {
 
 function chamarCor(cardAtual, elemento) {
     var componentes = ["cpu", "ram", "disco"];
-    var variaveis = ["status", "oscilacao", "degradacao", "previsao100"];
+    var variaveis = ["indice_saude", "status", "oscilacao", "degradacao", "previsao100"];
 
     for (let componente of componentes) {
         for (let variavel of variaveis) {
             let valor
 
-            if (variavel == "previsao100") {
+            if (variavel == "indice_saude") {
+                valor = elemento.indiceSaude;
+
+            } else if (variavel == "previsao100") {
                 valor = elemento[componente].previsao.previsao100;
 
             } else {
@@ -155,8 +174,8 @@ async function exibirMRI(registro) {
                                     onclick="document.getElementById('dialogGraf_${maquina.macAddress}').close()">
                             </div>
                             <div class="dialogUso">
-                                <div class="bodyImg bodyImgVerde">
-                                    <p id="indice_saude">Saúde: ${maquina.indiceSaude}</p>
+                                <div class="indice_saude bodyImg">
+                                    <p>Saúde: ${maquina.indiceSaude}</p>
                                 </div>
                                 <p class="dialogUso-texto">Última atualização às ${hora}</p>
                                 <div class="bodyImg bodyImgAzul">
@@ -212,7 +231,7 @@ async function exibirMRI(registro) {
                                 </div>
                             </div>
                         </div>
-                        <p><a href="">Clique para descobrir a possível causa</a></p>
+                        <p><a href="dashGestor.html" onclick="pegarMac('${maquina.macAddress}')">Clique para descobrir a possível causa</a></p>
                         <hr>
                         <div class="dialog-tituloComponente">
                             <p class="tituloComponente">RAM</p>
@@ -303,7 +322,6 @@ async function exibirMRI(registro) {
                                 </div>
                             </div>
                         </div>
-                        <p><a href="">Clique para descobrir a possível causa</a></p>
                     </div>
                 </dialog>
                 <div class="col">
@@ -312,8 +330,8 @@ async function exibirMRI(registro) {
                         <div class="card-body bodyMaquina">
                             <div class="bodyMaquina-header">
                                 <p class="macAddressCard">${maquina.macAddress}</p>
-                                <div class="bodyImg bodyImgVerde">
-                                    <p id="indice_saude">Saúde: ${maquina.indiceSaude}</p>
+                                <div class="indice_saude bodyImg">
+                                    <p>Saúde: ${maquina.indiceSaude}</p>
                                 </div>                    
                             </div>
                             <div class="localizacao">
@@ -412,6 +430,11 @@ async function exibirMRI(registro) {
 
         chamarCor(cardAtual, maquina)
     });
+}
+
+function pegarMac(macAddressAtual) {
+    console.log(macAddressAtual)
+    sessionStorage.setItem("MAC_ADDRESS_ATUAL", macAddressAtual);
 }
 
 async function iniciar() {
