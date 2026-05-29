@@ -106,7 +106,7 @@ async function puxarDadosRanking() {
         }
     }
 }
- 
+
 function corLinhaRam(indice) {
     const cores = [
         '#00d4f9',
@@ -118,18 +118,18 @@ function corLinhaRam(indice) {
         '#38bdf8',
         '#f472b6'
     ];
- 
+
     return cores[indice % cores.length];
 }
- 
+
 
 function formatarDataHoraRam(horario) {
     const data = new Date(horario);
- 
+
     if (Number.isNaN(data.getTime())) {
         return horario;
     }
- 
+
     return data.toLocaleString('pt-BR', {
         day: '2-digit',
         month: '2-digit',
@@ -137,48 +137,48 @@ function formatarDataHoraRam(horario) {
         minute: '2-digit'
     });
 }
- 
+
 
 async function puxarGraficoRam() {
 
     const resposta = await fetch(`${S3_API_ENDPOINT}`, { cache: 'no-cache' });
- 
+
     if (!resposta.ok) {
         throw new Error('Erro ao acessar o bucket: ' + resposta.statusText);
     }
- 
+
 
     const dadosCompletos = await resposta.json();
     const historico = dadosCompletos.historico;
- 
+
     const canvas = document.getElementById('historico-caio');
- 
+
     if (!canvas) {
         console.error('Canvas #historico-caio não encontrado no HTML');
         return;
     }
- 
+
     if (!Array.isArray(historico) || historico.length === 0) {
         canvas.parentElement.innerHTML =
             '<p class="grafico-vazio">Nenhum registro de RAM encontrado.</p>';
         return;
     }
- 
+
     const todosHorarios = historico.flatMap(maquina =>
         maquina.registros.map(r => r.horario)
     );
- 
+
     const labels = [...new Set(todosHorarios)].sort();
- 
+
     const datasets = historico.map((maquina, indice) => {
         const cor = corLinhaRam(indice);
- 
-        
+
+
         const valores = labels.map(horario => {
             const registro = maquina.registros.find(r => r.horario === horario);
             return registro ? registro.ramUso : null;
         });
- 
+
         return {
             label: maquina.macAddress,
             data: valores,
@@ -191,11 +191,11 @@ async function puxarGraficoRam() {
             tension: 0.3
         };
     });
- 
+
     if (graficoRamHistorico) {
         graficoRamHistorico.destroy();
     }
- 
+
     graficoRamHistorico = new Chart(canvas, {
         type: 'line',
         data: {
@@ -236,7 +236,7 @@ async function puxarGraficoRam() {
             scales: {
                 x: {
                     ticks: { color: '#9ab3d0', maxRotation: 45 },
-                    grid:  { color: 'rgba(154, 179, 208, 0.12)' },
+                    grid: { color: 'rgba(154, 179, 208, 0.12)' },
                     title: { display: true, text: 'Horário / Data', color: '#9ab3d0' }
                 },
                 y: {
@@ -246,7 +246,7 @@ async function puxarGraficoRam() {
                         color: '#9ab3d0',
                         callback: (value) => `${value}%`
                     },
-                    grid:  { color: 'rgba(154, 179, 208, 0.12)' },
+                    grid: { color: 'rgba(154, 179, 208, 0.12)' },
                     title: { display: true, text: 'Uso de RAM', color: '#9ab3d0' }
                 }
             }
