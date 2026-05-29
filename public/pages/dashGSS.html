@@ -305,7 +305,7 @@
 
 
 
-
+    // Definindo as variáveis globais para armazenar a empresa e máquina selecionadas
 
     var hospitalSelecionado = null;
     var maquinaSelecionada = null;
@@ -338,7 +338,7 @@
 
 
 
-    // ALERTAS JIRA
+    // Função para receber alertas do Jira e exibir na dashboard
 
 
     async function receberAlertasJira() {
@@ -389,7 +389,7 @@
 
 
 
-    // DIALOG DETALHES MÁQUINA
+    // Função para abrir o dialog com os detalhes dos fatores de risco da máquina selecionada
 
 
     function abrirDetalhesMaquina(mac, cpu, ram, disco) {
@@ -419,7 +419,7 @@
 
 
 
-    // CARREGA EMPRESAS
+    // Função que carrega as empresas para o select de seleção de rede hospitalar
 
 
     async function carregarEmpresas() {
@@ -455,7 +455,7 @@
 
 
 
-    // FECHA DIALOG
+    // Função para fechar o dialog
 
 
     function fecharDialog() {
@@ -482,7 +482,7 @@
 
 
 
-    // CARREGA MAQUINAS
+    // Função para carregar as máquinas da empresa selecionada e preencher o select de máquinas
 
 
     async function carregarMaquinas() {
@@ -527,7 +527,7 @@
 
 
 
-    // SELECIONA MAQUINA
+    // Função para selecionar a máquina
 
 
     function selecionarMaquina() {
@@ -540,7 +540,7 @@
 
 
 
-    // GRÁFICO
+    // Gráfico - Configurações iniciais
 
 
     var grafico = new Chart(
@@ -626,7 +626,7 @@
 
 
 
-    // CARREGAR DADOS
+    // Função para carregar os dados da dashboard
 
 
     async function carregarDados() {
@@ -638,7 +638,7 @@
 
       var resultado = [];
 
-      // FILTRA EMPRESA
+      // FILTRA MÁQUINAS DA EMPRESA SELECIONADA
       for (var i = 0; i < todos.length; i++) {
 
         var empresa =
@@ -655,7 +655,7 @@
         return;
       }
 
-      // MACS ÚNICOS
+      // Mac addresses únicos para contagem de máquinas e análise individual
       var macsUnicos = [];
 
       for (var i = 0; i < resultado.length; i++) {
@@ -668,7 +668,7 @@
         }
       }
 
-      // MÁQUINA ALVO
+      // Maquina alvo para exibir detalhes no gráfico (selecionada ou última da lista)
       var macAlvo = maquinaSelecionada;
 
       if (!macAlvo) {
@@ -676,7 +676,7 @@
         macAlvo = macsUnicos[0];
       }
 
-      // REGISTROS MÁQUINA
+      // Registros da máquina alvo para exibir no gráfico e detalhes individuais
       var registrosMaquina = [];
 
       for (var i = 0; i < resultado.length; i++) {
@@ -687,7 +687,7 @@
         }
       }
 
-      // ÚLTIMO REGISTRO
+      // Variavel para armazenar o último horário de atualização encontrado nos registros da máquina alvo
       var ultimo =
         registrosMaquina[registrosMaquina.length - 1];
 
@@ -716,20 +716,18 @@
           return m.macAddress == mac;
 
         });
-
+        // Considera o último registro da máquina para análise de status
         var ultimo =
           registros[registros.length - 1];
-
+        // Extrai os valores de CPU, RAM e Disco, considerando 0 se não houver dados
         var cpu =
           ultimo.cpu ? ultimo.cpu.uso : 0;
-
         var ram =
           ultimo.ram ? ultimo.ram.uso : 0;
-
         var disco =
           ultimo.disco ? ultimo.disco.uso : 0;
 
-        // CRÍTICA
+        // CRÍTICA - Qualquer recurso acima de 90% é considerado crítico
         if (cpu > 90 || ram > 90 || disco > 90) {
 
           criticas++;
@@ -797,7 +795,7 @@
       document.getElementById("maquina_critica")
         .innerHTML = htmlCriticas;
 
-      // DADOS GRÁFICO
+      // Dados para gráfico da máquina selecionada (ou última da lista)
       var labels = [];
       var cpu = [];
       var ram = [];
