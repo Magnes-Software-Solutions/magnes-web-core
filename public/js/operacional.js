@@ -1,7 +1,7 @@
 // const { commonParams } = require("@aws-sdk/client-s3/dist-types/endpoint/EndpointParameters");
 
 const S3_API_ENDPOINT = "/client";
-const REFRESH_INTERVAL_MS = 60_000;
+const REFRESH_INTERVAL_MS = 60000;
 
 async function carregarDados() {
     try {
@@ -15,6 +15,8 @@ async function carregarDados() {
 
     } catch (err) {
         console.log("[S3] Falha — usando mock:", err);
+        const registro = await res.json();
+        console.log("Dados recebidos:", registro);
     }
 }
 
