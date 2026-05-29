@@ -58,7 +58,8 @@ app.get("/client", async (req, res) => {
         });
 
         const data = await streamToString(response.Body);
-        res.json(JSON.parse(data));
+const json = JSON.parse(data);
+res.json(json.maquinas || json);
 
     } catch (err) {
         console.error("Erro ao ler S3:", err.name, err.message);
