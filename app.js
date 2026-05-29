@@ -158,6 +158,91 @@ app.get("/jira/tickets", async (req, res) => {
     }
 });
 
+function jiraAuthHeader() {
+    const email = process.env.JIRA_EMAIL;
+    const token = process.env.JIRA_API_TOKEN;
+
+}
+
+function tempoDesde(data) {
+    const diffMs = Date.now() - new Date(data).getTime();
+    if (!Number.isFinite(diffMs) || diffMs < 0) return "agora";
+
+    const minutos = Math.floor(diffMs / 60000);
+    if (minutos < 60) return `${Math.max(minutos, 1)}m`;
+
+    const horas = Math.floor(minutos / 60);
+    if (horas < 24) return `${horas}h`;
+
+    const dias = Math.floor(horas / 24);
+    return `${dias}d`;
+}
+
+function severidadeJira(issue) {
+    const statusCategory = issue.fields?.status?.statusCategory?.key;
+    if (statusCategory === "done") return "Resolvido";
+
+    const priority = (issue.fields?.priority?.name || "").toLowerCase();
+    if (["highest", "high", "critical", "blocker", "crítica", "critico", "crítico"].includes(priority)) {
+        return "Crítico";
+    }
+
+    return "Atenção";
+}
+
+function montarTicketJira(issue) {
+    const status = issue.fields?.status?.name || "Sem status";
+
+    return {
+        id: issue.key,
+        descricao: issue.fields?.summary || "Sem descrição",
+        severidade: severidadeJira(issue),
+        tempo: tempoDesde(issue.fields?.created),
+        status
+    };
+}
+
+app.get("/jira/tickets", async (req, res) => {
+    try {
+        const baseUrl = process.env.JIRA_BASE_URL;
+        const projectKey = process.env.JIRA_PROJECT_KEY || "KM";
+        const jql = process.env.JIRA_JQL || `project = ${projectKey} AND status in ("TO DO", "IN PROGRESS", "DONE") ORDER BY updated DESC`;
+
+        const url = new URL("/rest/api/3/search/jql", baseUrl);
+        url.searchParams.set("jql", jql);
+        url.searchParams.set("maxResults", String(Number(process.env.JIRA_MAX_RESULTS || 100)));
+        url.searchParams.set("fields", "summary,status,priority,created,updated");
+
+        const response = await fetch(url.toString(), {
+            headers: {
+                "Authorization": jiraAuthHeader(),
+                "Accept": "application/json"
+            }
+        });
+
+        if (!response.ok) {
+            const details = await response.text();
+            throw new Error(`Jira HTTP ${response.status}: ${details}`);
+        }
+
+        const data = await response.json();
+        const ticketsPorId = new Map();
+
+        for (const issue of data.issues || []) {
+            if (!issue?.key || ticketsPorId.has(issue.key)) continue;
+            ticketsPorId.set(issue.key, montarTicketJira(issue));
+        }
+
+        res.json(Array.from(ticketsPorId.values()));
+    } catch (mistake) {
+        console.error("Erro ao ler Jira:", mistake.message);
+        res.status(500).json({
+            error: "Falha ao carregar tickets do Jira",
+            details: mistake.message
+        });
+    }
+});
+
 const PORT = process.env.dev || 3333;
 
 app.listen(PORT, () => {
