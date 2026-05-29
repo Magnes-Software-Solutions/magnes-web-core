@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="../bootstrap-5.3.8-dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="shortcut icon" href="../assets/imgs/Logo.png" type="image/x-icon" />
+    <link rel="stylesheet" href="../css/dashOperacional.css">
+    <link rel="stylesheet" href="../css/headerDash.css">
+</head>
+
+<body style="background-color: #0a1628;">
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="navbar fixed-top navBarTop">
+                <div class="container-fluid">
+                    <img src="../assets/imgs/Logo.png" alt="" width="5%" height="85%">
+                    <div class="titulo">
+                        <p class="tituloLogo">MAGNES</p>
+                        <p class="textoLogo">WORKSTATION MONITOR</p>
+                    </div>
+                    <button class="navbar-toggler navBarToggler" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar"
+                        aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon navBarTogglerIcon"></span>
+                    </button>
+                    <div class="offcanvas offcanvas-end offCanvas" tabindex="-1" id="offcanvasNavbar"
+                        aria-labelledby="offcanvasNavbarLabel">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title offCanvasTitle" id="offcanvasNavbarLabel">MAGNES</h5>
+                            <button type="button" class="btn-close offCanvasButton" data-bs-dismiss="offcanvas"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body offcanvasBody">
+                            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 navBarNav">
+                                <li class="nav-item navLi navLiActive"
+                                    onclick="window.location.href='dashAnalista.html'">
+                                    <img src="../assets/imgs/dashboard.svg" alt="Simbolo de Dashboard">
+                                    <a class="nav-link">Dashboard</a>
+                                </li>
+                                <li class="nav-item navLi" onclick="window.location.href='telaAlertas.html'">
+                                    <img src="../assets/imgs/alert.svg" alt="Simbolo de Alerta">
+                                    <a class="nav-link">Alerta</a>
+                                </li>
+                                <li class="nav-item navLi navLiLogout" onclick="limparSessao()">
+                                    <img src="../assets/imgs/box-arrow-left.svg" alt="" class="navItemIcon" />
+                                    <a class="nav-link">Logout</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="offcanvas-header perfil" onclick="window.location.href='dashUsuario.html'">
+                            <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Simbolo de perfil">
+                            <div class="textosPerfil">
+                                <h5 class="offcanvas-title" id="spanNome">(nome do banco)</h5>
+                                <p id="cargoUsuarioNav">(cargo do banco)</p>
+                            </div>
+                            <img class="perfilConfig" src="../assets/imgs/gear.svg" alt="Simbolo de configurações">
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+
+            <!-- Corpo -->
+            <div class="corpo">
+                <h2 class="tituloCorpo">Workstations Monitoradas</h2>
+                <div class="cards">
+                    <div class="card cardKpi">
+                        <div class="card-body bodyKpi">
+                            <div class="kpiImg kpiAzul">
+                                <img src="../assets/imgs/hdd-stack.svg" alt="">
+                            </div>
+                            <div class="kpiTextos">
+                                <p>TOTAL DE WORKSTATION</p>
+                                <h2 class="numeroAzul">6</h2>
+                                <p>Dispositivos monitorados</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card cardKpi">
+                        <div class="card-body bodyKpi">
+                            <div class="kpiImg kpiVermelho">
+                                <img src="../assets/imgs/check2-circle.svg" alt="">
+                            </div>
+                            <div class="kpiTextos">
+                                <p>WORKSTATIONS CRÍTICAS</p>
+                                <h2 class="numeroVermelho">2</h2>
+                                <p class="kpiExplicacaoVermelho">Saúde abaixo de 50 / 100</p>
+                                <p>Intervenção imediata</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card cardKpi">
+                        <div class="card-body bodyKpi">
+                            <div class="kpiImg kpiAmarelo">
+                                <img src="../assets/imgs/alert.svg" alt="">
+                            </div>
+                            <div class="kpiTextos">
+                                <p>WORKSTATIONS EM ALERTA</p>
+                                <h2 class="numeroAmarelo">2</h2>
+                                <p class="kpiExplicacaoAmarelo">Saúde abaixo de 75 / 100</p>
+                                <p>Requer atenção</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card cardKpi">
+                        <div class="card-body bodyKpi">
+                            <div class="kpiImg kpiVerde">
+                                <img src="../assets/imgs/check2-circle.svg" alt="">
+                            </div>
+                            <div class="kpiTextos">
+                                <p>WORKSTATIONS ESTÁVEIS</p>
+                                <h2 class="numeroVerde">2</h2>
+                                <p class="kpiExplicacaoVerde">Saúde maior que 75 / 100</p>
+                                <p>Operando normalmente</p>
+                            </div>
+                        </div>
+                    </div>
+                </div> <br>
+
+
+
+                <div class="miniTextos">
+                    <h5 class="miniTitulo">Workstations Monitoradas</h5>
+                    <p class="miniSubtitulo">6 workstations</p>
+                </div>
+
+
+
+
+
+
+                <!-- Primeira fileira -->
+                <div id="cards" class="tabela-grid">
+                    <!-- <div class="divAuxiliar">
+                        <dialog id="dialogGraf_${maquina.macAddress}" class="dialog-graf">
+                            <div class="dialog-content">
+                                <div class="dialogGraf-header">
+                                    <div class="dialogUso">
+                                        <h2 id="macAddress">${maquina.macAddress}</h2>
+                                        <img class="closeDialog" type="button" src="../assets/imgs/x-lg.svg" alt=""
+                                            onclick="document.getElementById('dialogGraf_${maquina.macAddress}').close()">
+                                    </div>
+                                    <div class="dialogUso">
+                                        <div class="bodyImg bodyImgVerde">
+                                            <p id="indice_saude">Saúde: ${maquina.indiceSaude}</p>
+                                        </div>
+                                        <p class="dialogUso-texto">Última atualização às ${hora}</p>
+                                        <div class="bodyImg bodyImgAzul">
+                                            <p>Em Uso</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="dialog-tituloComponente">
+                                    <p class="tituloComponente">CPU</p>
+                                    <div id="status_cpu" class="status">
+                                        <p id="statusComponente_cpu">${maquina.cpu.status}</p>
+                                    </div>
+                                </div>
+                                <div class="graficos">
+                                    <div class="graficoPadrao">
+                                        <p class="textoChart">Relação da porcentagem de uso da CPU por horário</p>
+                                        <div class="divCanvas">
+                                            <canvas id="grafUsoCpu_${maquina.macAddress}"></canvas>
+                                        </div>
+                                        <div class="informacoes">
+                                            <div class="dialogComponentes-corpo">
+                                                <p>Uso Atual:</p>&nbsp
+                                                <p id="uso_cpu" class="client">${maquina.cpu.uso}% (${maquina.cpu.status})</p>
+                                            </div>
+                                            <div class="dialogComponentes-corpo">
+                                                <p>Limite Crítico:</p>&nbsp
+                                                <p id="limiteCritico" class="client corAzul">${maquina.cpu.limite}%</p>
+                                            </div>
+                                            <div class="dialogComponentes-corpo" style="margin-bottom: 0px !important;">
+                                                <p>Oscilação:</p>&nbsp
+                                                <p id="oscilacao_cpu" class="client">${maquina.cpu.oscilacao}</p>
+                                            </div>
+                                            <div class="dialogComponentes-corpo">
+                                                <p style="font-size: 16px !important;">σ = desvio padão</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="graficoPadrao">
+                                        <p class="textoChart">Regressão Linear de CPU por horário</p>
+                                        <div class="divCanvas">
+                                            <canvas id="grafRegCpu_${maquina.macAddress}"></canvas>
+                                        </div>
+                                        <div class="informacoes">
+                                            <div class="dialogComponentes-corpo">
+                                                <p>Últimas 2 horas:</p>&nbsp
+                                                <p id="ultimas2h_cpu" class="client">${maquina.cpu.degradacao}</</p>
+                                            </div>
+                                            <div class="dialogComponentes-corpo">
+                                                <p>Horário de previsão de criticidade:</p>&nbsp
+                                                <p id="criticidade_cpu" class="client">${maquina.cpu.previsao.previsao100}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p><a href="">Clique para descobrir a possível causa</a></p>
+                                <hr>
+                                <div class="dialog-tituloComponente">
+                                    <p class="tituloComponente">RAM</p>
+                                    <div id="status_ram" class="status">
+                                        <p id="statusComponente_ram">${maquina.ram.status}</p>
+                                    </div>
+                                </div>
+                                <div class="graficos">
+                                    <div class="graficoPadrao">
+                                        <p class="textoChart">Relação da porcentagem de uso da RAM por horário</p>
+                                        <div class="divCanvas">
+                                            <canvas id="grafUsoRam_${maquina.macAddress}"></canvas>
+                                        </div>
+                                        <div class="informacoes">
+                                            <div class="dialogComponentes-corpo">
+                                                <p>Uso Atual:</p>&nbsp
+                                                <p id="uso_ram" class="client">${maquina.ram.uso}% (${maquina.ram.status})</p>
+                                            </div>
+                                            <div class="dialogComponentes-corpo">
+                                                <p>Limite Crítico:</p>&nbsp
+                                                <p id="limiteCritico" class="client corAzul">${maquina.ram.limite}%</p>
+                                            </div>
+                                            <div class="dialogComponentes-corpo" style="margin-bottom: 0px !important;">
+                                                <p>Oscilação:</p>&nbsp
+                                                <p id="oscilacao_ram" class="client">${maquina.ram.oscilacao}</p>
+                                            </div>
+                                            <div class="dialogComponentes-corpo">
+                                                <p style="font-size: 16px !important;">σ = desvio padão</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="graficoPadrao">
+                                        <p class="textoChart">Regressão Linear de RAM por horário</p>
+                                        <div class="divCanvas">
+                                            <canvas id="grafRegRam_${maquina.macAddress}"></canvas>
+                                        </div>
+                                        <div class="informacoes">
+                                            <div class="dialogComponentes-corpo">
+                                                <p>Últimas 2 horas:</p>&nbsp
+                                                <p id="ultimas2h_ram" class="client">${maquina.ram.degradacao}</p>
+                                            </div>
+                                            <div class="dialogComponentes-corpo">
+                                                <p>Horário de previsão de criticidade:</p>&nbsp
+                                                <p id="criticidade_ram" class="client">${maquina.ram.previsao.previsao100}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p><a href="">Clique para descobrir a possível causa</a></p>
+                                <hr>
+                                <div class="dialog-tituloComponente">
+                                    <p class="tituloComponente">Disco</p>
+                                    <div id="status_disco" class="status">
+                                        <p id="statusComponente_disco">${maquina.disco.status}</p>
+                                    </div>
+                                </div>
+                                <div class="graficos">
+                                    <div class="graficoPadrao">
+                                        <p class="textoChart">Relação da porcentagem de uso da Disco por horário</p>
+                                        <div class="divCanvas">
+                                            <canvas id="grafUsoDisco_${maquina.macAddress}"></canvas>
+                                        </div>
+                                        <div class="informacoes">
+                                            <div class="dialogComponentes-corpo">
+                                                <p>Uso Atual:</p>&nbsp
+                                                <p id="uso_disco" class="client">${maquina.disco.uso}% (${maquina.disco.status})</p>
+                                            </div>
+                                            <div class="dialogComponentes-corpo">
+                                                <p>Limite Crítico:</p>&nbsp
+                                                <p id="limiteCritico" class="client corAzul">${maquina.disco.limite}%</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="graficoPadrao">
+                                        <p class="textoChart">Regressão Linear de Disco por horário</p>
+                                        <div class="divCanvas">
+                                            <canvas id="grafRegDisco_${maquina.macAddress}"></canvas>
+                                        </div>
+                                        <div class="informacoes">
+                                            <div class="dialogComponentes-corpo">
+                                                <p>Últimas 2 horas:</p>&nbsp
+                                                <p id="ultimas2h_disco" class="client">${maquina.disco.degradacao}</p>
+                                            </div>
+                                            <div class="dialogComponentes-corpo">
+                                                <p>Horário de previsão de criticidade:</p>&nbsp
+                                                <p id="criticidade_disco" class="client">${maquina.disco.previsao.previsao100}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p><a href="">Clique para descobrir a possível causa</a></p>
+                            </div>
+                        </dialog>
+                        <div class="col">
+                            <div class="card cardMaquina"
+                                onclick="document.getElementById('dialogGraf_${maquina.macAddress}').showModal(), criarGrafico1()">
+                                <div class="card-body bodyMaquina">
+                                    <div class="bodyMaquina-header">
+                                        <p class="macAddressCard">${maquina.macAddress}</p>
+                                        <div class="bodyImg bodyImgVerde">
+                                            <p id="indice_saude">Saúde: ${maquina.indiceSaude}</p>
+                                        </div>                    
+                                    </div>
+                                    <div class="localizacao">
+                                                <img src="../assets/imgs/loc.svg" alt="">
+                                                <p class="endereco">${maquina.empresa}</p>
+                                            </div>
+                                    <div class="bodyMaquina-body">
+                                        <p>Última atualização às ${hora}</p>
+                                        <hr>
+                                        <div class="componentes">
+                                            <div class="componentes-titulo">
+                                                <div class="componentes-tituloBarra">
+                                                    <img src="../assets/imgs/cpu.svg" alt="">&nbsp &nbsp
+                                                    <h9>CPU</p>
+                                                </div>
+                                                <p id="uso_cpu">${maquina.cpu.uso}%</p>
+                                                <div id="status_cpu" class="status">
+                                                    <p id="statusComponente_cpu">${maquina.cpu.status}</p>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="componentes-corpo">
+                                                    <p>Oscilação:</p>&nbsp
+                                                    <p id="oscilacao_cpu" class="client">${maquina.cpu.oscilacao}</p>
+                                                </div>
+                                                <div class="componentes-corpo">
+                                                    <p>Últimas 2 horas:</p>&nbsp
+                                                    <p id="ultimas2h_cpu" class="client">${maquina.cpu.degradacao}</p>
+                                                </div>
+                                                <div class="componentes-corpo">
+                                                    <p>Previsão criticidade:</p>&nbsp
+                                                    <p id="criticidade_cpu" class="client">${maquina.cpu.previsao.previsao100}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="componentes">
+                                            <div class="componentes-titulo">
+                                                <div class="componentes-tituloBarra">
+                                                    <img src="../assets/imgs/memory.svg" alt="">&nbsp &nbsp
+                                                    <h9>RAM</p>
+                                                </div>
+                                                <p id="uso_ram">${maquina.ram.uso}%</p>
+                                                <div id="status_ram" class="status">
+                                                    <p id="statusComponente_ram">${maquina.ram.status}</p>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="componentes-corpo">
+                                                    <p>Oscilação:</p>&nbsp
+                                                    <p id="oscilacao_ram" class="client">${maquina.ram.oscilacao}</p>
+                                                </div>
+                                                <div class="componentes-corpo">
+                                                    <p>Últimas 2 horas:</p>&nbsp
+                                                    <p id="ultimas2h_ram" class="client">${maquina.ram.degradacao}</p>
+                                                </div>
+                                                <div class="componentes-corpo">
+                                                    <p>Previsão criticidade:</p>&nbsp
+                                                    <p id="criticidade_ram" class="client">${maquina.ram.previsao.previsao100}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="componentes">
+                                            <div class="componentes-titulo">
+                                                <div class="componentes-tituloBarra">
+                                                    <img src="../assets/imgs/hard-disk.png" alt="">&nbsp &nbsp
+                                                    <h9>Disco</p>
+                                                </div>
+                                                <p id="uso_disco">${maquina.disco.uso}%</p>
+                                                <div id="status_disco" class="status">
+                                                    <p id="statusComponente_disco">${maquina.disco.status}</p>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="componentes-corpo">
+                                                    <p>Últimas 2 horas:</p>&nbsp
+                                                    <p id="ultimas2h_disco" class="client">${maquina.disco.degradacao}</p>
+                                                </div>
+                                                <div class="componentes-corpo">
+                                                    <p>Previsão criticidade:</p>&nbsp
+                                                    <p id="criticidade_disco" class="client">${maquina.disco.previsao.previsao100}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <p class="clique">Clique para ver mais detalhes</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+
+
+
+                <!-- Segunda fileira -->
+                <div class="cards">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script src="../bootstrap-5.3.8-dist/js/bootstrap.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.4.0"></script>
+<script src="../js/sessao.js"></script>
+<script src="../js/operacional.js"></script>
+<script>
+    // Adicinando cor nas tags
+    // const elementos = document.querySelectorAll("#oscilacao");
+
+    // elementos.forEach(elemento => {
+    //     elemento.classList.add("corCritico");
+    // });
+
+    function pegarDashboard() {
+        var idUsuario = sessionStorage.ID_USUARIO;
+        fetch(`/dash/PegarDashboard/${idUsuario}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                spanNome.innerHTML = data[0].nome;
+                const fkSupervisor = data[0].fkSupervisor;
+                console.log(fkSupervisor)
+                if (fkSupervisor === null) {
+                    cargo = "Supervisor de Sistemas";
+                } else {
+                    cargo = "Analista de Sistemas";
+                }
+                cargoUsuarioNav.innerHTML = cargo;
+            })
+            .catch(error => {
+                console.error("Erro ao pegar dashboard:", error);
+            });
+    }
+    window.onload = pegarDashboard;
+</script>
