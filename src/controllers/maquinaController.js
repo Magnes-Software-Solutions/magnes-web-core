@@ -6,6 +6,21 @@ async function adicionarMaquina(req, res) {
     res.json("Maquina cadastrada!")
 }
 
+async function listarPorRede(req, res) {
+    const fkRedeHospital = req.params.fkRedeHospital;
+
+    try {
+        const resultado = await maquinaModel.listarPorRede(fkRedeHospital);
+        res.json(resultado);
+
+    } catch (erro) {
+        console.log(erro);
+        res.status(500).json({
+            erro: erro.message
+        });
+    }
+}
+
 module.exports = {
-    adicionarMaquina
+    adicionarMaquina, listarPorRede
 }
