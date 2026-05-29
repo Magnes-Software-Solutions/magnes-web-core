@@ -807,3 +807,12 @@ canvas {
 
   box-shadow: 0 6px 18px rgba(255, 92, 92, 0.45);
 }
+
+.alertas-kpiCritica {
+  margin-top: 10px;
+  margin-right: 130px;
+  font-size: 14px;
+  color: #ff5c5c;
+  font-weight: bold;
+  cursor: pointer;
+}
