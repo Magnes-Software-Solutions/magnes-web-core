@@ -20,6 +20,19 @@ async function carregarDados() {
     }
 }
 
+function plotarKpi(total, critico, atencao, estavel) {
+    console.log(total)
+    console.log(document.getElementById("kpiTotal"))
+    document.getElementById("kpiTotal").innerHTML = total
+
+    document.getElementById("kpiCritico").innerHTML = critico
+
+    document.getElementById("kpiAtencao").innerHTML = atencao
+
+    document.getElementById("kpiEstavel").innerHTML = estavel
+
+}
+
 function classificarCor(cardAtual, componente, variavel, valor) {
     let itens = [];
     let itensStatus = [];
@@ -28,20 +41,26 @@ function classificarCor(cardAtual, componente, variavel, valor) {
 
     if (variavel == "indice_saude") {
         itensStatus = cardAtual.querySelectorAll(`.${variavel}`)
-        valor = valor.split("/")[0]
+        valor = Number(valor.split("/")[0])
 
         if (valor > 75) {
             corStatus = "statusVerde";
+            estavel++
 
         } else if (valor > 50) {
             corStatus = "statusAmarelo";
+            atencao++
 
         } else if (valor <= 50) {
             corStatus = "statusVermelho";
+            critico++
 
         } else {
             corStatus = "statusAzul"
         }
+
+        total++
+
 
     } else if (variavel == "status") {
         itensStatus = cardAtual.querySelectorAll(`.status_${componente}`);
@@ -132,13 +151,21 @@ function classificarCor(cardAtual, componente, variavel, valor) {
     });
 }
 
+let total = 0;
+let critico = 0;
+let atencao = 0;
+let estavel = 0;
+
 function chamarCor(cardAtual, elemento) {
+    classificarCor(cardAtual, null, "indice_saude", elemento.indiceSaude);
+
     var componentes = ["cpu", "ram", "disco"];
-    var variaveis = ["indice_saude", "status", "oscilacao", "degradacao", "previsao100"];
+    var variaveis = ["status", "oscilacao", "degradacao", "previsao100"];
 
     for (let componente of componentes) {
         for (let variavel of variaveis) {
-            let valor
+
+            let valor;
 
             if (variavel == "indice_saude") {
                 valor = elemento.indiceSaude;
@@ -153,10 +180,92 @@ function chamarCor(cardAtual, elemento) {
             classificarCor(cardAtual, componente, variavel, valor);
         }
     }
+
+    plotarKpi(total, critico, atencao, estavel);
+}
+
+function plotarGrafico(maquina, hora) {
+    console.log('iniciando plotagem do gráfico...');
+
+    // Criando estrutura para plotar gráfico - labels
+    let labels = [];
+
+    // Criando estrutura para plotar gráfico - dados
+    let dados = {
+        labels: labels,
+        datasets: [{
+            label: 'Porcentagem por Horário',
+            data: [],
+            borderColor: 'rgba(170, 0, 255, 1)',
+            fill: true,
+            backgroundColor: 'rgba(170, 0, 255, 0.4)',
+            borderWidth: 3,
+            tension: 0.2,
+            pointRadius: 0,
+            pointHoverRadius: 6,
+            pointHoverBorderWidth: 2,
+            pointHoverBorderColor: '#ffffff',
+            pointHoverBackgroundColor: '#ffffff'
+        }]
+    };
+
+    console.log('----------------------------------------------')
+    console.log('Estes dados foram recebidos pela funcao "plotarGrafico":')
+    console.log(maquina)
+
+    // Inserindo valores recebidos em estrutura para plotar o gráfico
+    // for (i = 0; i < resposta.length; i++) {
+    //     var registro = resposta[i];
+    //     labels.push(registro.momento_grafico);
+    //     dados.datasets[0].data.push(registro.umidade);
+    //     dados.datasets[1].data.push(registro.temperatura);
+    // }
+
+    console.log(hora)
+    labels.push(hora)
+
+    console.log(maquina.cpu.uso)
+    dados.datasets[0].data.push(maquina.cpu.uso)
+
+    // console.log('----------------------------------------------')
+    // console.log('O gráfico será plotado com os respectivos valores:')
+    // console.log('Labels:')
+    // console.log(labels)
+    // console.log('Dados:')
+    // console.log(dados.datasets)
+    // console.log('----------------------------------------------')
+
+    // Criando estrutura para plotar gráfico - config
+    const config = {
+        type: 'line',
+        data: dados,
+    };
+
+    // Adicionando gráfico criado em div na tela
+    let cpuUso = new Chart(
+        document.getElementById(`grafUsoCpu_${maquina.macAddress}`),
+        config
+    );
+
+    let cpuRegressao = new Chart(
+        document.getElementById(`grafRegCpu_${maquina.macAddress}`),
+        config
+    );
+
+    // setTimeout(() => atualizarGrafico(idAquario, dados, myChart), 2000);
+
 }
 
 async function exibirMRI(registro) {
     var maquinas = registro.maquinas;
+
+    maquinas.sort((a, b) => {
+        const saudeA = Number(a.indiceSaude.split("/")[0]);
+        const saudeB = Number(b.indiceSaude.split("/")[0]);
+
+        return saudeA - saudeB;
+    });
+
     maquinas.forEach(maquina => {
         var hora = maquina.horario.split(" ")
         hora = hora[1].slice(0, 5);
@@ -431,6 +540,7 @@ async function exibirMRI(registro) {
         const cardAtual = cards.lastElementChild;
 
         chamarCor(cardAtual, maquina)
+        plotarGrafico(maquina, hora)
     });
 }
 
