@@ -1,0 +1,3652 @@
+{
+  "maquinas": [
+    {
+      "empresa": "Sirio Libânes",
+      "macAddress": "14:cb:19:02:64:71",
+      "horario": "2026-05-21 16:14:42",
+      "cpu": {
+        "uso": 53.7,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Baixa (abaixo que 1σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": -0.007664846091625193,
+          "b": 35.87,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 35.87
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 35.45
+            }
+          ],
+          "previsao100": "Sem previsão"
+        }
+      },
+      "ram": {
+        "uso": 64.2,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Média (entre 1σ e 2σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": 0.014132614110107689,
+          "b": 77.57,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 77.57
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 78.36
+            }
+          ],
+          "previsao100": "≈2026-05-21 16:40:12.878767638"
+        }
+      },
+      "disco": {
+        "uso": 87.89,
+        "limite": null,
+        "alerta": false
+      },
+      "indiceSaude": "92.60 / 100",
+      "financeiro": {
+        "localizacao": {
+          "cidade": "N/A",
+          "bairro": "N/A",
+          "numero": "N/A",
+          "cep": "N/A"
+        },
+        "alertaCPU": false,
+        "alertaRAM": false,
+        "kpiPerdaIndisponibilidade": 0.0,
+        "custoCorretivaPotencial": 0.0,
+        "economiaPreditiva": 450.0,
+        "kpiLucroRetido": 0.0,
+        "kpiConformidadeSLA": 100.0,
+        "metaSLA": 100.0,
+        "statusSLA": "CONFORME",
+        "confiabilidadeAtivo": 46.3
+      },
+      "ambiente": {
+        "corrente": 132,
+        "poeira": 38
+      },
+      "ramUso": 64.2,
+      "ramUsoBruto": 2.08,
+      "discoUsoBruto": 103.03,
+      "financeiroDashboard": {
+        "metricas": {
+          "cpuOriginal": 53.7,
+          "cpuSimulado": 100.0,
+          "ramUso": 64.2,
+          "discoUso": 87.89,
+          "totalProcessos": 279
+        },
+        "indicadores": {
+          "scoreRisco": 50,
+          "severidade": "ALTO",
+          "saudeOperacional": 48.37
+        },
+        "financeiro": {
+          "downtimeMinutos": 27,
+          "perdaIndisponibilidade": 0.0,
+          "perdaLentidao": 0.0,
+          "perdaTotal": 0.0,
+          "multaSLA": 2225.84,
+          "custoPotencialFalha": 1112.92,
+          "custoPreditiva": 1194.37,
+          "valorEvitado": 0,
+          "perdaResidual": 0.0,
+          "lucroPreservado": 0.0
+        },
+        "alertas": {
+          "cpu": true,
+          "ram": false,
+          "disco": false
+        },
+        "sla": {
+          "conformidade": 98.18,
+          "meta": 100.0,
+          "status": "VIOLADO"
+        }
+      }
+    },
+    {
+      "empresa": "Sirio Libânes",
+      "macAddress": "14:cb:19:02:64:71",
+      "horario": "2026-05-21 16:14:42",
+      "cpu": {
+        "uso": 39.4,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Baixa (abaixo que 1σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": -0.007664846091625193,
+          "b": 35.87,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 35.87
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 35.45
+            }
+          ],
+          "previsao100": "Sem previsão"
+        }
+      },
+      "ram": {
+        "uso": 79.94,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Baixa (abaixo que 1σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": 0.014132614110107689,
+          "b": 77.57,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 77.57
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 78.36
+            }
+          ],
+          "previsao100": "≈2026-05-21 16:40:12.878767638"
+        }
+      },
+      "disco": {
+        "uso": 87.88,
+        "limite": null,
+        "alerta": false
+      },
+      "indiceSaude": "96.30 / 100",
+      "financeiro": {
+        "localizacao": {
+          "cidade": "N/A",
+          "bairro": "N/A",
+          "numero": "N/A",
+          "cep": "N/A"
+        },
+        "alertaCPU": false,
+        "alertaRAM": false,
+        "kpiPerdaIndisponibilidade": 0.0,
+        "custoCorretivaPotencial": 0.0,
+        "economiaPreditiva": 450.0,
+        "kpiLucroRetido": 0.0,
+        "kpiConformidadeSLA": 100.0,
+        "metaSLA": 100.0,
+        "statusSLA": "CONFORME",
+        "confiabilidadeAtivo": 60.6
+      },
+      "ambiente": {
+        "corrente": 132,
+        "poeira": 38
+      },
+      "ramUso": 79.94,
+      "ramUsoBruto": 2.59,
+      "discoUsoBruto": 103.01,
+      "financeiroDashboard": {
+        "metricas": {
+          "cpuOriginal": 39.4,
+          "cpuSimulado": 48.61,
+          "ramUso": 79.94,
+          "discoUso": 87.88,
+          "totalProcessos": 297
+        },
+        "indicadores": {
+          "scoreRisco": 10,
+          "severidade": "NORMAL",
+          "saudeOperacional": 60.64
+        },
+        "financeiro": {
+          "downtimeMinutos": 5,
+          "perdaIndisponibilidade": 0.0,
+          "perdaLentidao": 0.0,
+          "perdaTotal": 0.0,
+          "multaSLA": 1781.49,
+          "custoPotencialFalha": 178.15,
+          "custoPreditiva": 783.46,
+          "valorEvitado": 0,
+          "perdaResidual": 0.0,
+          "lucroPreservado": 0.0
+        },
+        "alertas": {
+          "cpu": false,
+          "ram": true,
+          "disco": false
+        },
+        "sla": {
+          "conformidade": 99.99,
+          "meta": 100.0,
+          "status": "VIOLADO"
+        }
+      }
+    },
+    {
+      "empresa": null,
+      "macAddress": "14:cb:19:02:64:71",
+      "horario": "2026-05-21 16:14:42",
+      "cpu": {
+        "uso": 66.2,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Média (entre 1σ e 2σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": -0.007664846091625193,
+          "b": 35.87,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 35.87
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 35.45
+            }
+          ],
+          "previsao100": "Sem previsão"
+        }
+      },
+      "ram": {
+        "uso": 80.56,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Baixa (abaixo que 1σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": 0.014132614110107689,
+          "b": 77.57,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 77.57
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 78.36
+            }
+          ],
+          "previsao100": "≈2026-05-21 16:40:12.878767638"
+        }
+      },
+      "disco": {
+        "uso": 87.88,
+        "limite": null,
+        "alerta": false
+      },
+      "indiceSaude": "92.60 / 100",
+      "financeiro": {
+        "localizacao": {
+          "cidade": "N/A",
+          "bairro": "N/A",
+          "numero": "N/A",
+          "cep": "N/A"
+        },
+        "alertaCPU": false,
+        "alertaRAM": false,
+        "kpiPerdaIndisponibilidade": 0.0,
+        "custoCorretivaPotencial": 0.0,
+        "economiaPreditiva": 450.0,
+        "kpiLucroRetido": 0.0,
+        "kpiConformidadeSLA": 100.0,
+        "metaSLA": 100.0,
+        "statusSLA": "CONFORME",
+        "confiabilidadeAtivo": 33.8
+      },
+      "ambiente": {
+        "corrente": 132,
+        "poeira": 38
+      },
+      "ramUso": 80.56,
+      "ramUsoBruto": 2.61,
+      "discoUsoBruto": 103.01,
+      "financeiroDashboard": {
+        "metricas": {
+          "cpuOriginal": 66.2,
+          "cpuSimulado": 79.43,
+          "ramUso": 80.56,
+          "discoUso": 87.88,
+          "totalProcessos": 297
+        },
+        "indicadores": {
+          "scoreRisco": 35,
+          "severidade": "MODERADO",
+          "saudeOperacional": 51.27
+        },
+        "financeiro": {
+          "downtimeMinutos": 28,
+          "perdaIndisponibilidade": 0.0,
+          "perdaLentidao": 0.0,
+          "perdaTotal": 0.0,
+          "multaSLA": 2258.9,
+          "custoPotencialFalha": 790.61,
+          "custoPreditiva": 1632.68,
+          "valorEvitado": 0,
+          "perdaResidual": 0.0,
+          "lucroPreservado": 0.0
+        },
+        "alertas": {
+          "cpu": true,
+          "ram": true,
+          "disco": false
+        },
+        "sla": {
+          "conformidade": 99.48,
+          "meta": 100.0,
+          "status": "VIOLADO"
+        }
+      }
+    },
+    {
+      "empresa": null,
+      "macAddress": "14:cb:19:02:64:71",
+      "horario": "2026-05-21 16:14:42",
+      "cpu": {
+        "uso": 32.6,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Baixa (abaixo que 1σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": -0.007664846091625193,
+          "b": 35.87,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 35.87
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 35.45
+            }
+          ],
+          "previsao100": "Sem previsão"
+        }
+      },
+      "ram": {
+        "uso": 81.17,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Baixa (abaixo que 1σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": 0.014132614110107689,
+          "b": 77.57,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 77.57
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 78.36
+            }
+          ],
+          "previsao100": "≈2026-05-21 16:40:12.878767638"
+        }
+      },
+      "disco": {
+        "uso": 87.88,
+        "limite": null,
+        "alerta": false
+      },
+      "indiceSaude": "96.30 / 100",
+      "financeiro": {
+        "localizacao": {
+          "cidade": "N/A",
+          "bairro": "N/A",
+          "numero": "N/A",
+          "cep": "N/A"
+        },
+        "alertaCPU": false,
+        "alertaRAM": false,
+        "kpiPerdaIndisponibilidade": 0.0,
+        "custoCorretivaPotencial": 0.0,
+        "economiaPreditiva": 450.0,
+        "kpiLucroRetido": 0.0,
+        "kpiConformidadeSLA": 100.0,
+        "metaSLA": 100.0,
+        "statusSLA": "CONFORME",
+        "confiabilidadeAtivo": 67.4
+      },
+      "ambiente": {
+        "corrente": 132,
+        "poeira": 38
+      },
+      "ramUso": 81.17,
+      "ramUsoBruto": 2.63,
+      "discoUsoBruto": 103.01,
+      "financeiroDashboard": {
+        "metricas": {
+          "cpuOriginal": 32.6,
+          "cpuSimulado": 40.1,
+          "ramUso": 81.17,
+          "discoUso": 87.88,
+          "totalProcessos": 301
+        },
+        "indicadores": {
+          "scoreRisco": 10,
+          "severidade": "NORMAL",
+          "saudeOperacional": 62.95
+        },
+        "financeiro": {
+          "downtimeMinutos": 8,
+          "perdaIndisponibilidade": 0.0,
+          "perdaLentidao": 0.0,
+          "perdaTotal": 0.0,
+          "multaSLA": 1615.65,
+          "custoPotencialFalha": 161.57,
+          "custoPreditiva": 1170.07,
+          "valorEvitado": 0,
+          "perdaResidual": 0.0,
+          "lucroPreservado": 0.0
+        },
+        "alertas": {
+          "cpu": false,
+          "ram": true,
+          "disco": false
+        },
+        "sla": {
+          "conformidade": 99.98,
+          "meta": 100.0,
+          "status": "VIOLADO"
+        }
+      }
+    },
+    {
+      "empresa": null,
+      "macAddress": "14:cb:19:02:64:71",
+      "horario": "2026-05-21 16:14:42",
+      "cpu": {
+        "uso": 43.4,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Baixa (abaixo que 1σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": -0.007664846091625193,
+          "b": 35.87,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 35.87
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 35.45
+            }
+          ],
+          "previsao100": "Sem previsão"
+        }
+      },
+      "ram": {
+        "uso": 75.31,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Baixa (abaixo que 1σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": 0.014132614110107689,
+          "b": 77.57,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 77.57
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 78.36
+            }
+          ],
+          "previsao100": "≈2026-05-21 16:40:12.878767638"
+        }
+      },
+      "disco": {
+        "uso": 88.02,
+        "limite": null,
+        "alerta": false
+      },
+      "indiceSaude": "96.30 / 100",
+      "financeiro": {
+        "localizacao": {
+          "cidade": "N/A",
+          "bairro": "N/A",
+          "numero": "N/A",
+          "cep": "N/A"
+        },
+        "alertaCPU": false,
+        "alertaRAM": false,
+        "kpiPerdaIndisponibilidade": 0.0,
+        "custoCorretivaPotencial": 0.0,
+        "economiaPreditiva": 450.0,
+        "kpiLucroRetido": 0.0,
+        "kpiConformidadeSLA": 100.0,
+        "metaSLA": 100.0,
+        "statusSLA": "CONFORME",
+        "confiabilidadeAtivo": 56.6
+      },
+      "ambiente": {
+        "corrente": 132,
+        "poeira": 38
+      },
+      "ramUso": 75.31,
+      "ramUsoBruto": 2.44,
+      "discoUsoBruto": 103.18,
+      "financeiroDashboard": {
+        "metricas": {
+          "cpuOriginal": 43.4,
+          "cpuSimulado": 100.0,
+          "ramUso": 75.31,
+          "discoUso": 88.02,
+          "totalProcessos": 290
+        },
+        "indicadores": {
+          "scoreRisco": 60,
+          "severidade": "ALTO",
+          "saudeOperacional": 46.14
+        },
+        "financeiro": {
+          "downtimeMinutos": 27,
+          "perdaIndisponibilidade": 0.0,
+          "perdaLentidao": 0.0,
+          "perdaTotal": 0.0,
+          "multaSLA": 640.04,
+          "custoPotencialFalha": 384.02,
+          "custoPreditiva": 1667.41,
+          "valorEvitado": 0,
+          "perdaResidual": 0.0,
+          "lucroPreservado": 0.0
+        },
+        "alertas": {
+          "cpu": true,
+          "ram": true,
+          "disco": false
+        },
+        "sla": {
+          "conformidade": 97.94,
+          "meta": 100.0,
+          "status": "VIOLADO"
+        }
+      }
+    },
+    {
+      "empresa": null,
+      "macAddress": "14:cb:19:02:64:71",
+      "horario": "2026-05-21 16:14:42",
+      "cpu": {
+        "uso": 40.2,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Baixa (abaixo que 1σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": -0.007664846091625193,
+          "b": 35.87,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 35.87
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 35.45
+            }
+          ],
+          "previsao100": "Sem previsão"
+        }
+      },
+      "ram": {
+        "uso": 81.48,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Baixa (abaixo que 1σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": 0.014132614110107689,
+          "b": 77.57,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 77.57
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 78.36
+            }
+          ],
+          "previsao100": "≈2026-05-21 16:40:12.878767638"
+        }
+      },
+      "disco": {
+        "uso": 88.04,
+        "limite": null,
+        "alerta": false
+      },
+      "indiceSaude": "96.30 / 100",
+      "financeiro": {
+        "localizacao": {
+          "cidade": "N/A",
+          "bairro": "N/A",
+          "numero": "N/A",
+          "cep": "N/A"
+        },
+        "alertaCPU": false,
+        "alertaRAM": false,
+        "kpiPerdaIndisponibilidade": 0.0,
+        "custoCorretivaPotencial": 0.0,
+        "economiaPreditiva": 450.0,
+        "kpiLucroRetido": 0.0,
+        "kpiConformidadeSLA": 100.0,
+        "metaSLA": 100.0,
+        "statusSLA": "CONFORME",
+        "confiabilidadeAtivo": 59.8
+      },
+      "ambiente": {
+        "corrente": 132,
+        "poeira": 38
+      },
+      "ramUso": 81.48,
+      "ramUsoBruto": 2.64,
+      "discoUsoBruto": 103.2,
+      "financeiroDashboard": {
+        "metricas": {
+          "cpuOriginal": 40.2,
+          "cpuSimulado": 53.25,
+          "ramUso": 81.48,
+          "discoUso": 88.04,
+          "totalProcessos": 285
+        },
+        "indicadores": {
+          "scoreRisco": 10,
+          "severidade": "NORMAL",
+          "saudeOperacional": 58.92
+        },
+        "financeiro": {
+          "downtimeMinutos": 11,
+          "perdaIndisponibilidade": 0.0,
+          "perdaLentidao": 0.0,
+          "perdaTotal": 0.0,
+          "multaSLA": 504.71,
+          "custoPotencialFalha": 50.47,
+          "custoPreditiva": 1400.2,
+          "valorEvitado": 0,
+          "perdaResidual": 0.0,
+          "lucroPreservado": 0.0
+        },
+        "alertas": {
+          "cpu": false,
+          "ram": true,
+          "disco": false
+        },
+        "sla": {
+          "conformidade": 99.97,
+          "meta": 100.0,
+          "status": "VIOLADO"
+        }
+      }
+    },
+    {
+      "empresa": null,
+      "macAddress": "14:cb:19:02:64:71",
+      "horario": "2026-05-21 16:14:42",
+      "cpu": {
+        "uso": 57.7,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Baixa (abaixo que 1σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": -0.007664846091625193,
+          "b": 35.87,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 35.87
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 35.45
+            }
+          ],
+          "previsao100": "Sem previsão"
+        }
+      },
+      "ram": {
+        "uso": 93.21,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Média (entre 1σ e 2σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": 0.014132614110107689,
+          "b": 77.57,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 77.57
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 78.36
+            }
+          ],
+          "previsao100": "≈2026-05-21 16:40:12.878767638"
+        }
+      },
+      "disco": {
+        "uso": 88.04,
+        "limite": null,
+        "alerta": false
+      },
+      "indiceSaude": "92.60 / 100",
+      "financeiro": {
+        "localizacao": {
+          "cidade": "N/A",
+          "bairro": "N/A",
+          "numero": "N/A",
+          "cep": "N/A"
+        },
+        "alertaCPU": false,
+        "alertaRAM": false,
+        "kpiPerdaIndisponibilidade": 0.0,
+        "custoCorretivaPotencial": 0.0,
+        "economiaPreditiva": 450.0,
+        "kpiLucroRetido": 0.0,
+        "kpiConformidadeSLA": 100.0,
+        "metaSLA": 100.0,
+        "statusSLA": "CONFORME",
+        "confiabilidadeAtivo": 42.3
+      },
+      "ambiente": {
+        "corrente": 132,
+        "poeira": 38
+      },
+      "ramUso": 93.21,
+      "ramUsoBruto": 3.02,
+      "discoUsoBruto": 103.2,
+      "financeiroDashboard": {
+        "metricas": {
+          "cpuOriginal": 57.7,
+          "cpuSimulado": 100.0,
+          "ramUso": 93.21,
+          "discoUso": 88.04,
+          "totalProcessos": 285
+        },
+        "indicadores": {
+          "scoreRisco": 70,
+          "severidade": "CRITICO",
+          "saudeOperacional": 42.55
+        },
+        "financeiro": {
+          "downtimeMinutos": 82,
+          "perdaIndisponibilidade": 0.0,
+          "perdaLentidao": 0.0,
+          "perdaTotal": 0.0,
+          "multaSLA": 1978.07,
+          "custoPotencialFalha": 1384.65,
+          "custoPreditiva": 1146.05,
+          "valorEvitado": 238.61,
+          "perdaResidual": 0,
+          "lucroPreservado": 90.67
+        },
+        "alertas": {
+          "cpu": true,
+          "ram": true,
+          "disco": false
+        },
+        "sla": {
+          "conformidade": 96.12,
+          "meta": 100.0,
+          "status": "VIOLADO"
+        }
+      }
+    },
+    {
+      "empresa": null,
+      "macAddress": "14:cb:19:02:64:71",
+      "horario": "2026-05-21 16:14:42",
+      "cpu": {
+        "uso": 77.6,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Média (entre 1σ e 2σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": -0.007664846091625193,
+          "b": 35.87,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 35.87
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 35.45
+            }
+          ],
+          "previsao100": "Sem previsão"
+        }
+      },
+      "ram": {
+        "uso": 92.59,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Média (entre 1σ e 2σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": 0.014132614110107689,
+          "b": 77.57,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 77.57
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 78.36
+            }
+          ],
+          "previsao100": "≈2026-05-21 16:40:12.878767638"
+        }
+      },
+      "disco": {
+        "uso": 88.04,
+        "limite": null,
+        "alerta": false
+      },
+      "indiceSaude": "88.90 / 100",
+      "financeiro": {
+        "localizacao": {
+          "cidade": "N/A",
+          "bairro": "N/A",
+          "numero": "N/A",
+          "cep": "N/A"
+        },
+        "alertaCPU": false,
+        "alertaRAM": false,
+        "kpiPerdaIndisponibilidade": 0.0,
+        "custoCorretivaPotencial": 0.0,
+        "economiaPreditiva": 450.0,
+        "kpiLucroRetido": 0.0,
+        "kpiConformidadeSLA": 100.0,
+        "metaSLA": 100.0,
+        "statusSLA": "CONFORME",
+        "confiabilidadeAtivo": 22.4
+      },
+      "ambiente": {
+        "corrente": 132,
+        "poeira": 38
+      },
+      "ramUso": 92.59,
+      "ramUsoBruto": 3.0,
+      "discoUsoBruto": 103.2,
+      "financeiroDashboard": {
+        "metricas": {
+          "cpuOriginal": 77.6,
+          "cpuSimulado": 91.96,
+          "ramUso": 92.59,
+          "discoUso": 88.04,
+          "totalProcessos": 286
+        },
+        "indicadores": {
+          "scoreRisco": 55,
+          "severidade": "ALTO",
+          "saudeOperacional": 45.09
+        },
+        "financeiro": {
+          "downtimeMinutos": 34,
+          "perdaIndisponibilidade": 0.0,
+          "perdaLentidao": 0.0,
+          "perdaTotal": 0.0,
+          "multaSLA": 1514.96,
+          "custoPotencialFalha": 833.23,
+          "custoPreditiva": 1418.82,
+          "valorEvitado": 0,
+          "perdaResidual": 0.0,
+          "lucroPreservado": 0.0
+        },
+        "alertas": {
+          "cpu": true,
+          "ram": true,
+          "disco": false
+        },
+        "sla": {
+          "conformidade": 98.09,
+          "meta": 100.0,
+          "status": "VIOLADO"
+        }
+      }
+    },
+    {
+      "empresa": null,
+      "macAddress": "14:cb:19:02:64:71",
+      "horario": "2026-05-21 16:14:42",
+      "cpu": {
+        "uso": 50.3,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Baixa (abaixo que 1σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": -0.007664846091625193,
+          "b": 35.87,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 35.87
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 35.45
+            }
+          ],
+          "previsao100": "Sem previsão"
+        }
+      },
+      "ram": {
+        "uso": 88.89,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Média (entre 1σ e 2σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": 0.014132614110107689,
+          "b": 77.57,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 77.57
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 78.36
+            }
+          ],
+          "previsao100": "≈2026-05-21 16:40:12.878767638"
+        }
+      },
+      "disco": {
+        "uso": 88.05,
+        "limite": null,
+        "alerta": false
+      },
+      "indiceSaude": "92.60 / 100",
+      "financeiro": {
+        "localizacao": {
+          "cidade": "N/A",
+          "bairro": "N/A",
+          "numero": "N/A",
+          "cep": "N/A"
+        },
+        "alertaCPU": false,
+        "alertaRAM": false,
+        "kpiPerdaIndisponibilidade": 0.0,
+        "custoCorretivaPotencial": 0.0,
+        "economiaPreditiva": 450.0,
+        "kpiLucroRetido": 0.0,
+        "kpiConformidadeSLA": 100.0,
+        "metaSLA": 100.0,
+        "statusSLA": "CONFORME",
+        "confiabilidadeAtivo": 49.7
+      },
+      "ambiente": {
+        "corrente": 132,
+        "poeira": 38
+      },
+      "ramUso": 88.89,
+      "ramUsoBruto": 2.88,
+      "discoUsoBruto": 103.21,
+      "financeiroDashboard": {
+        "metricas": {
+          "cpuOriginal": 50.3,
+          "cpuSimulado": 59.59,
+          "ramUso": 88.89,
+          "discoUso": 88.05,
+          "totalProcessos": 285
+        },
+        "indicadores": {
+          "scoreRisco": 20,
+          "severidade": "MODERADO",
+          "saudeOperacional": 55.54
+        },
+        "financeiro": {
+          "downtimeMinutos": 24,
+          "perdaIndisponibilidade": 0.0,
+          "perdaLentidao": 0.0,
+          "perdaTotal": 0.0,
+          "multaSLA": 1999.02,
+          "custoPotencialFalha": 399.8,
+          "custoPreditiva": 1082.93,
+          "valorEvitado": 0,
+          "perdaResidual": 0.0,
+          "lucroPreservado": 0.0
+        },
+        "alertas": {
+          "cpu": false,
+          "ram": true,
+          "disco": false
+        },
+        "sla": {
+          "conformidade": 99.59,
+          "meta": 100.0,
+          "status": "VIOLADO"
+        }
+      }
+    },
+    {
+      "empresa": null,
+      "macAddress": "14:cb:19:02:64:71",
+      "horario": "2026-05-21 16:14:42",
+      "cpu": {
+        "uso": 86.7,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Média (entre 1σ e 2σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": -0.007664846091625193,
+          "b": 35.87,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 35.87
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 35.45
+            }
+          ],
+          "previsao100": "Sem previsão"
+        }
+      },
+      "ram": {
+        "uso": 73.15,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Baixa (abaixo que 1σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": 0.014132614110107689,
+          "b": 77.57,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 77.57
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 78.36
+            }
+          ],
+          "previsao100": "≈2026-05-21 16:40:12.878767638"
+        }
+      },
+      "disco": {
+        "uso": 88.11,
+        "limite": null,
+        "alerta": false
+      },
+      "indiceSaude": "92.60 / 100",
+      "financeiro": {
+        "localizacao": {
+          "cidade": "N/A",
+          "bairro": "N/A",
+          "numero": "N/A",
+          "cep": "N/A"
+        },
+        "alertaCPU": false,
+        "alertaRAM": false,
+        "kpiPerdaIndisponibilidade": 0.0,
+        "custoCorretivaPotencial": 0.0,
+        "economiaPreditiva": 450.0,
+        "kpiLucroRetido": 0.0,
+        "kpiConformidadeSLA": 100.0,
+        "metaSLA": 100.0,
+        "statusSLA": "CONFORME",
+        "confiabilidadeAtivo": 13.3
+      },
+      "ambiente": {
+        "corrente": 132,
+        "poeira": 38
+      },
+      "ramUso": 73.15,
+      "ramUsoBruto": 2.37,
+      "discoUsoBruto": 103.28,
+      "financeiroDashboard": {
+        "metricas": {
+          "cpuOriginal": 86.7,
+          "cpuSimulado": 100.0,
+          "ramUso": 73.15,
+          "discoUso": 88.11,
+          "totalProcessos": 268
+        },
+        "indicadores": {
+          "scoreRisco": 60,
+          "severidade": "ALTO",
+          "saudeOperacional": 46.56
+        },
+        "financeiro": {
+          "downtimeMinutos": 73,
+          "perdaIndisponibilidade": 0.0,
+          "perdaLentidao": 0.0,
+          "perdaTotal": 0.0,
+          "multaSLA": 2153.43,
+          "custoPotencialFalha": 1292.06,
+          "custoPreditiva": 1059.92,
+          "valorEvitado": 232.14,
+          "perdaResidual": 0,
+          "lucroPreservado": 88.21
+        },
+        "alertas": {
+          "cpu": true,
+          "ram": true,
+          "disco": false
+        },
+        "sla": {
+          "conformidade": 99.06,
+          "meta": 100.0,
+          "status": "VIOLADO"
+        }
+      }
+    },
+    {
+      "empresa": null,
+      "macAddress": "14:cb:19:02:64:71",
+      "horario": "2026-05-21 16:14:42",
+      "cpu": {
+        "uso": 5.9,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Média (entre 1σ e 2σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": -0.007664846091625193,
+          "b": 35.87,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 35.87
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 35.45
+            }
+          ],
+          "previsao100": "Sem previsão"
+        }
+      },
+      "ram": {
+        "uso": 71.91,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Baixa (abaixo que 1σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": 0.014132614110107689,
+          "b": 77.57,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 77.57
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 78.36
+            }
+          ],
+          "previsao100": "≈2026-05-21 16:40:12.878767638"
+        }
+      },
+      "disco": {
+        "uso": 88.11,
+        "limite": null,
+        "alerta": false
+      },
+      "indiceSaude": "92.60 / 100",
+      "financeiro": {
+        "localizacao": {
+          "cidade": "N/A",
+          "bairro": "N/A",
+          "numero": "N/A",
+          "cep": "N/A"
+        },
+        "alertaCPU": false,
+        "alertaRAM": false,
+        "kpiPerdaIndisponibilidade": 0.0,
+        "custoCorretivaPotencial": 0.0,
+        "economiaPreditiva": 450.0,
+        "kpiLucroRetido": 0.0,
+        "kpiConformidadeSLA": 100.0,
+        "metaSLA": 100.0,
+        "statusSLA": "CONFORME",
+        "confiabilidadeAtivo": 94.1
+      },
+      "ambiente": {
+        "corrente": 132,
+        "poeira": 38
+      },
+      "ramUso": 71.91,
+      "ramUsoBruto": 2.33,
+      "discoUsoBruto": 103.28,
+      "financeiroDashboard": {
+        "metricas": {
+          "cpuOriginal": 5.9,
+          "cpuSimulado": 90.79,
+          "ramUso": 71.91,
+          "discoUso": 88.11,
+          "totalProcessos": 266
+        },
+        "indicadores": {
+          "scoreRisco": 45,
+          "severidade": "ALTO",
+          "saudeOperacional": 49.57
+        },
+        "financeiro": {
+          "downtimeMinutos": 54,
+          "perdaIndisponibilidade": 0.0,
+          "perdaLentidao": 0.0,
+          "perdaTotal": 0.0,
+          "multaSLA": 1339.34,
+          "custoPotencialFalha": 602.7,
+          "custoPreditiva": 1656.0,
+          "valorEvitado": 0,
+          "perdaResidual": 0.0,
+          "lucroPreservado": 0.0
+        },
+        "alertas": {
+          "cpu": true,
+          "ram": true,
+          "disco": false
+        },
+        "sla": {
+          "conformidade": 98.64,
+          "meta": 100.0,
+          "status": "VIOLADO"
+        }
+      }
+    },
+    {
+      "empresa": null,
+      "macAddress": "14:cb:19:02:64:71",
+      "horario": "2026-05-21 16:14:42",
+      "cpu": {
+        "uso": 2.8,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Média (entre 1σ e 2σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": -0.007664846091625193,
+          "b": 35.87,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 35.87
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 35.45
+            }
+          ],
+          "previsao100": "Sem previsão"
+        }
+      },
+      "ram": {
+        "uso": 71.6,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Baixa (abaixo que 1σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": 0.014132614110107689,
+          "b": 77.57,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 77.57
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 78.36
+            }
+          ],
+          "previsao100": "≈2026-05-21 16:40:12.878767638"
+        }
+      },
+      "disco": {
+        "uso": 88.11,
+        "limite": null,
+        "alerta": false
+      },
+      "indiceSaude": "92.60 / 100",
+      "financeiro": {
+        "localizacao": {
+          "cidade": "N/A",
+          "bairro": "N/A",
+          "numero": "N/A",
+          "cep": "N/A"
+        },
+        "alertaCPU": false,
+        "alertaRAM": false,
+        "kpiPerdaIndisponibilidade": 0.0,
+        "custoCorretivaPotencial": 0.0,
+        "economiaPreditiva": 450.0,
+        "kpiLucroRetido": 0.0,
+        "kpiConformidadeSLA": 100.0,
+        "metaSLA": 100.0,
+        "statusSLA": "CONFORME",
+        "confiabilidadeAtivo": 97.2
+      },
+      "ambiente": {
+        "corrente": 132,
+        "poeira": 38
+      },
+      "ramUso": 71.6,
+      "ramUsoBruto": 2.32,
+      "discoUsoBruto": 103.28,
+      "financeiroDashboard": {
+        "metricas": {
+          "cpuOriginal": 2.8,
+          "cpuSimulado": 21.41,
+          "ramUso": 71.6,
+          "discoUso": 88.11,
+          "totalProcessos": 266
+        },
+        "indicadores": {
+          "scoreRisco": 10,
+          "severidade": "NORMAL",
+          "saudeOperacional": 70.45
+        },
+        "financeiro": {
+          "downtimeMinutos": 7,
+          "perdaIndisponibilidade": 0.0,
+          "perdaLentidao": 0.0,
+          "perdaTotal": 0.0,
+          "multaSLA": 2121.33,
+          "custoPotencialFalha": 212.13,
+          "custoPreditiva": 1280.08,
+          "valorEvitado": 0,
+          "perdaResidual": 0.0,
+          "lucroPreservado": 0.0
+        },
+        "alertas": {
+          "cpu": false,
+          "ram": true,
+          "disco": false
+        },
+        "sla": {
+          "conformidade": 99.98,
+          "meta": 100.0,
+          "status": "VIOLADO"
+        }
+      }
+    },
+    {
+      "empresa": null,
+      "macAddress": "14:cb:19:02:64:71",
+      "horario": "2026-05-21 16:14:42",
+      "cpu": {
+        "uso": 2.8,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Média (entre 1σ e 2σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": -0.007664846091625193,
+          "b": 35.87,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 35.87
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 35.45
+            }
+          ],
+          "previsao100": "Sem previsão"
+        }
+      },
+      "ram": {
+        "uso": 71.91,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Baixa (abaixo que 1σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": 0.014132614110107689,
+          "b": 77.57,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 77.57
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 78.36
+            }
+          ],
+          "previsao100": "≈2026-05-21 16:40:12.878767638"
+        }
+      },
+      "disco": {
+        "uso": 88.11,
+        "limite": null,
+        "alerta": false
+      },
+      "indiceSaude": "92.60 / 100",
+      "financeiro": {
+        "localizacao": {
+          "cidade": "N/A",
+          "bairro": "N/A",
+          "numero": "N/A",
+          "cep": "N/A"
+        },
+        "alertaCPU": false,
+        "alertaRAM": false,
+        "kpiPerdaIndisponibilidade": 0.0,
+        "custoCorretivaPotencial": 0.0,
+        "economiaPreditiva": 450.0,
+        "kpiLucroRetido": 0.0,
+        "kpiConformidadeSLA": 100.0,
+        "metaSLA": 100.0,
+        "statusSLA": "CONFORME",
+        "confiabilidadeAtivo": 97.2
+      },
+      "ambiente": {
+        "corrente": 132,
+        "poeira": 38
+      },
+      "ramUso": 71.91,
+      "ramUsoBruto": 2.33,
+      "discoUsoBruto": 103.28,
+      "financeiroDashboard": {
+        "metricas": {
+          "cpuOriginal": 2.8,
+          "cpuSimulado": 21.0,
+          "ramUso": 71.91,
+          "discoUso": 88.11,
+          "totalProcessos": 267
+        },
+        "indicadores": {
+          "scoreRisco": 10,
+          "severidade": "NORMAL",
+          "saudeOperacional": 70.51
+        },
+        "financeiro": {
+          "downtimeMinutos": 9,
+          "perdaIndisponibilidade": 0.0,
+          "perdaLentidao": 0.0,
+          "perdaTotal": 0.0,
+          "multaSLA": 877.5,
+          "custoPotencialFalha": 87.75,
+          "custoPreditiva": 936.56,
+          "valorEvitado": 0,
+          "perdaResidual": 0.0,
+          "lucroPreservado": 0.0
+        },
+        "alertas": {
+          "cpu": false,
+          "ram": true,
+          "disco": false
+        },
+        "sla": {
+          "conformidade": 99.98,
+          "meta": 100.0,
+          "status": "VIOLADO"
+        }
+      }
+    },
+    {
+      "empresa": null,
+      "macAddress": "14:cb:19:02:64:71",
+      "horario": "2026-05-21 16:14:42",
+      "cpu": {
+        "uso": 65.1,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Média (entre 1σ e 2σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": -0.007664846091625193,
+          "b": 35.87,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 35.87
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 35.45
+            }
+          ],
+          "previsao100": "Sem previsão"
+        }
+      },
+      "ram": {
+        "uso": 68.21,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Baixa (abaixo que 1σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": 0.014132614110107689,
+          "b": 77.57,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 77.57
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 78.36
+            }
+          ],
+          "previsao100": "≈2026-05-21 16:40:12.878767638"
+        }
+      },
+      "disco": {
+        "uso": 88.11,
+        "limite": null,
+        "alerta": false
+      },
+      "indiceSaude": "92.60 / 100",
+      "financeiro": {
+        "localizacao": {
+          "cidade": "N/A",
+          "bairro": "N/A",
+          "numero": "N/A",
+          "cep": "N/A"
+        },
+        "alertaCPU": false,
+        "alertaRAM": false,
+        "kpiPerdaIndisponibilidade": 0.0,
+        "custoCorretivaPotencial": 0.0,
+        "economiaPreditiva": 450.0,
+        "kpiLucroRetido": 0.0,
+        "kpiConformidadeSLA": 100.0,
+        "metaSLA": 100.0,
+        "statusSLA": "CONFORME",
+        "confiabilidadeAtivo": 34.9
+      },
+      "ambiente": {
+        "corrente": 132,
+        "poeira": 38
+      },
+      "ramUso": 68.21,
+      "ramUsoBruto": 2.21,
+      "discoUsoBruto": 103.28,
+      "financeiroDashboard": {
+        "metricas": {
+          "cpuOriginal": 65.1,
+          "cpuSimulado": 71.99,
+          "ramUso": 68.21,
+          "discoUso": 88.11,
+          "totalProcessos": 244
+        },
+        "indicadores": {
+          "scoreRisco": 0,
+          "severidade": "NORMAL",
+          "saudeOperacional": 55.95
+        },
+        "financeiro": {
+          "downtimeMinutos": 2,
+          "perdaIndisponibilidade": 0.0,
+          "perdaLentidao": 0.0,
+          "perdaTotal": 0.0,
+          "multaSLA": 1570.84,
+          "custoPotencialFalha": 0.0,
+          "custoPreditiva": 839.69,
+          "valorEvitado": 0,
+          "perdaResidual": 0.0,
+          "lucroPreservado": 0.0
+        },
+        "alertas": {
+          "cpu": false,
+          "ram": false,
+          "disco": false
+        },
+        "sla": {
+          "conformidade": 100.0,
+          "meta": 100.0,
+          "status": "VIOLADO"
+        }
+      }
+    },
+    {
+      "empresa": null,
+      "macAddress": "14:cb:19:02:64:71",
+      "horario": "2026-05-21 16:14:42",
+      "cpu": {
+        "uso": 3.4,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Média (entre 1σ e 2σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": -0.007664846091625193,
+          "b": 35.87,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 35.87
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 35.45
+            }
+          ],
+          "previsao100": "Sem previsão"
+        }
+      },
+      "ram": {
+        "uso": 67.9,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Baixa (abaixo que 1σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": 0.014132614110107689,
+          "b": 77.57,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 77.57
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 78.36
+            }
+          ],
+          "previsao100": "≈2026-05-21 16:40:12.878767638"
+        }
+      },
+      "disco": {
+        "uso": 88.11,
+        "limite": null,
+        "alerta": false
+      },
+      "indiceSaude": "92.60 / 100",
+      "financeiro": {
+        "localizacao": {
+          "cidade": "N/A",
+          "bairro": "N/A",
+          "numero": "N/A",
+          "cep": "N/A"
+        },
+        "alertaCPU": false,
+        "alertaRAM": false,
+        "kpiPerdaIndisponibilidade": 0.0,
+        "custoCorretivaPotencial": 0.0,
+        "economiaPreditiva": 450.0,
+        "kpiLucroRetido": 0.0,
+        "kpiConformidadeSLA": 100.0,
+        "metaSLA": 100.0,
+        "statusSLA": "CONFORME",
+        "confiabilidadeAtivo": 96.6
+      },
+      "ambiente": {
+        "corrente": 132,
+        "poeira": 38
+      },
+      "ramUso": 67.9,
+      "ramUsoBruto": 2.2,
+      "discoUsoBruto": 103.28,
+      "financeiroDashboard": {
+        "metricas": {
+          "cpuOriginal": 3.4,
+          "cpuSimulado": 15.09,
+          "ramUso": 67.9,
+          "discoUso": 88.11,
+          "totalProcessos": 244
+        },
+        "indicadores": {
+          "scoreRisco": 0,
+          "severidade": "NORMAL",
+          "saudeOperacional": 73.08
+        },
+        "financeiro": {
+          "downtimeMinutos": 1,
+          "perdaIndisponibilidade": 0.0,
+          "perdaLentidao": 0.0,
+          "perdaTotal": 0.0,
+          "multaSLA": 690.63,
+          "custoPotencialFalha": 0.0,
+          "custoPreditiva": 1446.69,
+          "valorEvitado": 0,
+          "perdaResidual": 0.0,
+          "lucroPreservado": 0.0
+        },
+        "alertas": {
+          "cpu": false,
+          "ram": false,
+          "disco": false
+        },
+        "sla": {
+          "conformidade": 100.0,
+          "meta": 100.0,
+          "status": "VIOLADO"
+        }
+      }
+    },
+    {
+      "empresa": null,
+      "macAddress": "14:cb:19:02:64:71",
+      "horario": "2026-05-21 16:14:42",
+      "cpu": {
+        "uso": 2.7,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Média (entre 1σ e 2σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": -0.007664846091625193,
+          "b": 35.87,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 35.87
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 35.45
+            }
+          ],
+          "previsao100": "Sem previsão"
+        }
+      },
+      "ram": {
+        "uso": 67.9,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Baixa (abaixo que 1σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": 0.014132614110107689,
+          "b": 77.57,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 77.57
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 78.36
+            }
+          ],
+          "previsao100": "≈2026-05-21 16:40:12.878767638"
+        }
+      },
+      "disco": {
+        "uso": 88.11,
+        "limite": null,
+        "alerta": false
+      },
+      "indiceSaude": "92.60 / 100",
+      "financeiro": {
+        "localizacao": {
+          "cidade": "N/A",
+          "bairro": "N/A",
+          "numero": "N/A",
+          "cep": "N/A"
+        },
+        "alertaCPU": false,
+        "alertaRAM": false,
+        "kpiPerdaIndisponibilidade": 0.0,
+        "custoCorretivaPotencial": 0.0,
+        "economiaPreditiva": 450.0,
+        "kpiLucroRetido": 0.0,
+        "kpiConformidadeSLA": 100.0,
+        "metaSLA": 100.0,
+        "statusSLA": "CONFORME",
+        "confiabilidadeAtivo": 97.3
+      },
+      "ambiente": {
+        "corrente": 132,
+        "poeira": 38
+      },
+      "ramUso": 67.9,
+      "ramUsoBruto": 2.2,
+      "discoUsoBruto": 103.28,
+      "financeiroDashboard": {
+        "metricas": {
+          "cpuOriginal": 2.7,
+          "cpuSimulado": 72.77,
+          "ramUso": 67.9,
+          "discoUso": 88.11,
+          "totalProcessos": 245
+        },
+        "indicadores": {
+          "scoreRisco": 0,
+          "severidade": "NORMAL",
+          "saudeOperacional": 55.78
+        },
+        "financeiro": {
+          "downtimeMinutos": 1,
+          "perdaIndisponibilidade": 0.0,
+          "perdaLentidao": 0.0,
+          "perdaTotal": 0.0,
+          "multaSLA": 2312.29,
+          "custoPotencialFalha": 0.0,
+          "custoPreditiva": 1314.42,
+          "valorEvitado": 0,
+          "perdaResidual": 0.0,
+          "lucroPreservado": 0.0
+        },
+        "alertas": {
+          "cpu": false,
+          "ram": false,
+          "disco": false
+        },
+        "sla": {
+          "conformidade": 100.0,
+          "meta": 100.0,
+          "status": "VIOLADO"
+        }
+      }
+    },
+    {
+      "empresa": null,
+      "macAddress": "14:cb:19:02:64:71",
+      "horario": "2026-05-21 16:14:42",
+      "cpu": {
+        "uso": 2.2,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Média (entre 1σ e 2σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": -0.007664846091625193,
+          "b": 35.87,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 35.87
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 35.45
+            }
+          ],
+          "previsao100": "Sem previsão"
+        }
+      },
+      "ram": {
+        "uso": 68.21,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Baixa (abaixo que 1σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": 0.014132614110107689,
+          "b": 77.57,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 77.57
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 78.36
+            }
+          ],
+          "previsao100": "≈2026-05-21 16:40:12.878767638"
+        }
+      },
+      "disco": {
+        "uso": 88.11,
+        "limite": null,
+        "alerta": false
+      },
+      "indiceSaude": "92.60 / 100",
+      "financeiro": {
+        "localizacao": {
+          "cidade": "N/A",
+          "bairro": "N/A",
+          "numero": "N/A",
+          "cep": "N/A"
+        },
+        "alertaCPU": false,
+        "alertaRAM": false,
+        "kpiPerdaIndisponibilidade": 0.0,
+        "custoCorretivaPotencial": 0.0,
+        "economiaPreditiva": 450.0,
+        "kpiLucroRetido": 0.0,
+        "kpiConformidadeSLA": 100.0,
+        "metaSLA": 100.0,
+        "statusSLA": "CONFORME",
+        "confiabilidadeAtivo": 97.8
+      },
+      "ambiente": {
+        "corrente": 132,
+        "poeira": 38
+      },
+      "ramUso": 68.21,
+      "ramUsoBruto": 2.21,
+      "discoUsoBruto": 103.28,
+      "financeiroDashboard": {
+        "metricas": {
+          "cpuOriginal": 2.2,
+          "cpuSimulado": 21.38,
+          "ramUso": 68.21,
+          "discoUso": 88.11,
+          "totalProcessos": 244
+        },
+        "indicadores": {
+          "scoreRisco": 0,
+          "severidade": "NORMAL",
+          "saudeOperacional": 71.13
+        },
+        "financeiro": {
+          "downtimeMinutos": 2,
+          "perdaIndisponibilidade": 0.0,
+          "perdaLentidao": 0.0,
+          "perdaTotal": 0.0,
+          "multaSLA": 695.26,
+          "custoPotencialFalha": 0.0,
+          "custoPreditiva": 1228.06,
+          "valorEvitado": 0,
+          "perdaResidual": 0.0,
+          "lucroPreservado": 0.0
+        },
+        "alertas": {
+          "cpu": false,
+          "ram": false,
+          "disco": false
+        },
+        "sla": {
+          "conformidade": 100.0,
+          "meta": 100.0,
+          "status": "VIOLADO"
+        }
+      }
+    },
+    {
+      "empresa": null,
+      "macAddress": "14:cb:19:02:64:71",
+      "horario": "2026-05-21 16:14:42",
+      "cpu": {
+        "uso": 51.2,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Baixa (abaixo que 1σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": -0.007664846091625193,
+          "b": 35.87,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 35.87
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 35.45
+            }
+          ],
+          "previsao100": "Sem previsão"
+        }
+      },
+      "ram": {
+        "uso": 64.51,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Média (entre 1σ e 2σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": 0.014132614110107689,
+          "b": 77.57,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 77.57
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 78.36
+            }
+          ],
+          "previsao100": "≈2026-05-21 16:40:12.878767638"
+        }
+      },
+      "disco": {
+        "uso": 88.11,
+        "limite": null,
+        "alerta": false
+      },
+      "indiceSaude": "92.60 / 100",
+      "financeiro": {
+        "localizacao": {
+          "cidade": "N/A",
+          "bairro": "N/A",
+          "numero": "N/A",
+          "cep": "N/A"
+        },
+        "alertaCPU": false,
+        "alertaRAM": false,
+        "kpiPerdaIndisponibilidade": 0.0,
+        "custoCorretivaPotencial": 0.0,
+        "economiaPreditiva": 450.0,
+        "kpiLucroRetido": 0.0,
+        "kpiConformidadeSLA": 100.0,
+        "metaSLA": 100.0,
+        "statusSLA": "CONFORME",
+        "confiabilidadeAtivo": 48.8
+      },
+      "ambiente": {
+        "corrente": 132,
+        "poeira": 38
+      },
+      "ramUso": 64.51,
+      "ramUsoBruto": 2.09,
+      "discoUsoBruto": 103.28,
+      "financeiroDashboard": {
+        "metricas": {
+          "cpuOriginal": 51.2,
+          "cpuSimulado": 59.94,
+          "ramUso": 64.51,
+          "discoUso": 88.11,
+          "totalProcessos": 256
+        },
+        "indicadores": {
+          "scoreRisco": 0,
+          "severidade": "NORMAL",
+          "saudeOperacional": 60.3
+        },
+        "financeiro": {
+          "downtimeMinutos": 1,
+          "perdaIndisponibilidade": 0.0,
+          "perdaLentidao": 0.0,
+          "perdaTotal": 0.0,
+          "multaSLA": 1905.21,
+          "custoPotencialFalha": 0.0,
+          "custoPreditiva": 1407.35,
+          "valorEvitado": 0,
+          "perdaResidual": 0.0,
+          "lucroPreservado": 0.0
+        },
+        "alertas": {
+          "cpu": false,
+          "ram": false,
+          "disco": false
+        },
+        "sla": {
+          "conformidade": 100.0,
+          "meta": 100.0,
+          "status": "VIOLADO"
+        }
+      }
+    },
+    {
+      "empresa": null,
+      "macAddress": "14:cb:19:02:64:71",
+      "horario": "2026-05-21 16:14:42",
+      "cpu": {
+        "uso": 3.5,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Média (entre 1σ e 2σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": -0.007664846091625193,
+          "b": 35.87,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 35.87
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 35.45
+            }
+          ],
+          "previsao100": "Sem previsão"
+        }
+      },
+      "ram": {
+        "uso": 65.12,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Média (entre 1σ e 2σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": 0.014132614110107689,
+          "b": 77.57,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 77.57
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 78.36
+            }
+          ],
+          "previsao100": "≈2026-05-21 16:40:12.878767638"
+        }
+      },
+      "disco": {
+        "uso": 88.11,
+        "limite": null,
+        "alerta": false
+      },
+      "indiceSaude": "88.90 / 100",
+      "financeiro": {
+        "localizacao": {
+          "cidade": "N/A",
+          "bairro": "N/A",
+          "numero": "N/A",
+          "cep": "N/A"
+        },
+        "alertaCPU": false,
+        "alertaRAM": false,
+        "kpiPerdaIndisponibilidade": 0.0,
+        "custoCorretivaPotencial": 0.0,
+        "economiaPreditiva": 450.0,
+        "kpiLucroRetido": 0.0,
+        "kpiConformidadeSLA": 100.0,
+        "metaSLA": 100.0,
+        "statusSLA": "CONFORME",
+        "confiabilidadeAtivo": 96.5
+      },
+      "ambiente": {
+        "corrente": 132,
+        "poeira": 38
+      },
+      "ramUso": 65.12,
+      "ramUsoBruto": 2.11,
+      "discoUsoBruto": 103.28,
+      "financeiroDashboard": {
+        "metricas": {
+          "cpuOriginal": 3.5,
+          "cpuSimulado": 83.02,
+          "ramUso": 65.12,
+          "discoUso": 88.11,
+          "totalProcessos": 250
+        },
+        "indicadores": {
+          "scoreRisco": 25,
+          "severidade": "MODERADO",
+          "saudeOperacional": 53.26
+        },
+        "financeiro": {
+          "downtimeMinutos": 14,
+          "perdaIndisponibilidade": 0.0,
+          "perdaLentidao": 0.0,
+          "perdaTotal": 0.0,
+          "multaSLA": 1664.85,
+          "custoPotencialFalha": 416.21,
+          "custoPreditiva": 1147.72,
+          "valorEvitado": 0,
+          "perdaResidual": 0.0,
+          "lucroPreservado": 0.0
+        },
+        "alertas": {
+          "cpu": true,
+          "ram": false,
+          "disco": false
+        },
+        "sla": {
+          "conformidade": 99.6,
+          "meta": 100.0,
+          "status": "VIOLADO"
+        }
+      }
+    },
+    {
+      "empresa": null,
+      "macAddress": "14:cb:19:02:64:71",
+      "horario": "2026-05-21 16:14:42",
+      "cpu": {
+        "uso": 2.7,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Média (entre 1σ e 2σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": -0.007664846091625193,
+          "b": 35.87,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 35.87
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 35.45
+            }
+          ],
+          "previsao100": "Sem previsão"
+        }
+      },
+      "ram": {
+        "uso": 65.12,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Média (entre 1σ e 2σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": 0.014132614110107689,
+          "b": 77.57,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 77.57
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 78.36
+            }
+          ],
+          "previsao100": "≈2026-05-21 16:40:12.878767638"
+        }
+      },
+      "disco": {
+        "uso": 88.11,
+        "limite": null,
+        "alerta": false
+      },
+      "indiceSaude": "88.90 / 100",
+      "financeiro": {
+        "localizacao": {
+          "cidade": "N/A",
+          "bairro": "N/A",
+          "numero": "N/A",
+          "cep": "N/A"
+        },
+        "alertaCPU": false,
+        "alertaRAM": false,
+        "kpiPerdaIndisponibilidade": 0.0,
+        "custoCorretivaPotencial": 0.0,
+        "economiaPreditiva": 450.0,
+        "kpiLucroRetido": 0.0,
+        "kpiConformidadeSLA": 100.0,
+        "metaSLA": 100.0,
+        "statusSLA": "CONFORME",
+        "confiabilidadeAtivo": 97.3
+      },
+      "ambiente": {
+        "corrente": 132,
+        "poeira": 38
+      },
+      "ramUso": 65.12,
+      "ramUsoBruto": 2.11,
+      "discoUsoBruto": 103.28,
+      "financeiroDashboard": {
+        "metricas": {
+          "cpuOriginal": 2.7,
+          "cpuSimulado": 84.87,
+          "ramUso": 65.12,
+          "discoUso": 88.11,
+          "totalProcessos": 250
+        },
+        "indicadores": {
+          "scoreRisco": 25,
+          "severidade": "MODERADO",
+          "saudeOperacional": 52.7
+        },
+        "financeiro": {
+          "downtimeMinutos": 15,
+          "perdaIndisponibilidade": 0.0,
+          "perdaLentidao": 0.0,
+          "perdaTotal": 0.0,
+          "multaSLA": 1791.68,
+          "custoPotencialFalha": 447.92,
+          "custoPreditiva": 1687.66,
+          "valorEvitado": 0,
+          "perdaResidual": 0.0,
+          "lucroPreservado": 0.0
+        },
+        "alertas": {
+          "cpu": true,
+          "ram": false,
+          "disco": false
+        },
+        "sla": {
+          "conformidade": 99.2,
+          "meta": 100.0,
+          "status": "VIOLADO"
+        }
+      }
+    },
+    {
+      "empresa": null,
+      "macAddress": "14:cb:19:02:64:71",
+      "horario": "2026-05-21 16:14:42",
+      "cpu": {
+        "uso": 2.4,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Média (entre 1σ e 2σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": -0.007664846091625193,
+          "b": 35.87,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 35.87
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 35.45
+            }
+          ],
+          "previsao100": "Sem previsão"
+        }
+      },
+      "ram": {
+        "uso": 65.12,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Média (entre 1σ e 2σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": 0.014132614110107689,
+          "b": 77.57,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 77.57
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 78.36
+            }
+          ],
+          "previsao100": "≈2026-05-21 16:40:12.878767638"
+        }
+      },
+      "disco": {
+        "uso": 88.11,
+        "limite": null,
+        "alerta": false
+      },
+      "indiceSaude": "88.90 / 100",
+      "financeiro": {
+        "localizacao": {
+          "cidade": "N/A",
+          "bairro": "N/A",
+          "numero": "N/A",
+          "cep": "N/A"
+        },
+        "alertaCPU": false,
+        "alertaRAM": false,
+        "kpiPerdaIndisponibilidade": 0.0,
+        "custoCorretivaPotencial": 0.0,
+        "economiaPreditiva": 450.0,
+        "kpiLucroRetido": 0.0,
+        "kpiConformidadeSLA": 100.0,
+        "metaSLA": 100.0,
+        "statusSLA": "CONFORME",
+        "confiabilidadeAtivo": 97.6
+      },
+      "ambiente": {
+        "corrente": 132,
+        "poeira": 38
+      },
+      "ramUso": 65.12,
+      "ramUsoBruto": 2.11,
+      "discoUsoBruto": 103.28,
+      "financeiroDashboard": {
+        "metricas": {
+          "cpuOriginal": 2.4,
+          "cpuSimulado": 15.29,
+          "ramUso": 65.12,
+          "discoUso": 88.11,
+          "totalProcessos": 250
+        },
+        "indicadores": {
+          "scoreRisco": 0,
+          "severidade": "NORMAL",
+          "saudeOperacional": 73.58
+        },
+        "financeiro": {
+          "downtimeMinutos": 2,
+          "perdaIndisponibilidade": 0.0,
+          "perdaLentidao": 0.0,
+          "perdaTotal": 0.0,
+          "multaSLA": 643.76,
+          "custoPotencialFalha": 0.0,
+          "custoPreditiva": 1780.62,
+          "valorEvitado": 0,
+          "perdaResidual": 0.0,
+          "lucroPreservado": 0.0
+        },
+        "alertas": {
+          "cpu": false,
+          "ram": false,
+          "disco": false
+        },
+        "sla": {
+          "conformidade": 100.0,
+          "meta": 100.0,
+          "status": "VIOLADO"
+        }
+      }
+    },
+    {
+      "empresa": null,
+      "macAddress": "14:cb:19:02:64:71",
+      "horario": "2026-05-21 16:14:42",
+      "cpu": {
+        "uso": 2.7,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Média (entre 1σ e 2σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": -0.007664846091625193,
+          "b": 35.87,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 35.87
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 35.45
+            }
+          ],
+          "previsao100": "Sem previsão"
+        }
+      },
+      "ram": {
+        "uso": 64.2,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Média (entre 1σ e 2σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": 0.014132614110107689,
+          "b": 77.57,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 77.57
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 78.36
+            }
+          ],
+          "previsao100": "≈2026-05-21 16:40:12.878767638"
+        }
+      },
+      "disco": {
+        "uso": 88.11,
+        "limite": null,
+        "alerta": false
+      },
+      "indiceSaude": "88.90 / 100",
+      "financeiro": {
+        "localizacao": {
+          "cidade": "N/A",
+          "bairro": "N/A",
+          "numero": "N/A",
+          "cep": "N/A"
+        },
+        "alertaCPU": false,
+        "alertaRAM": false,
+        "kpiPerdaIndisponibilidade": 0.0,
+        "custoCorretivaPotencial": 0.0,
+        "economiaPreditiva": 450.0,
+        "kpiLucroRetido": 0.0,
+        "kpiConformidadeSLA": 100.0,
+        "metaSLA": 100.0,
+        "statusSLA": "CONFORME",
+        "confiabilidadeAtivo": 97.3
+      },
+      "ambiente": {
+        "corrente": 132,
+        "poeira": 38
+      },
+      "ramUso": 64.2,
+      "ramUsoBruto": 2.08,
+      "discoUsoBruto": 103.28,
+      "financeiroDashboard": {
+        "metricas": {
+          "cpuOriginal": 2.7,
+          "cpuSimulado": 9.56,
+          "ramUso": 64.2,
+          "discoUso": 88.11,
+          "totalProcessos": 250
+        },
+        "indicadores": {
+          "scoreRisco": 0,
+          "severidade": "NORMAL",
+          "saudeOperacional": 75.48
+        },
+        "financeiro": {
+          "downtimeMinutos": 1,
+          "perdaIndisponibilidade": 0.0,
+          "perdaLentidao": 0.0,
+          "perdaTotal": 0.0,
+          "multaSLA": 1965.45,
+          "custoPotencialFalha": 0.0,
+          "custoPreditiva": 1520.27,
+          "valorEvitado": 0,
+          "perdaResidual": 0.0,
+          "lucroPreservado": 0.0
+        },
+        "alertas": {
+          "cpu": false,
+          "ram": false,
+          "disco": false
+        },
+        "sla": {
+          "conformidade": 100.0,
+          "meta": 100.0,
+          "status": "VIOLADO"
+        }
+      }
+    },
+    {
+      "empresa": null,
+      "macAddress": "14:cb:19:02:64:71",
+      "horario": "2026-05-21 16:14:42",
+      "cpu": {
+        "uso": 87.2,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Média (entre 1σ e 2σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": -0.007664846091625193,
+          "b": 35.87,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 35.87
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 35.45
+            }
+          ],
+          "previsao100": "Sem previsão"
+        }
+      },
+      "ram": {
+        "uso": 82.41,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Baixa (abaixo que 1σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": 0.014132614110107689,
+          "b": 77.57,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 77.57
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 78.36
+            }
+          ],
+          "previsao100": "≈2026-05-21 16:40:12.878767638"
+        }
+      },
+      "disco": {
+        "uso": 88.06,
+        "limite": null,
+        "alerta": false
+      },
+      "indiceSaude": "92.60 / 100",
+      "financeiro": {
+        "localizacao": {
+          "cidade": "N/A",
+          "bairro": "N/A",
+          "numero": "N/A",
+          "cep": "N/A"
+        },
+        "alertaCPU": false,
+        "alertaRAM": false,
+        "kpiPerdaIndisponibilidade": 0.0,
+        "custoCorretivaPotencial": 0.0,
+        "economiaPreditiva": 450.0,
+        "kpiLucroRetido": 0.0,
+        "kpiConformidadeSLA": 100.0,
+        "metaSLA": 100.0,
+        "statusSLA": "CONFORME",
+        "confiabilidadeAtivo": 12.8
+      },
+      "ambiente": {
+        "corrente": 132,
+        "poeira": 38
+      },
+      "ramUso": 82.41,
+      "ramUsoBruto": 2.67,
+      "discoUsoBruto": 103.22,
+      "financeiroDashboard": {
+        "metricas": {
+          "cpuOriginal": 87.2,
+          "cpuSimulado": 100.0,
+          "ramUso": 82.41,
+          "discoUso": 88.06,
+          "totalProcessos": 289
+        },
+        "indicadores": {
+          "scoreRisco": 60,
+          "severidade": "ALTO",
+          "saudeOperacional": 44.71
+        },
+        "financeiro": {
+          "downtimeMinutos": 63,
+          "perdaIndisponibilidade": 0.0,
+          "perdaLentidao": 0.0,
+          "perdaTotal": 0.0,
+          "multaSLA": 1081.83,
+          "custoPotencialFalha": 649.1,
+          "custoPreditiva": 1712.34,
+          "valorEvitado": 0,
+          "perdaResidual": 0.0,
+          "lucroPreservado": 0.0
+        },
+        "alertas": {
+          "cpu": true,
+          "ram": true,
+          "disco": false
+        },
+        "sla": {
+          "conformidade": 98.31,
+          "meta": 100.0,
+          "status": "VIOLADO"
+        }
+      }
+    },
+    {
+      "empresa": null,
+      "macAddress": "14:cb:19:02:64:71",
+      "horario": "2026-05-21 16:14:42",
+      "cpu": {
+        "uso": 20.4,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Baixa (abaixo que 1σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": -0.007664846091625193,
+          "b": 35.87,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 35.87
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 35.45
+            }
+          ],
+          "previsao100": "Sem previsão"
+        }
+      },
+      "ram": {
+        "uso": 80.86,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Baixa (abaixo que 1σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": 0.014132614110107689,
+          "b": 77.57,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 77.57
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 78.36
+            }
+          ],
+          "previsao100": "≈2026-05-21 16:40:12.878767638"
+        }
+      },
+      "disco": {
+        "uso": 88.06,
+        "limite": null,
+        "alerta": false
+      },
+      "indiceSaude": "96.30 / 100",
+      "financeiro": {
+        "localizacao": {
+          "cidade": "N/A",
+          "bairro": "N/A",
+          "numero": "N/A",
+          "cep": "N/A"
+        },
+        "alertaCPU": false,
+        "alertaRAM": false,
+        "kpiPerdaIndisponibilidade": 0.0,
+        "custoCorretivaPotencial": 0.0,
+        "economiaPreditiva": 450.0,
+        "kpiLucroRetido": 0.0,
+        "kpiConformidadeSLA": 100.0,
+        "metaSLA": 100.0,
+        "statusSLA": "CONFORME",
+        "confiabilidadeAtivo": 79.6
+      },
+      "ambiente": {
+        "corrente": 132,
+        "poeira": 38
+      },
+      "ramUso": 80.86,
+      "ramUsoBruto": 2.62,
+      "discoUsoBruto": 103.22,
+      "financeiroDashboard": {
+        "metricas": {
+          "cpuOriginal": 20.4,
+          "cpuSimulado": 29.69,
+          "ramUso": 80.86,
+          "discoUso": 88.06,
+          "totalProcessos": 293
+        },
+        "indicadores": {
+          "scoreRisco": 10,
+          "severidade": "NORMAL",
+          "saudeOperacional": 66.11
+        },
+        "financeiro": {
+          "downtimeMinutos": 4,
+          "perdaIndisponibilidade": 0.0,
+          "perdaLentidao": 0.0,
+          "perdaTotal": 0.0,
+          "multaSLA": 1713.2,
+          "custoPotencialFalha": 171.32,
+          "custoPreditiva": 786.2,
+          "valorEvitado": 0,
+          "perdaResidual": 0.0,
+          "lucroPreservado": 0.0
+        },
+        "alertas": {
+          "cpu": false,
+          "ram": true,
+          "disco": false
+        },
+        "sla": {
+          "conformidade": 99.99,
+          "meta": 100.0,
+          "status": "VIOLADO"
+        }
+      }
+    },
+    {
+      "empresa": null,
+      "macAddress": "14:cb:19:02:64:71",
+      "horario": "2026-05-21 16:14:42",
+      "cpu": {
+        "uso": 31.0,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Baixa (abaixo que 1σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": -0.007664846091625193,
+          "b": 35.87,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 35.87
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 35.45
+            }
+          ],
+          "previsao100": "Sem previsão"
+        }
+      },
+      "ram": {
+        "uso": 88.27,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Baixa (abaixo que 1σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": 0.014132614110107689,
+          "b": 77.57,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 77.57
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 78.36
+            }
+          ],
+          "previsao100": "≈2026-05-21 16:40:12.878767638"
+        }
+      },
+      "disco": {
+        "uso": 88.06,
+        "limite": null,
+        "alerta": false
+      },
+      "indiceSaude": "96.30 / 100",
+      "financeiro": {
+        "localizacao": {
+          "cidade": "N/A",
+          "bairro": "N/A",
+          "numero": "N/A",
+          "cep": "N/A"
+        },
+        "alertaCPU": false,
+        "alertaRAM": false,
+        "kpiPerdaIndisponibilidade": 0.0,
+        "custoCorretivaPotencial": 0.0,
+        "economiaPreditiva": 450.0,
+        "kpiLucroRetido": 0.0,
+        "kpiConformidadeSLA": 100.0,
+        "metaSLA": 100.0,
+        "statusSLA": "CONFORME",
+        "confiabilidadeAtivo": 69.0
+      },
+      "ambiente": {
+        "corrente": 132,
+        "poeira": 38
+      },
+      "ramUso": 88.27,
+      "ramUsoBruto": 2.86,
+      "discoUsoBruto": 103.22,
+      "financeiroDashboard": {
+        "metricas": {
+          "cpuOriginal": 31.0,
+          "cpuSimulado": 100.0,
+          "ramUso": 88.27,
+          "discoUso": 88.06,
+          "totalProcessos": 288
+        },
+        "indicadores": {
+          "scoreRisco": 70,
+          "severidade": "CRITICO",
+          "saudeOperacional": 43.54
+        },
+        "financeiro": {
+          "downtimeMinutos": 54,
+          "perdaIndisponibilidade": 0.0,
+          "perdaLentidao": 0.0,
+          "perdaTotal": 0.0,
+          "multaSLA": 795.53,
+          "custoPotencialFalha": 556.87,
+          "custoPreditiva": 1179.62,
+          "valorEvitado": 0,
+          "perdaResidual": 0.0,
+          "lucroPreservado": 0.0
+        },
+        "alertas": {
+          "cpu": true,
+          "ram": true,
+          "disco": false
+        },
+        "sla": {
+          "conformidade": 96.22,
+          "meta": 100.0,
+          "status": "VIOLADO"
+        }
+      }
+    },
+    {
+      "empresa": null,
+      "macAddress": "14:cb:19:02:64:71",
+      "horario": "2026-05-21 16:14:42",
+      "cpu": {
+        "uso": 69.7,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Média (entre 1σ e 2σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": -0.007664846091625193,
+          "b": 35.87,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 35.87
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 35.45
+            }
+          ],
+          "previsao100": "Sem previsão"
+        }
+      },
+      "ram": {
+        "uso": 95.99,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Média (entre 1σ e 2σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": 0.014132614110107689,
+          "b": 77.57,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 77.57
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 78.36
+            }
+          ],
+          "previsao100": "≈2026-05-21 16:40:12.878767638"
+        }
+      },
+      "disco": {
+        "uso": 88.06,
+        "limite": null,
+        "alerta": false
+      },
+      "indiceSaude": "88.90 / 100",
+      "financeiro": {
+        "localizacao": {
+          "cidade": "N/A",
+          "bairro": "N/A",
+          "numero": "N/A",
+          "cep": "N/A"
+        },
+        "alertaCPU": false,
+        "alertaRAM": false,
+        "kpiPerdaIndisponibilidade": 0.0,
+        "custoCorretivaPotencial": 0.0,
+        "economiaPreditiva": 450.0,
+        "kpiLucroRetido": 0.0,
+        "kpiConformidadeSLA": 100.0,
+        "metaSLA": 100.0,
+        "statusSLA": "CONFORME",
+        "confiabilidadeAtivo": 30.3
+      },
+      "ambiente": {
+        "corrente": 132,
+        "poeira": 38
+      },
+      "ramUso": 95.99,
+      "ramUsoBruto": 3.11,
+      "discoUsoBruto": 103.22,
+      "financeiroDashboard": {
+        "metricas": {
+          "cpuOriginal": 69.7,
+          "cpuSimulado": 83.93,
+          "ramUso": 95.99,
+          "discoUso": 88.06,
+          "totalProcessos": 288
+        },
+        "indicadores": {
+          "scoreRisco": 60,
+          "severidade": "ALTO",
+          "saudeOperacional": 46.82
+        },
+        "financeiro": {
+          "downtimeMinutos": 27,
+          "perdaIndisponibilidade": 0.0,
+          "perdaLentidao": 0.0,
+          "perdaTotal": 0.0,
+          "multaSLA": 1502.92,
+          "custoPotencialFalha": 901.75,
+          "custoPreditiva": 1229.36,
+          "valorEvitado": 0,
+          "perdaResidual": 0.0,
+          "lucroPreservado": 0.0
+        },
+        "alertas": {
+          "cpu": true,
+          "ram": true,
+          "disco": false
+        },
+        "sla": {
+          "conformidade": 99.2,
+          "meta": 100.0,
+          "status": "VIOLADO"
+        }
+      }
+    },
+    {
+      "empresa": null,
+      "macAddress": "14:cb:19:02:64:71",
+      "horario": "2026-05-21 17:14:42",
+      "cpu": {
+        "uso": 48.3,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Baixa (abaixo que 1σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": -0.007664846091625193,
+          "b": 35.87,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 35.87
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 35.45
+            }
+          ],
+          "previsao100": "Sem previsão"
+        }
+      },
+      "ram": {
+        "uso": 88.89,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Média (entre 1σ e 2σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": 0.014132614110107689,
+          "b": 77.57,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 77.57
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 78.36
+            }
+          ],
+          "previsao100": "≈2026-05-21 16:40:12.878767638"
+        }
+      },
+      "disco": {
+        "uso": 88.06,
+        "limite": null,
+        "alerta": false
+      },
+      "indiceSaude": "92.60 / 100",
+      "financeiro": {
+        "localizacao": {
+          "cidade": "N/A",
+          "bairro": "N/A",
+          "numero": "N/A",
+          "cep": "N/A"
+        },
+        "alertaCPU": false,
+        "alertaRAM": false,
+        "kpiPerdaIndisponibilidade": 0.0,
+        "custoCorretivaPotencial": 0.0,
+        "economiaPreditiva": 450.0,
+        "kpiLucroRetido": 0.0,
+        "kpiConformidadeSLA": 100.0,
+        "metaSLA": 100.0,
+        "statusSLA": "CONFORME",
+        "confiabilidadeAtivo": 51.7
+      },
+      "ambiente": {
+        "corrente": 132,
+        "poeira": 38
+      },
+      "ramUso": 88.89,
+      "ramUsoBruto": 2.88,
+      "discoUsoBruto": 103.22,
+      "financeiroDashboard": {
+        "metricas": {
+          "cpuOriginal": 48.3,
+          "cpuSimulado": 100.0,
+          "ramUso": 88.89,
+          "discoUso": 88.06,
+          "totalProcessos": 284
+        },
+        "indicadores": {
+          "scoreRisco": 70,
+          "severidade": "CRITICO",
+          "saudeOperacional": 43.42
+        },
+        "financeiro": {
+          "downtimeMinutos": 43,
+          "perdaIndisponibilidade": 0.0,
+          "perdaLentidao": 0.0,
+          "perdaTotal": 0.0,
+          "multaSLA": 2273.44,
+          "custoPotencialFalha": 1591.41,
+          "custoPreditiva": 1438.08,
+          "valorEvitado": 153.33,
+          "perdaResidual": 0,
+          "lucroPreservado": 58.27
+        },
+        "alertas": {
+          "cpu": true,
+          "ram": true,
+          "disco": false
+        },
+        "sla": {
+          "conformidade": 97.47,
+          "meta": 100.0,
+          "status": "VIOLADO"
+        }
+      }
+    },
+    {
+      "empresa": "Sptech",
+      "macAddress": "14:cb:19:02:64:71",
+      "horario": "2026-05-21 17:14:42",
+      "cpu": {
+        "uso": 16.9,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Baixa (abaixo que 1σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": -0.007664846091625193,
+          "b": 35.87,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 35.87
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 35.45
+            }
+          ],
+          "previsao100": "Sem previsão"
+        }
+      },
+      "ram": {
+        "uso": 89.2,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Média (entre 1σ e 2σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": 0.014132614110107689,
+          "b": 77.57,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 77.57
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 78.36
+            }
+          ],
+          "previsao100": "≈2026-05-21 16:40:12.878767638"
+        }
+      },
+      "disco": {
+        "uso": 88.06,
+        "limite": null,
+        "alerta": false
+      },
+      "indiceSaude": "92.60 / 100",
+      "financeiro": {
+        "localizacao": {
+          "cidade": "N/A",
+          "bairro": "N/A",
+          "numero": "N/A",
+          "cep": "N/A"
+        },
+        "alertaCPU": false,
+        "alertaRAM": false,
+        "kpiPerdaIndisponibilidade": 0.0,
+        "custoCorretivaPotencial": 0.0,
+        "economiaPreditiva": 450.0,
+        "kpiLucroRetido": 0.0,
+        "kpiConformidadeSLA": 100.0,
+        "metaSLA": 100.0,
+        "statusSLA": "CONFORME",
+        "confiabilidadeAtivo": 83.1
+      },
+      "ambiente": {
+        "corrente": 132,
+        "poeira": 38
+      },
+      "ramUso": 89.2,
+      "ramUsoBruto": 2.89,
+      "discoUsoBruto": 103.22,
+      "financeiroDashboard": {
+        "metricas": {
+          "cpuOriginal": 16.9,
+          "cpuSimulado": 100.0,
+          "ramUso": 89.2,
+          "discoUso": 88.06,
+          "totalProcessos": 284
+        },
+        "indicadores": {
+          "scoreRisco": 70,
+          "severidade": "CRITICO",
+          "saudeOperacional": 43.35
+        },
+        "financeiro": {
+          "downtimeMinutos": 61,
+          "perdaIndisponibilidade": 0.0,
+          "perdaLentidao": 0.0,
+          "perdaTotal": 0.0,
+          "multaSLA": 2097.51,
+          "custoPotencialFalha": 1468.26,
+          "custoPreditiva": 1445.34,
+          "valorEvitado": 22.92,
+          "perdaResidual": 0,
+          "lucroPreservado": 8.71
+        },
+        "alertas": {
+          "cpu": true,
+          "ram": true,
+          "disco": false
+        },
+        "sla": {
+          "conformidade": 96.66,
+          "meta": 100.0,
+          "status": "VIOLADO"
+        }
+      }
+    },
+    {
+      "empresa": "Sptech",
+      "macAddress": "22:cb:20:02:64:71",
+      "horario": "2026-05-21 20:14:42",
+      "cpu": {
+        "uso": 81.8,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Média (entre 1σ e 2σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": -0.007664846091625193,
+          "b": 35.87,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 35.87
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 35.45
+            }
+          ],
+          "previsao100": "Sem previsão"
+        }
+      },
+      "ram": {
+        "uso": 91.98,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Média (entre 1σ e 2σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": 0.014132614110107689,
+          "b": 77.57,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 77.57
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 78.36
+            }
+          ],
+          "previsao100": "≈2026-05-21 16:40:12.878767638"
+        }
+      },
+      "disco": {
+        "uso": 88.21,
+        "limite": null,
+        "alerta": false
+      },
+      "indiceSaude": "88.90 / 100",
+      "financeiro": {
+        "localizacao": {
+          "cidade": "N/A",
+          "bairro": "N/A",
+          "numero": "N/A",
+          "cep": "N/A"
+        },
+        "alertaCPU": false,
+        "alertaRAM": false,
+        "kpiPerdaIndisponibilidade": 0.0,
+        "custoCorretivaPotencial": 0.0,
+        "economiaPreditiva": 450.0,
+        "kpiLucroRetido": 0.0,
+        "kpiConformidadeSLA": 100.0,
+        "metaSLA": 100.0,
+        "statusSLA": "CONFORME",
+        "confiabilidadeAtivo": 18.2
+      },
+      "ambiente": {
+        "corrente": 132,
+        "poeira": 38
+      },
+      "ramUso": 91.98,
+      "ramUsoBruto": 2.98,
+      "discoUsoBruto": 103.4,
+      "financeiroDashboard": {
+        "metricas": {
+          "cpuOriginal": 81.8,
+          "cpuSimulado": 100.0,
+          "ramUso": 91.98,
+          "discoUso": 88.21,
+          "totalProcessos": 291
+        },
+        "indicadores": {
+          "scoreRisco": 70,
+          "severidade": "CRITICO",
+          "saudeOperacional": 42.78
+        },
+        "financeiro": {
+          "downtimeMinutos": 65,
+          "perdaIndisponibilidade": 0.0,
+          "perdaLentidao": 0.0,
+          "perdaTotal": 0.0,
+          "multaSLA": 1809.77,
+          "custoPotencialFalha": 1266.84,
+          "custoPreditiva": 1154.3,
+          "valorEvitado": 112.54,
+          "perdaResidual": 0,
+          "lucroPreservado": 42.77
+        },
+        "alertas": {
+          "cpu": true,
+          "ram": true,
+          "disco": false
+        },
+        "sla": {
+          "conformidade": 96.88,
+          "meta": 100.0,
+          "status": "VIOLADO"
+        }
+      }
+    },
+    {
+      "empresa": "Sus",
+      "macAddress": "14:cb:19:02:64:71",
+      "horario": "2026-05-21 16:14:42",
+      "cpu": {
+        "uso": 17.0,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Baixa (abaixo que 1σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": -0.007664846091625193,
+          "b": 35.87,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 35.87
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 35.45
+            }
+          ],
+          "previsao100": "Sem previsão"
+        }
+      },
+      "ram": {
+        "uso": 92.59,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Média (entre 1σ e 2σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": 0.014132614110107689,
+          "b": 77.57,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 77.57
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 78.36
+            }
+          ],
+          "previsao100": "≈2026-05-21 16:40:12.878767638"
+        }
+      },
+      "disco": {
+        "uso": 88.21,
+        "limite": null,
+        "alerta": false
+      },
+      "indiceSaude": "92.60 / 100",
+      "financeiro": {
+        "localizacao": {
+          "cidade": "N/A",
+          "bairro": "N/A",
+          "numero": "N/A",
+          "cep": "N/A"
+        },
+        "alertaCPU": false,
+        "alertaRAM": false,
+        "kpiPerdaIndisponibilidade": 0.0,
+        "custoCorretivaPotencial": 0.0,
+        "economiaPreditiva": 450.0,
+        "kpiLucroRetido": 0.0,
+        "kpiConformidadeSLA": 100.0,
+        "metaSLA": 100.0,
+        "statusSLA": "CONFORME",
+        "confiabilidadeAtivo": 83.0
+      },
+      "ambiente": {
+        "corrente": 132,
+        "poeira": 38
+      },
+      "ramUso": 92.59,
+      "ramUsoBruto": 3.0,
+      "discoUsoBruto": 103.4,
+      "financeiroDashboard": {
+        "metricas": {
+          "cpuOriginal": 17.0,
+          "cpuSimulado": 25.57,
+          "ramUso": 92.59,
+          "discoUso": 88.21,
+          "totalProcessos": 291
+        },
+        "indicadores": {
+          "scoreRisco": 20,
+          "severidade": "MODERADO",
+          "saudeOperacional": 64.99
+        },
+        "financeiro": {
+          "downtimeMinutos": 23,
+          "perdaIndisponibilidade": 0.0,
+          "perdaLentidao": 0.0,
+          "perdaTotal": 0.0,
+          "multaSLA": 737.34,
+          "custoPotencialFalha": 147.47,
+          "custoPreditiva": 1737.16,
+          "valorEvitado": 0,
+          "perdaResidual": 0.0,
+          "lucroPreservado": 0.0
+        },
+        "alertas": {
+          "cpu": false,
+          "ram": true,
+          "disco": false
+        },
+        "sla": {
+          "conformidade": 99.49,
+          "meta": 100.0,
+          "status": "VIOLADO"
+        }
+      }
+    },
+    {
+      "empresa": "Sptech",
+      "macAddress": "14:cb:19:02:64:71",
+      "horario": "2026-05-21 18:14:42",
+      "cpu": {
+        "uso": 34.2,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Baixa (abaixo que 1σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": -0.007664846091625193,
+          "b": 35.87,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 35.87
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 35.45
+            }
+          ],
+          "previsao100": "Sem previsão"
+        }
+      },
+      "ram": {
+        "uso": 92.59,
+        "limite": null,
+        "status": "Desconhecido",
+        "oscilacao": "Média (entre 1σ e 2σ)",
+        "degradacao": "Desconhecido",
+        "previsao": {
+          "a": 0.014132614110107689,
+          "b": 77.57,
+          "reta": [
+            {
+              "x": "2026-05-21 16:13:46",
+              "y": 77.57
+            },
+            {
+              "x": "2026-05-21 16:14:42",
+              "y": 78.36
+            }
+          ],
+          "previsao100": "≈2026-05-21 16:40:12.878767638"
+        }
+      },
+      "disco": {
+        "uso": 88.21,
+        "limite": null,
+        "alerta": false
+      },
+      "indiceSaude": "92.60 / 100",
+      "financeiro": {
+        "localizacao": {
+          "cidade": "N/A",
+          "bairro": "N/A",
+          "numero": "N/A",
+          "cep": "N/A"
+        },
+        "alertaCPU": false,
+        "alertaRAM": false,
+        "kpiPerdaIndisponibilidade": 0.0,
+        "custoCorretivaPotencial": 0.0,
+        "economiaPreditiva": 450.0,
+        "kpiLucroRetido": 0.0,
+        "kpiConformidadeSLA": 100.0,
+        "metaSLA": 100.0,
+        "statusSLA": "CONFORME",
+        "confiabilidadeAtivo": 65.8
+      },
+      "ambiente": {
+        "corrente": 132,
+        "poeira": 38
+      },
+      "ramUso": 92.59,
+      "ramUsoBruto": 3.0,
+      "discoUsoBruto": 103.4,
+      "financeiroDashboard": {
+        "metricas": {
+          "cpuOriginal": 34.2,
+          "cpuSimulado": 100.0,
+          "ramUso": 92.59,
+          "discoUso": 88.21,
+          "totalProcessos": 292
+        },
+        "indicadores": {
+          "scoreRisco": 70,
+          "severidade": "CRITICO",
+          "saudeOperacional": 42.66
+        },
+        "financeiro": {
+          "downtimeMinutos": 42,
+          "perdaIndisponibilidade": 0.0,
+          "perdaLentidao": 0.0,
+          "perdaTotal": 0.0,
+          "multaSLA": 1674.82,
+          "custoPotencialFalha": 1172.37,
+          "custoPreditiva": 1545.46,
+          "valorEvitado": 0,
+          "perdaResidual": 0.0,
+          "lucroPreservado": 0.0
+        },
+        "alertas": {
+          "cpu": true,
+          "ram": true,
+          "disco": false
+        },
+        "sla": {
+          "conformidade": 96.46,
+          "meta": 100.0,
+          "status": "VIOLADO"
+        }
+      }
+    }
+  ],
+  "kpis": {
+    "geradoEm": "2026-05-21 16:14:43",
+    "machineMaisCritica": {
+      "macAddress": "14:cb:19:02:64:71",
+      "empresa": null,
+      "ramUso": 92.59,
+      "ramUsoBruto": 3.0
+    },
+    "maiorVariacaoRam": {
+      "macAddress": "14:cb:19:02:64:71",
+      "empresa": null,
+      "variacao": 0.0,
+      "ultimo": 92.59,
+      "penultimo": 92.59
+    },
+    "piorTendencia": {
+      "macAddress": "14:cb:19:02:64:71",
+      "empresa": null,
+      "delta": 0.0,
+      "ramUso": 92.59
+    },
+    "imagemMaisPesada": {
+      "macAddress": "14:cb:19:02:64:71",
+      "empresa": null,
+      "tamanhoGB": 3.46,
+      "tipoDicom": "T1 contrast",
+      "simulado": true
+    }
+  },
+  "ranking": [
+    {
+      "macAddress": "14:cb:19:02:64:71",
+      "empresa": "Albert Einstein Hospital",
+      "ramUso": 92.59,
+      "ramUsoBruto": 3.0,
+      "horario": "2026-05-21 16:14:42",
+      "posicao": 1
+    }
+  ],
+  "historico": [
+    {
+      "macAddress": "14:cb:19:02:64:71",
+      "empresa": "Albert Einstein Hospital",
+      "registros": [
+        {
+          "horario": "2026-05-21 16:14:42",
+          "ramUso": 92.59,
+          "ramUsoBruto": 3.0
+        }
+      ]
+    }
+  ]
+}
