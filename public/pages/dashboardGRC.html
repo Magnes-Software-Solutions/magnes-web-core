@@ -130,11 +130,11 @@
                         <div class="bar-row"><div class="bar-name">CPU</div><div class="bar-track"><div class="bar-fill" id="bar-cpu" style="width:0%; background:#f43f5e;"></div></div><div class="bar-pct" id="pct-cpu">—</div></div>
                         <div class="bar-row"><div class="bar-name">RAM</div><div class="bar-track"><div class="bar-fill" id="bar-ram" style="width:0%; background:#fbbf24;"></div></div><div class="bar-pct" id="pct-ram">—</div></div>
                         <div class="bar-row"><div class="bar-name">Disco</div><div class="bar-track"><div class="bar-fill" id="bar-disco" style="width:0%; background:#fbbf24;"></div></div><div class="bar-pct" id="pct-disco">—</div></div>
-                        <div class="bar-row"><div class="bar-name">CVE</div><div class="bar-track"><div class="bar-fill" style="width:78%; background:#a855f7;"></div></div><div class="bar-pct">78</div></div>
+                        <div class="bar-row"><div class="bar-name">CVE</div><div class="bar-track"><div class="bar-fill" id="bar-cve" style="width:0%; background:#a855f7;"></div></div><div class="bar-pct" id="pct-cve">â€”</div></div>
                         <div style="margin-top:14px;padding-top:12px;border-top:0.5px solid #1d3557;">
                             <div class="card-title" style="margin-bottom:8px;">Conformidade com políticas internas</div>
                             <div class="comp-item"><i class="ti ti-cpu" style="font-size:16px;color:#7a92b0;"></i><div class="comp-name">Limite CPU &lt; 85%</div><span class="pill pill-crit" id="comp-cpu">Verificando</span></div>
-                            <div class="comp-item"><i class="ti ti-shield-exclamation" style="font-size:16px;color:#7a92b0;"></i><div class="comp-name">Patches críticos em 30d</div><span class="pill pill-crit">Violado</span></div>
+                            <div class="comp-item"><i class="ti ti-shield-exclamation" style="font-size:16px;color:#7a92b0;"></i><div class="comp-name">Patches críticos em 30d</div><span class="pill pill-crit" id="comp-patches">Verificando</span></div>
                             <div class="comp-item"><i class="ti ti-clock" style="font-size:16px;color:#7a92b0;"></i><div class="comp-name">SLA resposta &lt; 4h</div><span class="pill pill-ok" id="comp-sla">Verificando</span></div>
                         </div>
                     </div>
@@ -159,40 +159,17 @@
                         <div class="card-title">Tickets — alertas ativos</div>
                         <div id="ticket-list"></div>
                         <div style="margin-top:14px;padding-top:12px;border-top:0.5px solid #1d3557;">
-                            <div class="sla-row"><div class="sla-cat">CPU</div><div class="sla-track"><div class="sla-fill" style="width:76%; background:#f43f5e;"></div></div><div class="sla-pct">76%</div></div>
-                            <div class="sla-row"><div class="sla-cat">RAM</div><div class="sla-track"><div class="sla-fill" style="width:85%; background:#fbbf24;"></div></div><div class="sla-pct">85%</div></div>
-                            <div class="sla-row"><div class="sla-cat">Disco</div><div class="sla-track"><div class="sla-fill" style="width:92%; background:#4ade80;"></div></div><div class="sla-pct">92%</div></div>
-                            <div class="sla-row"><div class="sla-cat">CVE</div><div class="sla-track"><div class="sla-fill" style="width:58%; background:#a855f7;"></div></div><div class="sla-pct">58%</div></div>
+                            <div class="sla-row"><div class="sla-cat">CPU</div><div class="sla-track"><div class="sla-fill" id="sla-cpu" style="width:0%; background:#f43f5e;"></div></div><div class="sla-pct" id="sla-pct-cpu">â€”</div></div>
+                            <div class="sla-row"><div class="sla-cat">RAM</div><div class="sla-track"><div class="sla-fill" id="sla-ram" style="width:0%; background:#fbbf24;"></div></div><div class="sla-pct" id="sla-pct-ram">â€”</div></div>
+                            <div class="sla-row"><div class="sla-cat">Disco</div><div class="sla-track"><div class="sla-fill" id="sla-disco" style="width:0%; background:#4ade80;"></div></div><div class="sla-pct" id="sla-pct-disco">â€”</div></div>
+                            <div class="sla-row"><div class="sla-cat">CVE</div><div class="sla-track"><div class="sla-fill" id="sla-cve" style="width:0%; background:#a855f7;"></div></div><div class="sla-pct" id="sla-pct-cve">â€”</div></div>
                         </div>
                     </div>
 
                     <div class="card">
                         <div class="card-title">Risco composto — carga + exposição CVE</div>
                         <div style="font-size:11px;color:#7a92b0;margin-bottom:12px;">Servidores com alta carga operacional <strong>e</strong> CVEs abertas — maior risco combinado do ambiente.</div>
-                        <div class="ci">
-                            <div class="ci-srv">SRV-02</div><div class="ci-score" style="color:#f87171;">96</div>
-                            <div class="ci-bars">
-                                <div class="ci-br"><div class="ci-bl">Operac.</div><div class="ci-bk"><div class="ci-bf" style="width:92%; background:#f43f5e;"></div></div></div>
-                                <div class="ci-br"><div class="ci-bl">CVE</div><div class="ci-bk"><div class="ci-bf" style="width:100%; background:#a855f7;"></div></div></div>
-                            </div>
-                            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;"><span class="pill pill-crit">Crítico</span><span style="font-size:10px;color:#5a7a9c;">3 CVEs críticas</span></div>
-                        </div>
-                        <div class="ci">
-                            <div class="ci-srv">SRV-01</div><div class="ci-score" style="color:#f87171;">88</div>
-                            <div class="ci-bars">
-                                <div class="ci-br"><div class="ci-bl">Operac.</div><div class="ci-bk"><div class="ci-bf" style="width:94%; background:#f43f5e;"></div></div></div>
-                                <div class="ci-br"><div class="ci-bl">CVE</div><div class="ci-bk"><div class="ci-bf" style="width:82%; background:#a855f7;"></div></div></div>
-                            </div>
-                            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;"><span class="pill pill-crit">Crítico</span><span style="font-size:10px;color:#5a7a9c;">2 CVEs críticas</span></div>
-                        </div>
-                        <div class="ci">
-                            <div class="ci-srv">SRV-05</div><div class="ci-score" style="color:#fde68a;">71</div>
-                            <div class="ci-bars">
-                                <div class="ci-br"><div class="ci-bl">Operac.</div><div class="ci-bk"><div class="ci-bf" style="width:83%; background:#fbbf24;"></div></div></div>
-                                <div class="ci-br"><div class="ci-bl">CVE</div><div class="ci-bk"><div class="ci-bf" style="width:58%; background:#a855f7;"></div></div></div>
-                            </div>
-                            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;"><span class="pill pill-warn">Alto</span><span style="font-size:10px;color:#5a7a9c;">1 CVE alta</span></div>
-                        </div>
+                        <div id="risco-composto-list"></div>
                     </div>
                 </div>
 
@@ -210,7 +187,7 @@
 
                 <div class="section-label">Alertas — últimas 24h</div>
                 <div class="g-full">
-                    <div class="card">
+                    <div class="card" id="alert-list">
                         <div class="alert-item"><div class="alert-time">09:31</div><div class="alert-dot" style="background:#f43f5e;"></div><div style="flex:1"><div class="alert-title">SRV-01 — CPU atingiu 94%</div><div class="alert-meta">Ticket INFRA-1042 aberto · Servidor também tem CVE-2024-0727 sem patch</div></div><span class="pill pill-crit">Operacional</span></div>
                         <div class="alert-item"><div class="alert-time">08:17</div><div class="alert-dot" style="background:#a855f7;"></div><div style="flex:1"><div class="alert-title">Nova CVE-2024-3094 detectada — SRV-05</div><div class="alert-meta">CVSS 7.1 · Kernel Linux · Sem patch disponível</div></div><span class="pill pill-purple">CVE</span></div>
                         <div class="alert-item"><div class="alert-time">07:15</div><div class="alert-dot" style="background:#f43f5e;"></div><div style="flex:1"><div class="alert-title">SRV-02 — RAM atingiu 96%</div><div class="alert-meta">2º alerta em 48h · Servidor com 3 CVEs críticas abertas</div></div><span class="pill pill-crit">Operacional</span></div>
