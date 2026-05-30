@@ -16,7 +16,7 @@ body {
 .navBarTop {
   background-color: #0d2137 !important;
   border-bottom: 1px solid #00d4f9 !important;
-  padding: 8px 0px;
+  padding: 12px 20px;
   position: fixed;
   top: 0;
   width: 100%;
@@ -62,7 +62,7 @@ body {
 
 .offCanvas {
   background-color: #0d2137 !important;
-  border-left: 1px solid #00d4f9 !important;
+  border-right: 1px solid #00d4f9 !important;
 }
 
 .offCanvasTitle {
@@ -131,7 +131,10 @@ body {
   border-radius: 10px;
   border: 1px solid #00d4f9;
   display: flex;
+  display: flex;
   flex-direction: row !important;
+  align-items: center;
+  width: 100%;
 }
 
 .navLiActive a {
@@ -145,8 +148,41 @@ body {
   height: 20px;
 }
 
+.navLiLogout a { color: #ff3366 !important; }
+
+.navLiLogout img { 
+  filter: invert(41%) sepia(96%) saturate(2103%) hue-rotate(321deg) brightness(101%) contrast(101%) !important; }
+
 .navLiLogout a {
   color: #ff3366 !important;
+}
+
+.perfilActive {
+  border-top: 0.5px solid #00d4f9 !important;
+  cursor: pointer;
+  background-color: #134267 !important;
+}
+
+.perfilImage {
+  filter: brightness(0) saturate(100%) invert(100%);
+  width: 36px;
+  height: 36px;
+}
+
+.textosPerfil {
+  display: flex;
+  flex-direction: column;
+  margin-right: 20%;
+}
+.textosPerfil h5 {
+  color: white; margin: 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+}
+.textosPerfil p {
+  color: #7A92B0; margin: 0px;
+  font-size: 12px;
+  font-family: 'DM Sans', sans-serif;
 }
 
 .navLiLogout img {
@@ -202,8 +238,6 @@ body {
   width: 20px;
   height: 20px;
 }
-
-.mugungaza{}
 
 .page {
   max-width: 1400px;
