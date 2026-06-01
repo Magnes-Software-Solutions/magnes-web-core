@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="../css/dashGestor.css" />
   <link rel="stylesheet" href="../css/dashAnalista.css" />
 
+
   <link rel="shortcut icon" href="../assets/imgs/Logo.png" type="image/x-icon" />
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -104,9 +105,15 @@
     </div>
 
   </nav>
+
   <div style="display: none;" id="paginaInteira_div">
     <h2 class="tituloCorpo">Workstations Monitoradas</h2>
+    <div class="div_ultima_atualizacao" id="div_ultima_atualizacao">
+      <p id="ultima_atualizacao">
+        Última atualização: <span id="horario_ultima_atualizacao"></span>
 
+      </p>
+    </div>
     <div class="kpi-row">
 
       <div class="kpi-card total">
@@ -248,7 +255,9 @@
 
     <div class="alertas">
       <h2>Alertas</h2>
-      <div id="lista_alertas" data-options="option1:value;option2:value"></div>
+      <div id="lista_alertas" data-options="option1:value;option2:value">
+
+      </div>
       <a href="" class="ver-jira" onclick="linkJira()">
         Ver todos os alertas no Jira
       </a>
@@ -294,46 +303,94 @@
 
   <script>
 
+
+
+    // Definindo as variáveis globais para armazenar a empresa e máquina selecionadas
+
     var hospitalSelecionado = null;
     var maquinaSelecionada = null;
 
+
+
+    // LINK JIRA
+
+
     function linkJira() {
+
       window.open(
-        "https://sptech-team-zx1nvla7.atlassian.net/jira/software/projects/KAN/list?jql=project%20%3D%20KAN%20ORDER%20BY%20cf%5B10019%5D%20ASC",
+        "https://magnessolutions.atlassian.net/jira/software/c/projects/KAN/boards/1?selectedIssue=KAN-1",
         "_blank"
       );
+
     }
 
-    // Alertas do Jira via proxy no backend
+
+
+    // ATUALIZA HORÁRIO
+
+
+    function atualizarHorario(horario) {
+
+      document.getElementById("horario_ultima_atualizacao").innerText =
+        horario;
+
+    }
+
+
+
+    // Função para receber alertas do Jira e exibir na dashboard
+
+
     async function receberAlertasJira() {
-      var listaAlertas = document.getElementById("lista_alertas");
+
+      var listaAlertas =
+        document.getElementById("lista_alertas");
+
       listaAlertas.innerHTML = "";
 
       try {
-        var resposta = await fetch("http://localhost:3333/jira/tickets");
+
+        var resposta =
+          await fetch("http://localhost:3333/jira/tickets");
+
         var issues = await resposta.json();
 
         console.log("JIRA RESPONSE:", issues);
 
         if (!Array.isArray(issues) || issues.length == 0) {
-          listaAlertas.innerHTML = "<p>Nenhum alerta encontrado</p>";
+
+          listaAlertas.innerHTML =
+            "<p>Nenhum alerta encontrado</p>";
+
           return;
         }
 
-        for (var i = 0; i < issues.length; i++) {
+        // LIMITA PARA 3 ALERTAS
+        for (var i = 0; i < 3 && i < issues.length; i++) {
+
           var ticket = issues[i];
+
           listaAlertas.innerHTML +=
             "<div class='alerta'><p>" +
-            ticket.id + " - " + ticket.descricao +
+            ticket.id +
+            " - " +
+            ticket.descricao +
             "</p></div>";
         }
 
       } catch (err) {
+
         console.log(err);
-        listaAlertas.innerHTML = "<p>Erro ao carregar alertas</p>";
+
+        listaAlertas.innerHTML =
+          "<p>Erro ao carregar alertas</p>";
       }
     }
-    // Função para abrir o dialog de detalhes da máquina com os fatores de risco
+
+
+
+    // Função para abrir o dialog com os detalhes dos fatores de risco da máquina selecionada
+
 
     function abrirDetalhesMaquina(mac, cpu, ram, disco) {
 
@@ -356,142 +413,225 @@
 
   `;
 
-      document.getElementById("dialogFatoresRisco").showModal();
+      document.getElementById("dialogFatoresRisco")
+        .showModal();
     }
 
-    // Carrega as empresas no select do dialog
+
+
+    // Função que carrega as empresas para o select de seleção de rede hospitalar
+
 
     async function carregarEmpresas() {
-      var select = document.getElementById("select_rede");
 
+      var select =
+        document.getElementById("select_rede");
 
-      var resposta = await fetch("http://localhost:3333/client");
+      var resposta =
+        await fetch("http://localhost:3333/client");
+
       var dados = await resposta.json();
 
       var empresasAdicionadas = [];
 
       for (var i = 0; i < dados.length; i++) {
-        var empresa = dados[i].empresa || "Sem empresa";
+
+        var empresa =
+          dados[i].empresa || "Sem empresa";
 
         if (!empresasAdicionadas.includes(empresa)) {
+
           empresasAdicionadas.push(empresa);
-          select.innerHTML += `<option value="${empresa}">${empresa}</option>`;
+
+          select.innerHTML +=
+            `<option value="${empresa}">
+          ${empresa}
+        </option>`;
         }
       }
+
+      console.log(dados);
     }
 
-    // Fecha o dialog e inicializa a dashboard
+
+
+    // Função para fechar o dialog
+
+
     function fecharDialog() {
-      hospitalSelecionado = document.getElementById("select_rede").value;
+
+      hospitalSelecionado =
+        document.getElementById("select_rede").value;
+
       document.getElementById("dialogEmpesa").close();
 
       maquinaSelecionada = null;
 
-      document.getElementById("paginaInteira_div").style.display = "block";
-      document.querySelector(".graficos").style.display = "block";
+      document.getElementById("paginaInteira_div")
+        .style.display = "block";
 
       receberAlertasJira();
       carregarDados();
       carregarMaquinas();
     }
 
-    // Carrega os MACs únicos no select da pesquisa avançada
+
+
+    // Função para carregar as máquinas da empresa selecionada e preencher o select de máquinas
+
+
     async function carregarMaquinas() {
-      var resposta = await fetch("http://localhost:3333/client");
+
+      var resposta =
+        await fetch("http://localhost:3333/client");
+
       var dados = await resposta.json();
 
       var maquinas = dados.filter(function (m) {
-        return (m.empresa || "Sem empresa") == hospitalSelecionado;
+
+        return (m.empresa || "Sem empresa") ==
+          hospitalSelecionado;
+
       });
 
-      var select = document.getElementById("select_workstation");
-      select.innerHTML = `<option value="" disabled selected>Selecione a workstation</option>`;
+      var select =
+        document.getElementById("select_workstation");
+
+      select.innerHTML =
+        `<option value="" disabled selected>
+      Selecione a workstation
+    </option>`;
 
       var maquinasAdicionadas = [];
 
       for (var i = 0; i < maquinas.length; i++) {
+
         var mac = maquinas[i].macAddress;
+
         if (!maquinasAdicionadas.includes(mac)) {
+
           maquinasAdicionadas.push(mac);
-          select.innerHTML += `<option value="${mac}">${mac}</option>`;
+
+          select.innerHTML +=
+            `<option value="${mac}">
+          ${mac}
+        </option>`;
         }
       }
     }
 
-    // Gráfico de linha
-    var grafico = new Chart(document.getElementById("grafico"), {
-      type: "line",
-      data: {
-        labels: [],
-        datasets: [
-          {
-            label: "CPU",
-            data: [],
-            borderColor: "rgba(170, 0, 255, 1)",
-            backgroundColor: "rgba(170, 0, 255, 0.1)",
-            tension: 0.3
-          },
-          {
-            label: "RAM",
-            data: [],
-            borderColor: "rgba(0, 212, 249, 1)",
-            backgroundColor: "rgba(0, 212, 249, 0.1)",
-            tension: 0.3
-          },
-          {
-            label: "Disco",
-            data: [],
-            borderColor: "yellow",
-            backgroundColor: "yellow",
-            tension: 0.3
+
+
+    // Função para selecionar a máquina
+
+
+    function selecionarMaquina() {
+
+      maquinaSelecionada =
+        document.getElementById("select_workstation").value;
+
+      document.querySelector(".graficos").style.display = "block";
+
+      carregarDados();
+    }
+
+
+
+    // Gráfico - Configurações iniciais
+
+
+    var grafico = new Chart(
+      document.getElementById("grafico"),
+      {
+        type: "line",
+
+        data: {
+          labels: [],
+          datasets: [
+            {
+              label: "CPU",
+              data: [],
+              borderColor: "rgba(170, 0, 255, 1)",
+              tension: 0.3
+            },
+            {
+              label: "RAM",
+              data: [],
+              borderColor: "rgba(0, 212, 249, 1)",
+              tension: 0.3
+            },
+            {
+              label: "Disco",
+              data: [],
+              borderColor: "yellow",
+              tension: 0.3
+            }
+          ]
+        },
+
+        plugins: [{
+          id: 'linhaAlerta',
+          afterDraw(chart) {
+            const { ctx, scales: { y } } = chart;
+
+            const yAlerta = y.getPixelForValue(70);
+
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(chart.chartArea.left, yAlerta);
+            ctx.lineTo(chart.chartArea.right, yAlerta);
+            ctx.strokeStyle = 'red';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([5, 5]);
+            ctx.stroke();
+            ctx.restore();
           }
-        ]
-      },
-      options: {
-        responsive: true,
-        plugins: { legend: { labels: { color: "white" } } },
-        scales: {
-          x: { ticks: { color: "white", maxRotation: 45 }, grid: { color: "rgba(255,255,255,0.08)" } },
-          y: { min: 0, max: 100, ticks: { stepSize: 10, color: "white" }, grid: { color: "rgba(255,255,255,0.08)" } }
+        }],
+
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              min: 0,
+              max: 100
+            }
+          }
         }
       }
-    });
+    );
 
+
+
+    // Função para carregar os dados da dashboard
 
 
     async function carregarDados() {
 
-      // BUSCA DADOS DA API
-
-      var resposta = await fetch("http://localhost:3333/client");
+      var resposta =
+        await fetch("http://localhost:3333/client");
 
       var todos = await resposta.json();
 
-
-      // FILTRA PELA EMPRESA SELECIONADA
-
       var resultado = [];
 
+      // FILTRA MÁQUINAS DA EMPRESA SELECIONADA
       for (var i = 0; i < todos.length; i++) {
 
-        var empresa = todos[i].empresa || "Sem empresa";
+        var empresa =
+          todos[i].empresa || "Sem empresa";
 
         if (empresa == hospitalSelecionado) {
 
           resultado.push(todos[i]);
-
         }
       }
 
       if (resultado.length == 0) {
 
         return;
-
       }
 
-
-      // PEGA MACS ÚNICOS
-
+      // Mac addresses únicos para contagem de máquinas e análise individual
       var macsUnicos = [];
 
       for (var i = 0; i < resultado.length; i++) {
@@ -501,24 +641,18 @@
         if (!macsUnicos.includes(mac)) {
 
           macsUnicos.push(mac);
-
         }
       }
 
-
-      // DEFINE MÁQUINA SELECIONADA
-
+      // Maquina alvo para exibir detalhes no gráfico (selecionada ou última da lista)
       var macAlvo = maquinaSelecionada;
 
       if (!macAlvo) {
 
         macAlvo = macsUnicos[0];
-
       }
 
-
-      // PEGA REGISTROS DA MÁQUINA
-
+      // Registros da máquina alvo para exibir no gráfico e detalhes individuais
       var registrosMaquina = [];
 
       for (var i = 0; i < resultado.length; i++) {
@@ -526,319 +660,186 @@
         if (resultado[i].macAddress == macAlvo) {
 
           registrosMaquina.push(resultado[i]);
-
         }
       }
 
+      // Variavel para armazenar o último horário de atualização encontrado nos registros da máquina alvo
+      var ultimo =
+        registrosMaquina[registrosMaquina.length - 1];
 
-      // CONTADORES DOS STATUS
+      // ATUALIZA HORÁRIO
+      if (ultimo && ultimo.horario) {
 
+        atualizarHorario(
+          ultimo.horario.substring(11, 19)
+        );
+      }
+
+      // CONTADORES
       var estaveis = 0;
-
       var alerta = 0;
-
       var criticas = 0;
 
-
-      // limpa lista das máquinas críticas
-      document.getElementById("maquina_critica").innerHTML = "";
-
-
-      // VERIFICA STATUS DE CADA WORKSTATION
-
-      for (var i = 0; i < macsUnicos.length; i++) {
-
-        var macAtual = macsUnicos[i];
-
-        var registros = [];
-
-
-        // pega registros da máquina
-        for (var j = 0; j < resultado.length; j++) {
-
-          if (resultado[j].macAddress == macAtual) {
-
-            registros.push(resultado[j]);
-
-          }
-        }
-
-
-        // pega último registro
-        var ultimo = registros[registros.length - 1];
-
-
-        var cpu = 0;
-        var ram = 0;
-        var disco = 0;
-
-
-        if (ultimo.cpu) {
-
-          cpu = ultimo.cpu.uso;
-
-        }
-
-        if (ultimo.ram) {
-
-          ram = ultimo.ram.uso;
-
-        }
-
-        if (ultimo.disco) {
-
-          disco = ultimo.disco.uso;
-
-        }
-
-
-        // classifica máquina e atualiza contadores na KPI
-
-        if (cpu > 90 || ram > 90 || disco > 90) {
-
-          criticas++;
-
-
-          // adiciona máquina crítica na tela
-          document.getElementById("maquina_critica").innerHTML +=
-            macAtual + "<br>";
-
-        }
-
-        else if (cpu > 70 || ram > 70 || disco > 70) {
-
-          alerta++;
-
-        }
-
-        else {
-
-          estaveis++;
-
-        }
-      }
-
-
-      // SE NÃO TIVER CRÍTICAS
-
-      if (document.getElementById("maquina_critica").innerHTML == "") {
-
-        document.getElementById("maquina_critica").innerHTML =
-          "Nenhuma máquina crítica";
-
-      }
-
-
-      // ATUALIZA KPIs
-
-      document.getElementById("total_workstations").innerText =
-        macsUnicos.length;
-
-      document.getElementById("normal_workstations").innerText =
-        estaveis;
-
-      document.getElementById("warning_workstations").innerText =
-        alerta;
-
-      document.getElementById("critical_workstations").innerText =
-        criticas;
-
-
-      // DADOS DOS GRÁFICOS
-
-      var labels = [];
-
-      var cpu = [];
-
-      var ram = [];
-
-      var disco = [];
-
-
-      for (var i = 0; i < registrosMaquina.length; i++) {
-
-        var m = registrosMaquina[i];
-
-
-        // horário
-        labels.push(m.horario.substring(11, 16));
-
-
-        // cpu
-        if (m.cpu) {
-
-          cpu.push(m.cpu.uso);
-
-        } else {
-
-          cpu.push(0);
-
-        }
-
-
-        // ram
-        if (m.ram) {
-
-          ram.push(m.ram.uso);
-
-        } else {
-
-          ram.push(0);
-
-        }
-
-
-        // disco
-        if (m.disco) {
-
-          disco.push(m.disco.uso);
-
-        } else {
-
-          disco.push(0);
-
-        }
-      }
-
-
-      // ATUALIZA GRÁFICO PRINCIPAL
-
-      grafico.data.labels = labels;
-
-      grafico.data.datasets[0].data = cpu;
-
-      grafico.data.datasets[1].data = ram;
-
-      grafico.data.datasets[2].data = disco;
-
-      grafico.update();
-
-
-      // ÚLTIMO REGISTRO
-
-      var ultimo = registrosMaquina[registrosMaquina.length - 1];
-
-
-      var cpuFinal = 0;
-      var ramFinal = 0;
-      var discoFinal = 0;
-
-
-      if (ultimo.cpu) {
-
-        cpuFinal = ultimo.cpu.uso;
-
-      }
-
-      if (ultimo.ram) {
-
-        ramFinal = ultimo.ram.uso;
-
-      }
-
-      if (ultimo.disco) {
-
-        discoFinal = ultimo.disco.uso;
-
-      }
-
-
-
-
-
-
-      // FATORES DE RISCO
-
-      var fatores =
-        document.getElementById("fatores_risco");
-
-      fatores.innerHTML = "";
-
-
-      if (cpuFinal > 70) {
-
-        fatores.innerHTML +=
-          "<div class='alerta'><p>CPU elevada (" +
-          cpuFinal +
-          "%)</p></div>";
-
-      }
-
-      if (ramFinal > 70) {
-
-        fatores.innerHTML +=
-          "<div class='alerta'><p>RAM elevada (" +
-          ramFinal +
-          "%)</p></div>";
-
-      }
-
-      if (discoFinal > 70) {
-
-        fatores.innerHTML +=
-          "<div class='alerta'><p>Disco elevado (" +
-          discoFinal +
-          "%)</p></div>";
-
-      }
-
-
-      if (fatores.innerHTML == "") {
-
-        fatores.innerHTML =
-          "<div class='alerta'><p>Máquina estável</p></div>";
-
-      }
       var htmlCriticas = "";
 
+      // ANALISA MÁQUINAS
       for (var i = 0; i < macsUnicos.length; i++) {
 
         var mac = macsUnicos[i];
 
         var registros = resultado.filter(function (m) {
+
           return m.macAddress == mac;
+
         });
+        // Considera o último registro da máquina para análise de status
+        var ultimo =
+          registros[registros.length - 1];
+        // Extrai os valores de CPU, RAM e Disco, considerando 0 se não houver dados
+        var cpu =
+          ultimo.cpu ? ultimo.cpu.uso : 0;
+        var ram =
+          ultimo.ram ? ultimo.ram.uso : 0;
+        var disco =
+          ultimo.disco ? ultimo.disco.uso : 0;
 
-        var ultimo = registros[registros.length - 1];
-
-        var cpu = ultimo.cpu ? ultimo.cpu.uso : 0;
-        var ram = ultimo.ram ? ultimo.ram.uso : 0;
-        var disco = ultimo.disco ? ultimo.disco.uso : 0;
-
-        // Máquina crítica
+        // CRÍTICA - Qualquer recurso acima de 90% é considerado crítico
         if (cpu > 90 || ram > 90 || disco > 90) {
 
-          htmlCriticas += `
-  <p
-    style="
-      cursor:pointer;
-      color:#ff5c5c;
-      margin-top:8px;
-      font-weight:bold;
-    "
+          criticas++;
 
-    onclick="abrirDetalhesMaquina('${mac}', ${cpu}, ${ram}, ${disco})"
-  >
-    ${mac}
-  </p>
-`;
+          htmlCriticas += `
+        <p
+          style="
+            cursor:pointer;
+            color:#ff5c5c;
+            margin-top:8px;
+            font-weight:bold;
+          "
+
+          onclick="
+            abrirDetalhesMaquina(
+              '${mac}',
+              ${cpu},
+              ${ram},
+              ${disco}
+            )
+          "
+        >
+          ${mac}
+        </p>
+      `;
+        }
+
+        // ALERTA
+        else if (
+          cpu > 70 ||
+          ram > 70 ||
+          disco > 70
+        ) {
+
+          alerta++;
+        }
+
+        // ESTÁVEL
+        else {
+
+          estaveis++;
         }
       }
 
+      // KPIS
+      document.getElementById("total_workstations")
+        .innerText = macsUnicos.length;
+
+      document.getElementById("normal_workstations")
+        .innerText = estaveis;
+
+      document.getElementById("warning_workstations")
+        .innerText = alerta;
+
+      document.getElementById("critical_workstations")
+        .innerText = criticas;
+
+      // MÁQUINAS CRÍTICAS
       if (htmlCriticas == "") {
 
-        htmlCriticas = "Nenhuma workstation crítica";
-
+        htmlCriticas =
+          "Nenhuma workstation crítica";
       }
 
-      document.getElementById("maquina_critica").innerHTML = htmlCriticas;
+      document.getElementById("maquina_critica")
+        .innerHTML = htmlCriticas;
+
+      // Dados para gráfico da máquina selecionada (ou última da lista)
+      var labels = [];
+      var cpu = [];
+      var ram = [];
+      var disco = [];
+
+      for (var i = 0; i < registrosMaquina.length; i++) {
+
+        var m = registrosMaquina[i];
+
+        labels.push(
+          m.horario.substring(11, 16)
+        );
+
+        cpu.push(
+          m.cpu ? m.cpu.uso : 0
+        );
+
+        ram.push(
+          m.ram ? m.ram.uso : 0
+        );
+
+        disco.push(
+          m.disco ? m.disco.uso : 0
+        );
+      }
+
+      // ATUALIZA GRÁFICO
+      grafico.data.labels = labels;
+
+      grafico.data.datasets[0].data = cpu;
+      grafico.data.datasets[1].data = ram;
+      grafico.data.datasets[2].data = disco;
+
+      grafico.update();
+
+      // NOME MÁQUINA
+      document.getElementById("nome_maquina_titulo")
+        .innerText = macAlvo;
     }
 
-    // Inicializa
+
+
+    // AUTO UPDATE
+
+
+    setInterval(function () {
+
+      if (hospitalSelecionado) {
+
+        carregarDados();
+      }
+
+    }, 10000);
+
+
+
+    // INICIALIZAÇÃO
+
+
     carregarEmpresas();
+
     receberAlertasJira();
+
     window.onload = function () {
-      document.getElementById("dialogEmpesa").showModal();
+
+      document.getElementById("dialogEmpesa")
+        .showModal();
+
     };
   </script>
 </body>

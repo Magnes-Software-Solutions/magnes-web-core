@@ -28,6 +28,9 @@ body {
   
 }
 
+.div_ultima_atualizacao {
+ font-size: 14px;
+}
 /* =========================================================
    CONTAINER PRINCIPAL DOS CARDS E CONTEÚDO
 ========================================================= */
@@ -171,14 +174,20 @@ body {
   background-color: #0f1e31;
   padding: 10px;
   border-radius: 10px;
-  margin-top: 10px;
+  width: 300px;
+
+  margin-top: 30px;
+
+  display: flex;
+  flex-direction: column;
 }
 
 /* Botão para abrir Jira */
 
 .ver-jira {
   display: inline-block;
-  margin-top: 400px;
+  margin-top: 20px;
+
   padding: 10px 20px;
   background-color: #0f2a44;
   color: #00d4f9;
