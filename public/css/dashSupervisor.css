@@ -825,3 +825,38 @@ canvas {
   font-weight: bold;
   cursor: pointer;
 }
+
+.btnAtualizar {
+    background-color: #132135;
+    color: white;
+    margin-top:10px;
+    border: 1px solid #00d4f9;
+    border-radius: 50%;
+
+    padding: 8px 16px;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    font-size: 14px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition: background-color 0.2s ease,
+                border-color 0.2s ease;
+}
+
+.btnAtualizar:hover {
+    background-color: #1b2c46;
+    border-color: #33ddff;
+}
+
+.btnAtualizar i {
+    font-size: 16px;
+}
+
+.ferramentasDash {
+  margin-left:20px;
+}
