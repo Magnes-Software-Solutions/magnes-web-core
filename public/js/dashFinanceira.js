@@ -1,4 +1,3 @@
-// Configurações Globais
 const S3_API_ENDPOINT = "/client";
 const REFRESH_INTERVAL_MS = 60000;
 
