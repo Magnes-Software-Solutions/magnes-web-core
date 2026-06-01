@@ -182,7 +182,7 @@ function renderizarBI() {
             contNormal++;
         }
 
-        let cpuUsoInstancia = (log.cpu && log.cpu.uso != undefined) ? log.cpu.uso : 0;
+        let cpuUsoInstancia = (log.financeiroDashboard && log.financeiroDashboard.metricas && log.financeiroDashboard.metricas.cpuSimulado != undefined) ? log.financeiroDashboard.metricas.cpuSimulado : 0;
         let ramUsoInstancia = (log.ram && log.ram.uso != undefined) ? log.ram.uso : (log.ramUso || 0);
         let discoUsoInstancia = (log.disco && log.disco.uso != undefined) ? log.disco.uso : 0;
 
