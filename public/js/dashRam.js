@@ -130,9 +130,7 @@ function formatarDataHoraRam(horario) {
         return horario;
     }
 
-    return data.toLocaleString('pt-BR', {
-        day: '2-digit',
-        month: '2-digit',
+    return data.toLocaleTimeString('pt-BR', {
         hour: '2-digit',
         minute: '2-digit'
     });
@@ -219,10 +217,10 @@ async function puxarGraficoRam() {
                 },
                 title: {
                     display: true,
-                    text: 'Uso de RAM das Máquinas',
+                    text: 'Uso de RAM das Workstations',
                     color: '#9ab3d0',
                     font: {
-                        size: 16,
+                        size: 14,
                         weight: '600'
                     }
                 },
@@ -237,7 +235,7 @@ async function puxarGraficoRam() {
                 x: {
                     ticks: { color: '#9ab3d0', maxRotation: 45 },
                     grid: { color: 'rgba(154, 179, 208, 0.12)' },
-                    title: { display: true, text: 'Horário / Data', color: '#9ab3d0' }
+                    title: { display: true, text: 'Horário', color: '#9ab3d0' }
                 },
                 y: {
                     beginAtZero: true,
