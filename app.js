@@ -12,6 +12,12 @@ const maquinaRoutes = require("./src/routes/maquinaRoute");
 const dashRoutes = require("./src/routes/dashRoute");
 const financeiroRoutes = require("./src/routes/financeiroRoute");
 
+const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
+const { S3Client } = require("@aws-sdk/client-s3");
+
+const dynamoClient = new DynamoDBClient({ region: "us-east-1" });
+const s3Client = new S3Client({ region: "us-east-1" });
+
 const HOST_APP = process.env.APP_HOST || "localhost";
 const PORT = Number(process.env.dev || process.env.APP_PORT || 3333);
 
