@@ -20,9 +20,11 @@ async function carregarDados() {
     }
 }
 
+function formatarHora(dataHora) {
+    return dataHora.split(" ")[1].slice(0, 5);
+}
+
 function plotarKpi(total, critico, atencao, estavel) {
-    console.log(total)
-    console.log(document.getElementById("kpiTotal"))
     document.getElementById("kpiTotal").innerHTML = total
 
     document.getElementById("kpiCritico").innerHTML = critico
@@ -184,14 +186,11 @@ function chamarCor(cardAtual, elemento) {
     plotarKpi(total, critico, atencao, estavel);
 }
 
-function plotarGrafico(maquina, hora) {
-    console.log('iniciando plotagem do gráfico...');
+function plotarGraficoCpu(maquina) {
+    let labels= [];
 
-    // Criando estrutura para plotar gráfico - labels
-    let labels = [];
-
-    // Criando estrutura para plotar gráfico - dados
-    let dados = {
+    // Gráfico Uso CPU
+    let dadosCpuUso = {
         labels: labels,
         datasets: [{
             label: 'Porcentagem por Horário',
@@ -201,7 +200,7 @@ function plotarGrafico(maquina, hora) {
             backgroundColor: 'rgba(170, 0, 255, 0.4)',
             borderWidth: 3,
             tension: 0.2,
-            pointRadius: 0,
+            pointRadius: 1,
             pointHoverRadius: 6,
             pointHoverBorderWidth: 2,
             pointHoverBorderColor: '#ffffff',
@@ -209,51 +208,234 @@ function plotarGrafico(maquina, hora) {
         }]
     };
 
-    console.log('----------------------------------------------')
-    console.log('Estes dados foram recebidos pela funcao "plotarGrafico":')
-    console.log(maquina)
+    let optionsCpuUso = {
+        interaction: {
+            mode: 'index',
+            intersect: false
+        },
+        hover: {
+            mode: 'index',
+            intersect: false
+        },
+        plugins: {
+            annotation: {
+                annotations: {
+                    linhaLimite: {
+                        type: 'line',
+                        yMin: maquina.cpu.limite,
+                        yMax: maquina.cpu.limite,
+                        borderColor: 'rgba(0, 212, 249, 1)',
+                        borderWidth: 2,
+                        label: {
+                            content: `Em uso > ${maquina.cpu.limite}%`, //possivel erro
+                            font: {
+                                size: 14
+                            },
+                            enabled: true,
+                            position: 'start',
+                            backgroundColor: '#1a3555',
+                            color: 'rgba(0, 212, 249, 1)',
+                            borderWidth: 0.3,
+                            borderColor: 'rgba(0, 212, 249, 1)'
+                        }
+                    }
+                }
+            },
+            legend: {
+                display: true,
+                labels: {
+                    color: '#ffffff'
+                }
+            },
+            tooltip: {
+                enabled: true,
+                backgroundColor: '#1a3555',
+                titleColor: '#7a92b0',
+                bodyColor: 'rgba(0, 212, 249, 1)',
+                borderColor: '#2b5876',
+                borderWidth: 1,
+                displayColors: false
+            },
+            title: {
+                display: true,
+                color: '#ffffff'
+            }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: '#7a92b0'
+                },
+                grid: {
+                    color: '#1f3652'
+                },
+                title: {
+                    display: true,
+                    text: 'Horário',
+                    color: '#7a92b0',
+                    font: {
+                        size: 14
+                    }
+                }
+            },
+            y: {
+                ticks: {
+                    color: '#7a92b0'
+                },
+                grid: {
+                    color: '#1f3652',
+                    borderDash: [5, 5]
+                },
+                min: 0,
+                max: 100,
+                title: {
+                    display: true,
+                    text: 'CPU (%)',
+                    color: '#7a92b0',
+                    font: {
+                        size: 14
+                    }
+                }
+            }
+        }
+    }
 
-    // Inserindo valores recebidos em estrutura para plotar o gráfico
-    // for (i = 0; i < resposta.length; i++) {
-    //     var registro = resposta[i];
-    //     labels.push(registro.momento_grafico);
-    //     dados.datasets[0].data.push(registro.umidade);
-    //     dados.datasets[1].data.push(registro.temperatura);
-    // }
+    // Gráfico Regressão CPU
+    let dadosCpuReg = {
+        datasets: [{
+            label: 'Porcentagem por Horário',
+            data: [],
+            showLine: false,
+            borderColor: 'rgb(0, 255, 68)',
+            fill: true,
+            backgroundColor: 'rgba(48, 138, 52, 0.4)',
+            borderWidth: 3,
+            tension: 0.2,
+            pointRadius: 3,
+            pointHoverRadius: 6,
+            pointHoverBorderWidth: 2,
+            pointHoverBorderColor: '#ffffff',
+            pointHoverBackgroundColor: '#ffffff'
+        }]
+    };
 
-    console.log(hora)
-    labels.push(hora)
+    let optionsCpuReg = {
+        interaction: {
+            mode: 'index',
+            intersect: false
+        },
+        hover: {
+            mode: 'index',
+            intersect: false
+        },
+        plugins: {
+            annotation: {
+                annotations: maquina.cpu.previsao.reta.length > 0
+                    ? {
+                        linhaRegressao: {
+                            type: 'line',
+                            xMin: formatarHora( maquina.cpu.previsao.reta[0].x),
+                            yMin: maquina.cpu.previsao.reta[0].y,
 
-    console.log(maquina.cpu.uso)
-    dados.datasets[0].data.push(maquina.cpu.uso)
+                            xMax: formatarHora(maquina.cpu.previsao.reta[1].x),
+                            yMax: maquina.cpu.previsao.reta[1].y,
+                            borderColor: 'red',
+                            borderWidth: 2
+                        }
+                    }
+                    : {}
+            },
+            legend: {
+                display: true,
+                labels: {
+                    color: '#ffffff'
+                }
+            },
+            tooltip: {
+                enabled: true,
+                backgroundColor: '#1a3555',
+                titleColor: '#7a92b0',
+                bodyColor: 'rgba(0, 212, 249, 1)',
+                borderColor: '#2b5876',
+                borderWidth: 1,
+                displayColors: false
+            },
+            title: {
+                display: true,
+                color: '#ffffff'
+            }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: '#7a92b0'
+                },
+                grid: {
+                    color: '#1f3652'
+                },
+                title: {
+                    display: true,
+                    text: 'Horário',
+                    color: '#7a92b0',
+                    font: {
+                        size: 14
+                    }
+                },
+                type: 'category'
+            },
+            y: {
+                ticks: {
+                    color: '#7a92b0'
+                },
+                grid: {
+                    color: '#1f3652',
+                    borderDash: [5, 5]
+                },
+                min: 0,
+                max: 100,
+                title: {
+                    display: true,
+                    text: 'CPU (%)',
+                    color: '#7a92b0',
+                    font: {
+                        size: 14
+                    }
+                }
+            }
+        }
+    }
 
-    // console.log('----------------------------------------------')
-    // console.log('O gráfico será plotado com os respectivos valores:')
-    // console.log('Labels:')
-    // console.log(labels)
-    // console.log('Dados:')
-    // console.log(dados.datasets)
-    // console.log('----------------------------------------------')
+    // Adicionando Dados
+    const horaFormatada = formatarHora(maquina.horario);
+    labels.push(horaFormatada)
+    dadosCpuUso.datasets[0].data.push(maquina.cpu.uso)
+    dadosCpuReg.datasets[0].data.push({x: horaFormatada, y: maquina.cpu.uso})
 
-    // Criando estrutura para plotar gráfico - config
-    const config = {
+    // Criando estrutura para plotar gráficos
+    const configUso = {
         type: 'line',
-        data: dados,
+        data: dadosCpuUso,
+        options: optionsCpuUso
+    };
+
+    const configReg = {
+        type: 'line',
+        data: dadosCpuReg,
+        options: optionsCpuReg
     };
 
     // Adicionando gráfico criado em div na tela
     let cpuUso = new Chart(
         document.getElementById(`grafUsoCpu_${maquina.macAddress}`),
-        config
+        configUso
     );
 
     let cpuRegressao = new Chart(
         document.getElementById(`grafRegCpu_${maquina.macAddress}`),
-        config
+        configReg
     );
 
     // setTimeout(() => atualizarGrafico(idAquario, dados, myChart), 2000);
-
 }
 
 async function exibirMRI(registro) {
@@ -437,7 +619,7 @@ async function exibirMRI(registro) {
                 </dialog>
                 <div class="col">
                     <div class="card cardMaquina"
-                        onclick="document.getElementById('dialogGraf_${maquina.macAddress}').showModal(), criarGrafico1()">
+                        onclick="document.getElementById('dialogGraf_${maquina.macAddress}').showModal()">
                         <div class="card-body bodyMaquina">
                             <div class="bodyMaquina-header">
                                 <p class="macAddressCard">${maquina.macAddress}</p>
@@ -540,7 +722,7 @@ async function exibirMRI(registro) {
         const cardAtual = cards.lastElementChild;
 
         chamarCor(cardAtual, maquina)
-        plotarGrafico(maquina, hora)
+        plotarGraficoCpu(maquina)
     });
 }
 
