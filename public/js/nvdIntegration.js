@@ -93,6 +93,7 @@ class NVDIntegration {
     url.searchParams.set('resultsPerPage', NVD_CONFIG.RESULTS_PER_PAGE);
     url.searchParams.set('keywordSearch', keyword);
     url.searchParams.set('pubStartDate', noventaDiasAtras.toISOString());
+    url.searchParams.set('pubEndDate', hoje.toISOString());
 
     const resposta = await fetch(url.toString(), { cache: 'no-cache' });
 

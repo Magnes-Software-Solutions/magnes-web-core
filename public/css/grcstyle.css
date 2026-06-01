@@ -62,7 +62,7 @@ body {
 
 .offCanvas {
   background-color: #0d2137 !important;
-  border-left: 1px solid #00d4f9 !important;
+  border-right: 1px solid #00d4f9 !important;
 }
 
 .offCanvasTitle {
@@ -132,6 +132,8 @@ body {
   border: 1px solid #00d4f9;
   display: flex;
   flex-direction: row !important;
+  align-items: center;
+  width: 100%;
 }
 
 .navLiActive a {
@@ -155,6 +157,7 @@ body {
 
 .perfil {
   border-top: 0.5px solid #00d4f9 !important;
+  display: flex;
   align-items: center;
   padding: 16px;
   justify-content: space-between;

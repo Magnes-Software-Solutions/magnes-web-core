@@ -623,6 +623,214 @@ function renderKPIs(risco, alertas, cves, sla, totalServs) {
   }
 }
 
+function limitarPercentual(valor) {
+  if (valor < 0) {
+    return 0;
+  }
+
+  if (valor > 100) {
+    return 100;
+  }
+
+  return Math.round(valor);
+}
+
+function calcularMedia(maquinas, campo) {
+  if (maquinas.length === 0) {
+    return 0;
+  }
+
+  let soma = 0;
+
+  for (let i = 0; i < maquinas.length; i++) {
+    soma = soma + maquinas[i][campo];
+  }
+
+  return limitarPercentual(soma / maquinas.length);
+}
+
+function calcularRiscoCVE(cves) {
+  let pontos = 0;
+
+  for (let i = 0; i < cves.length; i++) {
+    if (cves[i].cvss >= 9) {
+      pontos = pontos + 25;
+    } else if (cves[i].cvss >= 7) {
+      pontos = pontos + 10;
+    }
+  }
+
+  return limitarPercentual(pontos);
+}
+
+function atualizarBarra(idBarra, idTexto, valor) {
+  const barra = document.getElementById(idBarra);
+  const texto = document.getElementById(idTexto);
+  const percentual = limitarPercentual(valor);
+
+  if (barra) {
+    barra.style.width = percentual + "%";
+  }
+
+  if (texto) {
+    texto.textContent = percentual + "%";
+  }
+}
+
+function atualizarPill(id, ok, textoOk, textoErro) {
+  const el = document.getElementById(id);
+
+  if (!el) {
+    return;
+  }
+
+  if (ok) {
+    el.className = "pill pill-ok";
+    el.textContent = textoOk;
+  } else {
+    el.className = "pill pill-crit";
+    el.textContent = textoErro;
+  }
+}
+
+function atualizarBarrasDashboard(maquinas, cves, sla) {
+  const mediaCPU = calcularMedia(maquinas, "cpu");
+  const mediaRAM = calcularMedia(maquinas, "ram");
+  const mediaDisco = calcularMedia(maquinas, "disco");
+  const riscoCVE = calcularRiscoCVE(cves);
+
+  atualizarBarra("bar-cpu", "pct-cpu", mediaCPU);
+  atualizarBarra("bar-ram", "pct-ram", mediaRAM);
+  atualizarBarra("bar-disco", "pct-disco", mediaDisco);
+  atualizarBarra("bar-cve", "pct-cve", riscoCVE);
+
+  atualizarBarra("sla-cpu", "sla-pct-cpu", mediaCPU);
+  atualizarBarra("sla-ram", "sla-pct-ram", mediaRAM);
+  atualizarBarra("sla-disco", "sla-pct-disco", mediaDisco);
+  atualizarBarra("sla-cve", "sla-pct-cve", riscoCVE);
+
+  atualizarPill("comp-cpu", mediaCPU < 85, "Conforme", "Violado");
+  atualizarPill("comp-patches", contarCVEsCriticas(cves) === 0, "Conforme", "Violado");
+  atualizarPill("comp-sla", sla >= 95, "Conforme", "Violado");
+}
+
+function contarCVEsPorServidor(cves, servidor) {
+  let total = 0;
+
+  for (let i = 0; i < cves.length; i++) {
+    const lista = cves[i].servidores;
+
+    if (!Array.isArray(lista)) {
+      continue;
+    }
+
+    for (let j = 0; j < lista.length; j++) {
+      if (lista[j] === servidor) {
+        total = total + 1;
+      }
+    }
+  }
+
+  return total;
+}
+
+function renderRiscoComposto(maquinas, cves) {
+  const el = document.getElementById("risco-composto-list");
+
+  if (!el) {
+    return;
+  }
+
+  if (maquinas.length === 0) {
+    el.innerHTML = '<div style="color:#7a92b0;font-size:12px;">Sem servidores monitorados</div>';
+    return;
+  }
+
+  let html = "";
+
+  for (let i = 0; i < maquinas.length; i++) {
+    const maquina = maquinas[i];
+    const operacional = limitarPercentual((maquina.cpu + maquina.ram + maquina.disco) / 3);
+    let qtdCVEs = contarCVEsPorServidor(cves, maquina.label);
+
+    if (qtdCVEs === 0) {
+      qtdCVEs = contarCVEsPorServidor(cves, maquina.id);
+    }
+
+    if (qtdCVEs === 0 && maquinas.length === 1) {
+      qtdCVEs = cves.length;
+    }
+
+    const riscoCVE = limitarPercentual(qtdCVEs * 30);
+    const score = limitarPercentual((operacional * 0.65) + (riscoCVE * 0.35));
+
+    let classe = "pill-ok";
+    let texto = "Normal";
+    let corScore = "#4ade80";
+
+    if (score >= 80) {
+      classe = "pill-crit";
+      texto = "Critico";
+      corScore = "#f87171";
+    } else if (score >= 60) {
+      classe = "pill-warn";
+      texto = "Alto";
+      corScore = "#fde68a";
+    }
+
+    html += '<div class="ci">';
+    html += '<div class="ci-srv">' + escapeHtml(maquina.label) + '</div>';
+    html += '<div class="ci-score" style="color:' + corScore + ';">' + score + '</div>';
+    html += '<div class="ci-bars">';
+    html += '<div class="ci-br"><div class="ci-bl">Operac.</div><div class="ci-bk"><div class="ci-bf" style="width:' + operacional + '%; background:#f43f5e;"></div></div></div>';
+    html += '<div class="ci-br"><div class="ci-bl">CVE</div><div class="ci-bk"><div class="ci-bf" style="width:' + riscoCVE + '%; background:#a855f7;"></div></div></div>';
+    html += '</div>';
+    html += '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;">';
+    html += '<span class="pill ' + classe + '">' + texto + '</span>';
+    html += '<span style="font-size:10px;color:#5a7a9c;">' + qtdCVEs + ' CVEs</span>';
+    html += '</div>';
+    html += '</div>';
+  }
+
+  el.innerHTML = html;
+}
+
+function renderAlertas(maquinas, cves, tickets) {
+  const el = document.getElementById("alert-list");
+
+  if (!el) {
+    return;
+  }
+
+  let html = '<div class="card-title">Alertas - ultimas 24h</div>';
+
+  for (let i = 0; i < tickets.length && i < 4; i++) {
+    html += '<div class="alert-item">';
+    html += '<div class="alert-time">' + escapeHtml(tickets[i].tempo) + '</div>';
+    html += '<div class="alert-dot" style="background:#f43f5e;"></div>';
+    html += '<div style="flex:1"><div class="alert-title">' + escapeHtml(tickets[i].id + " - " + tickets[i].descricao) + '</div>';
+    html += '<div class="alert-meta">' + escapeHtml(tickets[i].status || "Jira") + '</div></div>';
+    html += '<span class="pill ' + classeSeveridade(tickets[i].severidade) + '">' + escapeHtml(tickets[i].severidade) + '</span>';
+    html += '</div>';
+  }
+
+  for (let j = 0; j < cves.length && j < 2; j++) {
+    html += '<div class="alert-item">';
+    html += '<div class="alert-time">' + cves[j].diasAberto + 'd</div>';
+    html += '<div class="alert-dot" style="background:#a855f7;"></div>';
+    html += '<div style="flex:1"><div class="alert-title">' + escapeHtml(cves[j].id + " - " + cves[j].componente) + '</div>';
+    html += '<div class="alert-meta">CVSS ' + cves[j].cvss + ' - ' + escapeHtml(cves[j].status) + '</div></div>';
+    html += '<span class="pill pill-purple">CVE</span>';
+    html += '</div>';
+  }
+
+  if (html === "") {
+    html = '<div style="color:#7a92b0;font-size:12px;text-align:center;padding:16px;">Sem alertas nas ultimas 24h</div>';
+  }
+
+  el.innerHTML = html;
+}
+
 async function buscarDadosS3() {
   const resposta = await fetch(S3_API_ENDPOINT, { cache: "no-cache" });
 
@@ -706,6 +914,9 @@ async function carregarDados() {
   renderHeatmap(maquinas);
   renderTickets(tickets);
   renderCVEs(cves);
+  atualizarBarrasDashboard(maquinas, cves, sla);
+  renderRiscoComposto(maquinas, cves);
+  renderAlertas(maquinas, cves, tickets);
   setStatus(true);
 }
 

@@ -453,55 +453,61 @@ body {
     border-color: #512d4d !important;
 }
 
-.ajuda-container {
+.chart-panel {
     position: relative;
-    display: inline-block;
-    cursor: help;
   }
   
-  .icone-interrogacao {
-    margin-left: 300px;
-    background-color: #276e95;
-    color: white;
+  .ajuda-container {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 999;
+  }
+  
+  .icone-interrogacao, 
+  .icone-interrogacao-impacto-financeiro, 
+  .icone-interrogacao-impacto-sla {
+    background-color: #1a3a5f;
+    color: #38bdf8;
+    border: 1px solid #10435f;
     border-radius: 50%;
-    padding: 8px 14px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
     font-weight: bold;
-  } 
+    cursor: help;
+    transition: all 0.2s ease-in-out;
+    margin: 0;
+  }
+  
+  .icone-interrogacao:hover, 
+  .icone-interrogacao-impacto-financeiro:hover, 
+  .icone-interrogacao-impacto-sla:hover {
+    background-color: #276e95;
+    color: #fff;
+    border-color: #38bdf8;
+  }
   
   .caixa-informacao {
     display: none;
     position: absolute;
-    background-color: #333;
-    color: #fff;
-    padding: 10px;
-    border-radius: 5px;
-    width: 200px;
-    bottom: 125%;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
+    background-color: #0d1e36;
+    color: #e2e8f0;
+    border: 1px solid #10435f;
+    padding: 12px;
+    border-radius: 6px;
+    width: 240px;
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 1.4;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    top: 30px;
+    right: 0;
   }
   
   .ajuda-container:hover .caixa-informacao {
     display: block;
   }
-
-  .icone-interrogacao-impacto-financeiro {
-    margin-left: 500px;
-    background-color: #276e95;
-    color: white;
-    border-radius: 50%;
-    padding: 8px 14px;
-    font-weight: bold;
-  }
-  
-  .icone-interrogacao-impacto-sla {
-    margin-left: 700px;
-    background-color: #276e95;
-    color: white;
-    border-radius: 50%;
-    padding: 8px 14px;
-    font-weight: bold;
-  }
-  
-  
