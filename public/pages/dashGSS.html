@@ -430,7 +430,8 @@
       var resposta =
         await fetch("http://localhost:3333/client");
 
-      var dados = await resposta.json();
+      var respostaJson = await resposta.json();
+      var dados = respostaJson.maquinas;
 
       var empresasAdicionadas = [];
 
@@ -485,7 +486,8 @@
       var resposta =
         await fetch("http://localhost:3333/client");
 
-      var dados = await resposta.json();
+      var respostaJson = await resposta.json();
+      var dados = respostaJson.maquinas;
 
       var maquinas = dados.filter(function (m) {
 
@@ -610,11 +612,11 @@
       var resposta =
         await fetch("http://localhost:3333/client");
 
-      var todos = await resposta.json();
+      var respostaJson = await resposta.json();
+      var todos = respostaJson.maquinas;
 
       var resultado = [];
 
-      // FILTRA MÁQUINAS DA EMPRESA SELECIONADA
       for (var i = 0; i < todos.length; i++) {
 
         var empresa =
