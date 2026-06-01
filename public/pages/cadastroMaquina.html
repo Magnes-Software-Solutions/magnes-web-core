@@ -298,17 +298,31 @@
             return null;
         }
     }
-
+    
+    lista_mac = [];
     async function cadastrarMaquina() {
+
         const numeroSerie = input_numSerie.value;
         const tipoModelo = input_tipoModelo.value;
         const macAddress = input_macAddress.value;
 
         sessionStorage.MAC_ADDRESS = macAddress;
 
+        lista_mac.push(macAddress);
+
+        for (var i = 0; i < lista_mac.length - 1; i++) {
+            if (lista_mac[i] == macAddress) {
+                alert('Este Mac Address já foi cadastrado. Por favor, insira um Mac Address Diferente.');
+                return;
+            }
+        }
 
         if (!numeroSerie || !tipoModelo || !macAddress) {
             alert('Por favor, preencha todos os campos obrigatórios.');
+            return;
+        }
+        if (macAddress.length != 17) {
+            alert('O Mac Address deve conter EXATAMENTE 17 caracteres.');
             return;
         }
 

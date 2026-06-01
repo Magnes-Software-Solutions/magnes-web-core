@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DashRAM | Magnes</title>
+    <link rel="stylesheet" href="../bootstrap-5.3.8-dist/css/bootstrap.css" />
+    <link rel="shortcut icon" href="../assets/imgs/Logo.png" type="image/x-icon" />
+    <link rel="stylesheet" href="../css/dashRam.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body style="background-color: #0a1628;">
+
+    <nav class="navbar fixed-top navBarTop">
+        <div class="container-fluid">
+            <img src="../assets/imgs/Logo.png" alt="" width="5%" height="85%">
+            <div class="titulo">
+                <p class="tituloLogo">MAGNES/DASHRAM</p>
+            </div>
+            <button class="navbar-toggler navBarToggler" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon navBarTogglerIcon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end offCanvas" tabindex="-1" id="offcanvasNavbar"
+                aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title offCanvasTitle" id="offcanvasNavbarLabel">MAGNES/DASHRAM</h5>
+                    <button type="button" class="btn-close offCanvasButton" data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body offcanvasBody">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 navBarNav">
+                        <li class="nav-item navLi" onclick="window.location.href='dashAnalistaGestor.html'">
+                            <img src="../assets/imgs/dashboard.svg" alt="Simbolo de Dashboard">
+                            <a class="nav-link">Dashboard</a>
+                        </li>
+                        <li class="nav-item navLi navLiActive" onclick="window.location.href='dashGestor.html'">
+                            <img src="../assets/imgs/bar.svg" alt="" class="navItemIcon" />
+                            <a class="nav-link">Relatório</a>
+                        </li>
+                        <li class="nav-item navLi" onclick="window.location.href='cadastroAnalista.html'">
+                            <img src="../assets/imgs/person.svg" alt="" class="navItemIcon" />
+                            <a class="nav-link">Cadastrar Analista</a>
+                        </li>
+                        <li class="nav-item navLi" onclick="window.location.href='cadastroMaquina.html'">
+                            <img src="../assets/imgs/build.svg" alt="" class="navItemIcon" />
+                            <a class="nav-link">Cadastrar Máquina</a>
+                        </li>
+                        <li class="nav-item navLi navLiLogout" onclick="limparSessao()">
+                            <img src="../assets/imgs/box-arrow-left.svg" alt="" class="navItemIcon" />
+                            <a class="nav-link">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="offcanvas-header perfil" onclick="window.location.href='dashUsuarioGestor.html'">
+                    <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Simbolo de perfil">
+                    <div class="textosPerfil">
+                        <h5 class="offcanvas-title" id="spanNome">(nome do banco)</h5>
+                        <p id="cargoUsuarioNav">(cargo do banco)</p>
+                    </div>
+                    <img class="perfilConfig" src="../assets/imgs/gear.svg" alt="Simbolo de configurações">
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="kpi-row">
+        <div class="kpi-card danger">
+            <abbr class="info2" tabindex="0"
+                data-tooltip="Descrição: Mostra a maquina com maior uso de RAM(Estado Critico).">
+                <img src="../assets/imgs/info.png" alt="Informacao">
+            </abbr>
+            <div class="kpi-icon-box">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="#f73b3b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-triangle-alert-icon lucide-triangle-alert">
+                    <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
+                    <path d="M12 9v4" />
+                    <path d="M12 17h.01" />
+                </svg>
+            </div>
+            <div class="kpi-label">MAQUINA MAIS <br>CRITICA:</div><br>
+            <div class="kpi-value total" id="kpi1-mac"></div>
+            <div class="kpi-trend" id="kpi1-%deUso">%</div>
+        </div>
+        <div class="kpi-card normal">
+            <abbr class="info2" tabindex="0"
+                data-tooltip="Descrição: Mostra a maquina que teve maior oscilação do uso da ram, com base no ultimo e penultimo registro.">
+                <img src="../assets/imgs/info.png" alt="Informacao">
+            </abbr>
+            <div class="kpi-icon-box">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="#f06000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-arrow-down-up-icon lucide-arrow-down-up">
+                    <path d="m3 16 4 4 4-4" />
+                    <path d="M7 20V4" />
+                    <path d="m21 8-4-4-4 4" />
+                    <path d="M17 4v16" />
+                </svg>
+            </div>
+            <div class="kpi-label">MAQUINA COM<br>MAIOR OSCILAÇÃO DE<br>RAM:</div>
+            <div class="kpi-value normal" id="kpi2-mac"></div>
+            <div class="kpi-trend" id="kpi2ocila"></div>
+        </div>
+        <div class="kpi-card warning">
+            <abbr class="info2" tabindex="0"
+                data-tooltip="Descrição: Mostra a maquina que teve a maior crescente no uso de Ram, com base no ultimo e penultimo registro">
+                <img src="../assets/imgs/info.png" alt="Informacao">
+            </abbr>
+            <div class="kpi-icon-box">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="#f27826" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-trending-down-icon lucide-trending-down">
+                    <path d="M16 17h6v-6" />
+                    <path d="m22 17-8.5-8.5-5 5L2 7" />
+                </svg>
+            </div>
+            <div class="kpi-label">MAQUINA COM<br>PIOR TENDENCIA:</div><br>
+            <div class="kpi-value warning" id="kpi3-mac"></div>
+            <div class="kpi-trend" id="kpi3Delta"></div>
+        </div>
+        <div class="kpi-card total">
+            <abbr class="info2" tabindex="0"
+                data-tooltip="Descrição: Mostra a imagem mais pesada de um exame de ressonancia e qual maquina gerou essa imagem.">
+                <img src="../assets/imgs/info.png" alt="Informacao">
+            </abbr>
+            <div class="kpi-icon-box">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="#3bb8f7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-weight-icon lucide-weight">
+                    <circle cx="12" cy="5" r="3" />
+                    <path
+                        d="M6.5 8a2 2 0 0 0-1.905 1.46L2.1 18.5A2 2 0 0 0 4 21h16a2 2 0 0 0 1.925-2.54L19.4 9.5A2 2 0 0 0 17.48 8Z" />
+                </svg>
+            </div>
+            <div class="kpi-label">IMAGEM MAIS<br>PESADA:</div><br>
+            <div class="kpi-value danger" id="kpi4TmnGB"></div>
+            <div class="kpi-trend" id="kpi4-mac"></div>
+        </div>
+    </div>
+
+    <div class="graficos-extras">
+        <div class="grafico-extra-panel">
+            <h6 class="titulo-info">
+                RANKING POR USO DE RAM
+                <abbr class="info2" tabindex="0"
+                    data-tooltip="Descrição: Lista as workstations ordenadas pelo maior uso de RAM de forma decrescente.">
+                    <img src="../assets/imgs/info.png" alt="Informacao">
+                </abbr>
+            </h6>
+            <div class="gargalo-donut-container" id="ranking">
+            </div>
+        </div>
+
+        <div class="grafico-extra-panel">
+            <h6 class="titulo-info">
+                HISTORICO DE USO TODAS AS WORKSTATION
+                <abbr class="info2" tabindex="0"
+                    data-tooltip="Descrição: Exibe a evolução do uso de RAM das workstations ao longo do tempo.">
+                    <img src="../assets/imgs/info.png" alt="Informacao">
+                </abbr>
+            </h6>
+            <div class="events-table-wrapper">
+                <canvas id="historico-caio"></canvas>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="../bootstrap-5.3.8-dist/js/bootstrap.js"></script>
+    <script src="../services/api.js"></script>
+    <script src="../services/maquinaService.js"></script>
+    <script src="../js/sessao.js"></script>
+    <script src="../js/dashRam.js"></script>
+</body>
+
+</html>
+<script>
+    function buscar() {
+        var grafico1 = document.querySelector(".histContainer");
+        var grafico2 = document.querySelector(".histContainer2");
+
+        var busca = document.querySelector(".ferramenta-pesquisa input").value;
+
+        if (busca != "Alphaville") {
+            grafico1.style.display = "block";
+            grafico2.style.display = "none";
+        } else {
+            grafico1.style.display = "none";
+            grafico2.style.display = "block";
+        }
+    }
+
+
+</script>
