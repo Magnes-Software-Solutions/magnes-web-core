@@ -44,5 +44,5 @@ class Api {
     }
 }
 
-const url = `http://${window.location.hostname}:3000`
+const url = `http://${window.location.hostname}:3333`
 const api = new Api(url)
