@@ -338,7 +338,7 @@
             <div class="valor" id="textoPoeira">Baixa</div>
 
             <div class="valor" id="poeiraCard">
-                --mg/m<sup>3</sup>
+                --µg/m<sup>3</sup>
             </div>
 
         </div>
@@ -385,7 +385,7 @@
 
             <div class="grafico-box">
 
-                <h2>Qualidade do Ar / Poeira</h2>
+                <h2>Poeira no Ar</h2>
 
                 <canvas id="poeiraChart"></canvas>
 
@@ -716,10 +716,10 @@
 
                                 const valor = context.raw;
 
-                                if(valor < 40){
+                                if(valor < 12){
                                     return '#00ff88cc'; // verde
                                 }
-                                else if(valor < 70){
+                                else if(valor < 35){
                                     return '#ffd500cc'; // amarelo
                                 }
                                 else{
@@ -792,7 +792,7 @@
 
                             min:0,
 
-                            max:100,
+                            max:75,
 
                             ticks:{
                                 color:'white'
@@ -839,8 +839,11 @@
                 const horario =
                     ultimo.horario;
 
+                // const cpu =
+                //     ultimo.cpu.uso;
+
                 const cpu =
-                    ultimo.cpu.uso;
+                    ultimo.financeiroDashboard.metricas.cpuSimulado;
 
                 const limiteCPU =
                     ultimo.cpu.limite || 80;
@@ -974,7 +977,7 @@
                     .data.push(poeira);
 
                 poeiraChart.data.datasets[1]
-                    .data.push(70);
+                    .data.push(35);
 
                 // =====================================
                 // UPDATE DOS GRÁFICOS
@@ -1064,16 +1067,16 @@
                 //TEXTO POEIRA
 
                 const poeiraElemento = document.getElementById('poeiraCard');
-                poeiraElemento.innerHTML = `${poeira} mg/m<sup>3</sup>`;
+                poeiraElemento.innerHTML = `${poeira} µg/m<sup>3</sup>`;
 
                 const poeiraElemento1 = document.getElementById('textoPoeira');
                 
-                if(poeira < 40){
+                if(poeira < 12){
                     
                     poeiraTexto = 'Baixa';
                     poeiraElemento1.style.color = '#5cff8d';
                     
-                } else if(poeira <= 70) {
+                } else if(poeira < 35) {
                     
                     poeiraTexto = 'Média';
                     poeiraElemento1.style.color = '#ffd633';
@@ -1280,7 +1283,7 @@
 
                 // POEIRA
 
-                else if(cpu > 80 && poeira > 70){
+                else if(cpu > 80 && poeira >= 35){
 
                     diagnosticoHTML = `
 
