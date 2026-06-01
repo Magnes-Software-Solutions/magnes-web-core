@@ -470,13 +470,8 @@
       document.getElementById("paginaInteira_div")
         .style.display = "block";
 
-      document.querySelector(".graficos")
-        .style.display = "block";
-
       receberAlertasJira();
-
       carregarDados();
-
       carregarMaquinas();
     }
 
@@ -535,6 +530,8 @@
       maquinaSelecionada =
         document.getElementById("select_workstation").value;
 
+      document.querySelector(".graficos").style.display = "block";
+
       carregarDados();
     }
 
@@ -549,75 +546,54 @@
         type: "line",
 
         data: {
-
           labels: [],
-
           datasets: [
-
             {
               label: "CPU",
               data: [],
               borderColor: "rgba(170, 0, 255, 1)",
-              backgroundColor: "rgba(170, 0, 255, 0.1)",
               tension: 0.3
             },
-
             {
               label: "RAM",
               data: [],
               borderColor: "rgba(0, 212, 249, 1)",
-              backgroundColor: "rgba(0, 212, 249, 0.1)",
               tension: 0.3
             },
-
             {
               label: "Disco",
               data: [],
               borderColor: "yellow",
-              backgroundColor: "yellow",
               tension: 0.3
             }
           ]
         },
 
+        plugins: [{
+          id: 'linhaAlerta',
+          afterDraw(chart) {
+            const { ctx, scales: { y } } = chart;
+
+            const yAlerta = y.getPixelForValue(70);
+
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(chart.chartArea.left, yAlerta);
+            ctx.lineTo(chart.chartArea.right, yAlerta);
+            ctx.strokeStyle = 'red';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([5, 5]);
+            ctx.stroke();
+            ctx.restore();
+          }
+        }],
+
         options: {
-
           responsive: true,
-
-          plugins: {
-            legend: {
-              labels: {
-                color: "white"
-              }
-            }
-          },
-
           scales: {
-
-            x: {
-              ticks: {
-                color: "white",
-                maxRotation: 45
-              },
-
-              grid: {
-                color: "rgba(255,255,255,0.08)"
-              }
-            },
-
             y: {
-
               min: 0,
-              max: 100,
-
-              ticks: {
-                stepSize: 10,
-                color: "white"
-              },
-
-              grid: {
-                color: "rgba(255,255,255,0.08)"
-              }
+              max: 100
             }
           }
         }
