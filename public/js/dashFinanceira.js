@@ -7,8 +7,8 @@ var instWaterfall;
 
 let maquinasRaizClient = [];
 
-if (typeof logsHistoricoClientGlobal == 'undefined') {
-    var logsHistoricoClientGlobal = [];
+if (typeof historicoPorMaquinaGlobal == 'undefined') {
+    var historicoPorMaquinaGlobal = {}; 
 }
 
 async function buscarDadosS3() {
@@ -26,21 +26,24 @@ async function buscarDadosS3() {
 
             for (let i = 0; i < dados.maquinas.length; i++) {
                 const maquinaAtual = dados.maquinas[i];
+                const mac = maquinaAtual.macAddress;
 
-                const jaExiste = logsHistoricoClientGlobal.some(log =>
-                    log.macAddress == maquinaAtual.macAddress && log.horario == maquinaAtual.horario
-                );
+                if (!mac) continue;
+
+                if (!historicoPorMaquinaGlobal[mac]) {
+                    historicoPorMaquinaGlobal[mac] = [];
+                }
+
+                const jaExiste = historicoPorMaquinaGlobal[mac].some(log => log.horario === maquinaAtual.horario);
 
                 if (!jaExiste) {
-                    let novoLog = Object.assign({}, maquinaAtual);
-                    logsHistoricoClientGlobal.push(novoLog);
+                    let novoLog = JSON.parse(JSON.stringify(maquinaAtual));
+                    historicoPorMaquinaGlobal[mac].push(novoLog);
                 }
-            }
 
-            logsHistoricoClient = logsHistoricoClientGlobal;
-
-            if (logsHistoricoClientGlobal.length > 100) {
-                logsHistoricoClientGlobal.shift();
+                if (historicoPorMaquinaGlobal[mac].length > 100) {
+                    historicoPorMaquinaGlobal[mac].shift();
+                }
             }
 
             if (!dados.kpis) {
@@ -49,10 +52,9 @@ async function buscarDadosS3() {
 
         } else {
             maquinasRaizClient = [];
-            logsHistoricoClient = logsHistoricoClientGlobal;
         }
 
-        console.log("[Magnes Financeiro] Dados sincronizados em tempo real. Histórico acumulado:", logsHistoricoClient.length);
+        console.log("[Magnes Financeiro] Dados sincronizados no dicionário global.");
         atualizarDropdownMaquinas();
 
         const select = document.getElementById("selectFiltroEquipamento");
@@ -72,13 +74,7 @@ function atualizarDropdownMaquinas() {
     const select = document.getElementById("selectFiltroEquipamento");
     if (!select) return;
 
-    const macsUnicos = [];
-    for (let i = 0; i < logsHistoricoClient.length; i++) {
-        const log = logsHistoricoClient[i];
-        if (log && log.macAddress && !macsUnicos.includes(log.macAddress)) {
-            macsUnicos.push(log.macAddress);
-        }
-    }
+    const macsUnicos = Object.keys(historicoPorMaquinaGlobal);
 
     const valorSelecionado = select.value;
     select.innerHTML = '';
@@ -106,14 +102,8 @@ function renderizarBI() {
     }
 
     const filtroMac = select.value;
-    let dadosFiltrados = [];
-
-    for (let i = 0; i < logsHistoricoClient.length; i++) {
-        const log = logsHistoricoClient[i];
-        if (log && log.macAddress == filtroMac) {
-            dadosFiltrados.push(log);
-        }
-    }
+    
+    let dadosFiltrados = historicoPorMaquinaGlobal[filtroMac] || [];
 
     dadosFiltrados.sort(function (a, b) {
         return Date.parse(a.horario.replace(" ", "T")) - Date.parse(b.horario.replace(" ", "T"));
@@ -145,14 +135,7 @@ function renderizarBI() {
     let dadosSLA = [];
     let metasSLA = [];
 
-    var listaMacsUnicosGlobal = [];
-    for (var m = 0; m < logsHistoricoClient.length; m++) {
-        var macVarrido = logsHistoricoClient[m].macAddress;
-        if (macVarrido && listaMacsUnicosGlobal.indexOf(macVarrido) == -1) {
-            listaMacsUnicosGlobal.push(macVarrido);
-        }
-    }
-    var contagemTotalMaquinas = listaMacsUnicosGlobal.length;
+    var contagemTotalMaquinas = Object.keys(historicoPorMaquinaGlobal).length;
 
     for (let k = 0; k < maquinasRaizClient.length; k++) {
         const maq = maquinasRaizClient[k];
@@ -289,7 +272,7 @@ function renderizarBI() {
         }
     }
 
-    // Gráfico 1: Linha Temporal de Performance de SLA (RE-RENDERIZADO COM AS CORREÇÕES)
+    // Gráfico 1: Linha Temporal de Performance de SLA
     if (instSLA) instSLA.destroy();
     let ctxSLA = document.getElementById("chartSLA").getContext("2d");
     instSLA = new Chart(ctxSLA, {
