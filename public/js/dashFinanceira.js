@@ -1,9 +1,102 @@
 const S3_API_ENDPOINT = "/client";
 const REFRESH_INTERVAL_MS = 60000;
 
-var instDonut;
 var instSLA;
 var instWaterfall;
+var instDonut;
+
+function inicializarGraficos() {
+    // Gráfico 1: Linha Temporal de Performance de SLA
+    let ctxSLA = document.getElementById("chartSLA").getContext("2d");
+    instSLA = new Chart(ctxSLA, {
+        type: "line",
+        data: {
+            labels: [],
+            datasets: [
+                {
+                    label: "Tempo de Atividade (%)",
+                    data: [],
+                    borderColor: "#38bdf8",
+                    backgroundColor: "rgba(56,189,248,0.05)",
+                    borderWidth: 3,
+                    pointBackgroundColor: "#fff",
+                    fill: true,
+                    tension: 0.1
+                },
+                {
+                    label: "Meta Acordada",
+                    data: [],
+                    borderColor: "#ff3366",
+                    borderWidth: 1.5,
+                    borderDash: [5, 5],
+                    pointRadius: 0,
+                    fill: false,
+                    spanGaps: true
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { labels: { color: "#fff" } } },
+            scales: {
+                x: { ticks: { color: "#8ea1b4" }, grid: { display: false } },
+                y: { max: 100, beginAtZero: false, ticks: { color: "#8ea1b4" }, grid: { color: "#10435f" } }
+            }
+        }
+    });
+
+    // Gráfico 2: Impacto Financeiro Cascata (Waterfall)
+    let ctxWaterfall = document.getElementById("chartWaterfall").getContext("2d");
+    instWaterfall = new Chart(ctxWaterfall, {
+        type: "bar",
+        data: {
+            labels: ["Custo Corretiva Potencial", "Economia Preditiva", "Prejuízo Real Absoluto"],
+            datasets: [
+                {
+                    label: "Valores Financeiros",
+                    data: [0, 0, 0],
+                    backgroundColor: ["#ff7675", "#2ecc71", "#74b9ff"],
+                    borderRadius: 4
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { ticks: { color: "#8ea1b4" }, grid: { display: false } },
+                y: {
+                    ticks: { color: "#8ea1b4", callback: function (value) { return "R$ " + value.toLocaleString("pt-BR"); } },
+                    grid: { color: "#10435f" }
+                }
+            }
+        }
+    });
+
+    // Gráfico 3: Distribuição Volumétrica de Severidade (Doughnut)
+    let ctxDonut = document.getElementById("canvasPerda").getContext("2d");
+    instDonut = new Chart(ctxDonut, {
+        type: "doughnut",
+        data: {
+            labels: ["Normal", "Moderado", "Alto", "Crítico"],
+            datasets: [
+                {
+                    data: [0, 0, 0, 0],
+                    backgroundColor: ["#2ecc71", "#f1c40f", "#e67e22", "#ff3366"],
+                    borderWidth: 0
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: "bottom", labels: { color: "#fff", font: { size: 11 } } } },
+            cutout: "75%"
+        }
+    });
+}
 
 let maquinasRaizClient = [];
 
@@ -13,7 +106,7 @@ if (typeof historicoPorMaquinaGlobal == 'undefined') {
 
 async function buscarDadosS3() {
     try {
-        const resposta = await fetch(S3_API_ENDPOINT, { cache: "no-cache" });
+        const resposta = await fetch(S3_API_ENDPOINT + "?timestamp=" + Date.now(), { cache: "no-cache" });
 
         if (!resposta.ok) {
             throw new Error("HTTP " + resposta.status);
@@ -41,7 +134,7 @@ async function buscarDadosS3() {
                     historicoPorMaquinaGlobal[mac].push(novoLog);
                 }
 
-                if (historicoPorMaquinaGlobal[mac].length > 100) {
+                if (historicoPorMaquinaGlobal[mac].length > 24) {
                     historicoPorMaquinaGlobal[mac].shift();
                 }
             }
@@ -54,7 +147,7 @@ async function buscarDadosS3() {
             maquinasRaizClient = [];
         }
 
-        console.log("[Magnes Financeiro] Dados sincronizados no dicionário global.");
+        console.log("[Magnes Financeiro] Dicionário atualizado. Processando renderização.");
         atualizarDropdownMaquinas();
 
         const select = document.getElementById("selectFiltroEquipamento");
@@ -198,6 +291,7 @@ function renderizarBI() {
         if (alertas.disco || discoUsoInstancia > 90) metricasInternas.push("Disco (" + discoUsoInstancia + "%)");
 
         let componentesTexto = metricasInternas.length > 0 ? metricasInternas.join(", ") : "Nenhum";
+        
         let horaFormatada = log.horario ? log.horario.substring(11, 19) : "00:00:00";
         let conformidadeSLAItem = sla.conformidade != undefined ? sla.conformidade : 0;
         let statusSLAItem = sla.status || "";
@@ -272,107 +366,22 @@ function renderizarBI() {
         }
     }
 
-    // Gráfico 1: Linha Temporal de Performance de SLA
-    if (instSLA) instSLA.destroy();
-    let ctxSLA = document.getElementById("chartSLA").getContext("2d");
-    instSLA = new Chart(ctxSLA, {
-        type: "line",
-        data: {
-            labels: labelsSLA,
-            datasets: [
-                {
-                    label: "Tempo de Atividade (%)",
-                    data: dadosSLA,
-                    borderColor: "#38bdf8",
-                    backgroundColor: "rgba(56,189,248,0.05)",
-                    borderWidth: 3,
-                    pointBackgroundColor: "#fff",
-                    fill: true,
-                    tension: 0.1
-                },
-                {
-                    label: "Meta Acordada",
-                    data: metasSLA,
-                    borderColor: "#ff3366",
-                    borderWidth: 1.5,
-                    borderDash: [5, 5],
-                    pointRadius: 0,
-                    fill: false,
-                    spanGaps: true
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { labels: { color: "#fff" } } },
-            scales: {
-                x: { ticks: { color: "#8ea1b4" }, grid: { display: false } },
-                y: {
-                    max: 100,
-                    beginAtZero: false,
-                    ticks: { color: "#8ea1b4" },
-                    grid: { color: "#10435f" }
-                }
-            }
-        }
-    });
+    if (instSLA) {
+        instSLA.data.labels = labelsSLA;
+        instSLA.data.datasets[0].data = dadosSLA;
+        instSLA.data.datasets[1].data = metasSLA;
+        instSLA.update();
+    }
 
-    // Gráfico 2: Impacto Financeiro Cascata (Waterfall)
-    if (instWaterfall) instWaterfall.destroy();
-    let ctxWaterfall = document.getElementById("chartWaterfall").getContext("2d");
-    instWaterfall = new Chart(ctxWaterfall, {
-        type: "bar",
-        data: {
-            labels: ["Custo Corretiva Potencial", "Economia Preditiva", "Prejuízo Real Absoluto"],
-            datasets: [
-                {
-                    label: "Valores Financeiros",
-                    data: [totalCustoCorretivaPotencial, totalEconomiaPreditiva, prejuizoRealAbsoluto],
-                    backgroundColor: ["#ff7675", "#2ecc71", "#74b9ff"],
-                    borderRadius: 4
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: {
-                x: { ticks: { color: "#8ea1b4" }, grid: { display: false } },
-                y: {
-                    ticks: {
-                        color: "#8ea1b4",
-                        callback: function (value) { return "R$ " + value.toLocaleString("pt-BR"); }
-                    },
-                    grid: { color: "#10435f" }
-                }
-            }
-        }
-    });
+    if (instWaterfall) {
+        instWaterfall.data.datasets[0].data = [totalCustoCorretivaPotencial, totalEconomiaPreditiva, prejuizoRealAbsoluto];
+        instWaterfall.update();
+    }
 
-    // Gráfico 3: Distribuição Volumétrica de Severidade (Doughnut)
-    if (instDonut) instDonut.destroy();
-    let ctxDonut = document.getElementById("canvasPerda").getContext("2d");
-    instDonut = new Chart(ctxDonut, {
-        type: "doughnut",
-        data: {
-            labels: ["Normal", "Moderado", "Alto", "Crítico"],
-            datasets: [
-                {
-                    data: [contNormal, contModerado, contAlto, contCritico],
-                    backgroundColor: ["#2ecc71", "#f1c40f", "#e67e22", "#ff3366"],
-                    borderWidth: 0
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { position: "bottom", labels: { color: "#fff", font: { size: 11 } } } },
-            cutout: "75%"
-        }
-    });
+    if (instDonut) {
+        instDonut.data.datasets[0].data = [contNormal, contModerado, contAlto, contCritico];
+        instDonut.update();
+    }
 
     const eBairro = document.getElementById("info-bairro");
     const eCidade = document.getElementById("info-cidade");
@@ -413,6 +422,9 @@ document.addEventListener("DOMContentLoaded", function () {
     if (select) {
         select.addEventListener("change", renderizarBI);
     }
+    
+    inicializarGraficos();
+    
     buscarDadosS3();
     setInterval(buscarDadosS3, REFRESH_INTERVAL_MS);
 });
