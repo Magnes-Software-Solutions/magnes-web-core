@@ -146,86 +146,6 @@
             </div>
         </section>
     </main>
-
-    <div class="modal fade" id="modalAdicional" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-
-                <div id="etapa1">
-                    <div class="modal-header d-flex justify-content-center">
-                        <h5 class="modal-title">Cadastro Concluído!</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body text-center" style="color: black;">
-                        <p>A workstation e o hospital foram registrados.</p>
-                        <hr>
-                        <h5>Deseja cadastrar mais um componente adicional?</h5>
-                        <p>Isso permite alocar componentes além de CPU, RAM e Disco.</p>
-                    </div>
-                    <div class="modal-footer justify-content-center">
-                        <button type="button" class="botao-magnes" onclick="proximaEtapa()">Sim, cadastrar
-                            adicional</button>
-                        <button type="button" class="botao-magnes" onclick="finalizarTudo()">Não, finalizar</button>
-                    </div>
-                </div>
-
-                <div id="etapa2" style="display: none;">
-                    <div class="modal-header d-flex justify-content-center">
-                        <h5 class="modal-title">Componentes Adicionais</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p class="text-center" style="color: black;">Selecione quais hardwares deseja monitorar nesta
-                            máquina:</p>
-                        <div class="list-group">
-                            <label class="list-group-item d-flex gap-2">
-                                <input class="form-check-input flex-shrink-0" type="checkbox" value="Rede"
-                                    id="check_rede">
-                                <span>
-                                    Placa de Rede
-                                    <small class="d-block text-body-secondary">Monitoramento de latência e
-                                        tráfego</small>
-                                </span>
-                            </label>
-                            <label class="list-group-item d-flex gap-2">
-                                <input class="form-check-input flex-shrink-0" type="checkbox" value="GPU"
-                                    id="check_gpu">
-                                <span>
-                                    Placa de Vídeo (GPU)
-                                    <small class="d-block text-body-secondary">Monitoramento de temperatura e uso de
-                                        VRAM</small>
-                                </span>
-                            </label>
-                            <label class="list-group-item d-flex gap-2">
-                                <input class="form-check-input flex-shrink-0" type="checkbox" value="USB"
-                                    id="check_usb">
-                                <span>
-                                    Dispositivos USB
-                                    <small class="d-block text-body-secondary">Monitoramento de conexões e
-                                        desconexões</small>
-                                </span>
-                            </label>
-                            <label class="list-group-item d-flex gap-2">
-                                <input class="form-check-input flex-shrink-0" type="checkbox" value="USB"
-                                    id="check_usb">
-                                <span>
-                                    Processos
-                                    <small class="d-block text-body-secondary">Monitoramento de processos
-                                        realizados</small>
-                                </span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="modal-footer justify-content-center">
-                        <button type="button" class="botao-magnes" onclick="salvarComponentes()">Salvar e
-                            Finalizar</button>
-                        <button type="button" class="botao-magnes" onclick="voltarEtapa()">Voltar</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
 </body>
 
 </html>
@@ -236,34 +156,6 @@
 <script src="../js/sessao.js"></script>
 <script>
     var bootstrapModal;
-
-    function cadastrarComponente() {
-        voltarEtapa();
-        bootstrapModal = new bootstrap.Modal(document.getElementById('modalAdicional'));
-        bootstrapModal.show();
-    }
-
-    function proximaEtapa() {
-        document.getElementById('etapa1').style.display = 'none';
-        document.getElementById('etapa2').style.display = 'block';
-    }
-
-    function voltarEtapa() {
-        document.getElementById('etapa1').style.display = 'block';
-        document.getElementById('etapa2').style.display = 'none';
-    }
-
-    function salvarComponentes() {
-
-        alert("Componentes adicionados com sucesso!");
-
-        finalizarTudo();
-    }
-
-    function finalizarTudo() {
-        window.location.href = "dashAnalistaGestor.html";
-        window.location.href = "dashGestor.html";
-    }
 
     async function cadastrarEnderecoHospital() {
 
@@ -301,7 +193,6 @@
     
     lista_mac = [];
     async function cadastrarMaquina() {
-
         const numeroSerie = input_numSerie.value;
         const tipoModelo = input_tipoModelo.value;
         const macAddress = input_macAddress.value;
@@ -326,72 +217,25 @@
             return;
         }
 
-        //const respostaBusca = await buscarIdEnderecoHospitalService(input_cep.value, input_numeroHospital.value);
-
         await cadastrarEnderecoHospital();
         await buscarIdEnderecoHospital();
-        await cadastrarComponenteBD();
-        await cadastrarComponente();
         cadastrarComponentesMaquina();
-
-        // if (respostaBusca.ok) { 
-        //     const json = await respostaBusca.json();
-
-        //     if (json.length > 0) {
-        //         sessionStorage.ID_ENDERECO_HOSPITAL = json[0].idEnderecoHospital;
-        //         alert("Endereço do Hospital já existe e foi vinculado à máquina.");
-        //         return;
-        //     }
-        //     else {
-        //     }
-        // }
-        // else {
-        //     alert('Erro ao buscar ID do endereço do hospital: ' + respostaBusca.mensagem);
-        //     return;
-        // }
 
         const resposta = await cadastrarMaquinaService(macAddress, numeroSerie, tipoModelo, sessionStorage.FK_REDE_HOSPITAL, sessionStorage.ID_ENDERECO_HOSPITAL)
         if (resposta.ok) {
             console.log('Máquina cadastrada com sucesso!');
+
         } else {
             console.log('Erro ao cadastrar máquina: ' + resposta.mensagem);
         }
 
     }
 
-    async function cadastrarComponenteBD() {
-
-        ListaNomeComponentes = ["CPU", "RAM", "Disco"];
-        ListaTipoComponentes = ["Unidade central de processamento", "Memória de acesso aleatório", "Disco rígido"];
-        ListaUnidadeMedida = ["Hertz(Hz)", "Gigabyte(GB)", "Terabyte(TB)"];
-        ListaCapacidadeMaxima = ["100", "70", "1"];
-
-        for (var i = 0; i < 3; i++) {
-
-            const nomeComponente = ListaNomeComponentes[i];
-            const tipoComponente = ListaTipoComponentes[i];
-            const unidadeMedida = ListaUnidadeMedida[i];
-            const capacidadeMaxima = ListaCapacidadeMaxima[i];
-
-            const resposta = await cadastrarComponenteService(nomeComponente, tipoComponente, unidadeMedida, capacidadeMaxima)
-
-            if (resposta.ok) {
-                respostaOk = true;
-            } else {
-                respostaOk = false;
-            }
-        }
-
-        if (respostaOk) {
-            console.log('Componente cadastrado com sucesso!');
-        } else {
-            console.log('Erro ao cadastrar componente: ' + resposta.mensagem);
-        }
-    }
-
     async function cadastrarComponentesMaquina() {
         ListaIdsComponentes = [];
-        ListaLimites = ["100", "70", "700"];
+        //               disco, ram, cpu
+        ListaLimites = ["70", "70", "80"];
+
 
         const respostaBusca = await buscarIdsComponenteService();
 
@@ -406,16 +250,19 @@
             return null;
         }
 
+        let respostaCadastro
         for (var i = 0; i < 3; i++) {
             const idComponenteAtual = ListaIdsComponentes[i];
             const limiteAtual = ListaLimites[i];
 
-            const respostaCadastro = await cadastrarComponenteMaquinaService(sessionStorage.MAC_ADDRESS, idComponenteAtual, limiteAtual);
+            respostaCadastro = await cadastrarComponenteMaquinaService(sessionStorage.MAC_ADDRESS, idComponenteAtual, limiteAtual);
         }
+
         if (respostaCadastro.ok) {
-            alert('Componentes vinculados à máquina com sucesso!');
+            alert('Máquina cadastrada com sucesso!');
+
         } else {
-            alert('Erro ao vincular componentes à máquina: ' + respostaCadastro.mensagem);
+            alert('Erro ao cadastrar máquina: ' + respostaCadastro.sqlMensagem);
         }
     }
 

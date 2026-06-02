@@ -6,6 +6,7 @@
     "dev": "nodemon app.js"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.1057.0",
     "@aws-sdk/client-s3": "^3.1048.0",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",

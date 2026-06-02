@@ -20,6 +20,21 @@ async function carregarDados() {
     }
 }
 
+function formatarHora(dataHora) {
+    return dataHora.split(" ")[1].slice(0, 5);
+}
+
+function plotarKpi(total, critico, atencao, estavel) {
+    document.getElementById("kpiTotal").innerHTML = total
+
+    document.getElementById("kpiCritico").innerHTML = critico
+
+    document.getElementById("kpiAtencao").innerHTML = atencao
+
+    document.getElementById("kpiEstavel").innerHTML = estavel
+
+}
+
 function classificarCor(cardAtual, componente, variavel, valor) {
     let itens = [];
     let itensStatus = [];
@@ -28,20 +43,26 @@ function classificarCor(cardAtual, componente, variavel, valor) {
 
     if (variavel == "indice_saude") {
         itensStatus = cardAtual.querySelectorAll(`.${variavel}`)
-        valor = valor.split("/")[0]
+        valor = Number(valor.split("/")[0])
 
         if (valor > 75) {
             corStatus = "statusVerde";
+            estavel++
 
         } else if (valor > 50) {
             corStatus = "statusAmarelo";
+            atencao++
 
         } else if (valor <= 50) {
             corStatus = "statusVermelho";
+            critico++
 
         } else {
             corStatus = "statusAzul"
         }
+
+        total++
+
 
     } else if (variavel == "status") {
         itensStatus = cardAtual.querySelectorAll(`.status_${componente}`);
@@ -132,13 +153,21 @@ function classificarCor(cardAtual, componente, variavel, valor) {
     });
 }
 
+let total = 0;
+let critico = 0;
+let atencao = 0;
+let estavel = 0;
+
 function chamarCor(cardAtual, elemento) {
+    classificarCor(cardAtual, null, "indice_saude", elemento.indiceSaude);
+
     var componentes = ["cpu", "ram", "disco"];
-    var variaveis = ["indice_saude", "status", "oscilacao", "degradacao", "previsao100"];
+    var variaveis = ["status", "oscilacao", "degradacao", "previsao100"];
 
     for (let componente of componentes) {
         for (let variavel of variaveis) {
-            let valor
+
+            let valor;
 
             if (variavel == "indice_saude") {
                 valor = elemento.indiceSaude;
@@ -153,10 +182,272 @@ function chamarCor(cardAtual, elemento) {
             classificarCor(cardAtual, componente, variavel, valor);
         }
     }
+
+    plotarKpi(total, critico, atencao, estavel);
+}
+
+function plotarGraficoCpu(maquina) {
+    let labels= [];
+
+    // Gráfico Uso CPU
+    let dadosCpuUso = {
+        labels: labels,
+        datasets: [{
+            label: 'Porcentagem por Horário',
+            data: [],
+            borderColor: 'rgba(170, 0, 255, 1)',
+            fill: true,
+            backgroundColor: 'rgba(170, 0, 255, 0.4)',
+            borderWidth: 3,
+            tension: 0.2,
+            pointRadius: 1,
+            pointHoverRadius: 6,
+            pointHoverBorderWidth: 2,
+            pointHoverBorderColor: '#ffffff',
+            pointHoverBackgroundColor: '#ffffff'
+        }]
+    };
+
+    let optionsCpuUso = {
+        interaction: {
+            mode: 'index',
+            intersect: false
+        },
+        hover: {
+            mode: 'index',
+            intersect: false
+        },
+        plugins: {
+            annotation: {
+                annotations: {
+                    linhaLimite: {
+                        type: 'line',
+                        yMin: maquina.cpu.limite,
+                        yMax: maquina.cpu.limite,
+                        borderColor: 'rgba(0, 212, 249, 1)',
+                        borderWidth: 2,
+                        label: {
+                            content: `Em uso > ${maquina.cpu.limite}%`, //possivel erro
+                            font: {
+                                size: 14
+                            },
+                            enabled: true,
+                            position: 'start',
+                            backgroundColor: '#1a3555',
+                            color: 'rgba(0, 212, 249, 1)',
+                            borderWidth: 0.3,
+                            borderColor: 'rgba(0, 212, 249, 1)'
+                        }
+                    }
+                }
+            },
+            legend: {
+                display: true,
+                labels: {
+                    color: '#ffffff'
+                }
+            },
+            tooltip: {
+                enabled: true,
+                backgroundColor: '#1a3555',
+                titleColor: '#7a92b0',
+                bodyColor: 'rgba(0, 212, 249, 1)',
+                borderColor: '#2b5876',
+                borderWidth: 1,
+                displayColors: false
+            },
+            title: {
+                display: true,
+                color: '#ffffff'
+            }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: '#7a92b0'
+                },
+                grid: {
+                    color: '#1f3652'
+                },
+                title: {
+                    display: true,
+                    text: 'Horário',
+                    color: '#7a92b0',
+                    font: {
+                        size: 14
+                    }
+                }
+            },
+            y: {
+                ticks: {
+                    color: '#7a92b0'
+                },
+                grid: {
+                    color: '#1f3652',
+                    borderDash: [5, 5]
+                },
+                min: 0,
+                max: 100,
+                title: {
+                    display: true,
+                    text: 'CPU (%)',
+                    color: '#7a92b0',
+                    font: {
+                        size: 14
+                    }
+                }
+            }
+        }
+    }
+
+    // Gráfico Regressão CPU
+    let dadosCpuReg = {
+        datasets: [{
+            label: 'Porcentagem por Horário',
+            data: [],
+            showLine: false,
+            borderColor: 'rgb(0, 255, 68)',
+            fill: true,
+            backgroundColor: 'rgba(48, 138, 52, 0.4)',
+            borderWidth: 3,
+            tension: 0.2,
+            pointRadius: 3,
+            pointHoverRadius: 6,
+            pointHoverBorderWidth: 2,
+            pointHoverBorderColor: '#ffffff',
+            pointHoverBackgroundColor: '#ffffff'
+        }]
+    };
+
+    let optionsCpuReg = {
+        interaction: {
+            mode: 'index',
+            intersect: false
+        },
+        hover: {
+            mode: 'index',
+            intersect: false
+        },
+        plugins: {
+            annotation: {
+                annotations: maquina.cpu.previsao.reta.length > 0
+                    ? {
+                        linhaRegressao: {
+                            type: 'line',
+                            xMin: formatarHora( maquina.cpu.previsao.reta[0].x),
+                            yMin: maquina.cpu.previsao.reta[0].y,
+
+                            xMax: formatarHora(maquina.cpu.previsao.reta[1].x),
+                            yMax: maquina.cpu.previsao.reta[1].y,
+                            borderColor: 'red',
+                            borderWidth: 2
+                        }
+                    }
+                    : {}
+            },
+            legend: {
+                display: true,
+                labels: {
+                    color: '#ffffff'
+                }
+            },
+            tooltip: {
+                enabled: true,
+                backgroundColor: '#1a3555',
+                titleColor: '#7a92b0',
+                bodyColor: 'rgba(0, 212, 249, 1)',
+                borderColor: '#2b5876',
+                borderWidth: 1,
+                displayColors: false
+            },
+            title: {
+                display: true,
+                color: '#ffffff'
+            }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: '#7a92b0'
+                },
+                grid: {
+                    color: '#1f3652'
+                },
+                title: {
+                    display: true,
+                    text: 'Horário',
+                    color: '#7a92b0',
+                    font: {
+                        size: 14
+                    }
+                },
+                type: 'category'
+            },
+            y: {
+                ticks: {
+                    color: '#7a92b0'
+                },
+                grid: {
+                    color: '#1f3652',
+                    borderDash: [5, 5]
+                },
+                min: 0,
+                max: 100,
+                title: {
+                    display: true,
+                    text: 'CPU (%)',
+                    color: '#7a92b0',
+                    font: {
+                        size: 14
+                    }
+                }
+            }
+        }
+    }
+
+    // Adicionando Dados
+    const horaFormatada = formatarHora(maquina.horario);
+    labels.push(horaFormatada)
+    dadosCpuUso.datasets[0].data.push(maquina.cpu.uso)
+    dadosCpuReg.datasets[0].data.push({x: horaFormatada, y: maquina.cpu.uso})
+
+    // Criando estrutura para plotar gráficos
+    const configUso = {
+        type: 'line',
+        data: dadosCpuUso,
+        options: optionsCpuUso
+    };
+
+    const configReg = {
+        type: 'line',
+        data: dadosCpuReg,
+        options: optionsCpuReg
+    };
+
+    // Adicionando gráfico criado em div na tela
+    let cpuUso = new Chart(
+        document.getElementById(`grafUsoCpu_${maquina.macAddress}`),
+        configUso
+    );
+
+    let cpuRegressao = new Chart(
+        document.getElementById(`grafRegCpu_${maquina.macAddress}`),
+        configReg
+    );
+
+    // setTimeout(() => atualizarGrafico(idAquario, dados, myChart), 2000);
 }
 
 async function exibirMRI(registro) {
     var maquinas = registro.maquinas;
+
+    maquinas.sort((a, b) => {
+        const saudeA = Number(a.indiceSaude.split("/")[0]);
+        const saudeB = Number(b.indiceSaude.split("/")[0]);
+
+        return saudeA - saudeB;
+    });
+
     maquinas.forEach(maquina => {
         var hora = maquina.horario.split(" ")
         hora = hora[1].slice(0, 5);
@@ -328,7 +619,7 @@ async function exibirMRI(registro) {
                 </dialog>
                 <div class="col">
                     <div class="card cardMaquina"
-                        onclick="document.getElementById('dialogGraf_${maquina.macAddress}').showModal(), criarGrafico1()">
+                        onclick="document.getElementById('dialogGraf_${maquina.macAddress}').showModal()">
                         <div class="card-body bodyMaquina">
                             <div class="bodyMaquina-header">
                                 <p class="macAddressCard">${maquina.macAddress}</p>
@@ -431,6 +722,7 @@ async function exibirMRI(registro) {
         const cardAtual = cards.lastElementChild;
 
         chamarCor(cardAtual, maquina)
+        plotarGraficoCpu(maquina)
     });
 }
 

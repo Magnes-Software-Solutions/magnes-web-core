@@ -1,4 +1,3 @@
-// Configurações Globais
 const S3_API_ENDPOINT = "/client";
 const REFRESH_INTERVAL_MS = 60000;
 
@@ -7,7 +6,10 @@ var instSLA;
 var instWaterfall;
 
 let maquinasRaizClient = [];
-let logsHistoricoClient = [];
+
+if (typeof logsHistoricoClientGlobal == 'undefined') {
+    var logsHistoricoClientGlobal = []; 
+}
 
 async function buscarDadosS3() {
     try {
@@ -22,29 +24,36 @@ async function buscarDadosS3() {
         if (dados && Array.isArray(dados.maquinas)) {
             maquinasRaizClient = dados.maquinas;
 
-            if (dados.historico && Array.isArray(dados.historico)) {
-                let listaExpandida = [];
-                for (let i = 0; i < dados.historico.length; i++) {
-                    const htmlLog = dados.historico[i];
-                    if (htmlLog && Array.isArray(htmlLog.registros)) {
-                        for (let j = 0; j < htmlLog.registros.length; j++) {
-                            let registroMapeado = Object.assign({}, htmlLog.registros[j]);
-                            registroMapeado.macAddress = htmlLog.macAddress;
-                            registroMapeado.empresa = htmlLog.empresa;
-                            listaExpandida.push(registroMapeado);
-                        }
-                    }
+            for (let i = 0; i < dados.maquinas.length; i++) {
+                const maquinaAtual = dados.maquinas[i];
+                
+                const jaExiste = logsHistoricoClientGlobal.some(log => 
+                    log.macAddress == maquinaAtual.macAddress && log.horario == maquinaAtual.horario
+                );
+
+                if (!jaExiste) {
+                    let novoLog = Object.assign({}, maquinaAtual);
+                    logsHistoricoClientGlobal.push(novoLog);
                 }
-                logsHistoricoClient = listaExpandida;
-            } else {
-                logsHistoricoClient = dados.maquinas;
             }
+
+            logsHistoricoClient = logsHistoricoClientGlobal;
+
+            if (logsHistoricoClientGlobal.length > 100) {
+                logsHistoricoClientGlobal.shift();
+            }
+
+
+            if (!dados.kpis) {
+                dados.kpis = {};
+            }
+
         } else {
             maquinasRaizClient = [];
-            logsHistoricoClient = [];
+            logsHistoricoClient = logsHistoricoClientGlobal;
         }
 
-        console.log("[Magnes Financeiro] Dados sincronizados.");
+        console.log("[Magnes Financeiro] Dados sincronizados em tempo real. Histórico acumulado:", logsHistoricoClient.length);
         atualizarDropdownMaquinas();
 
         const select = document.getElementById("selectFiltroEquipamento");
@@ -146,6 +155,25 @@ function renderizarBI() {
     }
     var contagemTotalMaquinas = listaMacsUnicosGlobal.length;
 
+    for (let k = 0; k < maquinasRaizClient.length; k++) {
+        const maq = maquinasRaizClient[k];
+        if (maq.financeiroDashboard && maq.financeiroDashboard.indicadores) {
+            const sevGlobal = String(maq.financeiroDashboard.indicadores.severidade || "").toUpperCase().trim();
+            
+            if (sevGlobal == "CRITICO" || sevGlobal == "CRÍTICO") {
+                contCritico++;
+            } else if (sevGlobal == "ALTO" || sevGlobal == "PERIGO") {
+                contAlto++;
+            } else if (sevGlobal == "MODERADO" || sevGlobal == "ALERTA") {
+                contModerado++;
+            } else {
+                contNormal++;
+            }
+        } else {
+            contNormal++;
+        }
+    }
+
     for (let i = 0; i < dadosFiltrados.length; i++) {
         const log = dadosFiltrados[i];
         const fd = log.financeiroDashboard || { indicadores: {}, financeiro: {}, alertas: {}, sla: {} };
@@ -165,25 +193,20 @@ function renderizarBI() {
         var legendaRegra = "Sem Gargalos";
 
         if (statusGeral == "CRITICO" || statusGeral == "CRÍTICO") {
-            contCritico++;
             classeBadge = "badge-critico";
             textoSeveridade = "Crítico";
             legendaRegra = "Fora de Operação";
         } else if (statusGeral == "ALTO" || statusGeral == "PERIGO") {
-            contAlto++;
             classeBadge = "badge-alerta";
             textoSeveridade = "Alto";
             legendaRegra = "Risco de Interrupção";
         } else if (statusGeral == "MODERADO" || statusGeral == "ALERTA") {
-            contModerado++;
             classeBadge = "badge-moderado";
             textoSeveridade = "Moderado";
             legendaRegra = "Lentidão Detectada";
-        } else {
-            contNormal++;
         }
 
-        let cpuUsoInstancia = (log.cpu && log.cpu.uso != undefined) ? log.cpu.uso : 0;
+        let cpuUsoInstancia = (log.financeiroDashboard && log.financeiroDashboard.metricas && log.financeiroDashboard.metricas.cpuSimulado != undefined) ? log.financeiroDashboard.metricas.cpuSimulado : 0;
         let ramUsoInstancia = (log.ram && log.ram.uso != undefined) ? log.ram.uso : (log.ramUso || 0);
         let discoUsoInstancia = (log.disco && log.disco.uso != undefined) ? log.disco.uso : 0;
 
@@ -265,7 +288,7 @@ function renderizarBI() {
         }
     }
 
-    // Gráfico 1: Linha Temporal de Performance de SLA vs Meta do Cliente
+    // Gráfico 1: Linha Temporal de Performance de SLA
     if (instSLA) instSLA.destroy();
     let ctxSLA = document.getElementById("chartSLA").getContext("2d");
     instSLA = new Chart(ctxSLA, {
@@ -306,10 +329,9 @@ function renderizarBI() {
         }
     });
 
-    // Gráfico 2: Impacto Financeiro Cascata (Waterfall) com Calibragem de Escala Unificada
+    // Gráfico 2: Impacto Financeiro Cascata (Waterfall)
     if (instWaterfall) instWaterfall.destroy();
     let ctxWaterfall = document.getElementById("chartWaterfall").getContext("2d");
-
     instWaterfall = new Chart(ctxWaterfall, {
         type: "bar",
         data: {
@@ -340,7 +362,7 @@ function renderizarBI() {
         }
     });
 
-    // Gráfico 3: Distribuição Volumétrica de Severidade (Doughnut)
+    // Gráfico 3: Distribuição Volumétrica de Severidade (Doughnut) - ATUALIZADO GLOBAL
     if (instDonut) instDonut.destroy();
     let ctxDonut = document.getElementById("canvasPerda").getContext("2d");
     instDonut = new Chart(ctxDonut, {
@@ -368,7 +390,6 @@ function renderizarBI() {
 
     if (eBairro || eCidade) {
         const maqOriginal = maquinasRaizClient.find(m => m.macAddress == filtroMac);
-
         if (maqOriginal && maqOriginal.financeiro && maqOriginal.financeiro.localizacao) {
             const loc = maqOriginal.financeiro.localizacao;
             if (eBairro) eBairro.innerText = loc.bairro || "";

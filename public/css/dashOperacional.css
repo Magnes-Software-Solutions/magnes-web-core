@@ -190,7 +190,8 @@
 
 .bodyImg p {
     font-size: 15px;
-    font-size: bolder;
+    font-weight: bolder;
+    margin-bottom: 0px;
 }
 
 /* Status verde */

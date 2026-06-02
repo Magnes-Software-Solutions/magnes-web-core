@@ -11,10 +11,6 @@ routes.post("/autenticar", function (req, res) {
     user.autenticar(req, res);
 })
 
-routes.post("/cadastrarEmpresa", async (req, res) => {
-    await user.cadastrarEmpresa(req, res)
-})
-
 routes.post("/cadastrarFuncionario", async (req, res) => {
     await user.cadastrarFuncionario(req, res)
 })

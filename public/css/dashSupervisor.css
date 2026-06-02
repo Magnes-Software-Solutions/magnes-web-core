@@ -28,6 +28,9 @@ body {
   
 }
 
+.div_ultima_atualizacao {
+ font-size: 14px;
+}
 /* =========================================================
    CONTAINER PRINCIPAL DOS CARDS E CONTEÚDO
 ========================================================= */
@@ -171,14 +174,20 @@ body {
   background-color: #0f1e31;
   padding: 10px;
   border-radius: 10px;
-  margin-top: 10px;
+  width: 300px;
+
+  margin-top: 30px;
+
+  display: flex;
+  flex-direction: column;
 }
 
 /* Botão para abrir Jira */
 
 .ver-jira {
   display: inline-block;
-  margin-top: 400px;
+  margin-top: 20px;
+
   padding: 10px 20px;
   background-color: #0f2a44;
   color: #00d4f9;
@@ -680,13 +689,8 @@ canvas {
 }
 
 .icone-interrogacao:hover {
-
-  background-color: #00d4f9;
-  color: #0a1628;
-
-  transform: scale(1.08);
-
-  box-shadow: 0 0 12px rgba(0, 212, 249, 0.5);
+    background-color: #1b2c46;
+    border-color: #33ddff;
 }
 
 
@@ -815,4 +819,39 @@ canvas {
   color: #ff5c5c;
   font-weight: bold;
   cursor: pointer;
+}
+
+.btnAtualizar {
+    background-color: #132135;
+    color: white;
+    margin-top:10px;
+    border: 1px solid #00d4f9;
+    border-radius: 50%;
+
+    padding: 8px 16px;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    font-size: 14px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition: background-color 0.2s ease,
+                border-color 0.2s ease;
+}
+
+.btnAtualizar:hover {
+    background-color: #1b2c46;
+    border-color: #33ddff;
+}
+
+.btnAtualizar i {
+    font-size: 16px;
+}
+
+.ferramentasDash {
+  margin-left:20px;
 }
