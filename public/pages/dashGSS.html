@@ -318,8 +318,18 @@
     var hospitalSelecionado = null;
     var maquinaSelecionada = null;
 
+    var servidor = "32.196.169.135";
+    // Função para atualizar a dashboard, chamada ao clicar no botão de atualizar ou ao selecionar uma máquina
+    async function atualizarDashboard() {
 
+    await receberAlertasJira();
+    await carregarDados();
 
+    // Atualiza o gráfico da máquina já selecionada
+    if (maquinaSelecionada) {
+        selecionarMaquina();
+    }
+}
     // LINK JIRA
 
 
@@ -359,7 +369,7 @@
       try {
 
         var resposta =
-          await fetch("http://localhost:3333/jira/tickets");
+          await fetch(`http://${servidor}:3333/jira/tickets`);
 
         var issues = await resposta.json();
 
@@ -436,7 +446,7 @@
         document.getElementById("select_rede");
 
       var resposta =
-        await fetch("http://localhost:3333/client");
+        await fetch(`http://${servidor}:3333/client`);
 
       var respostaJson = await resposta.json();
       var dados = respostaJson.maquinas;
@@ -492,7 +502,7 @@
     async function carregarMaquinas() {
 
       var resposta =
-        await fetch("http://localhost:3333/client");
+        await fetch(`http://${servidor}:3333/client`);
 
       var respostaJson = await resposta.json();
       var dados = respostaJson.maquinas;
@@ -618,7 +628,7 @@
     async function carregarDados() {
 
       var resposta =
-        await fetch("http://localhost:3333/client");
+        await fetch(`http://${servidor}:3333/client`);
 
       var respostaJson = await resposta.json();
       var todos = respostaJson.maquinas;
