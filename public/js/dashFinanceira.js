@@ -8,7 +8,7 @@ var instWaterfall;
 let maquinasRaizClient = [];
 
 if (typeof logsHistoricoClientGlobal == 'undefined') {
-    var logsHistoricoClientGlobal = []; 
+    var logsHistoricoClientGlobal = [];
 }
 
 async function buscarDadosS3() {
@@ -26,8 +26,8 @@ async function buscarDadosS3() {
 
             for (let i = 0; i < dados.maquinas.length; i++) {
                 const maquinaAtual = dados.maquinas[i];
-                
-                const jaExiste = logsHistoricoClientGlobal.some(log => 
+
+                const jaExiste = logsHistoricoClientGlobal.some(log =>
                     log.macAddress == maquinaAtual.macAddress && log.horario == maquinaAtual.horario
                 );
 
@@ -42,7 +42,6 @@ async function buscarDadosS3() {
             if (logsHistoricoClientGlobal.length > 100) {
                 logsHistoricoClientGlobal.shift();
             }
-
 
             if (!dados.kpis) {
                 dados.kpis = {};
@@ -88,7 +87,7 @@ function atualizarDropdownMaquinas() {
         const mac = macsUnicos[k];
         const opt = document.createElement("option");
         opt.value = mac;
-        opt.textContent = "Workstation 01 (" + mac.slice(-5) + ")";
+        opt.textContent = "Workstation (" + mac.slice(-5) + ")";
         select.appendChild(opt);
     }
 
@@ -159,7 +158,7 @@ function renderizarBI() {
         const maq = maquinasRaizClient[k];
         if (maq.financeiroDashboard && maq.financeiroDashboard.indicadores) {
             const sevGlobal = String(maq.financeiroDashboard.indicadores.severidade || "").toUpperCase().trim();
-            
+
             if (sevGlobal == "CRITICO" || sevGlobal == "CRÍTICO") {
                 contCritico++;
             } else if (sevGlobal == "ALTO" || sevGlobal == "PERIGO") {
@@ -176,18 +175,18 @@ function renderizarBI() {
 
     for (let i = 0; i < dadosFiltrados.length; i++) {
         const log = dadosFiltrados[i];
-        const fd = log.financeiroDashboard || { indicadores: {}, financeiro: {}, alertas: {}, sla: {} };
+        const fd = log.financeiroDashboard || {};
+        const indicadores = fd.indicadores || {};
+        const financeiroDashboardMetricas = fd.financeiro || {};
+        const alertas = fd.alertas || {};
+        const sla = fd.sla || {};
+        const financeiroRaiz = log.financeiro || {};
 
-        if (!fd.indicadores) fd.indicadores = {};
-        if (!fd.financeiro) fd.financeiro = {};
-        if (!fd.alertas) fd.alertas = {};
-        if (!fd.sla) fd.sla = {};
+        acumuladoIndisponibilidade += (financeiroDashboardMetricas.perdaTotal || 0);
+        acumuladoLucroPreservado += (financeiroDashboardMetricas.lucroPreservado || 0);
+        totalEconomiaPreditiva += (financeiroDashboardMetricas.lucroPreservado || 0);
 
-        acumuladoIndisponibilidade += (fd.financeiro.perdaTotal || 0);
-        acumuladoLucroPreservado += (fd.financeiro.lucroPreservado || 0);
-        totalEconomiaPreditiva += (fd.financeiro.lucroPreservado || 0);
-
-        var statusGeral = String(fd.indicadores.severidade || "").toUpperCase();
+        var statusGeral = String(indicadores.severidade || "").toUpperCase();
         var classeBadge = "badge-estavel";
         var textoSeveridade = "Normal";
         var legendaRegra = "Sem Gargalos";
@@ -206,19 +205,19 @@ function renderizarBI() {
             legendaRegra = "Lentidão Detectada";
         }
 
-        let cpuUsoInstancia = (log.financeiroDashboard && log.financeiroDashboard.metricas && log.financeiroDashboard.metricas.cpuSimulado != undefined) ? log.financeiroDashboard.metricas.cpuSimulado : 0;
+        let cpuUsoInstancia = (fd.metricas && fd.metricas.cpuSimulado != undefined) ? fd.metricas.cpuSimulado : 0;
         let ramUsoInstancia = (log.ram && log.ram.uso != undefined) ? log.ram.uso : (log.ramUso || 0);
         let discoUsoInstancia = (log.disco && log.disco.uso != undefined) ? log.disco.uso : 0;
 
         let metricasInternas = [];
-        if (fd.alertas.cpu || cpuUsoInstancia > 80) metricasInternas.push("CPU (" + cpuUsoInstancia + "%)");
-        if (fd.alertas.ram || ramUsoInstancia > 80) metricasInternas.push("RAM (" + ramUsoInstancia + "%)");
-        if (fd.alertas.disco || discoUsoInstancia > 90) metricasInternas.push("Disco (" + discoUsoInstancia + "%)");
+        if (alertas.cpu || cpuUsoInstancia > 80) metricasInternas.push("CPU (" + cpuUsoInstancia + "%)");
+        if (alertas.ram || ramUsoInstancia > 80) metricasInternas.push("RAM (" + ramUsoInstancia + "%)");
+        if (alertas.disco || discoUsoInstancia > 90) metricasInternas.push("Disco (" + discoUsoInstancia + "%)");
 
         let componentesTexto = metricasInternas.length > 0 ? metricasInternas.join(", ") : "Nenhum";
         let horaFormatada = log.horario ? log.horario.substring(11, 19) : "00:00:00";
-        let conformidadeSLAItem = fd.sla.conformidade != undefined ? fd.sla.conformidade : 0;
-        let statusSLAItem = fd.sla.status || "";
+        let conformidadeSLAItem = sla.conformidade != undefined ? sla.conformidade : 0;
+        let statusSLAItem = sla.status || "";
 
         htmlFeed += `
         <tr>
@@ -235,7 +234,7 @@ function renderizarBI() {
                     SLA: ${(conformidadeSLAItem).toFixed(2)}%
                 </div>
                 <small style="color: #7a92b0;">
-                    Perda: R$ ${(fd.financeiro.perdaTotal || 0).toFixed(2)}
+                    Perda: R$ ${(financeiroDashboardMetricas.perdaTotal || 0).toFixed(2)}
                 </small>
             </td>
         </tr>
@@ -244,7 +243,9 @@ function renderizarBI() {
         if (log.horario) {
             labelsSLA.push(log.horario.substring(11, 16));
             dadosSLA.push(conformidadeSLAItem);
-            metasSLA.push(fd.sla.meta != undefined ? fd.sla.meta : null);
+
+            let metaValor = financeiroRaiz.metaSLA != undefined ? financeiroRaiz.metaSLA : 98.5;
+            metasSLA.push(metaValor);
         }
     }
 
@@ -288,7 +289,7 @@ function renderizarBI() {
         }
     }
 
-    // Gráfico 1: Linha Temporal de Performance de SLA
+    // Gráfico 1: Linha Temporal de Performance de SLA (RE-RENDERIZADO COM AS CORREÇÕES)
     if (instSLA) instSLA.destroy();
     let ctxSLA = document.getElementById("chartSLA").getContext("2d");
     instSLA = new Chart(ctxSLA, {
@@ -324,7 +325,12 @@ function renderizarBI() {
             plugins: { legend: { labels: { color: "#fff" } } },
             scales: {
                 x: { ticks: { color: "#8ea1b4" }, grid: { display: false } },
-                y: { ticks: { color: "#8ea1b4" }, grid: { color: "#10435f" } }
+                y: {
+                    max: 100,
+                    beginAtZero: false,
+                    ticks: { color: "#8ea1b4" },
+                    grid: { color: "#10435f" }
+                }
             }
         }
     });
@@ -362,7 +368,7 @@ function renderizarBI() {
         }
     });
 
-    // Gráfico 3: Distribuição Volumétrica de Severidade (Doughnut) - ATUALIZADO GLOBAL
+    // Gráfico 3: Distribuição Volumétrica de Severidade (Doughnut)
     if (instDonut) instDonut.destroy();
     let ctxDonut = document.getElementById("canvasPerda").getContext("2d");
     instDonut = new Chart(ctxDonut, {
