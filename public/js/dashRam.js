@@ -252,10 +252,13 @@ async function puxarGraficoRam() {
     });
 }
 
+setInterval(atualizarDados,30000);
 
-puxarDadosKpis();
-puxarDadosRanking();
-puxarGraficoRam();
+function atualizarDados() {
+    puxarDadosKpis();
+    puxarDadosRanking();
+    puxarGraficoRam();
+}   
 
 // Funções auxiliares
 function pegarDashboard() {
