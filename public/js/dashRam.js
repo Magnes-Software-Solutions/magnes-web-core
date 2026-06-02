@@ -3,6 +3,64 @@ console.log("Endpoint S3 definido como:", S3_API_ENDPOINT);
 
 let graficoRamHistorico = null;
 
+function calcularKpisRamPeloHistorico(historico) {
+    if (!Array.isArray(historico)) {
+        return {
+            maiorVariacaoRam: null,
+            piorTendencia: null
+        };
+    }
+
+    const variacoes = [];
+    const tendencias = [];
+
+    historico.forEach(maquina => {
+        const registros = Array.isArray(maquina.registros)
+            ? [...maquina.registros].sort((a, b) => new Date(a.horario) - new Date(b.horario))
+            : [];
+
+        if (registros.length < 2) {
+            return;
+        }
+
+        const penultimo = registros[registros.length - 2];
+        const ultimo = registros[registros.length - 1];
+        const ramUltimo = Number(ultimo.ramUso);
+        const ramPenultimo = Number(penultimo.ramUso);
+
+        if (Number.isNaN(ramUltimo) || Number.isNaN(ramPenultimo)) {
+            return;
+        }
+
+        const variacao = Math.abs(ramUltimo - ramPenultimo);
+        const delta = ramUltimo - ramPenultimo;
+
+        variacoes.push({
+            macAddress: maquina.macAddress,
+            empresa: maquina.empresa || ultimo.empresa,
+            variacao: Number(variacao.toFixed(2)),
+            ultimo: ramUltimo,
+            penultimo: ramPenultimo
+        });
+
+        tendencias.push({
+            macAddress: maquina.macAddress,
+            empresa: maquina.empresa || ultimo.empresa,
+            delta: Number(delta.toFixed(2)),
+            ramUso: ramUltimo
+        });
+    });
+
+    return {
+        maiorVariacaoRam: variacoes.length
+            ? variacoes.reduce((maior, atual) => atual.variacao > maior.variacao ? atual : maior)
+            : null,
+        piorTendencia: tendencias.length
+            ? tendencias.reduce((maior, atual) => atual.delta > maior.delta ? atual : maior)
+            : null
+    };
+}
+
 
 async function puxarDadosKpis() {
     try {
@@ -22,6 +80,10 @@ async function puxarDadosKpis() {
 
         console.log("Resposta do bucket:", resposta);
 
+        const kpisHistorico = calcularKpisRamPeloHistorico(dados.historico);
+        const maiorVariacaoRam = dados.kpis.maiorVariacaoRam || kpisHistorico.maiorVariacaoRam;
+        const piorTendencia = dados.kpis.piorTendencia || kpisHistorico.piorTendencia;
+
         document.getElementById('kpi1-mac').innerText =
             dados.kpis.machineMaisCritica.macAddress;
 
@@ -29,16 +91,16 @@ async function puxarDadosKpis() {
             dados.kpis.machineMaisCritica.ramUso + '% uso de RAM';
 
         document.getElementById('kpi2-mac').innerText =
-            dados.kpis.maiorVariacaoRam.macAddress;
+            maiorVariacaoRam ? maiorVariacaoRam.macAddress : 'Sem dados';
 
         document.getElementById('kpi2ocila').innerText =
-            dados.kpis.maiorVariacaoRam.variacao + '% de oscilação de RAM';
+            maiorVariacaoRam ? maiorVariacaoRam.variacao + '% de oscilação de RAM' : 'Aguardando historico';
 
         document.getElementById('kpi3-mac').innerText =
-            dados.kpis.piorTendencia.macAddress;
+            piorTendencia ? piorTendencia.macAddress : 'Sem dados';
 
         document.getElementById('kpi3Delta').innerText =
-            dados.kpis.piorTendencia.delta + '% de aumento no uso de RAM';
+            piorTendencia ? piorTendencia.delta + '% de aumento no uso de RAM' : 'Aguardando historico';
 
         document.getElementById('kpi4TmnGB').innerText =
             dados.kpis.imagemMaisPesada.tamanhoGB + ' GB';
