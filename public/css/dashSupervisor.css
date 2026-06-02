@@ -689,13 +689,8 @@ canvas {
 }
 
 .icone-interrogacao:hover {
-
-  background-color: #00d4f9;
-  color: #0a1628;
-
-  transform: scale(1.08);
-
-  box-shadow: 0 0 12px rgba(0, 212, 249, 0.5);
+    background-color: #1b2c46;
+    border-color: #33ddff;
 }
 
 
