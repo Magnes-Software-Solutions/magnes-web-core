@@ -8,7 +8,7 @@ const { S3Client, GetObjectCommand } = require("@aws-sdk/client-s3");
 const app = express();
 
 const userRoutes = require("./src/routes/userRoute");
-const maquinaRoutes = require("./src/routes/maquinaRoute");
+// const maquinaRoutes = require("./src/routes/maquinaRoute");
 const dashRoutes = require("./src/routes/dashRoute");
 const financeiroRoutes = require("./src/routes/financeiroRoute");
 
@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/user", userRoutes);
-app.use("/maquina", maquinaRoutes);
+// app.use("/maquina", maquinaRoutes);
 app.use("/dash", dashRoutes);
 app.use("/financeiro", financeiroRoutes);
 

@@ -11,18 +11,6 @@ async function loginService(email, senha) {
     }
 }
 
-async function cadastrarEmpresaService(nomeFabricanteVar, cnpjVar, emailEmpresaVar, tel_corporativoVar) {
-    const body = {
-        nomeFabricanteServer: nomeFabricanteVar,
-        cnpjServer: cnpjVar,
-        emailFabricanteServer: emailEmpresaVar,
-        tel_corporativoServer: tel_corporativoVar
-    }
-    const response = await api.post("/user/cadastrarEmpresa", body)
-    console.log(response);
-    return response
-}
-
 async function cadastrarFuncionarioService(nome, email, cpf, telefone, senha, sessionFK_REDE_HOSPITAL, sessionId) {
     const body = {
         nome, email, cpf, telefone, senha, sessionFK_REDE_HOSPITAL, sessionId

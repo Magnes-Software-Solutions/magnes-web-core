@@ -1,18 +1,10 @@
 const database = require('../database/config.js')
 
 function autenticar(email, senha) {
-
     const instrucaoSql = `
     SELECT idUsuario, nome, email, fkSupervisor, fkRedeHospital from usuario WHERE email = '${email}' AND senha = '${senha}'
     `;
     return database.executar(instrucaoSql)
-
-}
-
-function cadastrarEmpresa(nomeFabricante, cnpj, email, tel_corporativo, token) {
-    var instrucaoSql = `INSERT INTO fabricante (nomeFabricante, cnpj, email, tel_corporativo, token, dt_cadastro) 
-    VALUES ('${nomeFabricante}', '${cnpj}', '${email}', '${tel_corporativo}', '${token}', NOW())`
-    return database.executar(instrucaoSql);
 }
 
 function cadastrarFuncionario(nome, email, cpf, telefone, senha, sessionFK_REDE_HOSPITAL, sessionId) {
@@ -21,22 +13,16 @@ function cadastrarFuncionario(nome, email, cpf, telefone, senha, sessionFK_REDE_
     return database.executar(instrucaoSql);
 }
 
-function validarTokenFabricante(token) {
-    var instrucaoSql = `SELECT idFabricante FROM fabricante WHERE token = '${token}'`
-    return database.executar(instrucaoSql)
-}
-
 function atualizarSenha(novaSenha, sessionId) {
     var instrucaoSql = `UPDATE usuario SET senha = '${novaSenha}' WHERE idUsuario = ${sessionId}`
     return database.executar(instrucaoSql);
 }
 
 function cadastrarMaquina(macAddress, numSerie, tipoModelo, sessionREDE_HOSPITAL, sessionEnderecoHospital) {
-    var instrucaoSql = `INSERT INTO maquina (macAddress, numeroSerie, tipoModelo, fkRedeHospital, fkEnderecoHospital) 
-    VALUES ('${macAddress}', '${numSerie}', '${tipoModelo}', '${sessionREDE_HOSPITAL}', '${sessionEnderecoHospital}')`
+    var instrucaoSql = `INSERT INTO maquina (macAddress, numeroSerie, tipoModelo, statusAtividade, fkRedeHospital, fkEnderecoHospital) 
+    VALUES ('${macAddress}', '${numSerie}', '${tipoModelo}', 'Ativo', '${sessionREDE_HOSPITAL}', '${sessionEnderecoHospital}')`
     return database.executar(instrucaoSql);
 }
-
 
 function cadastrarComponente(nomeComponente, tipoComponente, unidadeMedida, capacidadeMaxima){
     var instrucaoSql = `INSERT INTO componente (nomeComponente, tipoComponente, unidadeMedida, capacidadeMaxima) 
@@ -66,10 +52,8 @@ function cadastrarComponenteMaquina(fkMaquina, fkComponente, limite) {
 
 
 module.exports = {
-    cadastrarEmpresa,
     autenticar,
     cadastrarFuncionario,
-    validarTokenFabricante,
     atualizarSenha,
     cadastrarMaquina,
     cadastrarComponente,
