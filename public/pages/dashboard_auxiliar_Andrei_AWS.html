@@ -467,7 +467,7 @@
 
                                 borderWidth:3,
 
-                                pointRadius:4
+                                pointRadius:2
                             },
 
                             {
@@ -565,13 +565,16 @@
                 80
             );
 
+            cpuChart.data.datasets[0].fill = true;
+            cpuChart.data.datasets[0].backgroundColor = 'rgba(170, 0, 255, 0.25)';
+
 
         // TEMPERATURA
 
         const tempChart =
             criarGrafico(
                 'tempChart',
-                'Temperatura',
+                'Temperatura (°C)',
                 '#0095ff',
                 10,
                 40,
@@ -595,7 +598,7 @@
 
                         {
 
-                            label:'Corrente',
+                            label:'Corrente (V)',
 
                             data:[],
 
@@ -605,7 +608,7 @@
 
                             borderWidth:3,
 
-                            pointRadius:4
+                            pointRadius:2
                         },
 
                         {
@@ -663,23 +666,23 @@
                     scales:{
 
                         x:{
-
                             ticks:{
                                 color:'white'
+                            },
+                            grid:{
+                                color:'rgba(255,255,255,0.05)'
                             }
-
                         },
 
                         y:{
-
                             min:80,
-
                             max:170,
-
                             ticks:{
                                 color:'white'
+                            },
+                            grid:{
+                                color:'rgba(255,255,255,0.05)'
                             }
-
                         }
 
                     }
@@ -719,7 +722,7 @@
                                 if(valor < 12){
                                     return '#00ff88cc'; // verde
                                 }
-                                else if(valor < 35){
+                                else if(valor <= 35){
                                     return '#ffd500cc'; // amarelo
                                 }
                                 else{
@@ -781,23 +784,23 @@
                     scales:{
 
                         x:{
-
                             ticks:{
                                 color:'white'
+                            },
+                            grid:{
+                                color:'rgba(255,255,255,0.05)'
                             }
-
                         },
 
                         y:{
-
                             min:0,
-
-                            max:75,
-
+                            max:80,
                             ticks:{
                                 color:'white'
+                            },
+                            grid:{
+                                color:'rgba(255,255,255,0.05)'
                             }
-
                         }
 
                     }
@@ -830,7 +833,31 @@
                 // PEGA ÚLTIMO REGISTRO
                 // =====================================
 
-                const ultimo = dados.maquinas[dados.maquinas.length - 1];
+                // const ultimo = dados.maquinas[dados.maquinas.length - 1];
+
+                // =====================================
+                // PEGA MAC ADDRESS SELECIONADO
+                // =====================================
+
+                const macSelecionado =
+                sessionStorage.getItem("MAC_ADDRESS_ATUAL");
+
+                const registrosDaMaquina =
+                    dados.maquinas.filter(
+                        maquina => maquina.macAddress === macSelecionado
+                    );
+
+                if (registrosDaMaquina.length === 0) {
+                    console.error(
+                        "Nenhum registro encontrado para:",
+                        macSelecionado
+                    );
+                    return;
+                }
+
+                const ultimo =
+                    registrosDaMaquina[registrosDaMaquina.length - 1];
+
 
                 // =====================================
                 // DADOS DO JSON
@@ -1076,7 +1103,7 @@
                     poeiraTexto = 'Baixa';
                     poeiraElemento1.style.color = '#5cff8d';
                     
-                } else if(poeira < 35) {
+                } else if(poeira <= 35) {
                     
                     poeiraTexto = 'Média';
                     poeiraElemento1.style.color = '#ffd633';
@@ -1283,7 +1310,7 @@
 
                 // POEIRA
 
-                else if(cpu > 80 && poeira >= 35){
+                else if(cpu > 80 && poeira > 35){
 
                     diagnosticoHTML = `
 
@@ -1352,7 +1379,7 @@
 
                             <h3 class="critico">
                                 ALERTA DE % DE USO DA CPU
-                                <i data-lucide="triangle-alert" width="27" height="27" style="vertical-align: down;"></i>
+                                <i data-lucide="triangle-alert" width="27" height="27"></i>
                             </h3>
 
                             <p>
