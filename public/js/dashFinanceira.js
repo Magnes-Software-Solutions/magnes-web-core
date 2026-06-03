@@ -11,8 +11,8 @@ function carregarHistoricoLocal() {
     try {
         const raw = localStorage.getItem(HISTORICO_STORAGE_KEY);
         return raw ? JSON.parse(raw) : {};
-    } catch (erro) {
-        console.warn("[Magnes Storage] Não foi possível ler o histórico:", erro);
+    } catch (vassoura) {
+        console.warn("NÃO TÁ CONECTANDO:", vassoura);
         return {};
     }
 }
@@ -20,15 +20,15 @@ function carregarHistoricoLocal() {
 function salvarHistoricoLocal(historico) {
     try {
         localStorage.setItem(HISTORICO_STORAGE_KEY, JSON.stringify(historico));
-    } catch (erro) {
-        console.warn("[Magnes Storage] Erro ao salvar histórico:", erro);
+    } catch (e) {
+        console.warn("TÁ DANDO ERRO TENTANDO SALVAR:", e);
     }
 }
 
 var historicoPorMaquinaGlobal = carregarHistoricoLocal();
 
 function inicializarGraficos() {
-    // Gráfico 1: Linha Temporal de Performance de SLA
+
     const ctxSLA = document.getElementById("chartSLA").getContext("2d");
     instSLA = new Chart(ctxSLA, {
         type: "line",
@@ -63,12 +63,16 @@ function inicializarGraficos() {
             plugins: { legend: { labels: { color: "#fff" } } },
             scales: {
                 x: { ticks: { color: "#8ea1b4" }, grid: { display: false } },
-                y: { max: 100, beginAtZero: false, ticks: { color: "#8ea1b4" }, grid: { color: "#10435f" } }
+                y: {
+                    max: 100,
+                    beginAtZero: false,
+                    ticks: { color: "#8ea1b4" },
+                    grid: { color: "#10435f" }
+                }
             }
         }
     });
 
-    // Gráfico 2: Impacto Financeiro Cascata (Waterfall com Barras Flutuantes)
     const ctxWaterfall = document.getElementById("chartWaterfall").getContext("2d");
     instWaterfall = new Chart(ctxWaterfall, {
         type: "bar",
@@ -76,10 +80,18 @@ function inicializarGraficos() {
             labels: ["Perda Total (Bruta)", "Valor Evitado", "Perda Residual (Real)"],
             datasets: [
                 {
+                    label: "Suporte",
+                    data: [0, 0, 0],
+                    backgroundColor: "transparent",
+                    borderColor: "transparent",
+                    stack: "w1"
+                },
+                {
                     label: "Impacto Financeiro (R$)",
                     data: [0, 0, 0],
                     backgroundColor: ["#ff7675", "#2ecc71", "#74b9ff"],
-                    borderRadius: 4
+                    borderRadius: 4,
+                    stack: "w1"
                 }
             ]
         },
@@ -88,11 +100,18 @@ function inicializarGraficos() {
             maintainAspectRatio: false,
             plugins: { legend: { display: false } },
             scales: {
-                x: { ticks: { color: "#8ea1b4" }, grid: { display: false } },
+                x: {
+                    stacked: true,
+                    ticks: { color: "#8ea1b4" },
+                    grid: { display: false }
+                },
                 y: {
+                    stacked: true,
                     ticks: {
                         color: "#8ea1b4",
-                        callback: function (value) { return "R$ " + value.toLocaleString("pt-BR"); }
+                        callback: function (value) {
+                            return "R$ " + value.toLocaleString("pt-BR");
+                        }
                     },
                     grid: { color: "#10435f" }
                 }
@@ -100,12 +119,14 @@ function inicializarGraficos() {
         }
     });
 
-    // Gráfico 3: Distribuição Volumétrica de Severidade (Doughnut)
     const ctxDonut = document.getElementById("canvasPerda").getContext("2d");
     instDonut = new Chart(ctxDonut, {
         type: "doughnut",
         data: {
-            labels: ["Normal", "Moderado", "Alto", "Crítico"],
+            labels: ["Normal (< 80%)", 
+                "Moderado (≥ 80%)", 
+                "Alto (≥ 90%)", 
+                "Crítico (= 100%)"],
             datasets: [
                 {
                     data: [0, 0, 0, 0],
@@ -118,7 +139,10 @@ function inicializarGraficos() {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-                legend: { position: "bottom", labels: { color: "#fff", font: { size: 11 } } }
+                legend: {
+                    position: "bottom",
+                    labels: { color: "#fff", font: { size: 11 } }
+                }
             },
             cutout: "75%"
         }
@@ -151,7 +175,7 @@ async function buscarDadosS3() {
                 }
 
                 const jaExiste = historicoPorMaquinaGlobal[mac].some(
-                    function (log) { return log.horario == maquinaAtual.horario; }
+                    function (log) { return log.horario === maquinaAtual.horario; }
                 );
 
                 if (!jaExiste) {
@@ -219,7 +243,7 @@ function atualizarDropdownMaquinas() {
 
 function renderizarBI() {
     const select = document.querySelector("select#selectFiltroEquipamento");
-    if (!select || select.options.length == 0) {
+    if (!select || select.options.length === 0) {
         limparTelaSemDados();
         return;
     }
@@ -227,11 +251,12 @@ function renderizarBI() {
     const filtroMac = select.value;
     let dadosFiltrados = (historicoPorMaquinaGlobal[filtroMac] || []).slice();
 
+    // Ordena cronologicamente
     dadosFiltrados.sort(function (a, b) {
         return Date.parse(a.horario.replace(" ", "T")) - Date.parse(b.horario.replace(" ", "T"));
     });
 
-    if (dadosFiltrados.length == 0) {
+    if (dadosFiltrados.length === 0) {
         limparTelaSemDados();
         return;
     }
@@ -262,20 +287,28 @@ function renderizarBI() {
 
     var contagemTotalMaquinas = Object.keys(historicoPorMaquinaGlobal).length;
 
+    // SINCRO DONUT: Varre o histórico local em português para subir junto com a linha do tempo
     const todosOsMacs = Object.keys(historicoPorMaquinaGlobal);
     for (let m = 0; m < todosOsMacs.length; m++) {
         const macDaVez = todosOsMacs[m];
         const logsDaMaquina = historicoPorMaquinaGlobal[macDaVez] || [];
-        
+
         if (logsDaMaquina.length > 0) {
             const ultimoLogMaquina = logsDaMaquina[logsDaMaquina.length - 1];
-            if (ultimoLogMaquina.financeiroDashboard && ultimoLogMaquina.financeiroDashboard.indicadores) {
-                const sevGlobal = String(ultimoLogMaquina.financeiroDashboard.indicadores.severidade || "").toUpperCase().trim();
-                if (sevGlobal == "CRITICO" || sevGlobal == "CRÍTICO") {
+            const painelFinanceiro = ultimoLogMaquina.financeiroDashboard || {};
+            const metricasAtuais = painelFinanceiro.metricas || {};
+            const cpuUsoAtual = metricasAtuais.cpuSimulado != null ? metricasAtuais.cpuSimulado : 0;
+
+            // CPU 100% NO DONUT: Força crítico se o uso estiver no teto
+            if (cpuUsoAtual >= 100) {
+                contCritico++;
+            } else if (painelFinanceiro && painelFinanceiro.indicadores) {
+                const sevGlobal = String(painelFinanceiro.indicadores.severidade || "").toUpperCase().trim();
+                if (sevGlobal === "CRITICO" || sevGlobal === "CRÍTICO") {
                     contCritico++;
-                } else if (sevGlobal == "ALTO" || sevGlobal == "PERIGO") {
+                } else if (sevGlobal === "ALTO" || sevGlobal === "PERIGO") {
                     contAlto++;
-                } else if (sevGlobal == "MODERADO" || sevGlobal == "ALERTA") {
+                } else if (sevGlobal === "MODERADO" || sevGlobal === "ALERTA") {
                     contModerado++;
                 } else {
                     contNormal++;
@@ -283,6 +316,8 @@ function renderizarBI() {
             } else {
                 contNormal++;
             }
+        } else {
+            contNormal++;
         }
     }
 
@@ -302,25 +337,31 @@ function renderizarBI() {
         totalValorEvitado += (fdFin.valorEvitado || 0);
 
         var statusGeral = String(indicadores.severidade || "").toUpperCase();
+        var cpuUsoInstancia = (fd.metricas && fd.metricas.cpuSimulado != null) ? fd.metricas.cpuSimulado : 0;
+
+        // CPU 100% NA LINHA DO TEMPO: Força status crítico nas linhas e badges da tabela
+        if (cpuUsoInstancia >= 100) {
+            statusGeral = "CRITICO";
+        }
+
         var classeBadge = "badge-estavel";
         var textoSeveridade = "Normal";
         var legendaRegra = "Sem Gargalos";
 
-        if (statusGeral == "CRITICO" || statusGeral == "CRÍTICO") {
+        if (statusGeral === "CRITICO" || statusGeral === "CRÍTICO") {
             classeBadge = "badge-critico";
             textoSeveridade = "Crítico";
             legendaRegra = "Fora de Operação";
-        } else if (statusGeral == "ALTO" || statusGeral == "PERIGO") {
+        } else if (statusGeral === "ALTO" || statusGeral === "PERIGO") {
             classeBadge = "badge-alerta";
             textoSeveridade = "Alto";
             legendaRegra = "Risco de Interrupção";
-        } else if (statusGeral == "MODERADO" || statusGeral == "ALERTA") {
+        } else if (statusGeral === "MODERADO" || statusGeral === "ALERTA") {
             classeBadge = "badge-moderado";
             textoSeveridade = "Moderado";
             legendaRegra = "Lentidão Detectada";
         }
 
-        var cpuUsoInstancia = (fd.metricas && fd.metricas.cpuSimulado != null) ? fd.metricas.cpuSimulado : 0;
         var ramUsoInstancia = (log.ram && log.ram.uso != null) ? log.ram.uso : (log.ramUso || 0);
         var discoUsoInstancia = (log.disco && log.disco.uso != null) ? log.disco.uso : 0;
 
@@ -342,7 +383,7 @@ function renderizarBI() {
             '</td>' +
             '<td><span class="' + classeBadge + '">' + textoSeveridade + '</span></td>' +
             '<td>' +
-            '<div style="color:' + (statusSLAItem == "CONFORME" ? "#00ff88" : "#f43f5e") + ';font-weight:600;">' +
+            '<div style="color:' + (statusSLAItem === "CONFORME" ? "#00ff88" : "#f43f5e") + ';font-weight:600;">' +
             'SLA: ' + conformidadeSLAItem.toFixed(2) + '%' +
             '</div>' +
             '<small style="color:#7a92b0;">Perda: R$ ' + (fdFin.perdaTotal || 0).toFixed(2) + '</small>' +
@@ -357,11 +398,17 @@ function renderizarBI() {
     }
 
     var ultimoLog = dadosFiltrados[dadosFiltrados.length - 1];
+
     var perdaResidualReal = Math.max(totalPerdaTotal - totalValorEvitado, 0);
 
     document.getElementById("v-total").innerText = contagemTotalMaquinas;
-    document.getElementById("v-normal").innerText = "R$ " + acumuladoIndisponibilidade.toLocaleString("pt-BR", { minimumFractionDigits: 2 });
-    document.getElementById("v-alerta").innerText = "R$ " + acumuladoLucroPreservado.toLocaleString("pt-BR", { minimumFractionDigits: 2 });
+
+    document.getElementById("v-normal").innerText =
+        "R$ " + acumuladoIndisponibilidade.toLocaleString("pt-BR", { minimumFractionDigits: 2 });
+
+    document.getElementById("v-alerta").innerText =
+        "R$ " + acumuladoLucroPreservado.toLocaleString("pt-BR", { minimumFractionDigits: 2 });
+
     document.getElementById("feedAlertas").innerHTML = htmlFeed;
 
     var iconeSLA = document.querySelector(".kpi-card.danger .kpi-icon-box svg");
@@ -369,17 +416,17 @@ function renderizarBI() {
     var quadradoSLA = document.getElementById("quadradoSLA");
 
     if (elementoSLA && quadradoSLA && ultimoLog) {
-        const lastFD = ultimoLog.financeiroDashboard || {};
-        const lastSLA = lastFD.sla || {};
-        const statusSla = lastSLA.status || "";
-        const valorSla = (lastSLA.conformidade != null ? lastSLA.conformidade : 0).toFixed(2);
+        const painelFinanceiroUltimo = ultimoLog.financeiroDashboard || {};
+        const slaUltimo = painelFinanceiroUltimo.sla || {};
+        const statusSla = slaUltimo.status || "";
+        const valorSla = (slaUltimo.conformidade != null ? slaUltimo.conformidade : 0).toFixed(2);
 
         elementoSLA.innerText = statusSla + " (" + valorSla + "%)";
         elementoSLA.classList.remove("text-status-conforme", "text-status-violado");
         quadradoSLA.classList.remove("quadrado-fundo-conforme", "quadrado-fundo-violado");
         if (iconeSLA) iconeSLA.classList.remove("icon-status-conforme", "icon-status-violado");
 
-        if (statusSla == "VIOLADO") {
+        if (statusSla === "VIOLADO") {
             elementoSLA.classList.add("text-status-violado");
             quadradoSLA.classList.add("quadrado-fundo-violado");
             if (iconeSLA) iconeSLA.classList.add("icon-status-violado");
@@ -398,12 +445,18 @@ function renderizarBI() {
     }
 
     if (instWaterfall) {
-        let baseFlutuanteEvitado = Math.max(totalPerdaTotal - totalValorEvitado, 0);
+        var baseDoValorEvitado = perdaResidualReal;
 
         instWaterfall.data.datasets[0].data = [
-            [0, totalPerdaTotal],
-            [baseFlutuanteEvitado, totalPerdaTotal],
-            [0, perdaResidualReal]
+            0,
+            baseDoValorEvitado,
+            0
+        ];
+
+        instWaterfall.data.datasets[1].data = [
+            totalPerdaTotal,
+            totalValorEvitado,
+            perdaResidualReal
         ];
         instWaterfall.update();
     }
@@ -417,7 +470,7 @@ function renderizarBI() {
     const eCidade = document.getElementById("info-cidade");
 
     if (eBairro || eCidade) {
-        const maqOriginal = maquinasRaizClient.find(function (m) { return m.macAddress == filtroMac; });
+        const maqOriginal = maquinasRaizClient.find(function (m) { return m.macAddress === filtroMac; });
         if (maqOriginal && maqOriginal.financeiro && maqOriginal.financeiro.localizacao) {
             const loc = maqOriginal.financeiro.localizacao;
             if (eBairro) eBairro.innerText = loc.bairro || "";
