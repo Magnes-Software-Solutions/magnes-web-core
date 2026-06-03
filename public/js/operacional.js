@@ -1,7 +1,6 @@
 // const { commonParams } = require("@aws-sdk/client-s3/dist-types/endpoint/EndpointParameters");
 
 const S3_API_ENDPOINT = "/client";
-const REFRESH_INTERVAL_MS = 60000;
 
 async function carregarDados() {
     try {
@@ -14,14 +13,49 @@ async function carregarDados() {
         return registro
 
     } catch (err) {
-        console.log("[S3] Falha — usando mock:", err);
-        const registro = await res.json();
-        console.log("Dados recebidos:", registro);
+        console.log("[ERRO] - Falha ao se conectar com o S3:", err);
     }
 }
 
 function formatarHora(dataHora) {
     return dataHora.split(" ")[1].slice(0, 5);
+}
+
+const historicoMaquinas = {};
+const graficos = {};
+const maquinasRenderizadas = new Set();
+
+function salvarHistorico(maquina) {
+    if (!historicoMaquinas[maquina.macAddress]) {
+        historicoMaquinas[maquina.macAddress] = {
+            cpu: [],
+            ram: [],
+            disco: []
+        };
+    }
+
+    const hora = formatarHora(maquina.horario);
+
+    historicoMaquinas[maquina.macAddress].cpu.push({
+        horario: hora,
+        valor: maquina.cpu.uso
+    });
+
+    historicoMaquinas[maquina.macAddress].ram.push({
+        horario: hora,
+        valor: maquina.ram.uso
+    });
+
+    historicoMaquinas[maquina.macAddress].disco.push({
+        horario: hora,
+        valor: maquina.disco.uso
+    });
+
+    ["cpu", "ram", "disco"].forEach(comp => {
+        if (historicoMaquinas[maquina.macAddress][comp].length > 9) {
+            historicoMaquinas[maquina.macAddress][comp].shift();
+        }
+    });
 }
 
 function plotarKpi(total, critico, atencao, estavel) {
@@ -186,269 +220,503 @@ function chamarCor(cardAtual, elemento) {
     plotarKpi(total, critico, atencao, estavel);
 }
 
-function plotarGraficoCpu(maquina) {
-    let labels= [];
-
-    // Gráfico Uso CPU
-    let dadosCpuUso = {
-        labels: labels,
-        datasets: [{
-            label: 'Porcentagem por Horário',
-            data: [],
-            borderColor: 'rgba(170, 0, 255, 1)',
-            fill: true,
-            backgroundColor: 'rgba(170, 0, 255, 0.4)',
-            borderWidth: 3,
-            tension: 0.2,
-            pointRadius: 1,
-            pointHoverRadius: 6,
-            pointHoverBorderWidth: 2,
-            pointHoverBorderColor: '#ffffff',
-            pointHoverBackgroundColor: '#ffffff'
-        }]
-    };
-
-    let optionsCpuUso = {
-        interaction: {
-            mode: 'index',
-            intersect: false
-        },
-        hover: {
-            mode: 'index',
-            intersect: false
-        },
-        plugins: {
-            annotation: {
-                annotations: {
-                    linhaLimite: {
-                        type: 'line',
-                        yMin: maquina.cpu.limite,
-                        yMax: maquina.cpu.limite,
-                        borderColor: 'rgba(0, 212, 249, 1)',
-                        borderWidth: 2,
-                        label: {
-                            content: `Em uso > ${maquina.cpu.limite}%`, //possivel erro
-                            font: {
-                                size: 14
-                            },
-                            enabled: true,
-                            position: 'start',
-                            backgroundColor: '#1a3555',
-                            color: 'rgba(0, 212, 249, 1)',
-                            borderWidth: 0.3,
-                            borderColor: 'rgba(0, 212, 249, 1)'
-                        }
-                    }
-                }
-            },
-            legend: {
-                display: true,
-                labels: {
-                    color: '#ffffff'
-                }
-            },
-            tooltip: {
-                enabled: true,
-                backgroundColor: '#1a3555',
-                titleColor: '#7a92b0',
-                bodyColor: 'rgba(0, 212, 249, 1)',
-                borderColor: '#2b5876',
-                borderWidth: 1,
-                displayColors: false
-            },
-            title: {
-                display: true,
-                color: '#ffffff'
-            }
-        },
-        scales: {
-            x: {
-                ticks: {
-                    color: '#7a92b0'
-                },
-                grid: {
-                    color: '#1f3652'
-                },
-                title: {
-                    display: true,
-                    text: 'Horário',
-                    color: '#7a92b0',
-                    font: {
-                        size: 14
-                    }
-                }
-            },
-            y: {
-                ticks: {
-                    color: '#7a92b0'
-                },
-                grid: {
-                    color: '#1f3652',
-                    borderDash: [5, 5]
-                },
-                min: 0,
-                max: 100,
-                title: {
-                    display: true,
-                    text: 'CPU (%)',
-                    color: '#7a92b0',
-                    font: {
-                        size: 14
-                    }
-                }
-            }
-        }
+function plotarGrafico(maquina) {
+    if (!graficos[maquina.macAddress]) {
+        graficos[maquina.macAddress] = {};
     }
 
-    // Gráfico Regressão CPU
-    let dadosCpuReg = {
-        datasets: [{
-            label: 'Porcentagem por Horário',
-            data: [],
-            showLine: false,
-            borderColor: 'rgb(0, 255, 68)',
-            fill: true,
-            backgroundColor: 'rgba(48, 138, 52, 0.4)',
-            borderWidth: 3,
-            tension: 0.2,
-            pointRadius: 3,
-            pointHoverRadius: 6,
-            pointHoverBorderWidth: 2,
-            pointHoverBorderColor: '#ffffff',
-            pointHoverBackgroundColor: '#ffffff'
-        }]
-    };
+    // CPU
+    const historicoCpu = historicoMaquinas[maquina.macAddress].cpu;
+    const labelsCpu = []
+    const dadosUsoCpu = []
+    const dadosRegCpu = []
 
-    let optionsCpuReg = {
-        interaction: {
-            mode: 'index',
-            intersect: false
-        },
-        hover: {
-            mode: 'index',
-            intersect: false
-        },
-        plugins: {
-            annotation: {
-                annotations: maquina.cpu.previsao.reta.length > 0
-                    ? {
-                        linhaRegressao: {
-                            type: 'line',
-                            xMin: formatarHora( maquina.cpu.previsao.reta[0].x),
-                            yMin: maquina.cpu.previsao.reta[0].y,
-
-                            xMax: formatarHora(maquina.cpu.previsao.reta[1].x),
-                            yMax: maquina.cpu.previsao.reta[1].y,
-                            borderColor: 'red',
-                            borderWidth: 2
-                        }
-                    }
-                    : {}
-            },
-            legend: {
-                display: true,
-                labels: {
-                    color: '#ffffff'
-                }
-            },
-            tooltip: {
-                enabled: true,
-                backgroundColor: '#1a3555',
-                titleColor: '#7a92b0',
-                bodyColor: 'rgba(0, 212, 249, 1)',
-                borderColor: '#2b5876',
-                borderWidth: 1,
-                displayColors: false
-            },
-            title: {
-                display: true,
-                color: '#ffffff'
-            }
-        },
-        scales: {
-            x: {
-                ticks: {
-                    color: '#7a92b0'
-                },
-                grid: {
-                    color: '#1f3652'
-                },
-                title: {
-                    display: true,
-                    text: 'Horário',
-                    color: '#7a92b0',
-                    font: {
-                        size: 14
-                    }
-                },
-                type: 'category'
-            },
-            y: {
-                ticks: {
-                    color: '#7a92b0'
-                },
-                grid: {
-                    color: '#1f3652',
-                    borderDash: [5, 5]
-                },
-                min: 0,
-                max: 100,
-                title: {
-                    display: true,
-                    text: 'CPU (%)',
-                    color: '#7a92b0',
-                    font: {
-                        size: 14
-                    }
-                }
-            }
-        }
-    }
-
-    // Adicionando Dados
-    const horaFormatada = formatarHora(maquina.horario);
-    labels.push(horaFormatada)
-    dadosCpuUso.datasets[0].data.push(maquina.cpu.uso)
-    dadosCpuReg.datasets[0].data.push({x: horaFormatada, y: maquina.cpu.uso})
-
-    // Criando estrutura para plotar gráficos
-    const configUso = {
-        type: 'line',
-        data: dadosCpuUso,
-        options: optionsCpuUso
-    };
-
-    const configReg = {
-        type: 'line',
-        data: dadosCpuReg,
-        options: optionsCpuReg
-    };
-
-    // Adicionando gráfico criado em div na tela
-    let cpuUso = new Chart(
-        document.getElementById(`grafUsoCpu_${maquina.macAddress}`),
-        configUso
-    );
-
-    let cpuRegressao = new Chart(
-        document.getElementById(`grafRegCpu_${maquina.macAddress}`),
-        configReg
-    );
-
-    // setTimeout(() => atualizarGrafico(idAquario, dados, myChart), 2000);
-}
-
-async function exibirMRI(registro) {
-    var maquinas = registro.maquinas;
-
-    maquinas.sort((a, b) => {
-        const saudeA = Number(a.indiceSaude.split("/")[0]);
-        const saudeB = Number(b.indiceSaude.split("/")[0]);
-
-        return saudeA - saudeB;
+    historicoCpu.forEach(item => {
+        labelsCpu.push(item.horario)
+        dadosUsoCpu.push(item.valor)
+        dadosRegCpu.push({
+            x: item.horario,
+            y: item.valor
+        })
     });
 
+    // Gráfico uso cpu
+    if (!graficos[maquina.macAddress].cpuUso) {
+        graficos[maquina.macAddress].cpuUso = new Chart(
+            document.getElementById(`grafUsoCpu_${maquina.macAddress}`),
+            {
+                type: 'line',
+                data: {
+                    labels: labelsCpu,
+                    datasets: [{
+                        data: dadosUsoCpu,
+                        borderColor: 'rgba(170, 0, 255, 1)',
+                        fill: true,
+                        backgroundColor: 'rgba(170, 0, 255, 0.4)',
+                        borderWidth: 3,
+                        tension: 0.2,
+                        pointRadius: 1,
+                        pointHoverRadius: 6,
+                        pointHoverBorderWidth: 2,
+                        pointHoverBorderColor: '#ffffff',
+                        pointHoverBackgroundColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    hover: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    plugins: {
+                        annotation: {
+                            annotations: {
+                                linhaCritico: {
+                                    type: 'line',
+                                    yMin: maquina.cpu.limite,
+                                    yMax: maquina.cpu.limite,
+                                    borderColor: '#ff3366',
+                                    borderWidth: 2,
+                                    label: {
+                                        content: `Crítico > ${maquina.cpu.limite}%`, //possivel erro
+                                        font: {
+                                            size: 12
+                                        },
+                                        enabled: true,
+                                        position: 'start',
+                                        backgroundColor: '#3e2e4c',
+                                        color: '#ff3366',
+                                        borderWidth: 0.3,
+                                        borderColor: '#ff3366'
+                                    }
+                                },
+                                linhaAtencao: {
+                                    type: 'line',
+                                    yMin: maquina.cpu.limite * 0.80,
+                                    yMax: maquina.cpu.limite * 0.80,
+                                    borderColor: '#ffd500',
+                                    borderWidth: 2,
+                                    label: {
+                                        content: `Anormal > ${maquina.cpu.limite * 0.80}%`, //possivel erro
+                                        font: {
+                                            size: 12
+                                        },
+                                        enabled: true,
+                                        position: 'start',
+                                        backgroundColor: '#3e4a3a',
+                                        color: '#ffd500',
+                                        borderWidth: 0.3,
+                                        borderColor: '#ffd500'
+                                    }
+                                }
+                            }
+                        },
+                        legend: {
+                            display: false,
+                        },
+                        tooltip: {
+                            enabled: true,
+                            backgroundColor: '#1a3555',
+                            titleColor: '#7a92b0',
+                            bodyColor: 'rgba(0, 212, 249, 1)',
+                            borderColor: '#2b5876',
+                            borderWidth: 1,
+                            displayColors: false
+                        },
+                        title: {
+                            display: true,
+                            color: '#ffffff'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: '#7a92b0'
+                            },
+                            grid: {
+                                color: '#1f3652'
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                color: '#7a92b0'
+                            },
+                            grid: {
+                                color: '#1f3652',
+                                borderDash: [5, 5]
+                            },
+                            min: 0,
+                            max: 100
+                        }
+                    }
+                }
+            }
+        );
+
+    } else {
+        graficos[maquina.macAddress].cpuUso.data.labels = labelsCpu;
+        graficos[maquina.macAddress].cpuUso.data.datasets[0].data = dadosUsoCpu;
+        graficos[maquina.macAddress].cpuUso.update();
+    }
+
+    // Gráfico regressao cpu
+    if (!graficos[maquina.macAddress].cpuReg) {
+        graficos[maquina.macAddress].cpuReg = new Chart(
+            document.getElementById(`grafRegCpu_${maquina.macAddress}`),
+            {
+                type: 'line',
+                data: {
+                    labels: labelsCpu,
+                    datasets: [{
+                        label: 'Porcentagem por Horário',
+                        data: dadosRegCpu,
+                        showLine: false,
+                        borderColor: 'rgb(0, 255, 68)',
+                        fill: false,
+                        backgroundColor: 'rgba(48, 138, 52, 0.4)',
+                        borderWidth: 3,
+                        tension: 0.2,
+                        pointRadius: 3,
+                        pointHoverRadius: 6,
+                        pointHoverBorderWidth: 2,
+                        pointHoverBorderColor: '#ffffff',
+                        pointHoverBackgroundColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    hover: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    plugins: {
+                        annotation: {
+                            annotations: maquina.cpu.previsao.reta.length >= 2 && maquina.cpu.previsao.r2 > 0
+                                ? {
+                                    linhaRegressao: {
+                                        type: 'line',
+                                        xMin: formatarHora(maquina.cpu.previsao.reta[0].x),
+                                        yMin: maquina.cpu.previsao.reta[0].y,
+
+                                        xMax: formatarHora(maquina.cpu.previsao.reta[1].x),
+                                        yMax: maquina.cpu.previsao.reta[1].y,
+                                        borderColor: 'rgba(0, 212, 249, 1)',
+                                        borderWidth: 2
+                                    }
+                                }
+                                : {}
+                        },
+                        legend: {
+                            display: true,
+                            labels: {
+                                color: '#ffffff'
+                            }
+                        },
+                        tooltip: {
+                            enabled: true,
+                            backgroundColor: '#1a3555',
+                            titleColor: '#7a92b0',
+                            bodyColor: 'rgba(0, 212, 249, 1)',
+                            borderColor: '#2b5876',
+                            borderWidth: 1,
+                            displayColors: false
+                        },
+                        title: {
+                            display: true,
+                            color: '#ffffff'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: '#7a92b0'
+                            },
+                            grid: {
+                                color: '#1f3652'
+                            },
+                            type: 'category'
+                        },
+                        y: {
+                            ticks: {
+                                color: '#7a92b0'
+                            },
+                            grid: {
+                                color: '#1f3652',
+                                borderDash: [5, 5]
+                            },
+                            min: 0,
+                            max: 100,
+                        }
+                    }
+                }
+            }
+        );
+
+    } else {
+        graficos[maquina.macAddress].cpuReg.data.datasets[0].data = dadosRegCpu;
+        graficos[maquina.macAddress].cpuReg.update();
+    }
+
+
+
+    // RAM
+    const historicoRam = historicoMaquinas[maquina.macAddress].ram;
+    const labelsRam = []
+    const dadosUsoRam = []
+    const dadosRegRam = []
+
+    historicoRam.forEach(item => {
+        labelsRam.push(item.horario)
+        dadosUsoRam.push(item.valor)
+        dadosRegRam.push({
+            x: item.horario,
+            y: item.valor
+        })
+    });
+
+    // Gráfico uso ram
+    if (!graficos[maquina.macAddress].ramUso) {
+        graficos[maquina.macAddress].ramUso = new Chart(
+            document.getElementById(`grafUsoRam_${maquina.macAddress}`),
+            {
+                type: 'line',
+                data: {
+                    labels: labelsRam,
+                    datasets: [{
+                        data: dadosUsoRam,
+                        borderColor: 'rgba(0, 212, 249, 1)',
+                        fill: true,
+                        backgroundColor: 'rgba(0, 212, 249, 0.4)',
+                        borderWidth: 3,
+                        tension: 0.2,
+                        pointRadius: 1,
+                        pointHoverRadius: 6,
+                        pointHoverBorderWidth: 2,
+                        pointHoverBorderColor: '#ffffff',
+                        pointHoverBackgroundColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    hover: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    plugins: {
+                        annotation: {
+                            annotations: {
+                                linhaCritico: {
+                                    type: 'line',
+                                    yMin: maquina.ram.limite,
+                                    yMax: maquina.ram.limite,
+                                    borderColor: '#ff3366',
+                                    borderWidth: 2,
+                                    label: {
+                                        content: `Crítico > ${maquina.ram.limite}%`, //possivel erro
+                                        font: {
+                                            size: 12
+                                        },
+                                        enabled: true,
+                                        position: 'start',
+                                        backgroundColor: '#3e2e4c',
+                                        color: '#ff3366',
+                                        borderWidth: 0.3,
+                                        borderColor: '#ff3366'
+                                    }
+                                },
+                                linhaAtencao: {
+                                    type: 'line',
+                                    yMin: maquina.ram.limite * 0.80,
+                                    yMax: maquina.ram.limite * 0.80,
+                                    borderColor: '#ffd500',
+                                    borderWidth: 2,
+                                    label: {
+                                        content: `Anormal > ${maquina.ram.limite * 0.80}%`, //possivel erro
+                                        font: {
+                                            size: 12
+                                        },
+                                        enabled: true,
+                                        position: 'start',
+                                        backgroundColor: '#3e4a3a',
+                                        color: '#ffd500',
+                                        borderWidth: 0.3,
+                                        borderColor: '#ffd500'
+                                    }
+                                }
+                            }
+                        },
+                        legend: {
+                            display: false,
+                        },
+                        tooltip: {
+                            enabled: true,
+                            backgroundColor: '#1a3555',
+                            titleColor: '#7a92b0',
+                            bodyColor: 'rgba(0, 212, 249, 1)',
+                            borderColor: '#2b5876',
+                            borderWidth: 1,
+                            displayColors: false
+                        },
+                        title: {
+                            display: true,
+                            color: '#ffffff'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: '#7a92b0'
+                            },
+                            grid: {
+                                color: '#1f3652'
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                color: '#7a92b0'
+                            },
+                            grid: {
+                                color: '#1f3652',
+                                borderDash: [5, 5]
+                            },
+                            min: 0,
+                            max: 100
+                        }
+                    }
+                }
+            }
+        );
+
+    } else {
+        graficos[maquina.macAddress].ramUso.data.labels = labelsRam;
+        graficos[maquina.macAddress].ramUso.data.datasets[0].data = dadosUsoRam;
+        graficos[maquina.macAddress].ramUso.update();
+    }
+
+    // Gráfico regressao ram
+    if (!graficos[maquina.macAddress].ramReg) {
+        graficos[maquina.macAddress].ramReg = new Chart(
+            document.getElementById(`grafRegRam_${maquina.macAddress}`),
+            {
+                type: 'line',
+                data: {
+                    labels: labelsRam,
+                    datasets: [{
+                        label: 'Porcentagem por Horário',
+                        data: dadosRegRam,
+                        showLine: false,
+                        borderColor: 'rgb(0, 255, 68)',
+                        fill: false,
+                        backgroundColor: 'rgba(48, 138, 52, 0.4)',
+                        borderWidth: 3,
+                        tension: 0.2,
+                        pointRadius: 3,
+                        pointHoverRadius: 6,
+                        pointHoverBorderWidth: 2,
+                        pointHoverBorderColor: '#ffffff',
+                        pointHoverBackgroundColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    hover: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    plugins: {
+                        annotation: {
+                            annotations: maquina.ram.previsao.reta.length >= 2 && maquina.cpu.previsao.r2 > 0
+                                ? {
+                                    linhaRegressao: {
+                                        type: 'line',
+                                        xMin: formatarHora(maquina.ram.previsao.reta[0].x),
+                                        yMin: maquina.ram.previsao.reta[0].y,
+
+                                        xMax: formatarHora(maquina.ram.previsao.reta[1].x),
+                                        yMax: maquina.ram.previsao.reta[1].y,
+                                        borderColor: 'rgba(0, 212, 249, 1)',
+                                        borderWidth: 2
+                                    }
+                                }
+                                : {}
+                        },
+                        legend: {
+                            display: true,
+                            labels: {
+                                color: '#ffffff'
+                            }
+                        },
+                        tooltip: {
+                            enabled: true,
+                            backgroundColor: '#1a3555',
+                            titleColor: '#7a92b0',
+                            bodyColor: 'rgba(0, 212, 249, 1)',
+                            borderColor: '#2b5876',
+                            borderWidth: 1,
+                            displayColors: false
+                        },
+                        title: {
+                            display: true,
+                            color: '#ffffff'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: '#7a92b0'
+                            },
+                            grid: {
+                                color: '#1f3652'
+                            },
+                            type: 'category'
+                        },
+                        y: {
+                            ticks: {
+                                color: '#7a92b0'
+                            },
+                            grid: {
+                                color: '#1f3652',
+                                borderDash: [5, 5]
+                            },
+                            min: 0,
+                            max: 100,
+                        }
+                    }
+                }
+            }
+        );
+
+    } else {
+        graficos[maquina.macAddress].ramReg.data.datasets[0].data = dadosRegRam;
+        graficos[maquina.macAddress].ramReg.update();
+    }
+
+}
+
+function criarCards(maquinas) {
     maquinas.forEach(maquina => {
+        if (maquinasRenderizadas.has(maquina.macAddress)) {
+            return;
+        }
+
+        maquinasRenderizadas.add(maquina.macAddress);
+
         var hora = maquina.horario.split(" ")
         hora = hora[1].slice(0, 5);
 
@@ -470,9 +738,9 @@ async function exibirMRI(registro) {
                                 <div class="indice_saude bodyImg">
                                     <p>Saúde: ${maquina.indiceSaude}</p>
                                 </div>
-                                <p class="dialogUso-texto">Última atualização às ${hora}</p>
+                                <p class="dialogUso-texto ultimaAtualizacao">Última atualização às ${hora}</p>
                                 <div class="bodyImg bodyImgAzul">
-                                    <p>Em Uso</p>
+                                    <p>Ativo</p>
                                 </div>
                             </div>
                         </div>
@@ -632,7 +900,7 @@ async function exibirMRI(registro) {
                                         <p class="endereco">${maquina.empresa}</p>
                                     </div>
                             <div class="bodyMaquina-body">
-                                <p>Última atualização às ${hora}</p>
+                                <p class="ultimaAtualizacao">Última atualização às ${hora}</p>
                                 <hr>
                                 <div class="componentes">
                                     <div class="componentes-titulo">
@@ -718,22 +986,76 @@ async function exibirMRI(registro) {
                 </div>
             </div>
         `;
-
-        const cardAtual = cards.lastElementChild;
-
-        chamarCor(cardAtual, maquina)
-        plotarGraficoCpu(maquina)
     });
 }
+
+async function exibirMRI(registro) {
+    const maquinas = registro.maquinas;
+
+    total = 0;
+    critico = 0;
+    atencao = 0;
+    estavel = 0;
+
+    maquinas.forEach(maquina => {
+        salvarHistorico(maquina);
+
+        const dialog = document.getElementById(`dialogGraf_${maquina.macAddress}`); 
+
+        let card = null;
+        if (dialog) {
+            card = dialog.closest(".divAuxiliar");
+
+        } else if (!card) {
+            return;
+        }
+
+        chamarCor(card, maquina);
+        plotarGrafico(maquina);
+
+        // Atualiza textos
+        card.querySelectorAll(".uso_cpu").forEach(elemento => {
+            elemento.innerHTML = `${maquina.cpu.uso}%`;
+        });
+
+        card.querySelectorAll(".uso_ram").forEach(elemento => {
+            elemento.innerHTML = `${maquina.ram.uso}%`;
+        });
+
+        card.querySelectorAll(".uso_disco").forEach(elemento => {
+            elemento.innerHTML = `${maquina.disco.uso}%`;
+        });
+
+        const hora = formatarHora(maquina.horario);
+        card.querySelectorAll(".ultimaAtualizacao").forEach(elemento => {
+            elemento.innerHTML = `Última atualização às ${hora}`;
+        });
+    });
+
+    plotarKpi(total, critico, atencao, estavel);
+}
+
 
 function pegarMac(macAddressAtual) {
     console.log(macAddressAtual)
     sessionStorage.setItem("MAC_ADDRESS_ATUAL", macAddressAtual);
 }
 
+// async function atualizarDashboard() {
+//     const dados = await carregarDados();
+//     exibirMRI(dados);
+// }
+
 async function iniciar() {
     const dados = await carregarDados();
+
+    criarCards(dados.maquinas);
     exibirMRI(dados);
+
+    setInterval(async () => {
+        const novosDados = await carregarDados();
+        exibirMRI(novosDados);
+    }, 60000);
 }
 
-iniciar()
+iniciar();
