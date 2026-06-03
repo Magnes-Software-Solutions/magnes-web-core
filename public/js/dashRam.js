@@ -2,6 +2,8 @@ const S3_API_ENDPOINT = "/client";
 console.log("Endpoint S3 definido como:", S3_API_ENDPOINT);
 
 let graficoRamHistorico = null;
+let historicoRamAcumulado = [];
+let atualizandoDadosRam = false;
 
 function calcularKpisRamPeloHistorico(historico) {
     if (!Array.isArray(historico)) {
@@ -136,6 +138,7 @@ async function puxarDadosRanking() {
         }
 
         const dados = await resposta.json();
+        document.getElementById('ranking').innerHTML = '';
 
         console.log("Resposta do bucket:", dados);
         for (var i = 0; i < dados.ranking.length; i++) {
@@ -198,6 +201,84 @@ function formatarDataHoraRam(horario) {
     });
 }
 
+function mesclarHistoricoRam(historicoNovo) {
+    if (!Array.isArray(historicoNovo)) {
+        return historicoRamAcumulado;
+    }
+
+    historicoNovo.forEach(maquinaNova => {
+        if (!maquinaNova || !maquinaNova.macAddress || !Array.isArray(maquinaNova.registros)) {
+            return;
+        }
+
+        let maquinaAtual = historicoRamAcumulado.find(
+            maquina => maquina.macAddress === maquinaNova.macAddress
+        );
+
+        if (!maquinaAtual) {
+            maquinaAtual = {
+                macAddress: maquinaNova.macAddress,
+                empresa: maquinaNova.empresa,
+                registros: []
+            };
+            historicoRamAcumulado.push(maquinaAtual);
+        }
+
+        maquinaAtual.empresa = maquinaNova.empresa || maquinaAtual.empresa;
+
+        maquinaNova.registros.forEach(registroNovo => {
+            const registroExiste = maquinaAtual.registros.some(
+                registro => registro.horario === registroNovo.horario
+            );
+
+            if (!registroExiste) {
+                maquinaAtual.registros.push(registroNovo);
+            }
+        });
+
+        maquinaAtual.registros.sort((a, b) =>
+            new Date(a.horario).getTime() - new Date(b.horario).getTime()
+        );
+    });
+
+    return historicoRamAcumulado;
+}
+
+function montarDadosGraficoRam(historico) {
+    const todosHorarios = historico.flatMap(maquina =>
+        maquina.registros.map(r => r.horario)
+    );
+
+    const labels = [...new Set(todosHorarios)].sort();
+
+    const datasets = historico.map((maquina, indice) => {
+        const cor = corLinhaRam(indice);
+        const valores = labels.map(horario => {
+            const registro = maquina.registros.find(r => r.horario === horario);
+            return registro ? registro.ramUso : null;
+        });
+
+        return {
+            label: maquina.empresa
+                ? `${maquina.empresa} - ${maquina.macAddress}`
+                : maquina.macAddress,
+            data: valores,
+            borderColor: cor,
+            backgroundColor: cor,
+            borderWidth: 2,
+            pointRadius: 3,
+            pointHoverRadius: 5,
+            spanGaps: true,
+            tension: 0.3
+        };
+    });
+
+    return {
+        labels: labels.map(formatarDataHoraRam),
+        datasets
+    };
+}
+
 
 async function puxarGraficoRam() {
 
@@ -209,7 +290,7 @@ async function puxarGraficoRam() {
 
 
     const dadosCompletos = await resposta.json();
-    const historico = dadosCompletos.historico;
+    const historico = mesclarHistoricoRam(dadosCompletos.historico);
 
     const canvas = document.getElementById('historico-caio');
 
@@ -224,43 +305,14 @@ async function puxarGraficoRam() {
         return;
     }
 
-    const todosHorarios = historico.flatMap(maquina =>
-        maquina.registros.map(r => r.horario)
-    );
+    const dadosGrafico = montarDadosGraficoRam(historico);
 
-    const labels = [...new Set(todosHorarios)].sort();
-
-    const datasets = historico.map((maquina, indice) => {
-        const cor = corLinhaRam(indice);
-
-
-        const valores = labels.map(horario => {
-            const registro = maquina.registros.find(r => r.horario === horario);
-            return registro ? registro.ramUso : null;
-        });
-
-        return {
-            label: maquina.macAddress,
-            data: valores,
-            borderColor: cor,
-            backgroundColor: cor,
-            borderWidth: 2,
-            pointRadius: 3,
-            pointHoverRadius: 5,
-            spanGaps: true,
-            tension: 0.3
-        };
-    });
-
-    if (graficoRamHistorico) {
-        graficoRamHistorico.destroy();
-    }
-
-    graficoRamHistorico = new Chart(canvas, {
+    if (!graficoRamHistorico) {
+        graficoRamHistorico = new Chart(canvas, {
         type: 'line',
         data: {
-            labels: labels.map(formatarDataHoraRam),
-            datasets
+            labels: dadosGrafico.labels,
+            datasets: dadosGrafico.datasets
         },
         options: {
             responsive: true,
@@ -311,16 +363,42 @@ async function puxarGraficoRam() {
                 }
             }
         }
-    });
+        });
+        return;
+    }
+
+    graficoRamHistorico.data.labels = dadosGrafico.labels;
+    graficoRamHistorico.data.datasets = dadosGrafico.datasets;
+    graficoRamHistorico.update();
 }
 
 setInterval(atualizarDados,30000);
 
-function atualizarDados() {
-    puxarDadosKpis();
-    puxarDadosRanking();
-    puxarGraficoRam();
+async function atualizarDados() {
+    if (atualizandoDadosRam) {
+        return;
+    }
+
+    atualizandoDadosRam = true;
+
+    try {
+        const resultados = await Promise.allSettled([
+            puxarDadosKpis(),
+            puxarDadosRanking(),
+            puxarGraficoRam()
+        ]);
+
+        resultados.forEach(resultado => {
+            if (resultado.status === 'rejected') {
+                console.error('Erro ao atualizar dashboard RAM:', resultado.reason);
+            }
+        });
+    } finally {
+        atualizandoDadosRam = false;
+    }
 }   
+
+atualizarDados();
 
 // Funções auxiliares
 function pegarDashboard() {
