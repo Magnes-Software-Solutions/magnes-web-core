@@ -175,7 +175,7 @@ async function buscarDadosS3() {
                 }
 
                 const jaExiste = historicoPorMaquinaGlobal[mac].some(
-                    function (log) { return log.horario === maquinaAtual.horario; }
+                    function (log) { return log.horario == maquinaAtual.horario; }
                 );
 
                 if (!jaExiste) {
@@ -243,7 +243,7 @@ function atualizarDropdownMaquinas() {
 
 function renderizarBI() {
     const select = document.querySelector("select#selectFiltroEquipamento");
-    if (!select || select.options.length === 0) {
+    if (!select || select.options.length == 0) {
         limparTelaSemDados();
         return;
     }
@@ -251,12 +251,11 @@ function renderizarBI() {
     const filtroMac = select.value;
     let dadosFiltrados = (historicoPorMaquinaGlobal[filtroMac] || []).slice();
 
-    // Ordena cronologicamente
     dadosFiltrados.sort(function (a, b) {
         return Date.parse(a.horario.replace(" ", "T")) - Date.parse(b.horario.replace(" ", "T"));
     });
 
-    if (dadosFiltrados.length === 0) {
+    if (dadosFiltrados.length == 0) {
         limparTelaSemDados();
         return;
     }
@@ -287,44 +286,10 @@ function renderizarBI() {
 
     var contagemTotalMaquinas = Object.keys(historicoPorMaquinaGlobal).length;
 
-    // SINCRO DONUT: Varre o histórico local em português para subir junto com a linha do tempo
-    const todosOsMacs = Object.keys(historicoPorMaquinaGlobal);
-    for (let m = 0; m < todosOsMacs.length; m++) {
-        const macDaVez = todosOsMacs[m];
-        const logsDaMaquina = historicoPorMaquinaGlobal[macDaVez] || [];
-
-        if (logsDaMaquina.length > 0) {
-            const ultimoLogMaquina = logsDaMaquina[logsDaMaquina.length - 1];
-            const painelFinanceiro = ultimoLogMaquina.financeiroDashboard || {};
-            const metricasAtuais = painelFinanceiro.metricas || {};
-            const cpuUsoAtual = metricasAtuais.cpuSimulado != null ? metricasAtuais.cpuSimulado : 0;
-
-            // CPU 100% NO DONUT: Força crítico se o uso estiver no teto
-            if (cpuUsoAtual >= 100) {
-                contCritico++;
-            } else if (painelFinanceiro && painelFinanceiro.indicadores) {
-                const sevGlobal = String(painelFinanceiro.indicadores.severidade || "").toUpperCase().trim();
-                if (sevGlobal === "CRITICO" || sevGlobal === "CRÍTICO") {
-                    contCritico++;
-                } else if (sevGlobal === "ALTO" || sevGlobal === "PERIGO") {
-                    contAlto++;
-                } else if (sevGlobal === "MODERADO" || sevGlobal === "ALERTA") {
-                    contModerado++;
-                } else {
-                    contNormal++;
-                }
-            } else {
-                contNormal++;
-            }
-        } else {
-            contNormal++;
-        }
-    }
-
     for (let i = 0; i < dadosFiltrados.length; i++) {
         const log = dadosFiltrados[i];
         const fd = log.financeiroDashboard || {};
-        const indicadores = fd.indicadores || {};
+        const indicadores = fd.indicadores || fd.indicators || {};
         const fdFin = fd.financeiro || {};
         const alertas = fd.alertas || {};
         const sla = fd.sla || {};
@@ -336,27 +301,36 @@ function renderizarBI() {
         totalPerdaTotal += (fdFin.perdaTotal || 0);
         totalValorEvitado += (fdFin.valorEvitado || 0);
 
-        var statusGeral = String(indicadores.severidade || "").toUpperCase();
+        var statusGeral = String(indicadores.severidade || "").toUpperCase().trim();
         var cpuUsoInstancia = (fd.metricas && fd.metricas.cpuSimulado != null) ? fd.metricas.cpuSimulado : 0;
 
-        // CPU 100% NA LINHA DO TEMPO: Força status crítico nas linhas e badges da tabela
         if (cpuUsoInstancia >= 100) {
             statusGeral = "CRITICO";
+        }
+
+        if (statusGeral == "CRITICO" || statusGeral == "CRÍTICO") {
+            contCritico++;
+        } else if (statusGeral == "ALTO" || statusGeral == "PERIGO") {
+            contAlto++;
+        } else if (statusGeral == "MODERADO" || statusGeral == "ALERTA") {
+            contModerado++;
+        } else {
+            contNormal++;
         }
 
         var classeBadge = "badge-estavel";
         var textoSeveridade = "Normal";
         var legendaRegra = "Sem Gargalos";
 
-        if (statusGeral === "CRITICO" || statusGeral === "CRÍTICO") {
+        if (statusGeral == "CRITICO" || statusGeral == "CRÍTICO") {
             classeBadge = "badge-critico";
             textoSeveridade = "Crítico";
             legendaRegra = "Fora de Operação";
-        } else if (statusGeral === "ALTO" || statusGeral === "PERIGO") {
+        } else if (statusGeral == "ALTO" || statusGeral == "PERIGO") {
             classeBadge = "badge-alerta";
             textoSeveridade = "Alto";
             legendaRegra = "Risco de Interrupção";
-        } else if (statusGeral === "MODERADO" || statusGeral === "ALERTA") {
+        } else if (statusGeral == "MODERADO" || statusGeral == "ALERTA") {
             classeBadge = "badge-moderado";
             textoSeveridade = "Moderado";
             legendaRegra = "Lentidão Detectada";
@@ -383,7 +357,7 @@ function renderizarBI() {
             '</td>' +
             '<td><span class="' + classeBadge + '">' + textoSeveridade + '</span></td>' +
             '<td>' +
-            '<div style="color:' + (statusSLAItem === "CONFORME" ? "#00ff88" : "#f43f5e") + ';font-weight:600;">' +
+            '<div style="color:' + (statusSLAItem == "CONFORME" ? "#00ff88" : "#f43f5e") + ';font-weight:600;">' +
             'SLA: ' + conformidadeSLAItem.toFixed(2) + '%' +
             '</div>' +
             '<small style="color:#7a92b0;">Perda: R$ ' + (fdFin.perdaTotal || 0).toFixed(2) + '</small>' +
@@ -398,17 +372,13 @@ function renderizarBI() {
     }
 
     var ultimoLog = dadosFiltrados[dadosFiltrados.length - 1];
-
     var perdaResidualReal = Math.max(totalPerdaTotal - totalValorEvitado, 0);
 
     document.getElementById("v-total").innerText = contagemTotalMaquinas;
-
     document.getElementById("v-normal").innerText =
         "R$ " + acumuladoIndisponibilidade.toLocaleString("pt-BR", { minimumFractionDigits: 2 });
-
     document.getElementById("v-alerta").innerText =
         "R$ " + acumuladoLucroPreservado.toLocaleString("pt-BR", { minimumFractionDigits: 2 });
-
     document.getElementById("feedAlertas").innerHTML = htmlFeed;
 
     var iconeSLA = document.querySelector(".kpi-card.danger .kpi-icon-box svg");
@@ -426,7 +396,7 @@ function renderizarBI() {
         quadradoSLA.classList.remove("quadrado-fundo-conforme", "quadrado-fundo-violado");
         if (iconeSLA) iconeSLA.classList.remove("icon-status-conforme", "icon-status-violado");
 
-        if (statusSla === "VIOLADO") {
+        if (statusSla == "VIOLADO") {
             elementoSLA.classList.add("text-status-violado");
             quadradoSLA.classList.add("quadrado-fundo-violado");
             if (iconeSLA) iconeSLA.classList.add("icon-status-violado");
@@ -446,18 +416,8 @@ function renderizarBI() {
 
     if (instWaterfall) {
         var baseDoValorEvitado = perdaResidualReal;
-
-        instWaterfall.data.datasets[0].data = [
-            0,
-            baseDoValorEvitado,
-            0
-        ];
-
-        instWaterfall.data.datasets[1].data = [
-            totalPerdaTotal,
-            totalValorEvitado,
-            perdaResidualReal
-        ];
+        instWaterfall.data.datasets[0].data = [0, baseDoValorEvitado, 0];
+        instWaterfall.data.datasets[1].data = [totalPerdaTotal, totalValorEvitado, perdaResidualReal];
         instWaterfall.update();
     }
 
@@ -470,7 +430,7 @@ function renderizarBI() {
     const eCidade = document.getElementById("info-cidade");
 
     if (eBairro || eCidade) {
-        const maqOriginal = maquinasRaizClient.find(function (m) { return m.macAddress === filtroMac; });
+        const maqOriginal = maquinasRaizClient.find(function (m) { return m.macAddress == filtroMac; });
         if (maqOriginal && maqOriginal.financeiro && maqOriginal.financeiro.localizacao) {
             const loc = maqOriginal.financeiro.localizacao;
             if (eBairro) eBairro.innerText = loc.bairro || "";
