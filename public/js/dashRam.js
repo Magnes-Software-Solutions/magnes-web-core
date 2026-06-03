@@ -2,6 +2,66 @@ const S3_API_ENDPOINT = "/client";
 console.log("Endpoint S3 definido como:", S3_API_ENDPOINT);
 
 let graficoRamHistorico = null;
+let historicoRamAcumulado = [];
+let atualizandoDadosRam = false;
+
+function calcularKpisRamPeloHistorico(historico) {
+    if (!Array.isArray(historico)) {
+        return {
+            maiorVariacaoRam: null,
+            piorTendencia: null
+        };
+    }
+
+    const variacoes = [];
+    const tendencias = [];
+
+    historico.forEach(maquina => {
+        const registros = Array.isArray(maquina.registros)
+            ? [...maquina.registros].sort((a, b) => new Date(a.horario) - new Date(b.horario))
+            : [];
+
+        if (registros.length < 2) {
+            return;
+        }
+
+        const penultimo = registros[registros.length - 2];
+        const ultimo = registros[registros.length - 1];
+        const ramUltimo = Number(ultimo.ramUso);
+        const ramPenultimo = Number(penultimo.ramUso);
+
+        if (Number.isNaN(ramUltimo) || Number.isNaN(ramPenultimo)) {
+            return;
+        }
+
+        const variacao = Math.abs(ramUltimo - ramPenultimo);
+        const delta = ramUltimo - ramPenultimo;
+
+        variacoes.push({
+            macAddress: maquina.macAddress,
+            empresa: maquina.empresa || ultimo.empresa,
+            variacao: Number(variacao.toFixed(2)),
+            ultimo: ramUltimo,
+            penultimo: ramPenultimo
+        });
+
+        tendencias.push({
+            macAddress: maquina.macAddress,
+            empresa: maquina.empresa || ultimo.empresa,
+            delta: Number(delta.toFixed(2)),
+            ramUso: ramUltimo
+        });
+    });
+
+    return {
+        maiorVariacaoRam: variacoes.length
+            ? variacoes.reduce((maior, atual) => atual.variacao > maior.variacao ? atual : maior)
+            : null,
+        piorTendencia: tendencias.length
+            ? tendencias.reduce((maior, atual) => atual.delta > maior.delta ? atual : maior)
+            : null
+    };
+}
 
 
 async function puxarDadosKpis() {
@@ -22,6 +82,10 @@ async function puxarDadosKpis() {
 
         console.log("Resposta do bucket:", resposta);
 
+        const kpisHistorico = calcularKpisRamPeloHistorico(dados.historico);
+        const maiorVariacaoRam = dados.kpis.maiorVariacaoRam || kpisHistorico.maiorVariacaoRam;
+        const piorTendencia = dados.kpis.piorTendencia || kpisHistorico.piorTendencia;
+
         document.getElementById('kpi1-mac').innerText =
             dados.kpis.machineMaisCritica.macAddress;
 
@@ -29,16 +93,16 @@ async function puxarDadosKpis() {
             dados.kpis.machineMaisCritica.ramUso + '% uso de RAM';
 
         document.getElementById('kpi2-mac').innerText =
-            dados.kpis.maiorVariacaoRam.macAddress;
+            maiorVariacaoRam ? maiorVariacaoRam.macAddress : 'Sem dados';
 
         document.getElementById('kpi2ocila').innerText =
-            dados.kpis.maiorVariacaoRam.variacao + '% de oscilação de RAM';
+            maiorVariacaoRam ? maiorVariacaoRam.variacao + '% de oscilação de RAM' : 'Aguardando historico';
 
         document.getElementById('kpi3-mac').innerText =
-            dados.kpis.piorTendencia.macAddress;
+            piorTendencia ? piorTendencia.macAddress : 'Sem dados';
 
         document.getElementById('kpi3Delta').innerText =
-            dados.kpis.piorTendencia.delta + '% de aumento no uso de RAM';
+            piorTendencia ? piorTendencia.delta + '% de aumento no uso de RAM' : 'Aguardando historico';
 
         document.getElementById('kpi4TmnGB').innerText =
             dados.kpis.imagemMaisPesada.tamanhoGB + ' GB';
@@ -74,6 +138,7 @@ async function puxarDadosRanking() {
         }
 
         const dados = await resposta.json();
+        document.getElementById('ranking').innerHTML = '';
 
         console.log("Resposta do bucket:", dados);
         for (var i = 0; i < dados.ranking.length; i++) {
@@ -136,6 +201,84 @@ function formatarDataHoraRam(horario) {
     });
 }
 
+function mesclarHistoricoRam(historicoNovo) {
+    if (!Array.isArray(historicoNovo)) {
+        return historicoRamAcumulado;
+    }
+
+    historicoNovo.forEach(maquinaNova => {
+        if (!maquinaNova || !maquinaNova.macAddress || !Array.isArray(maquinaNova.registros)) {
+            return;
+        }
+
+        let maquinaAtual = historicoRamAcumulado.find(
+            maquina => maquina.macAddress === maquinaNova.macAddress
+        );
+
+        if (!maquinaAtual) {
+            maquinaAtual = {
+                macAddress: maquinaNova.macAddress,
+                empresa: maquinaNova.empresa,
+                registros: []
+            };
+            historicoRamAcumulado.push(maquinaAtual);
+        }
+
+        maquinaAtual.empresa = maquinaNova.empresa || maquinaAtual.empresa;
+
+        maquinaNova.registros.forEach(registroNovo => {
+            const registroExiste = maquinaAtual.registros.some(
+                registro => registro.horario === registroNovo.horario
+            );
+
+            if (!registroExiste) {
+                maquinaAtual.registros.push(registroNovo);
+            }
+        });
+
+        maquinaAtual.registros.sort((a, b) =>
+            new Date(a.horario).getTime() - new Date(b.horario).getTime()
+        );
+    });
+
+    return historicoRamAcumulado;
+}
+
+function montarDadosGraficoRam(historico) {
+    const todosHorarios = historico.flatMap(maquina =>
+        maquina.registros.map(r => r.horario)
+    );
+
+    const labels = [...new Set(todosHorarios)].sort();
+
+    const datasets = historico.map((maquina, indice) => {
+        const cor = corLinhaRam(indice);
+        const valores = labels.map(horario => {
+            const registro = maquina.registros.find(r => r.horario === horario);
+            return registro ? registro.ramUso : null;
+        });
+
+        return {
+            label: maquina.empresa
+                ? `${maquina.empresa} - ${maquina.macAddress}`
+                : maquina.macAddress,
+            data: valores,
+            borderColor: cor,
+            backgroundColor: cor,
+            borderWidth: 2,
+            pointRadius: 3,
+            pointHoverRadius: 5,
+            spanGaps: true,
+            tension: 0.3
+        };
+    });
+
+    return {
+        labels: labels.map(formatarDataHoraRam),
+        datasets
+    };
+}
+
 
 async function puxarGraficoRam() {
 
@@ -147,7 +290,7 @@ async function puxarGraficoRam() {
 
 
     const dadosCompletos = await resposta.json();
-    const historico = dadosCompletos.historico;
+    const historico = mesclarHistoricoRam(dadosCompletos.historico);
 
     const canvas = document.getElementById('historico-caio');
 
@@ -162,100 +305,100 @@ async function puxarGraficoRam() {
         return;
     }
 
-    const todosHorarios = historico.flatMap(maquina =>
-        maquina.registros.map(r => r.horario)
-    );
+    const dadosGrafico = montarDadosGraficoRam(historico);
 
-    const labels = [...new Set(todosHorarios)].sort();
-
-    const datasets = historico.map((maquina, indice) => {
-        const cor = corLinhaRam(indice);
-
-
-        const valores = labels.map(horario => {
-            const registro = maquina.registros.find(r => r.horario === horario);
-            return registro ? registro.ramUso : null;
-        });
-
-        return {
-            label: maquina.macAddress,
-            data: valores,
-            borderColor: cor,
-            backgroundColor: cor,
-            borderWidth: 2,
-            pointRadius: 3,
-            pointHoverRadius: 5,
-            spanGaps: true,
-            tension: 0.3
-        };
-    });
-
-    if (graficoRamHistorico) {
-        graficoRamHistorico.destroy();
-    }
-
-    graficoRamHistorico = new Chart(canvas, {
-        type: 'line',
-        data: {
-            labels: labels.map(formatarDataHoraRam),
-            datasets
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            interaction: {
-                mode: 'index',
-                intersect: false
+    if (!graficoRamHistorico) {
+        graficoRamHistorico = new Chart(canvas, {
+            type: 'line',
+            data: {
+                labels: dadosGrafico.labels,
+                datasets: dadosGrafico.datasets
             },
-            plugins: {
-                legend: {
-                    labels: {
-                        color: '#e2e8f2',
-                        usePointStyle: true,
-                        boxWidth: 8
-                    }
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false
                 },
-                title: {
-                    display: true,
-                    text: 'Uso de RAM das Workstations',
-                    color: '#9ab3d0',
-                    font: {
-                        size: 14,
-                        weight: '600'
-                    }
-                },
-                tooltip: {
-                    callbacks: {
-                        label: (context) =>
-                            `${context.dataset.label}: ${context.parsed.y}% de RAM`
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    ticks: { color: '#9ab3d0', maxRotation: 45 },
-                    grid: { color: 'rgba(154, 179, 208, 0.12)' },
-                    title: { display: true, text: 'Horário', color: '#9ab3d0' }
-                },
-                y: {
-                    beginAtZero: true,
-                    max: 100,
-                    ticks: {
-                        color: '#9ab3d0',
-                        callback: (value) => `${value}%`
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#e2e8f2',
+                            usePointStyle: true,
+                            boxWidth: 8
+                        }
                     },
-                    grid: { color: 'rgba(154, 179, 208, 0.12)' },
-                    title: { display: true, text: 'Uso de RAM', color: '#9ab3d0' }
+                    title: {
+                        display: true,
+                        text: 'Uso de RAM das Workstations',
+                        color: '#9ab3d0',
+                        font: {
+                            size: 14,
+                            weight: '600'
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: (context) =>
+                                `${context.dataset.label}: ${context.parsed.y}% de RAM`
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: { color: '#9ab3d0', maxRotation: 45 },
+                        grid: { color: 'rgba(154, 179, 208, 0.12)' },
+                        title: { display: true, text: 'Horário', color: '#9ab3d0' }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            color: '#9ab3d0',
+                            callback: (value) => `${value}%`
+                        },
+                        grid: { color: 'rgba(154, 179, 208, 0.12)' },
+                        title: { display: true, text: 'Uso de RAM', color: '#9ab3d0' }
+                    }
                 }
             }
-        }
-    });
+        });
+        return;
+    }
+
+    graficoRamHistorico.data.labels = dadosGrafico.labels;
+    graficoRamHistorico.data.datasets = dadosGrafico.datasets;
+    graficoRamHistorico.update();
 }
 
+setInterval(atualizarDados, 60000);
 
-puxarDadosKpis();
-puxarDadosRanking();
-puxarGraficoRam();
+async function atualizarDados() {
+    if (atualizandoDadosRam) {
+        return;
+    }
+
+    atualizandoDadosRam = true;
+
+    try {
+        const resultados = await Promise.allSettled([
+            puxarDadosKpis(),
+            puxarDadosRanking(),
+            puxarGraficoRam()
+        ]);
+
+        resultados.forEach(resultado => {
+            if (resultado.status === 'rejected') {
+                console.error('Erro ao atualizar dashboard RAM:', resultado.reason);
+            }
+        });
+    } finally {
+        atualizandoDadosRam = false;
+    }
+}
+
+atualizarDados();
 
 // Funções auxiliares
 function pegarDashboard() {

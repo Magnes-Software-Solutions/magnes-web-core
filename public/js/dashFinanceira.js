@@ -1,19 +1,159 @@
 const S3_API_ENDPOINT = "/client";
 const REFRESH_INTERVAL_MS = 60000;
+const HISTORICO_STORAGE_KEY = "magnes_historico_financeiro";
+const MAX_PONTOS_POR_MAQUINA = 24;
 
-var instDonut;
 var instSLA;
 var instWaterfall;
+var instDonut;
+
+function carregarHistoricoLocal() {
+    try {
+        const raw = localStorage.getItem(HISTORICO_STORAGE_KEY);
+        return raw ? JSON.parse(raw) : {};
+    } catch (vassoura) {
+        console.warn("NÃO TÁ CONECTANDO:", vassoura);
+        return {};
+    }
+}
+
+function salvarHistoricoLocal(historico) {
+    try {
+        localStorage.setItem(HISTORICO_STORAGE_KEY, JSON.stringify(historico));
+    } catch (e) {
+        console.warn("TÁ DANDO ERRO TENTANDO SALVAR:", e);
+    }
+}
+
+var historicoPorMaquinaGlobal = carregarHistoricoLocal();
+
+function inicializarGraficos() {
+
+    const ctxSLA = document.getElementById("chartSLA").getContext("2d");
+    instSLA = new Chart(ctxSLA, {
+        type: "line",
+        data: {
+            labels: [],
+            datasets: [
+                {
+                    label: "Tempo de Atividade (%)",
+                    data: [],
+                    borderColor: "#38bdf8",
+                    backgroundColor: "rgba(56,189,248,0.05)",
+                    borderWidth: 3,
+                    pointBackgroundColor: "#fff",
+                    fill: true,
+                    tension: 0.1
+                },
+                {
+                    label: "Meta Acordada",
+                    data: [],
+                    borderColor: "#ff3366",
+                    borderWidth: 1.5,
+                    borderDash: [5, 5],
+                    pointRadius: 0,
+                    fill: false,
+                    spanGaps: true
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { labels: { color: "#fff" } } },
+            scales: {
+                x: { ticks: { color: "#8ea1b4" }, grid: { display: false } },
+                y: {
+                    max: 100,
+                    beginAtZero: false,
+                    ticks: { color: "#8ea1b4" },
+                    grid: { color: "#10435f" }
+                }
+            }
+        }
+    });
+
+    const ctxWaterfall = document.getElementById("chartWaterfall").getContext("2d");
+    instWaterfall = new Chart(ctxWaterfall, {
+        type: "bar",
+        data: {
+            labels: ["Perda Total (Bruta)", "Valor Evitado", "Perda Residual (Real)"],
+            datasets: [
+                {
+                    label: "Suporte",
+                    data: [0, 0, 0],
+                    backgroundColor: "transparent",
+                    borderColor: "transparent",
+                    stack: "w1"
+                },
+                {
+                    label: "Impacto Financeiro (R$)",
+                    data: [0, 0, 0],
+                    backgroundColor: ["#ff7675", "#2ecc71", "#74b9ff"],
+                    borderRadius: 4,
+                    stack: "w1"
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: {
+                    stacked: true,
+                    ticks: { color: "#8ea1b4" },
+                    grid: { display: false }
+                },
+                y: {
+                    stacked: true,
+                    ticks: {
+                        color: "#8ea1b4",
+                        callback: function (value) {
+                            return "R$ " + value.toLocaleString("pt-BR");
+                        }
+                    },
+                    grid: { color: "#10435f" }
+                }
+            }
+        }
+    });
+
+    const ctxDonut = document.getElementById("canvasPerda").getContext("2d");
+    instDonut = new Chart(ctxDonut, {
+        type: "doughnut",
+        data: {
+            labels: ["Normal (< 80%)", 
+                "Moderado (≥ 80%)", 
+                "Alto (≥ 90%)", 
+                "Crítico (= 100%)"],
+            datasets: [
+                {
+                    data: [0, 0, 0, 0],
+                    backgroundColor: ["#2ecc71", "#f1c40f", "#e67e22", "#ff3366"],
+                    borderWidth: 0
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: "bottom",
+                    labels: { color: "#fff", font: { size: 11 } }
+                }
+            },
+            cutout: "75%"
+        }
+    });
+}
 
 let maquinasRaizClient = [];
 
-if (typeof logsHistoricoClientGlobal == 'undefined') {
-    var logsHistoricoClientGlobal = []; 
-}
-
 async function buscarDadosS3() {
     try {
-        const resposta = await fetch(S3_API_ENDPOINT, { cache: "no-cache" });
+        const resposta = await fetch(S3_API_ENDPOINT + "?timestamp=" + Date.now(), { cache: "no-cache" });
 
         if (!resposta.ok) {
             throw new Error("HTTP " + resposta.status);
@@ -26,23 +166,28 @@ async function buscarDadosS3() {
 
             for (let i = 0; i < dados.maquinas.length; i++) {
                 const maquinaAtual = dados.maquinas[i];
-                
-                const jaExiste = logsHistoricoClientGlobal.some(log => 
-                    log.macAddress == maquinaAtual.macAddress && log.horario == maquinaAtual.horario
+                const mac = maquinaAtual.macAddress;
+
+                if (!mac) continue;
+
+                if (!historicoPorMaquinaGlobal[mac]) {
+                    historicoPorMaquinaGlobal[mac] = [];
+                }
+
+                const jaExiste = historicoPorMaquinaGlobal[mac].some(
+                    function (log) { return log.horario == maquinaAtual.horario; }
                 );
 
                 if (!jaExiste) {
-                    let novoLog = Object.assign({}, maquinaAtual);
-                    logsHistoricoClientGlobal.push(novoLog);
+                    historicoPorMaquinaGlobal[mac].push(JSON.parse(JSON.stringify(maquinaAtual)));
+                }
+
+                if (historicoPorMaquinaGlobal[mac].length > MAX_PONTOS_POR_MAQUINA) {
+                    historicoPorMaquinaGlobal[mac].shift();
                 }
             }
 
-            logsHistoricoClient = logsHistoricoClientGlobal;
-
-            if (logsHistoricoClientGlobal.length > 100) {
-                logsHistoricoClientGlobal.shift();
-            }
-
+            salvarHistoricoLocal(historicoPorMaquinaGlobal);
 
             if (!dados.kpis) {
                 dados.kpis = {};
@@ -50,13 +195,11 @@ async function buscarDadosS3() {
 
         } else {
             maquinasRaizClient = [];
-            logsHistoricoClient = logsHistoricoClientGlobal;
         }
 
-        console.log("[Magnes Financeiro] Dados sincronizados em tempo real. Histórico acumulado:", logsHistoricoClient.length);
         atualizarDropdownMaquinas();
 
-        const select = document.getElementById("selectFiltroEquipamento");
+        const select = document.querySelector("select#selectFiltroEquipamento");
         if (select && select.options.length > 0 && !select.value) {
             select.selectedIndex = 0;
         }
@@ -70,25 +213,24 @@ async function buscarDadosS3() {
 }
 
 function atualizarDropdownMaquinas() {
-    const select = document.getElementById("selectFiltroEquipamento");
+    const select = document.querySelector("select#selectFiltroEquipamento");
     if (!select) return;
 
-    const macsUnicos = [];
-    for (let i = 0; i < logsHistoricoClient.length; i++) {
-        const log = logsHistoricoClient[i];
-        if (log && log.macAddress && !macsUnicos.includes(log.macAddress)) {
-            macsUnicos.push(log.macAddress);
-        }
-    }
-
+    const macsUnicos = Object.keys(historicoPorMaquinaGlobal);
     const valorSelecionado = select.value;
-    select.innerHTML = '';
+    select.innerHTML = "";
 
     for (let k = 0; k < macsUnicos.length; k++) {
         const mac = macsUnicos[k];
         const opt = document.createElement("option");
         opt.value = mac;
-        opt.textContent = "Workstation 01 (" + mac.slice(-5) + ")";
+
+        const registros = historicoPorMaquinaGlobal[mac];
+        const nomeLabel = (registros && registros.length > 0 && registros[registros.length - 1].nomeMaquina)
+            ? registros[registros.length - 1].nomeMaquina
+            : "Workstation (" + mac.slice(-5) + ")";
+
+        opt.textContent = nomeLabel;
         select.appendChild(opt);
     }
 
@@ -100,21 +242,14 @@ function atualizarDropdownMaquinas() {
 }
 
 function renderizarBI() {
-    const select = document.getElementById("selectFiltroEquipamento");
+    const select = document.querySelector("select#selectFiltroEquipamento");
     if (!select || select.options.length == 0) {
         limparTelaSemDados();
         return;
     }
 
     const filtroMac = select.value;
-    let dadosFiltrados = [];
-
-    for (let i = 0; i < logsHistoricoClient.length; i++) {
-        const log = logsHistoricoClient[i];
-        if (log && log.macAddress == filtroMac) {
-            dadosFiltrados.push(log);
-        }
-    }
+    let dadosFiltrados = (historicoPorMaquinaGlobal[filtroMac] || []).slice();
 
     dadosFiltrados.sort(function (a, b) {
         return Date.parse(a.horario.replace(" ", "T")) - Date.parse(b.horario.replace(" ", "T"));
@@ -127,13 +262,17 @@ function renderizarBI() {
 
     const elementMacLegenda = document.getElementById("kpi-mac-legenda");
     if (elementMacLegenda) {
-        elementMacLegenda.innerText = "MAC: " + filtroMac;
+        const registros = historicoPorMaquinaGlobal[filtroMac];
+        const nomeMaq = (registros && registros.length > 0 && registros[registros.length - 1].nomeMaquina)
+            ? registros[registros.length - 1].nomeMaquina
+            : filtroMac;
+        elementMacLegenda.innerText = "Filtrado: " + nomeMaq;
     }
 
     var acumuladoIndisponibilidade = 0;
     var acumuladoLucroPreservado = 0;
-    var totalCustoCorretivaPotencial = 0;
-    var totalEconomiaPreditiva = 0;
+    var totalPerdaTotal = 0;
+    var totalValorEvitado = 0;
 
     var contNormal = 0;
     var contModerado = 0;
@@ -141,53 +280,44 @@ function renderizarBI() {
     var contCritico = 0;
 
     var htmlFeed = "";
+    var labelsSLA = [];
+    var dadosSLA = [];
+    var metasSLA = [];
 
-    let labelsSLA = [];
-    let dadosSLA = [];
-    let metasSLA = [];
-
-    var listaMacsUnicosGlobal = [];
-    for (var m = 0; m < logsHistoricoClient.length; m++) {
-        var macVarrido = logsHistoricoClient[m].macAddress;
-        if (macVarrido && listaMacsUnicosGlobal.indexOf(macVarrido) == -1) {
-            listaMacsUnicosGlobal.push(macVarrido);
-        }
-    }
-    var contagemTotalMaquinas = listaMacsUnicosGlobal.length;
-
-    for (let k = 0; k < maquinasRaizClient.length; k++) {
-        const maq = maquinasRaizClient[k];
-        if (maq.financeiroDashboard && maq.financeiroDashboard.indicadores) {
-            const sevGlobal = String(maq.financeiroDashboard.indicadores.severidade || "").toUpperCase().trim();
-            
-            if (sevGlobal == "CRITICO" || sevGlobal == "CRÍTICO") {
-                contCritico++;
-            } else if (sevGlobal == "ALTO" || sevGlobal == "PERIGO") {
-                contAlto++;
-            } else if (sevGlobal == "MODERADO" || sevGlobal == "ALERTA") {
-                contModerado++;
-            } else {
-                contNormal++;
-            }
-        } else {
-            contNormal++;
-        }
-    }
+    var contagemTotalMaquinas = Object.keys(historicoPorMaquinaGlobal).length;
 
     for (let i = 0; i < dadosFiltrados.length; i++) {
         const log = dadosFiltrados[i];
-        const fd = log.financeiroDashboard || { indicadores: {}, financeiro: {}, alertas: {}, sla: {} };
+        const fd = log.financeiroDashboard || {};
+        const indicadores = fd.indicadores || fd.indicators || {};
+        const fdFin = fd.financeiro || {};
+        const alertas = fd.alertas || {};
+        const sla = fd.sla || {};
+        const financeiroRaiz = log.financeiro || {};
 
-        if (!fd.indicadores) fd.indicadores = {};
-        if (!fd.financeiro) fd.financeiro = {};
-        if (!fd.alertas) fd.alertas = {};
-        if (!fd.sla) fd.sla = {};
+        acumuladoIndisponibilidade += (fdFin.perdaTotal || 0);
+        acumuladoLucroPreservado += (fdFin.lucroPreservado || 0);
 
-        acumuladoIndisponibilidade += (fd.financeiro.perdaTotal || 0);
-        acumuladoLucroPreservado += (fd.financeiro.lucroPreservado || 0);
-        totalEconomiaPreditiva += (fd.financeiro.lucroPreservado || 0);
+        totalPerdaTotal += (fdFin.perdaTotal || 0);
+        totalValorEvitado += (fdFin.valorEvitado || 0);
 
-        var statusGeral = String(fd.indicadores.severidade || "").toUpperCase();
+        var statusGeral = String(indicadores.severidade || "").toUpperCase().trim();
+        var cpuUsoInstancia = (fd.metricas && fd.metricas.cpuSimulado != null) ? fd.metricas.cpuSimulado : 0;
+
+        if (cpuUsoInstancia >= 100) {
+            statusGeral = "CRITICO";
+        }
+
+        if (statusGeral == "CRITICO" || statusGeral == "CRÍTICO") {
+            contCritico++;
+        } else if (statusGeral == "ALTO" || statusGeral == "PERIGO") {
+            contAlto++;
+        } else if (statusGeral == "MODERADO" || statusGeral == "ALERTA") {
+            contModerado++;
+        } else {
+            contNormal++;
+        }
+
         var classeBadge = "badge-estavel";
         var textoSeveridade = "Normal";
         var legendaRegra = "Sem Gargalos";
@@ -206,190 +336,101 @@ function renderizarBI() {
             legendaRegra = "Lentidão Detectada";
         }
 
-        let cpuUsoInstancia = (log.financeiroDashboard && log.financeiroDashboard.metricas && log.financeiroDashboard.metricas.cpuSimulado != undefined) ? log.financeiroDashboard.metricas.cpuSimulado : 0;
-        let ramUsoInstancia = (log.ram && log.ram.uso != undefined) ? log.ram.uso : (log.ramUso || 0);
-        let discoUsoInstancia = (log.disco && log.disco.uso != undefined) ? log.disco.uso : 0;
+        var ramUsoInstancia = (log.ram && log.ram.uso != null) ? log.ram.uso : (log.ramUso || 0);
+        var discoUsoInstancia = (log.disco && log.disco.uso != null) ? log.disco.uso : 0;
 
-        let metricasInternas = [];
-        if (fd.alertas.cpu || cpuUsoInstancia > 80) metricasInternas.push("CPU (" + cpuUsoInstancia + "%)");
-        if (fd.alertas.ram || ramUsoInstancia > 80) metricasInternas.push("RAM (" + ramUsoInstancia + "%)");
-        if (fd.alertas.disco || discoUsoInstancia > 90) metricasInternas.push("Disco (" + discoUsoInstancia + "%)");
+        var metricasInternas = [];
+        if (alertas.cpu || cpuUsoInstancia > 80) metricasInternas.push("CPU (" + cpuUsoInstancia + "%)");
+        if (alertas.ram || ramUsoInstancia > 80) metricasInternas.push("RAM (" + ramUsoInstancia + "%)");
+        if (alertas.disco || discoUsoInstancia > 90) metricasInternas.push("Disco (" + discoUsoInstancia + "%)");
 
-        let componentesTexto = metricasInternas.length > 0 ? metricasInternas.join(", ") : "Nenhum";
-        let horaFormatada = log.horario ? log.horario.substring(11, 19) : "00:00:00";
-        let conformidadeSLAItem = fd.sla.conformidade != undefined ? fd.sla.conformidade : 0;
-        let statusSLAItem = fd.sla.status || "";
+        var componentesTexto = metricasInternas.length > 0 ? metricasInternas.join(", ") : "Nenhum";
+        var horaFormatada = log.horario ? log.horario.substring(11, 19) : "00:00:00";
+        var conformidadeSLAItem = (sla.conformidade != null) ? sla.conformidade : 0;
+        var statusSLAItem = sla.status || "";
 
-        htmlFeed += `
-        <tr>
-            <td><strong>${horaFormatada}</strong></td>
-            <td>
-                <div style="font-weight: 500;">${legendaRegra}</div>
-                <small style="color: #8ea1b4; font-size: 11px;">
-                    Gargalo: ${componentesTexto}
-                </small>
-            </td>
-            <td><span class="${classeBadge}">${textoSeveridade}</span></td>
-            <td>
-                <div style="color: ${statusSLAItem == "CONFORME" ? "#00ff88" : "#f43f5e"}; font-weight: 600;">
-                    SLA: ${(conformidadeSLAItem).toFixed(2)}%
-                </div>
-                <small style="color: #7a92b0;">
-                    Perda: R$ ${(fd.financeiro.perdaTotal || 0).toFixed(2)}
-                </small>
-            </td>
-        </tr>
-        `;
+        htmlFeed += '<tr>' +
+            '<td><strong>' + horaFormatada + '</strong></td>' +
+            '<td>' +
+            '<div style="font-weight:500;">' + legendaRegra + '</div>' +
+            '<small style="color:#8ea1b4;font-size:11px;">Gargalo: ' + componentesTexto + '</small>' +
+            '</td>' +
+            '<td><span class="' + classeBadge + '">' + textoSeveridade + '</span></td>' +
+            '<td>' +
+            '<div style="color:' + (statusSLAItem == "CONFORME" ? "#00ff88" : "#f43f5e") + ';font-weight:600;">' +
+            'SLA: ' + conformidadeSLAItem.toFixed(2) + '%' +
+            '</div>' +
+            '<small style="color:#7a92b0;">Perda: R$ ' + (fdFin.perdaTotal || 0).toFixed(2) + '</small>' +
+            '</td>' +
+            '</tr>';
 
         if (log.horario) {
             labelsSLA.push(log.horario.substring(11, 16));
             dadosSLA.push(conformidadeSLAItem);
-            metasSLA.push(fd.sla.meta != undefined ? fd.sla.meta : null);
+            metasSLA.push(financeiroRaiz.metaSLA != null ? financeiroRaiz.metaSLA : 98.5);
         }
     }
 
     var ultimoLog = dadosFiltrados[dadosFiltrados.length - 1];
-
-    if (ultimoLog && ultimoLog.financeiro) {
-        totalCustoCorretivaPotencial = ultimoLog.financeiro.custoCorretivaPotencial || 0;
-    } else {
-        totalCustoCorretivaPotencial = 0;
-    }
-
-    let prejuizoRealAbsoluto = Math.max(totalCustoCorretivaPotencial - totalEconomiaPreditiva, 0);
+    var perdaResidualReal = Math.max(totalPerdaTotal - totalValorEvitado, 0);
 
     document.getElementById("v-total").innerText = contagemTotalMaquinas;
-    document.getElementById("v-normal").innerText = "R$ " + acumuladoIndisponibilidade.toLocaleString("pt-BR", { minimumFractionDigits: 2 });
-    document.getElementById("v-alerta").innerText = "R$ " + acumuladoLucroPreservado.toLocaleString("pt-BR", { minimumFractionDigits: 2 });
+    document.getElementById("v-normal").innerText =
+        "R$ " + acumuladoIndisponibilidade.toLocaleString("pt-BR", { minimumFractionDigits: 2 });
+    document.getElementById("v-alerta").innerText =
+        "R$ " + acumuladoLucroPreservado.toLocaleString("pt-BR", { minimumFractionDigits: 2 });
     document.getElementById("feedAlertas").innerHTML = htmlFeed;
 
     var iconeSLA = document.querySelector(".kpi-card.danger .kpi-icon-box svg");
     var elementoSLA = document.getElementById("v-critico");
     var quadradoSLA = document.getElementById("quadradoSLA");
 
-    if (iconeSLA && elementoSLA && quadradoSLA && ultimoLog) {
-        const lastFD = ultimoLog.financeiroDashboard || { sla: {} };
-        const statusSla = lastFD.sla.status || "";
-        const valorSla = (lastFD.sla.conformidade != undefined ? lastFD.sla.conformidade : 0).toFixed(2);
+    if (elementoSLA && quadradoSLA && ultimoLog) {
+        const painelFinanceiroUltimo = ultimoLog.financeiroDashboard || {};
+        const slaUltimo = painelFinanceiroUltimo.sla || {};
+        const statusSla = slaUltimo.status || "";
+        const valorSla = (slaUltimo.conformidade != null ? slaUltimo.conformidade : 0).toFixed(2);
 
         elementoSLA.innerText = statusSla + " (" + valorSla + "%)";
         elementoSLA.classList.remove("text-status-conforme", "text-status-violado");
-        iconeSLA.classList.remove("icon-status-conforme", "icon-status-violado");
         quadradoSLA.classList.remove("quadrado-fundo-conforme", "quadrado-fundo-violado");
+        if (iconeSLA) iconeSLA.classList.remove("icon-status-conforme", "icon-status-violado");
 
         if (statusSla == "VIOLADO") {
             elementoSLA.classList.add("text-status-violado");
-            iconeSLA.classList.add("icon-status-violado");
             quadradoSLA.classList.add("quadrado-fundo-violado");
+            if (iconeSLA) iconeSLA.classList.add("icon-status-violado");
         } else {
             elementoSLA.classList.add("text-status-conforme");
-            iconeSLA.classList.add("icon-status-conforme");
             quadradoSLA.classList.add("quadrado-fundo-conforme");
+            if (iconeSLA) iconeSLA.classList.add("icon-status-conforme");
         }
     }
 
-    // Gráfico 1: Linha Temporal de Performance de SLA
-    if (instSLA) instSLA.destroy();
-    let ctxSLA = document.getElementById("chartSLA").getContext("2d");
-    instSLA = new Chart(ctxSLA, {
-        type: "line",
-        data: {
-            labels: labelsSLA,
-            datasets: [
-                {
-                    label: "Tempo de Atividade (%)",
-                    data: dadosSLA,
-                    borderColor: "#38bdf8",
-                    backgroundColor: "rgba(56,189,248,0.05)",
-                    borderWidth: 3,
-                    pointBackgroundColor: "#fff",
-                    fill: true,
-                    tension: 0.1
-                },
-                {
-                    label: "Meta Acordada",
-                    data: metasSLA,
-                    borderColor: "#ff3366",
-                    borderWidth: 1.5,
-                    borderDash: [5, 5],
-                    pointRadius: 0,
-                    fill: false,
-                    spanGaps: true
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { labels: { color: "#fff" } } },
-            scales: {
-                x: { ticks: { color: "#8ea1b4" }, grid: { display: false } },
-                y: { ticks: { color: "#8ea1b4" }, grid: { color: "#10435f" } }
-            }
-        }
-    });
+    if (instSLA) {
+        instSLA.data.labels = labelsSLA;
+        instSLA.data.datasets[0].data = dadosSLA;
+        instSLA.data.datasets[1].data = metasSLA;
+        instSLA.update();
+    }
 
-    // Gráfico 2: Impacto Financeiro Cascata (Waterfall)
-    if (instWaterfall) instWaterfall.destroy();
-    let ctxWaterfall = document.getElementById("chartWaterfall").getContext("2d");
-    instWaterfall = new Chart(ctxWaterfall, {
-        type: "bar",
-        data: {
-            labels: ["Custo Corretiva Potencial", "Economia Preditiva", "Prejuízo Real Absoluto"],
-            datasets: [
-                {
-                    label: "Valores Financeiros",
-                    data: [totalCustoCorretivaPotencial, totalEconomiaPreditiva, prejuizoRealAbsoluto],
-                    backgroundColor: ["#ff7675", "#2ecc71", "#74b9ff"],
-                    borderRadius: 4
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: {
-                x: { ticks: { color: "#8ea1b4" }, grid: { display: false } },
-                y: {
-                    ticks: {
-                        color: "#8ea1b4",
-                        callback: function (value) { return "R$ " + value.toLocaleString("pt-BR"); }
-                    },
-                    grid: { color: "#10435f" }
-                }
-            }
-        }
-    });
+    if (instWaterfall) {
+        var baseDoValorEvitado = perdaResidualReal;
+        instWaterfall.data.datasets[0].data = [0, baseDoValorEvitado, 0];
+        instWaterfall.data.datasets[1].data = [totalPerdaTotal, totalValorEvitado, perdaResidualReal];
+        instWaterfall.update();
+    }
 
-    // Gráfico 3: Distribuição Volumétrica de Severidade (Doughnut) - ATUALIZADO GLOBAL
-    if (instDonut) instDonut.destroy();
-    let ctxDonut = document.getElementById("canvasPerda").getContext("2d");
-    instDonut = new Chart(ctxDonut, {
-        type: "doughnut",
-        data: {
-            labels: ["Normal", "Moderado", "Alto", "Crítico"],
-            datasets: [
-                {
-                    data: [contNormal, contModerado, contAlto, contCritico],
-                    backgroundColor: ["#2ecc71", "#f1c40f", "#e67e22", "#ff3366"],
-                    borderWidth: 0
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { position: "bottom", labels: { color: "#fff", font: { size: 11 } } } },
-            cutout: "75%"
-        }
-    });
+    if (instDonut) {
+        instDonut.data.datasets[0].data = [contNormal, contModerado, contAlto, contCritico];
+        instDonut.update();
+    }
 
     const eBairro = document.getElementById("info-bairro");
     const eCidade = document.getElementById("info-cidade");
 
     if (eBairro || eCidade) {
-        const maqOriginal = maquinasRaizClient.find(m => m.macAddress == filtroMac);
+        const maqOriginal = maquinasRaizClient.find(function (m) { return m.macAddress == filtroMac; });
         if (maqOriginal && maqOriginal.financeiro && maqOriginal.financeiro.localizacao) {
             const loc = maqOriginal.financeiro.localizacao;
             if (eBairro) eBairro.innerText = loc.bairro || "";
@@ -406,24 +447,24 @@ function exibirModoIndisponivel() {
     document.getElementById("v-normal").innerText = "Indisponível";
     document.getElementById("v-alerta").innerText = "Indisponível";
     document.getElementById("v-critico").innerText = "Sem Conexão";
-    document.getElementById("feedAlertas").innerHTML = `
-    <tr><td colspan="4" style="text-align:center; color:#8ea1b4; padding: 20px;">
-        Erro de pareamento com o arquivo JSON local.
-    </td></tr>`;
+    document.getElementById("feedAlertas").innerHTML =
+        '<tr><td colspan="4" style="text-align:center;color:#8ea1b4;padding:20px;">' +
+        'Erro de pareamento com o arquivo JSON local.</td></tr>';
 }
 
 function limparTelaSemDados() {
-    document.getElementById("feedAlertas").innerHTML = `
-    <tr><td colspan="4" style="text-align:center; color:#8ea1b4; padding: 20px;">
-        Nenhum registro encontrado para este filtro.
-    </td></tr>`;
+    document.getElementById("feedAlertas").innerHTML =
+        '<tr><td colspan="4" style="text-align:center;color:#8ea1b4;padding:20px;">' +
+        'Nenhum registro encontrado para este filtro.</td></tr>';
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    const select = document.getElementById("selectFiltroEquipamento");
+    const select = document.querySelector("select#selectFiltroEquipamento");
     if (select) {
         select.addEventListener("change", renderizarBI);
     }
+
+    inicializarGraficos();
     buscarDadosS3();
     setInterval(buscarDadosS3, REFRESH_INTERVAL_MS);
 });

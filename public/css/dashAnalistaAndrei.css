@@ -76,7 +76,7 @@
 
             padding:20px;
 
-            /* border:1px solid rgba(255,255,255,0.05); */
+            border:1px solid #0095ff45;
 
             transition:0.3s;
         }
@@ -174,18 +174,14 @@
 
         .infoHospital{
 
-            position: absolute;
-
-            top: 120px;
-            right: 60px;
-
             display: flex;
+
             align-items: center;
+
             gap: 20px;
 
-            padding: 20px 30px;
+            margin-bottom:30px;
 
-            z-index: 10;
         }
 
         .iconeHospital{
@@ -270,7 +266,7 @@
 
             padding:20px;
 
-            border:1px solid rgba(255,255,255,0.05);
+            border:1px solid #0095ff45;
 
             min-height:360px;
         }
@@ -436,6 +432,14 @@
                 repeat(3,1fr);
             }
 
+            .infoHospital{
+
+                justify-content:center;
+
+                text-align:center;
+
+            }
+
         }
 
         @media(max-width:900px){
@@ -455,6 +459,44 @@
 
             .diagnostico-grid{
                 grid-template-columns:1fr;
+            }
+
+        }
+
+        @media(max-width:768px){
+
+            .infoHospital{
+
+                flex-direction:column;
+
+                text-align:center;
+
+                gap:12px;
+
+                padding:15px;
+
+            }
+
+            .linhaVertical{
+
+                display:none;
+
+            }
+
+            .dadosHospital h2{
+
+                font-size:1.4rem;
+
+            }
+
+            .enderecoHospital{
+
+                justify-content:center;
+
+                flex-wrap:wrap;
+
+                font-size:0.9rem;
+
             }
 
         }
