@@ -309,60 +309,60 @@ async function puxarGraficoRam() {
 
     if (!graficoRamHistorico) {
         graficoRamHistorico = new Chart(canvas, {
-        type: 'line',
-        data: {
-            labels: dadosGrafico.labels,
-            datasets: dadosGrafico.datasets
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            interaction: {
-                mode: 'index',
-                intersect: false
+            type: 'line',
+            data: {
+                labels: dadosGrafico.labels,
+                datasets: dadosGrafico.datasets
             },
-            plugins: {
-                legend: {
-                    labels: {
-                        color: '#e2e8f2',
-                        usePointStyle: true,
-                        boxWidth: 8
-                    }
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false
                 },
-                title: {
-                    display: true,
-                    text: 'Uso de RAM das Workstations',
-                    color: '#9ab3d0',
-                    font: {
-                        size: 14,
-                        weight: '600'
-                    }
-                },
-                tooltip: {
-                    callbacks: {
-                        label: (context) =>
-                            `${context.dataset.label}: ${context.parsed.y}% de RAM`
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    ticks: { color: '#9ab3d0', maxRotation: 45 },
-                    grid: { color: 'rgba(154, 179, 208, 0.12)' },
-                    title: { display: true, text: 'Horário', color: '#9ab3d0' }
-                },
-                y: {
-                    beginAtZero: true,
-                    max: 100,
-                    ticks: {
-                        color: '#9ab3d0',
-                        callback: (value) => `${value}%`
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#e2e8f2',
+                            usePointStyle: true,
+                            boxWidth: 8
+                        }
                     },
-                    grid: { color: 'rgba(154, 179, 208, 0.12)' },
-                    title: { display: true, text: 'Uso de RAM', color: '#9ab3d0' }
+                    title: {
+                        display: true,
+                        text: 'Uso de RAM das Workstations',
+                        color: '#9ab3d0',
+                        font: {
+                            size: 14,
+                            weight: '600'
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: (context) =>
+                                `${context.dataset.label}: ${context.parsed.y}% de RAM`
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: { color: '#9ab3d0', maxRotation: 45 },
+                        grid: { color: 'rgba(154, 179, 208, 0.12)' },
+                        title: { display: true, text: 'Horário', color: '#9ab3d0' }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            color: '#9ab3d0',
+                            callback: (value) => `${value}%`
+                        },
+                        grid: { color: 'rgba(154, 179, 208, 0.12)' },
+                        title: { display: true, text: 'Uso de RAM', color: '#9ab3d0' }
+                    }
                 }
             }
-        }
         });
         return;
     }
@@ -372,7 +372,7 @@ async function puxarGraficoRam() {
     graficoRamHistorico.update();
 }
 
-setInterval(atualizarDados,60000);
+setInterval(atualizarDados, 60000);
 
 async function atualizarDados() {
     if (atualizandoDadosRam) {
@@ -396,7 +396,7 @@ async function atualizarDados() {
     } finally {
         atualizandoDadosRam = false;
     }
-}   
+}
 
 atualizarDados();
 
