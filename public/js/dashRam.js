@@ -372,7 +372,7 @@ async function puxarGraficoRam() {
     graficoRamHistorico.update();
 }
 
-setInterval(atualizarDados,30000);
+setInterval(atualizarDados,60000);
 
 async function atualizarDados() {
     if (atualizandoDadosRam) {
