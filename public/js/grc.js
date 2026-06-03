@@ -734,102 +734,7 @@ function contarCVEsPorServidor(cves, servidor) {
   return total;
 }
 
-function renderRiscoComposto(maquinas, cves) {
-  const el = document.getElementById("risco-composto-list");
 
-  if (!el) {
-    return;
-  }
-
-  if (maquinas.length === 0) {
-    el.innerHTML = '<div style="color:#7a92b0;font-size:12px;">Sem servidores monitorados</div>';
-    return;
-  }
-
-  let html = "";
-
-  for (let i = 0; i < maquinas.length; i++) {
-    const maquina = maquinas[i];
-    const operacional = limitarPercentual((maquina.cpu + maquina.ram + maquina.disco) / 3);
-    let qtdCVEs = contarCVEsPorServidor(cves, maquina.label);
-
-    if (qtdCVEs === 0) {
-      qtdCVEs = contarCVEsPorServidor(cves, maquina.id);
-    }
-
-    if (qtdCVEs === 0 && maquinas.length === 1) {
-      qtdCVEs = cves.length;
-    }
-
-    const riscoCVE = limitarPercentual(qtdCVEs * 30);
-    const score = limitarPercentual((operacional * 0.65) + (riscoCVE * 0.35));
-
-    let classe = "pill-ok";
-    let texto = "Normal";
-    let corScore = "#4ade80";
-
-    if (score >= 80) {
-      classe = "pill-crit";
-      texto = "Critico";
-      corScore = "#f87171";
-    } else if (score >= 60) {
-      classe = "pill-warn";
-      texto = "Alto";
-      corScore = "#fde68a";
-    }
-
-    html += '<div class="ci">';
-    html += '<div class="ci-srv">' + escapeHtml(maquina.label) + '</div>';
-    html += '<div class="ci-score" style="color:' + corScore + ';">' + score + '</div>';
-    html += '<div class="ci-bars">';
-    html += '<div class="ci-br"><div class="ci-bl">Operac.</div><div class="ci-bk"><div class="ci-bf" style="width:' + operacional + '%; background:#f43f5e;"></div></div></div>';
-    html += '<div class="ci-br"><div class="ci-bl">CVE</div><div class="ci-bk"><div class="ci-bf" style="width:' + riscoCVE + '%; background:#a855f7;"></div></div></div>';
-    html += '</div>';
-    html += '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;">';
-    html += '<span class="pill ' + classe + '">' + texto + '</span>';
-    html += '<span style="font-size:10px;color:#5a7a9c;">' + qtdCVEs + ' CVEs</span>';
-    html += '</div>';
-    html += '</div>';
-  }
-
-  el.innerHTML = html;
-}
-
-function renderAlertas(maquinas, cves, tickets) {
-  const el = document.getElementById("alert-list");
-
-  if (!el) {
-    return;
-  }
-
-  let html = '<div class="card-title">Alertas - ultimas 24h</div>';
-
-  for (let i = 0; i < tickets.length && i < 4; i++) {
-    html += '<div class="alert-item">';
-    html += '<div class="alert-time">' + escapeHtml(tickets[i].tempo) + '</div>';
-    html += '<div class="alert-dot" style="background:#f43f5e;"></div>';
-    html += '<div style="flex:1"><div class="alert-title">' + escapeHtml(tickets[i].id + " - " + tickets[i].descricao) + '</div>';
-    html += '<div class="alert-meta">' + escapeHtml(tickets[i].status || "Jira") + '</div></div>';
-    html += '<span class="pill ' + classeSeveridade(tickets[i].severidade) + '">' + escapeHtml(tickets[i].severidade) + '</span>';
-    html += '</div>';
-  }
-
-  for (let j = 0; j < cves.length && j < 2; j++) {
-    html += '<div class="alert-item">';
-    html += '<div class="alert-time">' + cves[j].diasAberto + 'd</div>';
-    html += '<div class="alert-dot" style="background:#a855f7;"></div>';
-    html += '<div style="flex:1"><div class="alert-title">' + escapeHtml(cves[j].id + " - " + cves[j].componente) + '</div>';
-    html += '<div class="alert-meta">CVSS ' + cves[j].cvss + ' - ' + escapeHtml(cves[j].status) + '</div></div>';
-    html += '<span class="pill pill-purple">CVE</span>';
-    html += '</div>';
-  }
-
-  if (html === "") {
-    html = '<div style="color:#7a92b0;font-size:12px;text-align:center;padding:16px;">Sem alertas nas ultimas 24h</div>';
-  }
-
-  el.innerHTML = html;
-}
 
 async function buscarDadosS3() {
   const resposta = await fetch(S3_API_ENDPOINT, { cache: "no-cache" });
@@ -915,76 +820,157 @@ async function carregarDados() {
   renderTickets(tickets);
   renderCVEs(cves);
   atualizarBarrasDashboard(maquinas, cves, sla);
-  renderRiscoComposto(maquinas, cves);
-  renderAlertas(maquinas, cves, tickets);
+  atualizarTrendChart(maquinas, cves);
   setStatus(true);
 }
 
 carregarDados();
 setInterval(carregarDados, REFRESH_INTERVAL_MS);
 
-new Chart(document.getElementById("trendChart"), {
-  type: "bar",
-  data: {
-    labels: ["02/mai", "03/mai", "04/mai", "05/mai", "06/mai", "07/mai", "08/mai"],
-    datasets: [
-      { type: "line", label: "CPU", data: [62, 65, 71, 78, 80, 83, 84], borderColor: "#378ADD", borderWidth: 2, pointRadius: 3, fill: false, tension: 0.35, yAxisID: "y" },
-      { type: "line", label: "RAM", data: [64, 66, 68, 69, 71, 70, 72], borderColor: "#1D9E75", borderWidth: 2, pointRadius: 3, fill: false, tension: 0.35, borderDash: [5, 3], yAxisID: "y" },
-      { type: "line", label: "Disco", data: [48, 52, 55, 59, 63, 67, 70], borderColor: "#BA7517", borderWidth: 2, pointRadius: 3, fill: false, tension: 0.35, borderDash: [2, 2], yAxisID: "y" },
-      { type: "line", label: "Limiar", data: [85, 85, 85, 85, 85, 85, 85], borderColor: "#E24B4A", borderWidth: 1.5, borderDash: [6, 4], pointRadius: 0, fill: false, yAxisID: "y" },
-      { type: "bar", label: "Novas CVEs", data: [1, 0, 2, 1, 3, 2, 3], backgroundColor: "rgba(83,74,183,0.22)", borderColor: "#534AB7", borderWidth: 1, yAxisID: "y2", borderRadius: 3 }
-    ]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        callbacks: {
-          label: function(ctx) {
-            if (ctx.dataset.yAxisID === "y2") {
-              return ctx.dataset.label + ": " + ctx.parsed.y + " CVEs";
-            }
+// ── Gráfico de Tendência — dinâmico com localStorage ─────────────────────────
 
-            return ctx.dataset.label + ": " + ctx.parsed.y + "%";
+const TREND_STORAGE_KEY = "grc_trend_history";
+const TREND_MAX_DAYS = 7;
+
+let trendChartInstance = null;
+
+function obterDataHoje() {
+  const d = new Date();
+  return d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" });
+}
+
+function carregarHistoricoTrend() {
+  try {
+    const raw = localStorage.getItem(TREND_STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) return parsed;
+    }
+  } catch (e) {
+    console.warn("[Trend] Falha ao carregar localStorage:", e);
+  }
+  return [];
+}
+
+function salvarHistoricoTrend(historico) {
+  try {
+    localStorage.setItem(TREND_STORAGE_KEY, JSON.stringify(historico));
+  } catch (e) {
+    console.warn("[Trend] Falha ao salvar localStorage:", e);
+  }
+}
+
+function registrarPontoTrend(maquinas, cves) {
+  const historico = carregarHistoricoTrend();
+  const hoje = obterDataHoje();
+
+  const mediaCPU   = calcularMedia(maquinas, "cpu");
+  const mediaRAM   = calcularMedia(maquinas, "ram");
+  const mediaDisco = calcularMedia(maquinas, "disco");
+  const novasCVEs  = cves.length;
+
+  // Se já existe ponto para hoje, atualiza (rolling average)
+  const idxHoje = historico.findIndex(p => p.data === hoje);
+  if (idxHoje !== -1) {
+    const p = historico[idxHoje];
+    p.cpu   = Math.round((p.cpu   + mediaCPU)   / 2);
+    p.ram   = Math.round((p.ram   + mediaRAM)   / 2);
+    p.disco = Math.round((p.disco + mediaDisco) / 2);
+    p.cves  = Math.max(p.cves, novasCVEs);
+  } else {
+    historico.push({ data: hoje, cpu: mediaCPU, ram: mediaRAM, disco: mediaDisco, cves: novasCVEs });
+  }
+
+  // Manter apenas os últimos N dias
+  while (historico.length > TREND_MAX_DIAS) {
+    historico.shift();
+  }
+
+  salvarHistoricoTrend(historico);
+  return historico;
+}
+
+function inicializarTrendChart() {
+  const canvas = document.getElementById("trendChart");
+  if (!canvas) return;
+
+  const historico = carregarHistoricoTrend();
+
+  const labels = historico.map(p => p.data);
+  const dataCPU   = historico.map(p => p.cpu);
+  const dataRAM   = historico.map(p => p.ram);
+  const dataDisco = historico.map(p => p.disco);
+  const dataCVEs  = historico.map(p => p.cves);
+  const dataLimiar = historico.map(() => 85);
+
+  const config = {
+    type: "bar",
+    data: {
+      labels: labels,
+      datasets: [
+        { type: "line", label: "CPU",    data: dataCPU,   borderColor: "#378ADD", borderWidth: 2, pointRadius: 3, fill: false, tension: 0.35, yAxisID: "y" },
+        { type: "line", label: "RAM",    data: dataRAM,   borderColor: "#1D9E75", borderWidth: 2, pointRadius: 3, fill: false, tension: 0.35, borderDash: [5, 3], yAxisID: "y" },
+        { type: "line", label: "Disco",  data: dataDisco, borderColor: "#BA7517", borderWidth: 2, pointRadius: 3, fill: false, tension: 0.35, borderDash: [2, 2], yAxisID: "y" },
+        { type: "line", label: "Limiar", data: dataLimiar, borderColor: "#E24B4A", borderWidth: 1.5, borderDash: [6, 4], pointRadius: 0, fill: false, yAxisID: "y" },
+        { type: "bar",  label: "Novas CVEs", data: dataCVEs, backgroundColor: "rgba(83,74,183,0.22)", borderColor: "#534AB7", borderWidth: 1, yAxisID: "y2", borderRadius: 3 }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: function(ctx) {
+              if (ctx.dataset.yAxisID === "y2") return ctx.dataset.label + ": " + ctx.parsed.y + " CVEs";
+              return ctx.dataset.label + ": " + ctx.parsed.y + "%";
+            }
           }
         }
-      }
-    },
-    scales: {
-      x: { ticks: { font: { size: 11 }, color: "#888" }, grid: { display: false } },
-      y: {
-        min: 20,
-        max: 100,
-        position: "left",
-        ticks: {
-          font: { size: 11 },
-          color: "#888",
-          stepSize: 20,
-          callback: function(valor) {
-            return valor + "%";
-          }
-        },
-        grid: { color: "rgba(0,0,0,0.05)" }
       },
-      y2: {
-        min: 0,
-        max: 6,
-        position: "right",
-        ticks: {
-          font: { size: 11 },
-          color: "#aaa",
-          stepSize: 2,
-          callback: function(valor) {
-            return Math.round(valor);
-          }
+      scales: {
+        x: { ticks: { font: { size: 11 }, color: "#888" }, grid: { display: false } },
+        y: {
+          min: 20, max: 100, position: "left",
+          ticks: { font: { size: 11 }, color: "#888", stepSize: 20, callback: function(v) { return v + "%"; } },
+          grid: { color: "rgba(0,0,0,0.05)" }
         },
-        grid: { display: false }
+        y2: {
+          min: 0, max: 6, position: "right",
+          ticks: { font: { size: 11 }, color: "#aaa", stepSize: 2, callback: function(v) { return Math.round(v); } },
+          grid: { display: false }
+        }
       }
     }
+  };
+
+  if (trendChartInstance) {
+    trendChartInstance.destroy();
   }
-});
+  trendChartInstance = new Chart(canvas, config);
+}
+
+function atualizarTrendChart(maquinas, cves) {
+  const historico = registrarPontoTrend(maquinas, cves);
+
+  if (!trendChartInstance) {
+    inicializarTrendChart();
+    return;
+  }
+
+  trendChartInstance.data.labels = historico.map(p => p.data);
+  trendChartInstance.data.datasets[0].data = historico.map(p => p.cpu);
+  trendChartInstance.data.datasets[1].data = historico.map(p => p.ram);
+  trendChartInstance.data.datasets[2].data = historico.map(p => p.disco);
+  trendChartInstance.data.datasets[3].data = historico.map(() => 85);
+  trendChartInstance.data.datasets[4].data = historico.map(p => p.cves);
+  trendChartInstance.update("none");
+}
+
+// Inicializa com dados salvos imediatamente (antes do fetch)
+inicializarTrendChart();
+
 
 new Chart(document.getElementById("cveTrend"), {
   type: "bar",
