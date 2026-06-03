@@ -1,13 +1,35 @@
 const S3_API_ENDPOINT = "/client";
 const REFRESH_INTERVAL_MS = 60000;
+const HISTORICO_STORAGE_KEY = "magnes_historico_financeiro";
+const MAX_PONTOS_POR_MAQUINA = 24;
 
 var instSLA;
 var instWaterfall;
 var instDonut;
 
+function carregarHistoricoLocal() {
+    try {
+        const raw = localStorage.getItem(HISTORICO_STORAGE_KEY);
+        return raw ? JSON.parse(raw) : {};
+    } catch (erro) {
+        console.warn("[Magnes Storage] Não foi possível ler o histórico:", erro);
+        return {};
+    }
+}
+
+function salvarHistoricoLocal(historico) {
+    try {
+        localStorage.setItem(HISTORICO_STORAGE_KEY, JSON.stringify(historico));
+    } catch (erro) {
+        console.warn("[Magnes Storage] Erro ao salvar histórico:", erro);
+    }
+}
+
+var historicoPorMaquinaGlobal = carregarHistoricoLocal();
+
 function inicializarGraficos() {
     // Gráfico 1: Linha Temporal de Performance de SLA
-    let ctxSLA = document.getElementById("chartSLA").getContext("2d");
+    const ctxSLA = document.getElementById("chartSLA").getContext("2d");
     instSLA = new Chart(ctxSLA, {
         type: "line",
         data: {
@@ -46,15 +68,15 @@ function inicializarGraficos() {
         }
     });
 
-    // Gráfico 2: Impacto Financeiro Cascata (Waterfall)
-    let ctxWaterfall = document.getElementById("chartWaterfall").getContext("2d");
+    // Gráfico 2: Impacto Financeiro Cascata (Waterfall com Barras Flutuantes)
+    const ctxWaterfall = document.getElementById("chartWaterfall").getContext("2d");
     instWaterfall = new Chart(ctxWaterfall, {
         type: "bar",
         data: {
-            labels: ["Custo Corretiva Potencial", "Economia Preditiva", "Prejuízo Real Absoluto"],
+            labels: ["Perda Total (Bruta)", "Valor Evitado", "Perda Residual (Real)"],
             datasets: [
                 {
-                    label: "Valores Financeiros",
+                    label: "Impacto Financeiro (R$)",
                     data: [0, 0, 0],
                     backgroundColor: ["#ff7675", "#2ecc71", "#74b9ff"],
                     borderRadius: 4
@@ -68,7 +90,10 @@ function inicializarGraficos() {
             scales: {
                 x: { ticks: { color: "#8ea1b4" }, grid: { display: false } },
                 y: {
-                    ticks: { color: "#8ea1b4", callback: function (value) { return "R$ " + value.toLocaleString("pt-BR"); } },
+                    ticks: {
+                        color: "#8ea1b4",
+                        callback: function (value) { return "R$ " + value.toLocaleString("pt-BR"); }
+                    },
                     grid: { color: "#10435f" }
                 }
             }
@@ -76,7 +101,7 @@ function inicializarGraficos() {
     });
 
     // Gráfico 3: Distribuição Volumétrica de Severidade (Doughnut)
-    let ctxDonut = document.getElementById("canvasPerda").getContext("2d");
+    const ctxDonut = document.getElementById("canvasPerda").getContext("2d");
     instDonut = new Chart(ctxDonut, {
         type: "doughnut",
         data: {
@@ -92,17 +117,15 @@ function inicializarGraficos() {
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { legend: { position: "bottom", labels: { color: "#fff", font: { size: 11 } } } },
+            plugins: {
+                legend: { position: "bottom", labels: { color: "#fff", font: { size: 11 } } }
+            },
             cutout: "75%"
         }
     });
 }
 
 let maquinasRaizClient = [];
-
-if (typeof historicoPorMaquinaGlobal == 'undefined') {
-    var historicoPorMaquinaGlobal = {}; 
-}
 
 async function buscarDadosS3() {
     try {
@@ -127,17 +150,20 @@ async function buscarDadosS3() {
                     historicoPorMaquinaGlobal[mac] = [];
                 }
 
-                const jaExiste = historicoPorMaquinaGlobal[mac].some(log => log.horario === maquinaAtual.horario);
+                const jaExiste = historicoPorMaquinaGlobal[mac].some(
+                    function (log) { return log.horario == maquinaAtual.horario; }
+                );
 
                 if (!jaExiste) {
-                    let novoLog = JSON.parse(JSON.stringify(maquinaAtual));
-                    historicoPorMaquinaGlobal[mac].push(novoLog);
+                    historicoPorMaquinaGlobal[mac].push(JSON.parse(JSON.stringify(maquinaAtual)));
                 }
 
-                if (historicoPorMaquinaGlobal[mac].length > 24) {
+                if (historicoPorMaquinaGlobal[mac].length > MAX_PONTOS_POR_MAQUINA) {
                     historicoPorMaquinaGlobal[mac].shift();
                 }
             }
+
+            salvarHistoricoLocal(historicoPorMaquinaGlobal);
 
             if (!dados.kpis) {
                 dados.kpis = {};
@@ -147,10 +173,9 @@ async function buscarDadosS3() {
             maquinasRaizClient = [];
         }
 
-        console.log("[Magnes Financeiro] Dicionário atualizado. Processando renderização.");
         atualizarDropdownMaquinas();
 
-        const select = document.getElementById("selectFiltroEquipamento");
+        const select = document.querySelector("select#selectFiltroEquipamento");
         if (select && select.options.length > 0 && !select.value) {
             select.selectedIndex = 0;
         }
@@ -164,19 +189,24 @@ async function buscarDadosS3() {
 }
 
 function atualizarDropdownMaquinas() {
-    const select = document.getElementById("selectFiltroEquipamento");
+    const select = document.querySelector("select#selectFiltroEquipamento");
     if (!select) return;
 
     const macsUnicos = Object.keys(historicoPorMaquinaGlobal);
-
     const valorSelecionado = select.value;
-    select.innerHTML = '';
+    select.innerHTML = "";
 
     for (let k = 0; k < macsUnicos.length; k++) {
         const mac = macsUnicos[k];
         const opt = document.createElement("option");
         opt.value = mac;
-        opt.textContent = "Workstation (" + mac.slice(-5) + ")";
+
+        const registros = historicoPorMaquinaGlobal[mac];
+        const nomeLabel = (registros && registros.length > 0 && registros[registros.length - 1].nomeMaquina)
+            ? registros[registros.length - 1].nomeMaquina
+            : "Workstation (" + mac.slice(-5) + ")";
+
+        opt.textContent = nomeLabel;
         select.appendChild(opt);
     }
 
@@ -188,15 +218,14 @@ function atualizarDropdownMaquinas() {
 }
 
 function renderizarBI() {
-    const select = document.getElementById("selectFiltroEquipamento");
+    const select = document.querySelector("select#selectFiltroEquipamento");
     if (!select || select.options.length == 0) {
         limparTelaSemDados();
         return;
     }
 
     const filtroMac = select.value;
-    
-    let dadosFiltrados = historicoPorMaquinaGlobal[filtroMac] || [];
+    let dadosFiltrados = (historicoPorMaquinaGlobal[filtroMac] || []).slice();
 
     dadosFiltrados.sort(function (a, b) {
         return Date.parse(a.horario.replace(" ", "T")) - Date.parse(b.horario.replace(" ", "T"));
@@ -209,13 +238,17 @@ function renderizarBI() {
 
     const elementMacLegenda = document.getElementById("kpi-mac-legenda");
     if (elementMacLegenda) {
-        elementMacLegenda.innerText = "MAC: " + filtroMac;
+        const registros = historicoPorMaquinaGlobal[filtroMac];
+        const nomeMaq = (registros && registros.length > 0 && registros[registros.length - 1].nomeMaquina)
+            ? registros[registros.length - 1].nomeMaquina
+            : filtroMac;
+        elementMacLegenda.innerText = "Filtrado: " + nomeMaq;
     }
 
     var acumuladoIndisponibilidade = 0;
     var acumuladoLucroPreservado = 0;
-    var totalCustoCorretivaPotencial = 0;
-    var totalEconomiaPreditiva = 0;
+    var totalPerdaTotal = 0;
+    var totalValorEvitado = 0;
 
     var contNormal = 0;
     var contModerado = 0;
@@ -223,29 +256,33 @@ function renderizarBI() {
     var contCritico = 0;
 
     var htmlFeed = "";
-
-    let labelsSLA = [];
-    let dadosSLA = [];
-    let metasSLA = [];
+    var labelsSLA = [];
+    var dadosSLA = [];
+    var metasSLA = [];
 
     var contagemTotalMaquinas = Object.keys(historicoPorMaquinaGlobal).length;
 
-    for (let k = 0; k < maquinasRaizClient.length; k++) {
-        const maq = maquinasRaizClient[k];
-        if (maq.financeiroDashboard && maq.financeiroDashboard.indicadores) {
-            const sevGlobal = String(maq.financeiroDashboard.indicadores.severidade || "").toUpperCase().trim();
-
-            if (sevGlobal == "CRITICO" || sevGlobal == "CRÍTICO") {
-                contCritico++;
-            } else if (sevGlobal == "ALTO" || sevGlobal == "PERIGO") {
-                contAlto++;
-            } else if (sevGlobal == "MODERADO" || sevGlobal == "ALERTA") {
-                contModerado++;
+    const todosOsMacs = Object.keys(historicoPorMaquinaGlobal);
+    for (let m = 0; m < todosOsMacs.length; m++) {
+        const macDaVez = todosOsMacs[m];
+        const logsDaMaquina = historicoPorMaquinaGlobal[macDaVez] || [];
+        
+        if (logsDaMaquina.length > 0) {
+            const ultimoLogMaquina = logsDaMaquina[logsDaMaquina.length - 1];
+            if (ultimoLogMaquina.financeiroDashboard && ultimoLogMaquina.financeiroDashboard.indicadores) {
+                const sevGlobal = String(ultimoLogMaquina.financeiroDashboard.indicadores.severidade || "").toUpperCase().trim();
+                if (sevGlobal == "CRITICO" || sevGlobal == "CRÍTICO") {
+                    contCritico++;
+                } else if (sevGlobal == "ALTO" || sevGlobal == "PERIGO") {
+                    contAlto++;
+                } else if (sevGlobal == "MODERADO" || sevGlobal == "ALERTA") {
+                    contModerado++;
+                } else {
+                    contNormal++;
+                }
             } else {
                 contNormal++;
             }
-        } else {
-            contNormal++;
         }
     }
 
@@ -253,14 +290,16 @@ function renderizarBI() {
         const log = dadosFiltrados[i];
         const fd = log.financeiroDashboard || {};
         const indicadores = fd.indicadores || {};
-        const financeiroDashboardMetricas = fd.financeiro || {};
+        const fdFin = fd.financeiro || {};
         const alertas = fd.alertas || {};
         const sla = fd.sla || {};
         const financeiroRaiz = log.financeiro || {};
 
-        acumuladoIndisponibilidade += (financeiroDashboardMetricas.perdaTotal || 0);
-        acumuladoLucroPreservado += (financeiroDashboardMetricas.lucroPreservado || 0);
-        totalEconomiaPreditiva += (financeiroDashboardMetricas.lucroPreservado || 0);
+        acumuladoIndisponibilidade += (fdFin.perdaTotal || 0);
+        acumuladoLucroPreservado += (fdFin.lucroPreservado || 0);
+
+        totalPerdaTotal += (fdFin.perdaTotal || 0);
+        totalValorEvitado += (fdFin.valorEvitado || 0);
 
         var statusGeral = String(indicadores.severidade || "").toUpperCase();
         var classeBadge = "badge-estavel";
@@ -281,60 +320,44 @@ function renderizarBI() {
             legendaRegra = "Lentidão Detectada";
         }
 
-        let cpuUsoInstancia = (fd.metricas && fd.metricas.cpuSimulado != undefined) ? fd.metricas.cpuSimulado : 0;
-        let ramUsoInstancia = (log.ram && log.ram.uso != undefined) ? log.ram.uso : (log.ramUso || 0);
-        let discoUsoInstancia = (log.disco && log.disco.uso != undefined) ? log.disco.uso : 0;
+        var cpuUsoInstancia = (fd.metricas && fd.metricas.cpuSimulado != null) ? fd.metricas.cpuSimulado : 0;
+        var ramUsoInstancia = (log.ram && log.ram.uso != null) ? log.ram.uso : (log.ramUso || 0);
+        var discoUsoInstancia = (log.disco && log.disco.uso != null) ? log.disco.uso : 0;
 
-        let metricasInternas = [];
+        var metricasInternas = [];
         if (alertas.cpu || cpuUsoInstancia > 80) metricasInternas.push("CPU (" + cpuUsoInstancia + "%)");
         if (alertas.ram || ramUsoInstancia > 80) metricasInternas.push("RAM (" + ramUsoInstancia + "%)");
         if (alertas.disco || discoUsoInstancia > 90) metricasInternas.push("Disco (" + discoUsoInstancia + "%)");
 
-        let componentesTexto = metricasInternas.length > 0 ? metricasInternas.join(", ") : "Nenhum";
-        
-        let horaFormatada = log.horario ? log.horario.substring(11, 19) : "00:00:00";
-        let conformidadeSLAItem = sla.conformidade != undefined ? sla.conformidade : 0;
-        let statusSLAItem = sla.status || "";
+        var componentesTexto = metricasInternas.length > 0 ? metricasInternas.join(", ") : "Nenhum";
+        var horaFormatada = log.horario ? log.horario.substring(11, 19) : "00:00:00";
+        var conformidadeSLAItem = (sla.conformidade != null) ? sla.conformidade : 0;
+        var statusSLAItem = sla.status || "";
 
-        htmlFeed += `
-        <tr>
-            <td><strong>${horaFormatada}</strong></td>
-            <td>
-                <div style="font-weight: 500;">${legendaRegra}</div>
-                <small style="color: #8ea1b4; font-size: 11px;">
-                    Gargalo: ${componentesTexto}
-                </small>
-            </td>
-            <td><span class="${classeBadge}">${textoSeveridade}</span></td>
-            <td>
-                <div style="color: ${statusSLAItem == "CONFORME" ? "#00ff88" : "#f43f5e"}; font-weight: 600;">
-                    SLA: ${(conformidadeSLAItem).toFixed(2)}%
-                </div>
-                <small style="color: #7a92b0;">
-                    Perda: R$ ${(financeiroDashboardMetricas.perdaTotal || 0).toFixed(2)}
-                </small>
-            </td>
-        </tr>
-        `;
+        htmlFeed += '<tr>' +
+            '<td><strong>' + horaFormatada + '</strong></td>' +
+            '<td>' +
+            '<div style="font-weight:500;">' + legendaRegra + '</div>' +
+            '<small style="color:#8ea1b4;font-size:11px;">Gargalo: ' + componentesTexto + '</small>' +
+            '</td>' +
+            '<td><span class="' + classeBadge + '">' + textoSeveridade + '</span></td>' +
+            '<td>' +
+            '<div style="color:' + (statusSLAItem == "CONFORME" ? "#00ff88" : "#f43f5e") + ';font-weight:600;">' +
+            'SLA: ' + conformidadeSLAItem.toFixed(2) + '%' +
+            '</div>' +
+            '<small style="color:#7a92b0;">Perda: R$ ' + (fdFin.perdaTotal || 0).toFixed(2) + '</small>' +
+            '</td>' +
+            '</tr>';
 
         if (log.horario) {
             labelsSLA.push(log.horario.substring(11, 16));
             dadosSLA.push(conformidadeSLAItem);
-
-            let metaValor = financeiroRaiz.metaSLA != undefined ? financeiroRaiz.metaSLA : 98.5;
-            metasSLA.push(metaValor);
+            metasSLA.push(financeiroRaiz.metaSLA != null ? financeiroRaiz.metaSLA : 98.5);
         }
     }
 
     var ultimoLog = dadosFiltrados[dadosFiltrados.length - 1];
-
-    if (ultimoLog && ultimoLog.financeiro) {
-        totalCustoCorretivaPotencial = ultimoLog.financeiro.custoCorretivaPotencial || 0;
-    } else {
-        totalCustoCorretivaPotencial = 0;
-    }
-
-    let prejuizoRealAbsoluto = Math.max(totalCustoCorretivaPotencial - totalEconomiaPreditiva, 0);
+    var perdaResidualReal = Math.max(totalPerdaTotal - totalValorEvitado, 0);
 
     document.getElementById("v-total").innerText = contagemTotalMaquinas;
     document.getElementById("v-normal").innerText = "R$ " + acumuladoIndisponibilidade.toLocaleString("pt-BR", { minimumFractionDigits: 2 });
@@ -345,24 +368,25 @@ function renderizarBI() {
     var elementoSLA = document.getElementById("v-critico");
     var quadradoSLA = document.getElementById("quadradoSLA");
 
-    if (iconeSLA && elementoSLA && quadradoSLA && ultimoLog) {
-        const lastFD = ultimoLog.financeiroDashboard || { sla: {} };
-        const statusSla = lastFD.sla.status || "";
-        const valorSla = (lastFD.sla.conformidade != undefined ? lastFD.sla.conformidade : 0).toFixed(2);
+    if (elementoSLA && quadradoSLA && ultimoLog) {
+        const lastFD = ultimoLog.financeiroDashboard || {};
+        const lastSLA = lastFD.sla || {};
+        const statusSla = lastSLA.status || "";
+        const valorSla = (lastSLA.conformidade != null ? lastSLA.conformidade : 0).toFixed(2);
 
         elementoSLA.innerText = statusSla + " (" + valorSla + "%)";
         elementoSLA.classList.remove("text-status-conforme", "text-status-violado");
-        iconeSLA.classList.remove("icon-status-conforme", "icon-status-violado");
         quadradoSLA.classList.remove("quadrado-fundo-conforme", "quadrado-fundo-violado");
+        if (iconeSLA) iconeSLA.classList.remove("icon-status-conforme", "icon-status-violado");
 
         if (statusSla == "VIOLADO") {
             elementoSLA.classList.add("text-status-violado");
-            iconeSLA.classList.add("icon-status-violado");
             quadradoSLA.classList.add("quadrado-fundo-violado");
+            if (iconeSLA) iconeSLA.classList.add("icon-status-violado");
         } else {
             elementoSLA.classList.add("text-status-conforme");
-            iconeSLA.classList.add("icon-status-conforme");
             quadradoSLA.classList.add("quadrado-fundo-conforme");
+            if (iconeSLA) iconeSLA.classList.add("icon-status-conforme");
         }
     }
 
@@ -374,7 +398,13 @@ function renderizarBI() {
     }
 
     if (instWaterfall) {
-        instWaterfall.data.datasets[0].data = [totalCustoCorretivaPotencial, totalEconomiaPreditiva, prejuizoRealAbsoluto];
+        let baseFlutuanteEvitado = Math.max(totalPerdaTotal - totalValorEvitado, 0);
+
+        instWaterfall.data.datasets[0].data = [
+            [0, totalPerdaTotal],
+            [baseFlutuanteEvitado, totalPerdaTotal],
+            [0, perdaResidualReal]
+        ];
         instWaterfall.update();
     }
 
@@ -387,7 +417,7 @@ function renderizarBI() {
     const eCidade = document.getElementById("info-cidade");
 
     if (eBairro || eCidade) {
-        const maqOriginal = maquinasRaizClient.find(m => m.macAddress == filtroMac);
+        const maqOriginal = maquinasRaizClient.find(function (m) { return m.macAddress == filtroMac; });
         if (maqOriginal && maqOriginal.financeiro && maqOriginal.financeiro.localizacao) {
             const loc = maqOriginal.financeiro.localizacao;
             if (eBairro) eBairro.innerText = loc.bairro || "";
@@ -404,27 +434,24 @@ function exibirModoIndisponivel() {
     document.getElementById("v-normal").innerText = "Indisponível";
     document.getElementById("v-alerta").innerText = "Indisponível";
     document.getElementById("v-critico").innerText = "Sem Conexão";
-    document.getElementById("feedAlertas").innerHTML = `
-    <tr><td colspan="4" style="text-align:center; color:#8ea1b4; padding: 20px;">
-        Erro de pareamento com o arquivo JSON local.
-    </td></tr>`;
+    document.getElementById("feedAlertas").innerHTML =
+        '<tr><td colspan="4" style="text-align:center;color:#8ea1b4;padding:20px;">' +
+        'Erro de pareamento com o arquivo JSON local.</td></tr>';
 }
 
 function limparTelaSemDados() {
-    document.getElementById("feedAlertas").innerHTML = `
-    <tr><td colspan="4" style="text-align:center; color:#8ea1b4; padding: 20px;">
-        Nenhum registro encontrado para este filtro.
-    </td></tr>`;
+    document.getElementById("feedAlertas").innerHTML =
+        '<tr><td colspan="4" style="text-align:center;color:#8ea1b4;padding:20px;">' +
+        'Nenhum registro encontrado para este filtro.</td></tr>';
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    const select = document.getElementById("selectFiltroEquipamento");
+    const select = document.querySelector("select#selectFiltroEquipamento");
     if (select) {
         select.addEventListener("change", renderizarBI);
     }
-    
+
     inicializarGraficos();
-    
     buscarDadosS3();
     setInterval(buscarDadosS3, REFRESH_INTERVAL_MS);
 });
