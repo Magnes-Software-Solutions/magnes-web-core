@@ -1,6 +1,7 @@
 const S3_API_ENDPOINT = "/client";
 const JIRA_API_ENDPOINT = "/jira/tickets";
 const REFRESH_INTERVAL_MS = 60000;
+const TREND_STORAGE_KEY = "grc_tendencia_7dias";
 
 let nvdIntegration = null;
 if (typeof NVDIntegration !== "undefined") {
@@ -206,8 +207,6 @@ function agruparPorMaquina(raw) {
   for (let i = 0; i < maquinasUnicas.length; i++) {
     resultado.push(adaptarMaquina(maquinasUnicas[i]));
   }
-
-  console.log("[GRC] Agrupamento: " + lista.length + " registros -> " + resultado.length + " maquinas unicas");
   return resultado;
 }
 
@@ -734,103 +733,6 @@ function contarCVEsPorServidor(cves, servidor) {
   return total;
 }
 
-function renderRiscoComposto(maquinas, cves) {
-  const el = document.getElementById("risco-composto-list");
-
-  if (!el) {
-    return;
-  }
-
-  if (maquinas.length === 0) {
-    el.innerHTML = '<div style="color:#7a92b0;font-size:12px;">Sem servidores monitorados</div>';
-    return;
-  }
-
-  let html = "";
-
-  for (let i = 0; i < maquinas.length; i++) {
-    const maquina = maquinas[i];
-    const operacional = limitarPercentual((maquina.cpu + maquina.ram + maquina.disco) / 3);
-    let qtdCVEs = contarCVEsPorServidor(cves, maquina.label);
-
-    if (qtdCVEs === 0) {
-      qtdCVEs = contarCVEsPorServidor(cves, maquina.id);
-    }
-
-    if (qtdCVEs === 0 && maquinas.length === 1) {
-      qtdCVEs = cves.length;
-    }
-
-    const riscoCVE = limitarPercentual(qtdCVEs * 30);
-    const score = limitarPercentual((operacional * 0.65) + (riscoCVE * 0.35));
-
-    let classe = "pill-ok";
-    let texto = "Normal";
-    let corScore = "#4ade80";
-
-    if (score >= 80) {
-      classe = "pill-crit";
-      texto = "Critico";
-      corScore = "#f87171";
-    } else if (score >= 60) {
-      classe = "pill-warn";
-      texto = "Alto";
-      corScore = "#fde68a";
-    }
-
-    html += '<div class="ci">';
-    html += '<div class="ci-srv">' + escapeHtml(maquina.label) + '</div>';
-    html += '<div class="ci-score" style="color:' + corScore + ';">' + score + '</div>';
-    html += '<div class="ci-bars">';
-    html += '<div class="ci-br"><div class="ci-bl">Operac.</div><div class="ci-bk"><div class="ci-bf" style="width:' + operacional + '%; background:#f43f5e;"></div></div></div>';
-    html += '<div class="ci-br"><div class="ci-bl">CVE</div><div class="ci-bk"><div class="ci-bf" style="width:' + riscoCVE + '%; background:#a855f7;"></div></div></div>';
-    html += '</div>';
-    html += '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;">';
-    html += '<span class="pill ' + classe + '">' + texto + '</span>';
-    html += '<span style="font-size:10px;color:#5a7a9c;">' + qtdCVEs + ' CVEs</span>';
-    html += '</div>';
-    html += '</div>';
-  }
-
-  el.innerHTML = html;
-}
-
-function renderAlertas(maquinas, cves, tickets) {
-  const el = document.getElementById("alert-list");
-
-  if (!el) {
-    return;
-  }
-
-  let html = '<div class="card-title">Alertas - ultimas 24h</div>';
-
-  for (let i = 0; i < tickets.length && i < 4; i++) {
-    html += '<div class="alert-item">';
-    html += '<div class="alert-time">' + escapeHtml(tickets[i].tempo) + '</div>';
-    html += '<div class="alert-dot" style="background:#f43f5e;"></div>';
-    html += '<div style="flex:1"><div class="alert-title">' + escapeHtml(tickets[i].id + " - " + tickets[i].descricao) + '</div>';
-    html += '<div class="alert-meta">' + escapeHtml(tickets[i].status || "Jira") + '</div></div>';
-    html += '<span class="pill ' + classeSeveridade(tickets[i].severidade) + '">' + escapeHtml(tickets[i].severidade) + '</span>';
-    html += '</div>';
-  }
-
-  for (let j = 0; j < cves.length && j < 2; j++) {
-    html += '<div class="alert-item">';
-    html += '<div class="alert-time">' + cves[j].diasAberto + 'd</div>';
-    html += '<div class="alert-dot" style="background:#a855f7;"></div>';
-    html += '<div style="flex:1"><div class="alert-title">' + escapeHtml(cves[j].id + " - " + cves[j].componente) + '</div>';
-    html += '<div class="alert-meta">CVSS ' + cves[j].cvss + ' - ' + escapeHtml(cves[j].status) + '</div></div>';
-    html += '<span class="pill pill-purple">CVE</span>';
-    html += '</div>';
-  }
-
-  if (html === "") {
-    html = '<div style="color:#7a92b0;font-size:12px;text-align:center;padding:16px;">Sem alertas nas ultimas 24h</div>';
-  }
-
-  el.innerHTML = html;
-}
-
 async function buscarDadosS3() {
   const resposta = await fetch(S3_API_ENDPOINT, { cache: "no-cache" });
 
@@ -839,7 +741,7 @@ async function buscarDadosS3() {
   }
 
   const dados = await resposta.json();
-  return agruparPorMaquina(dados);
+  return dados;
 }
 
 async function buscarCVEs() {
@@ -891,16 +793,17 @@ function contarCVEsCriticas(cves) {
 }
 
 async function carregarDados() {
-  let maquinas = [];
+  let dadosBrutos = null;
 
   try {
-    maquinas = await buscarDadosS3();
+    dadosBrutos = await buscarDadosS3();
   } catch (erro) {
     console.warn("[S3] Falha:", erro);
     exibirIndisponivel();
     return;
   }
 
+  const maquinas = agruparPorMaquina(dadosBrutos);
   const cves = await buscarCVEs();
   const tickets = await buscarTickets(maquinas);
 
@@ -915,116 +818,236 @@ async function carregarDados() {
   renderTickets(tickets);
   renderCVEs(cves);
   atualizarBarrasDashboard(maquinas, cves, sla);
-  renderRiscoComposto(maquinas, cves);
-  renderAlertas(maquinas, cves, tickets);
+  atualizarTrendChart(pegarTendenciaParaGrafico(dadosBrutos, maquinas));
+
   setStatus(true);
 }
 
-carregarDados();
-setInterval(carregarDados, REFRESH_INTERVAL_MS);
+let trendChartInstance = null;
+window.trendData = null;
 
-new Chart(document.getElementById("trendChart"), {
-  type: "bar",
-  data: {
-    labels: ["02/mai", "03/mai", "04/mai", "05/mai", "06/mai", "07/mai", "08/mai"],
-    datasets: [
-      { type: "line", label: "CPU", data: [62, 65, 71, 78, 80, 83, 84], borderColor: "#378ADD", borderWidth: 2, pointRadius: 3, fill: false, tension: 0.35, yAxisID: "y" },
-      { type: "line", label: "RAM", data: [64, 66, 68, 69, 71, 70, 72], borderColor: "#1D9E75", borderWidth: 2, pointRadius: 3, fill: false, tension: 0.35, borderDash: [5, 3], yAxisID: "y" },
-      { type: "line", label: "Disco", data: [48, 52, 55, 59, 63, 67, 70], borderColor: "#BA7517", borderWidth: 2, pointRadius: 3, fill: false, tension: 0.35, borderDash: [2, 2], yAxisID: "y" },
-      { type: "line", label: "Limiar", data: [85, 85, 85, 85, 85, 85, 85], borderColor: "#E24B4A", borderWidth: 1.5, borderDash: [6, 4], pointRadius: 0, fill: false, yAxisID: "y" },
-      { type: "bar", label: "Novas CVEs", data: [1, 0, 2, 1, 3, 2, 3], backgroundColor: "rgba(83,74,183,0.22)", borderColor: "#534AB7", borderWidth: 1, yAxisID: "y2", borderRadius: 3 }
-    ]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        callbacks: {
-          label: function(ctx) {
-            if (ctx.dataset.yAxisID === "y2") {
-              return ctx.dataset.label + ": " + ctx.parsed.y + " CVEs";
+function pegarNumero(valor) {
+  const numero = Number(valor);
+
+  if (Number.isNaN(numero)) {
+    return 0;
+  }
+
+  return numero;
+}
+
+function salvarTendenciaLocal(dadosTendencia) {
+  try {
+    localStorage.setItem(TREND_STORAGE_KEY, JSON.stringify(dadosTendencia));
+  } catch (erro) {
+    console.warn("[GRC] Nao foi possivel salvar tendencia local:", erro);
+  }
+}
+
+function carregarTendenciaLocal() {
+  try {
+    const texto = localStorage.getItem(TREND_STORAGE_KEY);
+
+    if (!texto) {
+      return [];
+    }
+
+    const dados = JSON.parse(texto);
+
+    if (Array.isArray(dados)) {
+      return dados;
+    }
+  } catch (erro) {
+    console.warn("[GRC] Nao foi possivel ler tendencia local:", erro);
+  }
+
+  return [];
+}
+
+function montarTendenciaAtual(maquinas) {
+  const hoje = new Date();
+  const data = hoje.toISOString().slice(0, 10);
+
+  return [{
+    data: data,
+    cpu_media: calcularMedia(maquinas, "cpu"),
+    ram_media: calcularMedia(maquinas, "ram"),
+    disco_media: calcularMedia(maquinas, "disco"),
+    cves_ativas: 0,
+    cobertura_coleta: 100
+  }];
+}
+
+function pegarTendenciaParaGrafico(dadosBrutos, maquinas) {
+  if (dadosBrutos && Array.isArray(dadosBrutos.tendencia_7dias) && dadosBrutos.tendencia_7dias.length > 0) {
+    salvarTendenciaLocal(dadosBrutos.tendencia_7dias);
+    return dadosBrutos.tendencia_7dias;
+  }
+
+  const tendenciaLocal = carregarTendenciaLocal();
+
+  if (tendenciaLocal.length > 0) {
+    return tendenciaLocal;
+  }
+
+  return montarTendenciaAtual(maquinas);
+}
+
+function formatarDataGrafico(dataTexto) {
+  if (!dataTexto || String(dataTexto).indexOf("-") === -1) {
+    return "Sem data";
+  }
+
+  const partes = String(dataTexto).split("-");
+
+  if (partes.length < 3) {
+    return dataTexto;
+  }
+
+  return partes[2] + "/" + partes[1];
+}
+
+function processarTendencia7Dias(dadosTendencia) {
+  if (!dadosTendencia || dadosTendencia.length === 0) {
+    return {
+      labels: ["Sem dados"],
+      cpu: [0],
+      ram: [0],
+      disco: [0],
+      cves: [0],
+      cobertura: [0],
+      temDados: false
+    };
+  }
+
+  const labels = [];
+  const cpu = [];
+  const ram = [];
+  const disco = [];
+  const cves = [];
+  const cobertura = [];
+
+  for (let i = 0; i < dadosTendencia.length; i++) {
+    const dia = dadosTendencia[i];
+
+    labels.push(formatarDataGrafico(dia.data));
+    cpu.push(pegarNumero(dia.cpu_media));
+    ram.push(pegarNumero(dia.ram_media));
+    disco.push(pegarNumero(dia.disco_media));
+    cves.push(pegarNumero(dia.cves_ativas));
+    cobertura.push(pegarNumero(dia.cobertura_coleta));
+  }
+
+  return {
+    labels: labels,
+    cpu: cpu,
+    ram: ram,
+    disco: disco,
+    cves: cves,
+    cobertura: cobertura,
+    temDados: true
+  };
+}
+
+function montarLinhaLimiar(total) {
+  const valores = [];
+
+  for (let i = 0; i < total; i++) {
+    valores.push(85);
+  }
+
+  return valores;
+}
+
+function maiorValor(lista) {
+  let maior = 0;
+
+  for (let i = 0; i < lista.length; i++) {
+    if (lista[i] > maior) {
+      maior = lista[i];
+    }
+  }
+
+  return maior;
+}
+
+function inicializarTrendChart() {
+  const canvas = document.getElementById("trendChart");
+  if (!canvas) return;
+
+  const config = {
+    type: "bar",
+    data: {
+      labels: [],
+      datasets: [
+        { type: "line", label: "CPU", data: [], borderColor: "#378ADD", borderWidth: 2, pointRadius: 3, fill: false, tension: 0.35, yAxisID: "y" },
+        { type: "line", label: "RAM", data: [], borderColor: "#1D9E75", borderWidth: 2, pointRadius: 3, fill: false, tension: 0.35, borderDash: [5, 3], yAxisID: "y" },
+        { type: "line", label: "Disco", data: [], borderColor: "#BA7517", borderWidth: 2, pointRadius: 3, fill: false, tension: 0.35, borderDash: [2, 2], yAxisID: "y" },
+        { type: "line", label: "Limiar", data: [], borderColor: "#E24B4A", borderWidth: 1.5, borderDash: [6, 4], pointRadius: 0, fill: false, yAxisID: "y" },
+        { type: "bar", label: "CVEs ativas", data: [], backgroundColor: "rgba(83,74,183,0.22)", borderColor: "#534AB7", borderWidth: 1, yAxisID: "y2", borderRadius: 3 }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: function(ctx) {
+              if (ctx.dataset.yAxisID === "y2") return ctx.dataset.label + ": " + ctx.parsed.y + " CVEs";
+              return ctx.dataset.label + ": " + ctx.parsed.y + "%";
             }
-
-            return ctx.dataset.label + ": " + ctx.parsed.y + "%";
           }
         }
-      }
-    },
-    scales: {
-      x: { ticks: { font: { size: 11 }, color: "#888" }, grid: { display: false } },
-      y: {
-        min: 20,
-        max: 100,
-        position: "left",
-        ticks: {
-          font: { size: 11 },
-          color: "#888",
-          stepSize: 20,
-          callback: function(valor) {
-            return valor + "%";
-          }
-        },
-        grid: { color: "rgba(0,0,0,0.05)" }
       },
-      y2: {
-        min: 0,
-        max: 6,
-        position: "right",
-        ticks: {
-          font: { size: 11 },
-          color: "#aaa",
-          stepSize: 2,
-          callback: function(valor) {
-            return Math.round(valor);
-          }
+      scales: {
+        x: { ticks: { font: { size: 11 }, color: "#888" }, grid: { display: false } },
+        y: {
+          min: 20, max: 100, position: "left",
+          ticks: { font: { size: 11 }, color: "#888", stepSize: 20, callback: function(v) { return v + "%"; } },
+          grid: { color: "rgba(0,0,0,0.05)" }
         },
-        grid: { display: false }
-      }
-    }
-  }
-});
-
-new Chart(document.getElementById("cveTrend"), {
-  type: "bar",
-  data: {
-    labels: ["Nov", "Dez", "Jan", "Fev", "Mar", "Abr"],
-    datasets: [
-      { label: "Criticas", data: [2, 1, 2, 3, 4, 5], backgroundColor: "#E24B4A", borderWidth: 0 },
-      { label: "Altas", data: [4, 3, 4, 5, 6, 8], backgroundColor: "#EF9F27", borderWidth: 0 },
-      { label: "Medias", data: [5, 4, 5, 6, 5, 7], backgroundColor: "#85B7EB", borderWidth: 0 }
-    ]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        callbacks: {
-          label: function(ctx) {
-            return ctx.dataset.label + ": " + ctx.parsed.y + " CVEs";
-          }
+        y2: {
+          min: 0, max: 6, position: "right",
+          ticks: { font: { size: 11 }, color: "#aaa", stepSize: 2, callback: function(v) { return Math.round(v); } },
+          grid: { display: false }
         }
       }
-    },
-    scales: {
-      x: { stacked: true, ticks: { font: { size: 11 }, color: "#888" }, grid: { display: false } },
-      y: {
-        stacked: true,
-        ticks: {
-          font: { size: 11 },
-          color: "#888",
-          stepSize: 5,
-          callback: function(valor) {
-            return Math.round(valor);
-          }
-        },
-        grid: { color: "rgba(0,0,0,0.05)" }
-      }
     }
+  };
+
+  if (trendChartInstance) {
+    trendChartInstance.destroy();
   }
+  trendChartInstance = new Chart(canvas, config);
+}
+
+function atualizarTrendChart(dadosTendencia) {
+  const processado = processarTendencia7Dias(dadosTendencia);
+  window.trendData = processado;
+
+  if (!trendChartInstance) {
+    inicializarTrendChart();
+  }
+
+  if (!trendChartInstance) return;
+
+  trendChartInstance.data.labels = processado.labels;
+  trendChartInstance.data.datasets[0].data = processado.cpu;
+  trendChartInstance.data.datasets[1].data = processado.ram;
+  trendChartInstance.data.datasets[2].data = processado.disco;
+  trendChartInstance.data.datasets[3].data = montarLinhaLimiar(processado.labels.length);
+  trendChartInstance.data.datasets[4].data = processado.cves;
+
+  trendChartInstance.options.scales.y2.max = Math.max(6, maiorValor(processado.cves) + 1);
+  trendChartInstance.update("none");
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  inicializarTrendChart();
+  carregarDados();
+  setInterval(carregarDados, REFRESH_INTERVAL_MS);
 });
 
 function setPeriod(btn) {
