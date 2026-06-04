@@ -824,8 +824,6 @@ async function carregarDados() {
   setStatus(true);
 }
 
-carregarDados();
-setInterval(carregarDados, REFRESH_INTERVAL_MS);
 
 // ── Gráfico de Tendência — dinâmico com localStorage ─────────────────────────
 
@@ -882,7 +880,7 @@ function registrarPontoTrend(maquinas, cves) {
   }
 
   // Manter apenas os últimos N dias
-  while (historico.length > TREND_MAX_DIAS) {
+  while (historico.length > TREND_MAX_DAYS) {
     historico.shift();
   }
 
@@ -968,9 +966,14 @@ function atualizarTrendChart(maquinas, cves) {
   trendChartInstance.update("none");
 }
 
-// Inicializa com dados salvos imediatamente (antes do fetch)
-inicializarTrendChart();
 
+document.addEventListener("DOMContentLoaded", function () {
+  // Inicializa o gráfico com histórico já salvo (localStorage)
+  inicializarTrendChart();
+  // Carrega dados da API e inicia polling
+  carregarDados();
+  setInterval(carregarDados, REFRESH_INTERVAL_MS);
+});
 
 new Chart(document.getElementById("cveTrend"), {
   type: "bar",
