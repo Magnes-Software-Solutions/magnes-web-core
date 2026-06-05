@@ -1,6 +1,27 @@
 // const { commonParams } = require("@aws-sdk/client-s3/dist-types/endpoint/EndpointParameters");
 
 const S3_API_ENDPOINT = "/client";
+const HISTORICO_STORAGE_KEY = "historico_maquinas";
+
+function carregarHistoricoLocal() {
+    try {
+        const raw = localStorage.getItem(HISTORICO_STORAGE_KEY);
+        return raw ? JSON.parse(raw) : null;
+
+    } catch (erro) {
+        console.warn("Erro ao carregar localStorage:", erro);
+        return null;
+    }
+}
+
+function salvarHistoricoLocal(dados) {
+    try {
+        localStorage.setItem(HISTORICO_STORAGE_KEY, JSON.stringify(dados));
+
+    } catch (erro) {
+        console.warn("Erro ao salvar localStorage:", erro);
+    }
+}
 
 async function carregarDados() {
     try {
@@ -14,10 +35,16 @@ async function carregarDados() {
 
     } catch (err) {
         console.log("[ERRO] - Falha ao se conectar com o S3:", err);
+        const dadosLocal = carregarHistoricoLocal()
+        return dadosLocal
     }
 }
 
 function formatarHora(dataHora) {
+    if (!dataHora || typeof dataHora !== "string") {
+        return "--:--";
+    }
+
     return dataHora.split(" ")[1].slice(0, 5);
 }
 
@@ -35,6 +62,16 @@ function salvarHistorico(maquina) {
     }
 
     const hora = formatarHora(maquina.horario);
+
+    const historico = historicoMaquinas[maquina.macAddress];
+
+    // Verifica se já existe esse horário
+    const ultimoCpu = historico.cpu[historico.cpu.length - 1];
+
+    if (ultimoCpu && ultimoCpu.horario === hora) {
+        console.log("Horário repetido, ignorando:", hora);
+        return;
+    }
 
     historicoMaquinas[maquina.macAddress].cpu.push({
         horario: hora,
@@ -1048,6 +1085,11 @@ function pegarMac(macAddressAtual) {
 
 async function iniciar() {
     const dados = await carregarDados();
+
+    if (!dados) {
+        console.log("Nenhum dado encontrado")
+        return
+    }
 
     criarCards(dados.maquinas);
     exibirMRI(dados);
