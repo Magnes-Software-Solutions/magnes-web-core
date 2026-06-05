@@ -48,7 +48,7 @@ function formatarHora(dataHora) {
     return dataHora.split(" ")[1].slice(0, 5);
 }
 
-const historicoMaquinas = {};
+const historicoMaquinas = carregarHistoricoLocal() || {};
 const graficos = {};
 const maquinasRenderizadas = new Set();
 
@@ -93,6 +93,8 @@ function salvarHistorico(maquina) {
             historicoMaquinas[maquina.macAddress][comp].shift();
         }
     });
+
+    salvarHistoricoLocal(historicoMaquinas);
 }
 
 function plotarKpi(total, critico, atencao, estavel) {
@@ -292,7 +294,7 @@ function plotarGrafico(maquina) {
                         backgroundColor: 'rgba(170, 0, 255, 0.4)',
                         borderWidth: 3,
                         tension: 0.2,
-                        pointRadius: 1,
+                        pointRadius: 2,
                         pointHoverRadius: 6,
                         pointHoverBorderWidth: 2,
                         pointHoverBorderColor: '#ffffff',
@@ -534,7 +536,7 @@ function plotarGrafico(maquina) {
                         backgroundColor: 'rgba(0, 212, 249, 0.4)',
                         borderWidth: 3,
                         tension: 0.2,
-                        pointRadius: 1,
+                        pointRadius: 2,
                         pointHoverRadius: 6,
                         pointHoverBorderWidth: 2,
                         pointHoverBorderColor: '#ffffff',
@@ -744,6 +746,246 @@ function plotarGrafico(maquina) {
         graficos[maquina.macAddress].ramReg.update();
     }
 
+
+    // Disco
+    const historicoDisco = historicoMaquinas[maquina.macAddress].disco;
+    const labelsDisco = []
+    const dadosUsoDisco = []
+    const dadosRegDisco = []
+
+    historicoDisco.forEach(item => {
+        labelsDisco.push(item.horario)
+        dadosUsoDisco.push(item.valor)
+        dadosRegDisco.push({
+            x: item.horario,
+            y: item.valor
+        })
+    });
+
+    // Gráfico uso disco
+    if (!graficos[maquina.macAddress].discoUso) {
+        graficos[maquina.macAddress].discoUso = new Chart(
+            document.getElementById(`grafUsoDisco_${maquina.macAddress}`),
+            {
+                type: 'line',
+                data: {
+                    labels: labelsDisco,
+                    datasets: [{
+                        data: dadosUsoDisco,
+                        borderColor: 'rgba(255, 0, 200, 1)',
+                        fill: true,
+                        backgroundColor: 'rgba(255, 0, 200, 0.4)',
+                        borderWidth: 3,
+                        tension: 0.2,
+                        pointRadius: 2,
+                        pointHoverRadius: 6,
+                        pointHoverBorderWidth: 2,
+                        pointHoverBorderColor: '#ffffff',
+                        pointHoverBackgroundColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    hover: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    plugins: {
+                        annotation: {
+                            annotations: {
+                                linhaCritico: {
+                                    type: 'line',
+                                    yMin: maquina.disco.limite,
+                                    yMax: maquina.disco.limite,
+                                    borderColor: '#ff3366',
+                                    borderWidth: 2,
+                                    label: {
+                                        content: `Crítico > ${maquina.disco.limite}%`, //possivel erro
+                                        font: {
+                                            size: 12
+                                        },
+                                        enabled: true,
+                                        position: 'start',
+                                        backgroundColor: '#3e2e4c',
+                                        color: '#ff3366',
+                                        borderWidth: 0.3,
+                                        borderColor: '#ff3366'
+                                    }
+                                },
+                                linhaAtencao: {
+                                    type: 'line',
+                                    yMin: maquina.disco.limite * 0.80,
+                                    yMax: maquina.disco.limite * 0.80,
+                                    borderColor: '#ffd500',
+                                    borderWidth: 2,
+                                    label: {
+                                        content: `Anormal > ${maquina.disco.limite * 0.80}%`, //possivel erro
+                                        font: {
+                                            size: 12
+                                        },
+                                        enabled: true,
+                                        position: 'start',
+                                        backgroundColor: '#3e4a3a',
+                                        color: '#ffd500',
+                                        borderWidth: 0.3,
+                                        borderColor: '#ffd500'
+                                    }
+                                }
+                            }
+                        },
+                        legend: {
+                            display: false,
+                        },
+                        tooltip: {
+                            enabled: true,
+                            backgroundColor: '#1a3555',
+                            titleColor: '#7a92b0',
+                            bodyColor: 'rgba(0, 212, 249, 1)',
+                            borderColor: '#2b5876',
+                            borderWidth: 1,
+                            displayColors: false
+                        },
+                        title: {
+                            display: true,
+                            color: '#ffffff'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: '#7a92b0'
+                            },
+                            grid: {
+                                color: '#1f3652'
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                color: '#7a92b0'
+                            },
+                            grid: {
+                                color: '#1f3652',
+                                borderDash: [5, 5]
+                            },
+                            min: 0,
+                            max: 100
+                        }
+                    }
+                }
+            }
+        );
+
+    } else {
+        graficos[maquina.macAddress].discoUso.data.labels = labelsDisco;
+        graficos[maquina.macAddress].discoUso.data.datasets[0].data = dadosUsoDisco;
+        graficos[maquina.macAddress].discoUso.update();
+    }
+
+    // Gráfico regressao disco
+    if (!graficos[maquina.macAddress].discoReg) {
+        graficos[maquina.macAddress].discoReg = new Chart(
+            document.getElementById(`grafRegDisco_${maquina.macAddress}`),
+            {
+                type: 'line',
+                data: {
+                    labels: labelsDisco,
+                    datasets: [{
+                        label: 'Porcentagem por Horário',
+                        data: dadosRegDisco,
+                        showLine: false,
+                        borderColor: 'rgb(0, 255, 68)',
+                        fill: false,
+                        backgroundColor: 'rgba(48, 138, 52, 0.4)',
+                        borderWidth: 3,
+                        tension: 0.2,
+                        pointRadius: 3,
+                        pointHoverRadius: 6,
+                        pointHoverBorderWidth: 2,
+                        pointHoverBorderColor: '#ffffff',
+                        pointHoverBackgroundColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    hover: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    plugins: {
+                        annotation: {
+                            annotations: maquina.disco.previsao.reta.length >= 2 && maquina.cpu.previsao.r2 > 0
+                                ? {
+                                    linhaRegressao: {
+                                        type: 'line',
+                                        xMin: formatarHora(maquina.disco.previsao.reta[0].x),
+                                        yMin: maquina.disco.previsao.reta[0].y,
+
+                                        xMax: formatarHora(maquina.disco.previsao.reta[1].x),
+                                        yMax: maquina.disco.previsao.reta[1].y,
+                                        borderColor: 'rgba(0, 212, 249, 1)',
+                                        borderWidth: 2
+                                    }
+                                }
+                                : {}
+                        },
+                        legend: {
+                            display: true,
+                            labels: {
+                                color: '#ffffff'
+                            }
+                        },
+                        tooltip: {
+                            enabled: true,
+                            backgroundColor: '#1a3555',
+                            titleColor: '#7a92b0',
+                            bodyColor: 'rgba(0, 212, 249, 1)',
+                            borderColor: '#2b5876',
+                            borderWidth: 1,
+                            displayColors: false
+                        },
+                        title: {
+                            display: true,
+                            color: '#ffffff'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: '#7a92b0'
+                            },
+                            grid: {
+                                color: '#1f3652'
+                            },
+                            type: 'category'
+                        },
+                        y: {
+                            ticks: {
+                                color: '#7a92b0'
+                            },
+                            grid: {
+                                color: '#1f3652',
+                                borderDash: [5, 5]
+                            },
+                            min: 0,
+                            max: 100,
+                        }
+                    }
+                }
+            }
+        );
+
+    } else {
+        graficos[maquina.macAddress].discoReg.data.datasets[0].data = dadosRegDisco;
+        graficos[maquina.macAddress].discoReg.update();
+    }
 }
 
 function criarCards(maquinas) {
