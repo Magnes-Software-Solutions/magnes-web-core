@@ -829,7 +829,7 @@ function criarCards(maquinas) {
                                 </div>
                             </div>
                         </div>
-                        <p><a href="dashGestor.html" onclick="pegarMac('${maquina.macAddress}')">Clique para descobrir a possível causa</a></p>
+                        <p><a href="dashboard_auxiliar_Andrei_AWS.html" onclick="pegarMac('${maquina.macAddress}')">Clique para descobrir a possível causa</a></p>
                         <hr>
                         <div class="dialog-tituloComponente">
                             <p class="tituloComponente">RAM</p>
@@ -1077,11 +1077,6 @@ function pegarMac(macAddressAtual) {
     console.log(macAddressAtual)
     sessionStorage.setItem("MAC_ADDRESS_ATUAL", macAddressAtual);
 }
-
-// async function atualizarDashboard() {
-//     const dados = await carregarDados();
-//     exibirMRI(dados);
-// }
 
 async function iniciar() {
     const dados = await carregarDados();
