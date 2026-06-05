@@ -1,5 +1,3 @@
-// const { commonParams } = require("@aws-sdk/client-s3/dist-types/endpoint/EndpointParameters");
-
 const S3_API_ENDPOINT = "/client";
 const HISTORICO_STORAGE_KEY = "historico_maquinas";
 
@@ -161,7 +159,7 @@ function classificarCor(cardAtual, componente, variavel, valor) {
     } else if (variavel == "oscilacao") {
         itens = cardAtual.querySelectorAll(`.oscilacao_${componente}`);
 
-        if (valor == "Baixa (abaixo que 1σ)") {
+        if (valor == "Baixa (abaixo de 1σ)") {
             cor = "corVerde";
 
         } else if (valor == "Média (entre 1σ e 2σ)") {
@@ -193,7 +191,7 @@ function classificarCor(cardAtual, componente, variavel, valor) {
             cor = "corAzul";
         }
 
-    } else if (variavel == "previsao100") {
+    } else if (variavel == "previsaoLimite") {
         itens = cardAtual.querySelectorAll(`.criticidade_${componente}`);
 
         if (valor == "Sem dados suficientes" ||
@@ -235,7 +233,7 @@ function chamarCor(cardAtual, elemento) {
     classificarCor(cardAtual, null, "indice_saude", elemento.indiceSaude);
 
     var componentes = ["cpu", "ram", "disco"];
-    var variaveis = ["status", "oscilacao", "degradacao", "previsao100"];
+    var variaveis = ["status", "oscilacao", "degradacao", "previsaoLimite"];
 
     for (let componente of componentes) {
         for (let variavel of variaveis) {
@@ -245,8 +243,8 @@ function chamarCor(cardAtual, elemento) {
             if (variavel == "indice_saude") {
                 valor = elemento.indiceSaude;
 
-            } else if (variavel == "previsao100") {
-                valor = elemento[componente].previsao.previsao100;
+            } else if (variavel == "previsaoLimite") {
+                valor = elemento[componente].previsao.previsaoLimite;
 
             } else {
                 valor = elemento[componente][variavel];
@@ -448,16 +446,26 @@ function plotarGrafico(maquina) {
                                         xMax: formatarHora(maquina.cpu.previsao.reta[1].x),
                                         yMax: maquina.cpu.previsao.reta[1].y,
                                         borderColor: 'rgba(0, 212, 249, 1)',
-                                        borderWidth: 2
+                                        borderWidth: 2,
+
+                                        label: {
+                                        content: `Reta de previsão`,
+                                        font: {
+                                            size: 12
+                                        },
+                                        enabled: true,
+                                        position: 'start',
+                                        backgroundColor: '#104c68',
+                                        color: '#rgba(0, 212, 249, 1)',
+                                        borderWidth: 0.3,
+                                        borderColor: '#rgba(0, 212, 249, 1)'
+                                    }
                                     }
                                 }
                                 : {}
                         },
                         legend: {
-                            display: true,
-                            labels: {
-                                color: '#ffffff'
-                            }
+                            display: false,
                         },
                         tooltip: {
                             enabled: true,
@@ -531,9 +539,9 @@ function plotarGrafico(maquina) {
                     labels: labelsRam,
                     datasets: [{
                         data: dadosUsoRam,
-                        borderColor: 'rgba(0, 212, 249, 1)',
+                        borderColor: 'rgba(0, 71, 255, 1)',
                         fill: true,
-                        backgroundColor: 'rgba(0, 212, 249, 0.4)',
+                        backgroundColor: 'rgba(0, 71, 255, 0.4)',
                         borderWidth: 3,
                         tension: 0.2,
                         pointRadius: 2,
@@ -563,7 +571,7 @@ function plotarGrafico(maquina) {
                                     borderColor: '#ff3366',
                                     borderWidth: 2,
                                     label: {
-                                        content: `Crítico > ${maquina.ram.limite}%`, //possivel erro
+                                        content: `Crítico > ${maquina.ram.limite}%`,
                                         font: {
                                             size: 12
                                         },
@@ -582,7 +590,7 @@ function plotarGrafico(maquina) {
                                     borderColor: '#ffd500',
                                     borderWidth: 2,
                                     label: {
-                                        content: `Anormal > ${maquina.ram.limite * 0.80}%`, //possivel erro
+                                        content: `Anormal > ${maquina.ram.limite * 0.80}%`,
                                         font: {
                                             size: 12
                                         },
@@ -690,16 +698,26 @@ function plotarGrafico(maquina) {
                                         xMax: formatarHora(maquina.ram.previsao.reta[1].x),
                                         yMax: maquina.ram.previsao.reta[1].y,
                                         borderColor: 'rgba(0, 212, 249, 1)',
-                                        borderWidth: 2
+                                        borderWidth: 2,
+
+                                        label: {
+                                        content: `Reta de previsão`,
+                                        font: {
+                                            size: 12
+                                        },
+                                        enabled: true,
+                                        position: 'start',
+                                        backgroundColor: '#104c68',
+                                        color: '#rgba(0, 212, 249, 1)',
+                                        borderWidth: 0.3,
+                                        borderColor: '#rgba(0, 212, 249, 1)'
+                                        }
                                     }
                                 }
                                 : {}
                         },
                         legend: {
-                            display: true,
-                            labels: {
-                                color: '#ffffff'
-                            }
+                            display: false,
                         },
                         tooltip: {
                             enabled: true,
@@ -804,7 +822,7 @@ function plotarGrafico(maquina) {
                                     borderColor: '#ff3366',
                                     borderWidth: 2,
                                     label: {
-                                        content: `Crítico > ${maquina.disco.limite}%`, //possivel erro
+                                        content: `Crítico > ${maquina.disco.limite}%`,
                                         font: {
                                             size: 12
                                         },
@@ -823,7 +841,7 @@ function plotarGrafico(maquina) {
                                     borderColor: '#ffd500',
                                     borderWidth: 2,
                                     label: {
-                                        content: `Anormal > ${maquina.disco.limite * 0.80}%`, //possivel erro
+                                        content: `Anormal > ${maquina.disco.limite * 0.80}%`,
                                         font: {
                                             size: 12
                                         },
@@ -931,16 +949,26 @@ function plotarGrafico(maquina) {
                                         xMax: formatarHora(maquina.disco.previsao.reta[1].x),
                                         yMax: maquina.disco.previsao.reta[1].y,
                                         borderColor: 'rgba(0, 212, 249, 1)',
-                                        borderWidth: 2
+                                        borderWidth: 2,
+
+                                        label: {
+                                        content: `Reta de previsão`,
+                                        font: {
+                                            size: 12
+                                        },
+                                        enabled: true,
+                                        position: 'start',
+                                        backgroundColor: '#104c68',
+                                        color: '#rgba(0, 212, 249, 1)',
+                                        borderWidth: 0.3,
+                                        borderColor: '#rgba(0, 212, 249, 1)'
+                                        }
                                     }
                                 }
                                 : {}
                         },
                         legend: {
-                            display: true,
-                            labels: {
-                                color: '#ffffff'
-                            }
+                            display: false,
                         },
                         tooltip: {
                             enabled: true,
@@ -999,9 +1027,9 @@ function criarCards(maquinas) {
         var hora = maquina.horario.split(" ")
         hora = hora[1].slice(0, 5);
 
-        previsaoCpu = maquina.cpu.previsao.previsao100.split(":").slice(0, 2).join(":");
-        previsaoRam = maquina.ram.previsao.previsao100.split(":").slice(0, 2).join(":");
-        previsaoDisco = maquina.disco.previsao.previsao100.split(":").slice(0, 2).join(":");
+        previsaoCpu = maquina.cpu.previsao.previsaoLimite.split(":").slice(0, 2).join(":");
+        previsaoRam = maquina.ram.previsao.previsaoLimite.split(":").slice(0, 2).join(":");
+        previsaoDisco = maquina.disco.previsao.previsaoLimite.split(":").slice(0, 2).join(":");
 
         document.getElementById("cards").innerHTML += `
             <div class="divAuxiliar">
@@ -1032,14 +1060,28 @@ function criarCards(maquinas) {
                         </div>
                         <div class="graficos">
                             <div class="graficoPadrao">
-                                <p class="textoChart">Relação da porcentagem de uso da CPU por horário</p>
+                                <p class="textoChart">Monitoramento de uso da CPU</p>
                                 <div class="divCanvas">
+                                    <div class="ajuda-container">
+                                        <span class="icone-interrogacao-impacto-financeiro">?</span>
+                                        <div class="caixa-informacao">
+                                            <strong>Monitoramento do uso da CPU ao longo do tempo:</strong><br><br>
+                                            <strong>• Eixo horizontal (X):</strong> Horário das coletas realizadas pelo sistema.<br><br>
+                                            <strong>• Eixo vertical (Y):</strong> Percentual de utilização da CPU.<br><br>
+                                            <strong>• Linha roxa:</strong> Representa a utilização da CPU em tempo hábil.<br><br>
+                                            <strong>• Linha amarela:</strong> Faixa de atenção operacional.<br>
+                                            Indica comportamento acima do padrão esperado.<br><br>
+                                            <strong>• Linha vermelha:</strong> Limite crítico configurado.<br>
+                                            Valores acima dessa faixa podem causar lentidão, travamentos ou degradação do desempenho.<br><br>
+                                            O gráfico auxilia na identificação de oscilações, picos de consumo e tendências anormais de utilização.
+                                        </div>
+                                    </div>
                                     <canvas id="grafUsoCpu_${maquina.macAddress}"></canvas>
                                 </div>
                                 <div class="informacoes">
                                     <div class="dialogComponentes-corpo">
                                         <p>Uso Atual:</p>&nbsp
-                                        <p class="uso_cpu client">${maquina.cpu.uso}% (${maquina.cpu.status})</p>
+                                        <p class="uso_cpu client">${maquina.cpu.uso}</p>
                                     </div>
                                     <div class="dialogComponentes-corpo">
                                         <p>Limite Crítico:</p>&nbsp
@@ -1055,13 +1097,30 @@ function criarCards(maquinas) {
                                 </div>
                             </div>
                             <div class="graficoPadrao">
-                                <p class="textoChart">Regressão Linear de CPU por horário</p>
+                                <p class="textoChart">Tendência de utilização da CPU</p>
                                 <div class="divCanvas">
+                                    <div class="ajuda-container">
+                                        <span class="icone-interrogacao-impacto-financeiro">?</span>
+                                        <div class="caixa-informacao">
+                                            <strong>Análise preditiva baseada no histórico recente de utilização da CPU.</strong><br><br>
+                                            <strong>• Eixo horizontal (X):</strong> Horário das coletas.<br><br>
+                                            <strong>• Eixo vertical (Y):</strong> Percentual de uso da CPU.<br><br>
+                                            <strong>• Pontos verdes:</strong> Valores coletados ao longo do tempo.<br><br>
+                                            <strong>• Reta azul claro:</strong> Estimativa matemática da evolução do consumo.<br>
+                                            Indica comportamento acima do padrão esperado.<br><br>
+                                            <strong>• Previsão de criticidade:</strong> Estimativa de quando a CPU poderá atingir o limite crítico configurado.<br><br>
+                                            <strong>A previsão considera:</strong><br>
+                                            • tendência de crescimento<br>
+                                            • estabilidade da regressão (R²)<br>
+                                            • velocidade de degradação<br><br>
+                                            Previsões só são exibidas quando existe confiabilidade estatística suficiente.
+                                        </div>
+                                    </div>
                                     <canvas id="grafRegCpu_${maquina.macAddress}"></canvas>
                                 </div>
                                 <div class="informacoes">
                                     <div class="dialogComponentes-corpo">
-                                        <p>Últimas 2 horas:</p>&nbsp
+                                        <p>Tendência recente:</p>&nbsp
                                         <p class="ultimas2h_cpu client">${maquina.cpu.degradacao}</p>
                                     </div>
                                     <div class="dialogComponentes-corpo">
@@ -1081,8 +1140,22 @@ function criarCards(maquinas) {
                         </div>
                         <div class="graficos">
                             <div class="graficoPadrao">
-                                <p class="textoChart">Relação da porcentagem de uso da RAM por horário</p>
+                                <p class="textoChart">Monitoramento de uso da RAM</p>
                                 <div class="divCanvas">
+                                    <div class="ajuda-container">
+                                        <span class="icone-interrogacao-impacto-financeiro">?</span>
+                                        <div class="caixa-informacao">
+                                            <strong>Monitoramento do uso da RAM ao longo do tempo:</strong><br><br>
+                                            <strong>• Eixo horizontal (X):</strong> Horário das coletas realizadas pelo sistema.<br><br>
+                                            <strong>• Eixo vertical (Y):</strong> Percentual de utilização da RAM.<br><br>
+                                            <strong>• Linha azul escura:</strong> Representa a utilização da RAM em tempo hábil.<br><br>
+                                            <strong>• Linha amarela:</strong> Faixa de atenção operacional.<br>
+                                            Indica comportamento acima do padrão esperado.<br><br>
+                                            <strong>• Linha vermelha:</strong> Limite crítico configurado.<br>
+                                            Valores acima dessa faixa podem causar lentidão, travamentos ou degradação do desempenho.<br><br>
+                                            O gráfico auxilia na identificação de oscilações, picos de consumo e tendências anormais de utilização.
+                                        </div>
+                                    </div>
                                     <canvas id="grafUsoRam_${maquina.macAddress}"></canvas>
                                 </div>
                                 <div class="informacoes">
@@ -1104,8 +1177,25 @@ function criarCards(maquinas) {
                                 </div>
                             </div>
                             <div class="graficoPadrao">
-                                <p class="textoChart">Regressão Linear de RAM por horário</p>
+                                <p class="textoChart">Tendência de utilização da RAM</p>
                                 <div class="divCanvas">
+                                    <div class="ajuda-container">
+                                        <span class="icone-interrogacao-impacto-financeiro">?</span>
+                                        <div class="caixa-informacao">
+                                            <strong>Análise preditiva baseada no histórico recente de utilização da RAM.</strong><br><br>
+                                            <strong>• Eixo horizontal (X):</strong> Horário das coletas.<br><br>
+                                            <strong>• Eixo vertical (Y):</strong> Percentual de uso da RAM.<br><br>
+                                            <strong>• Pontos verdes:</strong> Valores coletados ao longo do tempo.<br><br>
+                                            <strong>• Reta azul claro:</strong> Estimativa matemática da evolução do consumo.<br>
+                                            Indica comportamento acima do padrão esperado.<br><br>
+                                            <strong>• Previsão de criticidade:</strong> Estimativa de quando a RAM poderá atingir o limite crítico configurado.<br><br>
+                                            <strong>A previsão considera:</strong><br>
+                                            • tendência de crescimento<br>
+                                            • estabilidade da regressão (R²)<br>
+                                            • velocidade de degradação<br><br>
+                                            Previsões só são exibidas quando existe confiabilidade estatística suficiente.
+                                        </div>
+                                    </div>
                                     <canvas id="grafRegRam_${maquina.macAddress}"></canvas>
                                 </div>
                                 <div class="informacoes">
@@ -1120,7 +1210,7 @@ function criarCards(maquinas) {
                                 </div>
                             </div>
                         </div>
-                        <p><a href="">Clique para descobrir a possível causa</a></p>
+                        <p><a href="dashRam.html">Clique para descobrir a possível causa</a></p>
                         <hr>
                         <div class="dialog-tituloComponente">
                             <p class="tituloComponente">Disco</p>
@@ -1130,8 +1220,22 @@ function criarCards(maquinas) {
                         </div>
                         <div class="graficos">
                             <div class="graficoPadrao">
-                                <p class="textoChart">Relação da porcentagem de uso da Disco por horário</p>
+                                <p class="textoChart">Monitoramento de uso do Disco</p>
                                 <div class="divCanvas">
+                                    <div class="ajuda-container">
+                                        <span class="icone-interrogacao-impacto-financeiro">?</span>
+                                        <div class="caixa-informacao">
+                                            <strong>Monitoramento do uso da Disco ao longo do tempo:</strong><br><br>
+                                            <strong>• Eixo horizontal (X):</strong> Horário das coletas realizadas pelo sistema.<br><br>
+                                            <strong>• Eixo vertical (Y):</strong> Percentual de utilização da Disco.<br><br>
+                                            <strong>• Linha azul escura:</strong> Representa a utilização da Disco em tempo hábil.<br><br>
+                                            <strong>• Linha amarela:</strong> Faixa de atenção operacional.<br>
+                                            Indica comportamento acima do padrão esperado.<br><br>
+                                            <strong>• Linha vermelha:</strong> Limite crítico configurado.<br>
+                                            Valores acima dessa faixa podem causar lentidão, travamentos ou degradação do desempenho.<br><br>
+                                            O gráfico auxilia na identificação de oscilações, picos de consumo e tendências anormais de utilização.
+                                        </div>
+                                    </div>
                                     <canvas id="grafUsoDisco_${maquina.macAddress}"></canvas>
                                 </div>
                                 <div class="informacoes">
@@ -1146,8 +1250,25 @@ function criarCards(maquinas) {
                                 </div>
                             </div>
                             <div class="graficoPadrao">
-                                <p class="textoChart">Regressão Linear de Disco por horário</p>
+                                <p class="textoChart">Tendência de utilização do Disco</p>
                                 <div class="divCanvas">
+                                    <div class="ajuda-container">
+                                        <span class="icone-interrogacao-impacto-financeiro">?</span>
+                                        <div class="caixa-informacao">
+                                            <strong>Análise preditiva baseada no histórico recente de utilização da Disco.</strong><br><br>
+                                            <strong>• Eixo horizontal (X):</strong> Horário das coletas.<br><br>
+                                            <strong>• Eixo vertical (Y):</strong> Percentual de uso da Disco.<br><br>
+                                            <strong>• Pontos verdes:</strong> Valores coletados ao longo do tempo.<br><br>
+                                            <strong>• Reta azul claro:</strong> Estimativa matemática da evolução do consumo.<br>
+                                            Indica comportamento acima do padrão esperado.<br><br>
+                                            <strong>• Previsão de criticidade:</strong> Estimativa de quando a Disco poderá atingir o limite crítico configurado.<br><br>
+                                            <strong>A previsão considera:</strong><br>
+                                            • tendência de crescimento<br>
+                                            • estabilidade da regressão (R²)<br>
+                                            • velocidade de degradação<br><br>
+                                            Previsões só são exibidas quando existe confiabilidade estatística suficiente.
+                                        </div>
+                                    </div>
                                     <canvas id="grafRegDisco_${maquina.macAddress}"></canvas>
                                 </div>
                                 <div class="informacoes">
@@ -1157,7 +1278,7 @@ function criarCards(maquinas) {
                                     </div>
                                     <div class="dialogComponentes-corpo">
                                         <p>Horário de previsão de criticidade:</p>&nbsp
-                                        <p class="criticidade_disco client">${maquina.disco.previsao.previsao100}</p>
+                                        <p class="criticidade_disco client">${previsaoDisco}</p>
                                     </div>
                                 </div>
                             </div>
@@ -1253,7 +1374,7 @@ function criarCards(maquinas) {
                                         </div>
                                         <div class="componentes-corpo">
                                             <p>Previsão criticidade:</p>&nbsp
-                                            <p class="criticidade_disco client">${maquina.disco.previsao.previsao100}</p>
+                                            <p class="criticidade_disco client">${previsaoDisco}</p>
                                         </div>
                                     </div>
                                 </div>
