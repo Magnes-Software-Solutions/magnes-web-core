@@ -71,6 +71,32 @@
 <script src="../services/api.js"></script>
 <script src="../services/userService.js"></script>
 <script>
+  function obterDestinoLogin(email, usuario) {
+    var emailNormalizado = "";
+
+    if (email) {
+      emailNormalizado = String(email).trim().toLowerCase();
+    }
+
+    if (emailNormalizado == "cleber@email.com") {
+      return "dashGSS.html";
+    }
+
+    if (emailNormalizado == "cibele@gmail.com") {
+      return "dashOperacional.html";
+    }
+
+    if (emailNormalizado == "jonasrodrigues@gmail.com") {
+      return "dashboardGRC.html";
+    }
+
+    if (usuario.fkSupervisor == null) {
+      return "dashGestor.html";
+    }
+
+    return "dashAnalista.html";
+  }
+
   function entrar() {
     var senhaVar = inputPassword.value;
     var emailVar = inputEmail.value;
@@ -95,7 +121,7 @@
         senhaServer: senhaVar
       })
     }).then(function (resposta) {
-      console.log("ESTOU NO THEN DO entrar()!")
+      console.log("ESTOU NO THEN DO entrar()! Teste")
 
       if (resposta.ok) {
         console.log(resposta);
@@ -110,28 +136,10 @@
           sessionStorage.FK_SUPERVISOR = json.fkSupervisor;
           sessionStorage.FK_REDE_HOSPITAL = json.fkRedeHospital;
 
-
-          if (json.fkSupervisor == null) {
-
-            setTimeout(function () {
-              window.location = "dashGestor.html";
-            }, 200);
-
-          }
-          // else if(json.email.includes("@magnes.com")){
-
-          //   setTimeout(function () {
-          //     window.location = "";
-          //   }, 200);
-
-          // } 
-
-          else {
-
-            setTimeout(function () {
-              window.location = "dashAnalista.html";
-            }, 200);
-          }
+          var destino = obterDestinoLogin(emailVar, json);
+          setTimeout(function () {
+            window.location = destino;
+          }, 200);
 
         });
 
