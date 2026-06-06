@@ -94,19 +94,19 @@
 
                     <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 navBarNav">
 
-                        <li class="nav-item navLi navLiActive">
+                        <li class="nav-item navLi navLiActive" onclick="window.location.href='dashOperacional.html'">
 
                             <img
                                 src="../assets/imgs/dashboard.svg"
                                 alt="Dashboard">
 
                             <a class="nav-link">
-                                Dashboard
+                                Workstations
                             </a>
 
                         </li>
 
-                        <li class="nav-item navLi">
+                        <li class="nav-item navLi" onclick="window.location.href='telaAlertas.html'">
 
                             <img
                                 src="../assets/imgs/alert.svg"
@@ -118,7 +118,7 @@
 
                         </li>
 
-                        <li class="nav-item navLi navLiLogout">
+                        <li class="nav-item navLi navLiLogout" onclick="limparSessao()">
 
                             <img
                                 src="../assets/imgs/box-arrow-left.svg"
@@ -1470,9 +1470,8 @@
         );
 
     </script>
-    <script>
-        lucide.createIcons();
-    </script>
+    <script>lucide.createIcons();</script>
+    <script src="../js/sessao.js"></script>
 </body>
 
 </html>
