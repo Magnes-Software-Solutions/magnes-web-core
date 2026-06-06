@@ -1228,7 +1228,7 @@ function criarCards(maquinas) {
                                             <strong>Monitoramento do uso da Disco ao longo do tempo:</strong><br><br>
                                             <strong>• Eixo horizontal (X):</strong> Horário das coletas realizadas pelo sistema.<br><br>
                                             <strong>• Eixo vertical (Y):</strong> Percentual de utilização da Disco.<br><br>
-                                            <strong>• Linha azul escura:</strong> Representa a utilização da Disco em tempo hábil.<br><br>
+                                            <strong>• Linha rosa:</strong> Representa a utilização da Disco em tempo hábil.<br><br>
                                             <strong>• Linha amarela:</strong> Faixa de atenção operacional.<br>
                                             Indica comportamento acima do padrão esperado.<br><br>
                                             <strong>• Linha vermelha:</strong> Limite crítico configurado.<br>
