@@ -790,3 +790,71 @@ canvas {
   max-height: 220px;
   width: 100%;
 }
+
+@media (max-width: 1200px) {
+  .kpi-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .page {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .page {
+    padding: 0.75rem 0.75rem 2rem;
+  }
+
+  .navBarTop img {
+    width: 44px;
+    height: auto;
+  }
+
+  .tituloLogo {
+    font-size: 15px;
+  }
+
+  .textoLogo {
+    font-size: 9px;
+  }
+
+  .kpi {
+    padding: 14px;
+  }
+
+  .kpi-value {
+    font-size: 26px;
+  }
+
+  .card {
+    padding: 1rem;
+    border-radius: 14px;
+  }
+
+  .bar-row,
+  .sla-row {
+    gap: 8px;
+  }
+
+  .bar-name,
+  .sla-cat {
+    width: 44px;
+  }
+
+  .bar-pct,
+  .sla-pct {
+    width: 42px;
+  }
+
+  .hm-legend,
+  .chart-legend {
+    gap: 10px;
+  }
+
+  .pill {
+    padding: 4px 8px;
+    white-space: normal;
+  }
+}

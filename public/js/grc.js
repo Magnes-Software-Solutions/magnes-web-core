@@ -74,10 +74,17 @@ function adaptarMaquina(m) {
     mac = m.id;
   }
 
-  let label = mac;
-  if (m && m.empresa) {
-    label = m.empresa;
+  let nomeMaquina = mac;
+  if (m && m.nomeMaquina) {
+    nomeMaquina = m.nomeMaquina;
   }
+
+  let empresa = "";
+  if (m && m.empresa) {
+    empresa = m.empresa;
+  }
+
+  let label = nomeMaquina;
 
   let horario = "";
   if (m && m.horario) {
@@ -147,6 +154,8 @@ function adaptarMaquina(m) {
   return {
     id: mac,
     label: label,
+    nomeMaquina: nomeMaquina,
+    empresa: empresa,
     horario: horario,
     cpu: cpu,
     ram: ram,
@@ -547,7 +556,69 @@ function renderTickets(tickets) {
   el.innerHTML = html;
 }
 
-function renderCVEs(cves) {
+function numeroServidor(nomeServidor) {
+  const texto = String(nomeServidor);
+  const partes = texto.split("-");
+
+  if (partes.length < 2) {
+    return 0;
+  }
+
+  const numero = Number(partes[1]);
+
+  if (Number.isNaN(numero)) {
+    return 0;
+  }
+
+  return numero;
+}
+
+function traduzirServidorParaMaquina(nomeServidor, maquinas) {
+  if (!nomeServidor) {
+    return "-";
+  }
+
+  for (let i = 0; i < maquinas.length; i++) {
+    if (maquinas[i].id === nomeServidor || maquinas[i].nomeMaquina === nomeServidor || maquinas[i].label === nomeServidor) {
+      return maquinas[i].nomeMaquina;
+    }
+  }
+
+  if (String(nomeServidor).indexOf("SRV-") === 0) {
+    const numero = numeroServidor(nomeServidor);
+    const posicao = numero - 1;
+
+    if (posicao >= 0 && posicao < maquinas.length) {
+      return maquinas[posicao].nomeMaquina;
+    }
+  }
+
+  return nomeServidor;
+}
+
+function montarNomesMaquinasCVE(cve, maquinas) {
+  let texto = "-";
+
+  if (Array.isArray(cve.servidores)) {
+    const nomes = [];
+
+    for (let i = 0; i < cve.servidores.length; i++) {
+      const nome = traduzirServidorParaMaquina(cve.servidores[i], maquinas);
+
+      if (!nomes.includes(nome)) {
+        nomes.push(nome);
+      }
+    }
+
+    texto = nomes.join(", ");
+  } else if (cve.servidores) {
+    texto = traduzirServidorParaMaquina(cve.servidores, maquinas);
+  }
+
+  return texto;
+}
+
+function renderCVEs(cves, maquinas) {
   const el = document.getElementById("cve-list");
 
   if (!el) {
@@ -580,18 +651,13 @@ function renderCVEs(cves) {
       classeStatus = "pill-purple";
     }
 
-    let servidores = "-";
-    if (Array.isArray(cve.servidores)) {
-      servidores = cve.servidores.join(", ");
-    } else if (cve.servidores) {
-      servidores = cve.servidores;
-    }
+    let maquinasAfetadas = montarNomesMaquinasCVE(cve, maquinas);
 
     html += "<tr>";
     html += '<td><span class="cve-id">' + escapeHtml(cve.id) + "</span></td>";
     html += '<td><div class="cvss-wrap"><div class="cvss-bar" style="width:' + largura + "px;background:" + corBarra + '"></div><span class="cvss-num" style="color:' + corNumero + '">' + cve.cvss + "</span></div></td>";
     html += "<td>" + escapeHtml(cve.componente) + "</td>";
-    html += '<td><span class="pill ' + classeServidor + '">' + escapeHtml(servidores) + "</span></td>";
+    html += '<td><span class="pill ' + classeServidor + '">' + escapeHtml(maquinasAfetadas) + "</span></td>";
     html += '<td><span class="pill ' + classeStatus + '">' + escapeHtml(cve.status) + "</span></td>";
     html += '<td style="color:#5a7a9c;font-size:11px">' + cve.diasAberto + "d</td>";
     html += "</tr>";
@@ -816,7 +882,7 @@ async function carregarDados() {
   renderKPIs(risco, alertas, cvesCriticas, sla, totalServidores);
   renderHeatmap(maquinas);
   renderTickets(tickets);
-  renderCVEs(cves);
+  renderCVEs(cves, maquinas);
   atualizarBarrasDashboard(maquinas, cves, sla);
   atualizarTrendChart(pegarTendenciaParaGrafico(dadosBrutos, maquinas));
 
