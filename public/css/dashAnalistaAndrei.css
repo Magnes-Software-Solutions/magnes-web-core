@@ -172,16 +172,37 @@
 
         }
 
-        .infoHospital{
+        .cabecalhoDashboard{
 
-            display: flex;
+            display:flex;
 
-            align-items: center;
+            justify-content:space-between;
 
-            gap: 20px;
+            align-items:center;
+
+            gap:30px;
 
             margin-bottom:30px;
+        }
 
+        .infosDashboard{
+
+            display:flex;
+
+            flex-direction:column;
+        }
+
+        .infoHospital{
+
+            display:flex;
+
+            align-items:center;
+
+            gap:20px;
+
+            flex-shrink:0;
+
+            margin-bottom:0;
         }
 
         .iconeHospital{
@@ -461,6 +482,20 @@
                 grid-template-columns:1fr;
             }
 
+            .cabecalhoDashboard{
+
+                flex-direction:column;
+
+                align-items:flex-start;
+            }
+
+            .infoHospital{
+
+                width:100%;
+
+                justify-content:center;
+            }
+
         }
 
         @media(max-width:768px){
@@ -474,6 +509,7 @@
                 gap:12px;
 
                 padding:15px;
+                
 
             }
 
