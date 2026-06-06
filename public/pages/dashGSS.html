@@ -325,7 +325,7 @@
     function salvarHistorico(novosDados) {
 
       var historico = JSON.parse(
-        sessionStorage.getItem("historicoMaquinas") || "[]"
+        localStorage.getItem("historicoMaquinas") || "[]"
       );
 
       for (var i = 0; i < novosDados.length; i++) {
@@ -333,7 +333,7 @@
         historico.push(novosDados[i]);
       }
 
-      sessionStorage.setItem(
+      localStorage.setItem(
         "historicoMaquinas",
         JSON.stringify(historico)
       );
@@ -342,13 +342,13 @@
     function obterHistorico() {
 
       return JSON.parse(
-        sessionStorage.getItem("historicoMaquinas") || "[]"
+        localStorage.getItem("historicoMaquinas") || "[]"
       );
     }
     // Função para atualizar a dashboard, chamada ao clicar no botão de atualizar ou ao selecionar uma máquina
     async function atualizarDashboard() {
 
-      sessionStorage.removeItem(
+      localStorage.removeItem(
         "historicoMaquinas"
       );
 
@@ -518,7 +518,7 @@
 
       document.getElementById("paginaInteira_div")
         .style.display = "block";
-      sessionStorage.removeItem(
+      localStorage.removeItem(
         "historicoMaquinas"
       );
       receberAlertasJira();
