@@ -319,18 +319,48 @@
     var maquinaSelecionada = null;
 
     var servidor = "32.196.169.135";
+
+    // HISTÓRICO DAS MÉTRICAS
+
+    function salvarHistorico(novosDados) {
+
+      var historico = JSON.parse(
+        localStorage.getItem("historicoMaquinas") || "[]"
+      );
+
+      for (var i = 0; i < novosDados.length; i++) {
+
+        historico.push(novosDados[i]);
+      }
+
+      localStorage.setItem(
+        "historicoMaquinas",
+        JSON.stringify(historico)
+      );
+    }
+
+    function obterHistorico() {
+
+      return JSON.parse(
+        localStorage.getItem("historicoMaquinas") || "[]"
+      );
+    }
     // Função para atualizar a dashboard, chamada ao clicar no botão de atualizar ou ao selecionar uma máquina
     async function atualizarDashboard() {
 
-    await receberAlertasJira();
-    await carregarDados();
+      localStorage.removeItem(
+        "historicoMaquinas"
+      );
 
-    // Atualiza o gráfico da máquina já selecionada
-    if (maquinaSelecionada) {
+      await receberAlertasJira();
+
+      await carregarDados();
+
+      if (maquinaSelecionada) {
+
         selecionarMaquina();
-    }
-}
-    // LINK JIRA
+      }
+    } // LINK JIRA
 
 
     function linkJira() {
@@ -488,7 +518,9 @@
 
       document.getElementById("paginaInteira_div")
         .style.display = "block";
-
+      localStorage.removeItem(
+        "historicoMaquinas"
+      );
       receberAlertasJira();
       carregarDados();
       carregarMaquinas();
@@ -626,12 +658,20 @@
 
 
     async function carregarDados() {
-
       var resposta =
         await fetch(`http://${servidor}:3333/client`);
 
       var respostaJson = await resposta.json();
-      var todos = respostaJson.maquinas;
+
+      var dadosNovos =
+        respostaJson.maquinas;
+
+      // salva os dados recebidos
+      salvarHistorico(dadosNovos);
+
+      // usa o histórico completo
+      var todos =
+        obterHistorico();
 
       var resultado = [];
 
