@@ -374,10 +374,67 @@
 }
 
 .divCanvas {
+    position: relative;
     width: 100%;
     border: 2px solid #10435f;
     border-radius: 16px;
     padding: 10px 20px 20px 20px;
+
+    .ajuda-container {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 999;
+    }
+
+    .icone-interrogacao, 
+    .icone-interrogacao-impacto-financeiro, 
+    .icone-interrogacao-impacto-sla {
+        background-color: #1a3a5f;
+        color: #38bdf8;
+        border: 1px solid #10435f;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: bold;
+        cursor: help;
+        transition: all 0.2s ease-in-out;
+        margin: 0;
+    }
+    
+    .icone-interrogacao:hover, 
+    .icone-interrogacao-impacto-financeiro:hover, 
+    .icone-interrogacao-impacto-sla:hover {
+        background-color: #276e95;
+        color: #fff;
+        border-color: #38bdf8;
+    }
+    
+    .caixa-informacao {
+        display: none;
+        position: absolute;
+        background-color: #0d1e36;
+        color: #e2e8f0;
+        border: 1px solid #10435f;
+        padding: 12px;
+        border-radius: 6px;
+        width: 290px;
+        font-size: 12px;
+        font-weight: normal;
+        line-height: 1.4;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        top: 30px;
+        right: 0;
+        text-align: start;
+    }
+    
+    .ajuda-container:hover .caixa-informacao {
+        display: block;
+    }
 }
 
 .dialogGraf-header {
@@ -438,7 +495,7 @@
     background: #1b6c97;
 }
 
-.chat-button {
+/* .chat-button {
     position: fixed;
     bottom: 30px;
     right: 30px;
@@ -496,7 +553,7 @@
     padding: 10px;
     background: white;
     border-top: 1px solid #dee2e6;
-}
+} */
 
 .message {
     margin-bottom: 12px;
@@ -720,7 +777,7 @@
         height: auto;
     }
     
-    /* Chat responsivo */
+    /* Chat responsivo
     .chat-window {
         width: calc(100vw - 40px);
         right: 20px;
@@ -734,7 +791,7 @@
         right: 20px;
         width: 50px;
         height: 50px;
-    }
+    } */
 }
 
 @media (max-width: 480px) {
@@ -989,11 +1046,11 @@
 .graficos {
     display: flex;
     justify-content: space-between;
-    padding: 0px 15px;
+    padding: 0px 10px;
 }
 
 .graficoPadrao {
-    width: 47%;
+    width: 48.5%;
 }
 
 a {
