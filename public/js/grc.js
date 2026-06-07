@@ -654,11 +654,11 @@ function renderCVEs(cves, maquinas) {
     let maquinasAfetadas = montarNomesMaquinasCVE(cve, maquinas);
 
     html += "<tr>";
-    html += '<td><span class="cve-id">' + escapeHtml(cve.id) + "</span></td>";
+    html += '<td title="' + escapeHtml(cve.id) + '"><span class="cve-id">' + escapeHtml(cve.id) + "</span></td>";
     html += '<td><div class="cvss-wrap"><div class="cvss-bar" style="width:' + largura + "px;background:" + corBarra + '"></div><span class="cvss-num" style="color:' + corNumero + '">' + cve.cvss + "</span></div></td>";
-    html += "<td>" + escapeHtml(cve.componente) + "</td>";
-    html += '<td><span class="pill ' + classeServidor + '">' + escapeHtml(maquinasAfetadas) + "</span></td>";
-    html += '<td><span class="pill ' + classeStatus + '">' + escapeHtml(cve.status) + "</span></td>";
+    html += '<td title="' + escapeHtml(cve.componente) + '">' + escapeHtml(cve.componente) + "</td>";
+    html += '<td title="' + escapeHtml(maquinasAfetadas) + '"><span class="pill ' + classeServidor + '">' + escapeHtml(maquinasAfetadas) + "</span></td>";
+    html += '<td title="' + escapeHtml(cve.status) + '"><span class="pill ' + classeStatus + '">' + escapeHtml(cve.status) + "</span></td>";
     html += '<td style="color:#5a7a9c;font-size:11px">' + cve.diasAberto + "d</td>";
     html += "</tr>";
   }

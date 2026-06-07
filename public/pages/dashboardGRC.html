@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<link rel="stylesheet" href="../css/headerDash.css">
 <link rel="stylesheet" href="../css/grcstyle.css">
 </head>
 <body>
@@ -172,7 +173,7 @@
                     </div>
                 </div>
 
-                                <div class="g-full">
+                <div class="g2">
                     <div class="card">
                         <div class="card-title">Tickets — alertas ativos</div>
                         <div id="ticket-list"></div>
@@ -183,17 +184,17 @@
                             <div class="sla-row"><div class="sla-cat">CVE</div><div class="sla-track"><div class="sla-fill" id="sla-cve" style="width:0%; background:#a855f7;"></div></div><div class="sla-pct" id="sla-pct-cve">—</div></div>
                         </div>
                     </div>
-                </div>
 
-                <div class="g2">
                     <div class="card">
                         <div class="card-title">CVEs críticas abertas</div>
+                        <div class="cv-table-wrapper">
                         <table class="cve-table">
                             <thead>
-                                <tr><th style="width:110px">ID</th><th style="width:70px">CVSS</th><th>Sistema</th><th style="width:110px">Máquina</th><th style="width:72px">Status</th><th style="width:44px">Dias</th></tr>
+                                <tr><th style="width:15%">ID</th><th style="width:14%">CVSS</th><th style="width: 12%;">Sistema</th><th style="width:25%">Máquina</th><th style="width:14%">Status</th><th style="width:10%">Dias</th></tr>
                             </thead>
                             <tbody id="cve-list"></tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
 
