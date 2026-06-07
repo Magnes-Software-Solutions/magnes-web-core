@@ -1038,16 +1038,16 @@ function criarCards(maquinas) {
                         <div class="dialogGraf-header">
                             <div class="dialogUso">
                                 <h2 id="macAddress">${maquina.macAddress}</h2>
-                                <img class="closeDialog" type="button" src="../assets/imgs/x-lg.svg" alt=""
-                                    onclick="document.getElementById('dialogGraf_${maquina.macAddress}').close()">
+                                <img class="closeDialog" type="button" src="../assets/imgs/x-lg.svg" alt="" onclick="document.getElementById('dialogGraf_${maquina.macAddress}').close()">
+                                <!-- <img class="closeDialog" type="button" src="../assets/imgs/x-lg.svg" alt="" onclick="location.reload()"> -->
                             </div>
                             <div class="dialogUso">
                                 <div class="indice_saude bodyImg">
-                                    <p>Saúde: ${maquina.indiceSaude}</p>
+                                    <p class="num_indiceSaude">Saúde: ${maquina.indiceSaude}</p>
                                 </div>
                                 <p class="dialogUso-texto ultimaAtualizacao">Última atualização às ${hora}</p>
                                 <div class="bodyImg bodyImgAzul">
-                                    <p>Ativo</p>
+                                    <p class="statusAtividade">${maquina.statusAtividade}</p>
                                 </div>
                             </div>
                         </div>
@@ -1055,7 +1055,7 @@ function criarCards(maquinas) {
                         <div class="dialog-tituloComponente">
                             <p class="tituloComponente">CPU</p>
                             <div class="status_cpu status">
-                                <p id="statusComponente_cpu">${maquina.cpu.status}</p>
+                                <p class="statusComponente_cpu">${maquina.cpu.status}</p>
                             </div>
                         </div>
                         <div class="graficos">
@@ -1085,7 +1085,7 @@ function criarCards(maquinas) {
                                     </div>
                                     <div class="dialogComponentes-corpo">
                                         <p>Limite Crítico:</p>&nbsp
-                                        <p id="limiteCritico" class="client corAzul">${maquina.cpu.limite}%</p>
+                                        <p class="limiteCritico_cpu client corAzul">${maquina.cpu.limite}%</p>
                                     </div>
                                     <div class="dialogComponentes-corpo" style="margin-bottom: 0px !important;">
                                         <p>Oscilação:</p>&nbsp
@@ -1135,7 +1135,7 @@ function criarCards(maquinas) {
                         <div class="dialog-tituloComponente">
                             <p class="tituloComponente">RAM</p>
                             <div class="status_ram status">
-                                <p id="statusComponente_ram">${maquina.ram.status}</p>
+                                <p class="statusComponente_ram">${maquina.ram.status}</p>
                             </div>
                         </div>
                         <div class="graficos">
@@ -1165,7 +1165,7 @@ function criarCards(maquinas) {
                                     </div>
                                     <div class="dialogComponentes-corpo">
                                         <p>Limite Crítico:</p>&nbsp
-                                        <p id="limiteCritico" class="client corAzul">${maquina.ram.limite}%</p>
+                                        <p class="limiteCritico_ram client corAzul">${maquina.ram.limite}%</p>
                                     </div>
                                     <div class="dialogComponentes-corpo" style="margin-bottom: 0px !important;">
                                         <p>Oscilação:</p>&nbsp
@@ -1215,7 +1215,7 @@ function criarCards(maquinas) {
                         <div class="dialog-tituloComponente">
                             <p class="tituloComponente">Disco</p>
                             <div class="status_disco status">
-                                <p id="statusComponente_disco">${maquina.disco.status}</p>
+                                <p class="statusComponente_disco">${maquina.disco.status}</p>
                             </div>
                         </div>
                         <div class="graficos">
@@ -1245,7 +1245,7 @@ function criarCards(maquinas) {
                                     </div>
                                     <div class="dialogComponentes-corpo">
                                         <p>Limite Crítico:</p>&nbsp
-                                        <p id="limiteCritico" class="client corAzul">${maquina.disco.limite}%</p>
+                                        <p class="limiteCritico_disco client corAzul">${maquina.disco.limite}%</p>
                                     </div>
                                 </div>
                             </div>
@@ -1292,7 +1292,7 @@ function criarCards(maquinas) {
                             <div class="bodyMaquina-header">
                                 <p class="macAddressCard">${maquina.macAddress}</p>
                                 <div class="indice_saude bodyImg">
-                                    <p>Saúde: ${maquina.indiceSaude}</p>
+                                    <p class="num_indiceSaude">Saúde: ${maquina.indiceSaude}</p>
                                 </div>                    
                             </div>
                             <div class="localizacao">
@@ -1337,7 +1337,7 @@ function criarCards(maquinas) {
                                         </div>
                                         <p class="uso_ram">${maquina.ram.uso}%</p>
                                         <div class="status_ram status">
-                                            <p id="statusComponente_ram">${maquina.ram.status}</p>
+                                            <p class="statusComponente_ram">${maquina.ram.status}</p>
                                         </div>
                                     </div>
                                     <div>
@@ -1364,7 +1364,7 @@ function criarCards(maquinas) {
                                         </div>
                                         <p class="uso_disco">${maquina.disco.uso}%</p>
                                         <div class="status_disco status">
-                                            <p id="statusComponente_disco">${maquina.disco.status}</p>
+                                            <p class="statusComponente_disco">${maquina.disco.status}</p>
                                         </div>
                                     </div>
                                     <div>
@@ -1389,6 +1389,12 @@ function criarCards(maquinas) {
     });
 }
 
+function atualizarTexto(card, classe, valor) {
+    card.querySelectorAll(`.${classe}`).forEach(elemento => {
+        elemento.innerHTML = valor;
+    });
+}
+
 async function exibirMRI(registro) {
     const maquinas = registro.maquinas;
 
@@ -1402,34 +1408,46 @@ async function exibirMRI(registro) {
 
         const dialog = document.getElementById(`dialogGraf_${maquina.macAddress}`); 
 
-        let card = null;
-        if (dialog) {
-            card = dialog.closest(".divAuxiliar");
-
-        } else if (!card) {
-            return;
-        }
+        if (!dialog) return;
+        const card = dialog.closest(".divAuxiliar");
 
         chamarCor(card, maquina);
         plotarGrafico(maquina);
 
-        // Atualiza textos
-        card.querySelectorAll(".uso_cpu").forEach(elemento => {
-            elemento.innerHTML = `${maquina.cpu.uso}%`;
-        });
-
-        card.querySelectorAll(".uso_ram").forEach(elemento => {
-            elemento.innerHTML = `${maquina.ram.uso}%`;
-        });
-
-        card.querySelectorAll(".uso_disco").forEach(elemento => {
-            elemento.innerHTML = `${maquina.disco.uso}%`;
-        });
-
         const hora = formatarHora(maquina.horario);
-        card.querySelectorAll(".ultimaAtualizacao").forEach(elemento => {
-            elemento.innerHTML = `Última atualização às ${hora}`;
-        });
+        const atualizacoes = {
+            // Geral
+            ultimaAtualizacao: `Última atualização às ${hora}`,
+            num_indiceSaude: `Saúde: ${maquina.indiceSaude}`,
+            statusAtividade: maquina.statusAtividade,
+
+            // CPU
+            uso_cpu: `${maquina.cpu.uso}%`,
+            statusComponente_cpu: maquina.cpu.status,
+            limiteCritico_cpu: `${maquina.cpu.limite}%`,
+            oscilacao_cpu: maquina.cpu.oscilacao,
+            ultimas2h_cpu: maquina.cpu.degradacao,
+            criticidade_cpu: maquina.cpu.previsao.previsaoLimite.split(":").slice(0, 2).join(":"),
+
+            // RAM
+            uso_ram: `${maquina.ram.uso}%`,
+            statusComponente_ram: maquina.ram.status,
+            limiteCritico_ram: `${maquina.ram.limite}%`,
+            oscilacao_ram: maquina.ram.oscilacao,
+            ultimas2h_ram: maquina.ram.degradacao,
+            criticidade_ram: maquina.ram.previsao.previsaoLimite.split(":").slice(0, 2).join(":"),
+
+            // Disco
+            uso_disco: `${maquina.disco.uso}%`,
+            statusComponente_disco: maquina.disco.status,
+            limiteCritico_disco:`${maquina.disco.limite}%`,
+            ultimas2h_disco: maquina.disco.degradacao,
+            criticidade_disco: maquina.disco.previsao.previsaoLimite.split(":").slice(0, 2).join(":"),
+        };
+
+        for (const classe in atualizacoes) {
+            atualizarTexto(card, classe, atualizacoes[classe]);
+        }
     });
 
     plotarKpi(total, critico, atencao, estavel);
@@ -1455,7 +1473,7 @@ async function iniciar() {
     setInterval(async () => {
         const novosDados = await carregarDados();
         exibirMRI(novosDados);
-    }, 60000);
+    }, 120000);
 }
 
 iniciar();
