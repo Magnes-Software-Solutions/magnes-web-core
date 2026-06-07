@@ -586,6 +586,30 @@ body {
   margin-bottom: 8px;
 }
 
+#ticket-list {
+  max-height: 320px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+#ticket-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+#ticket-list::-webkit-scrollbar-track {
+  background: #0a1628;
+  border-radius: 3px;
+}
+
+#ticket-list::-webkit-scrollbar-thumb {
+  background: #1d3557;
+  border-radius: 3px;
+}
+
+#ticket-list::-webkit-scrollbar-thumb:hover {
+  background: #2d5a88;
+}
+
 .tid {
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
@@ -643,7 +667,6 @@ body {
 
 .cve-table {
   width: 100%;
-  min-width: 600px;
   border-collapse: collapse;
   table-layout: fixed;
   word-break: break-word;
@@ -665,25 +688,27 @@ body {
   font-weight: 600;
   color: #5a7a9c;
   text-transform: uppercase;
-  padding: 0 8px 12px;
+  padding: 0 6px 12px;
   border-bottom: 1px solid #1d3557;
-  white-space: nowrap; 
-}
-
-.cve-table td {
-  padding: 12px 8px;
-  border-bottom: 1px solid #1d3557;
-  font-size: 12px;
-  vertical-align: middle;
-  color: #e2e8f2;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis; 
 }
 
+.cve-table td {
+  padding: 10px 6px;
+  border-bottom: 1px solid #1d3557;
+  font-size: 11px;
+  vertical-align: middle;
+  color: #e2e8f2;
+  overflow: hidden;
+  text-overflow: ellipsis; 
+  white-space: nowrap;
+}
+
 .cve-table-wrapper {
   width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
+  overflow: hidden;
 }
 
 .cve-id {
