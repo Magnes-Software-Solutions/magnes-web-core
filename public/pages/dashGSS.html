@@ -320,31 +320,64 @@
 
     var servidor = "32.196.169.135";
 
-    // HISTÓRICO DAS MÉTRICAS
 
-    function salvarHistorico(novosDados) {
+    function obterHistorico() {
 
-      var historico = JSON.parse(
-        localStorage.getItem("historicoMaquinas") || "[]"
+      return JSON.parse(
+        localStorage.getItem(
+          "historicoMaquinas"
+        ) || "[]"
       );
 
-      for (var i = 0; i < novosDados.length; i++) {
+    }
+    // HISTÓRICO DAS MÉTRICAS
 
-        historico.push(novosDados[i]);
+    function salvarHistorico(dadosNovos) {
+
+      var historico =
+        JSON.parse(
+          localStorage.getItem("historicoMaquinas")
+          || "[]"
+        );
+
+      for (var i = 0; i < dadosNovos.length; i++) {
+
+        var novo = dadosNovos[i];
+
+        var existe = false;
+
+        for (var j = 0; j < historico.length; j++) {
+
+          if (
+            historico[j].macAddress == novo.macAddress &&
+            historico[j].horario == novo.horario
+          ) {
+
+            existe = true;
+            break;
+          }
+        }
+
+        if (!existe) {
+
+          historico.push(novo);
+
+        }
       }
+      if (historico.length > 100) {
 
+        historico =
+          historico.slice(
+            historico.length - 100
+          );
+
+      }
       localStorage.setItem(
         "historicoMaquinas",
         JSON.stringify(historico)
       );
     }
 
-    function obterHistorico() {
-
-      return JSON.parse(
-        localStorage.getItem("historicoMaquinas") || "[]"
-      );
-    }
     // Função para atualizar a dashboard, chamada ao clicar no botão de atualizar ou ao selecionar uma máquina
     async function atualizarDashboard() {
 
@@ -725,6 +758,12 @@
           registrosMaquina.push(resultado[i]);
         }
       }
+      registrosMaquina.sort(function (a, b) {
+
+        return new Date(a.horario)
+          - new Date(b.horario);
+
+      });
 
       // Variavel para armazenar o último horário de atualização encontrado nos registros da máquina alvo
       var ultimo =
@@ -845,7 +884,7 @@
         var m = registrosMaquina[i];
 
         labels.push(
-          m.horario.substring(11, 16)
+          m.horario.substring(11, 19)
         );
 
         cpu.push(
