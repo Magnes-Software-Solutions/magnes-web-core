@@ -414,6 +414,10 @@ body {
   margin-bottom: 16px;
 }
 
+.g-full {
+  margin-bottom: 20px;
+}
+
 .g2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
