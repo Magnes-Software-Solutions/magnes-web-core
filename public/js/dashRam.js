@@ -245,13 +245,19 @@ function mesclarHistoricoRam(historicoNovo) {
 }
 
 function montarDadosGraficoRam(historico) {
-    const todosHorarios = historico.flatMap(maquina =>
+
+    const historicoFiltrado = historico.map(maquina => ({
+        ...maquina,
+        registros: maquina.registros.slice(-1)
+    }));
+
+    const todosHorarios = historicoFiltrado.flatMap(maquina =>
         maquina.registros.map(r => r.horario)
     );
 
     const labels = [...new Set(todosHorarios)].sort();
 
-    const datasets = historico.map((maquina, indice) => {
+    const datasets = historicoFiltrado.map((maquina, indice) => {
         const cor = corLinhaRam(indice);
         const valores = labels.map(horario => {
             const registro = maquina.registros.find(r => r.horario === horario);
