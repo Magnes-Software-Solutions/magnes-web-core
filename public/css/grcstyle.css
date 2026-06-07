@@ -421,10 +421,6 @@ body {
   margin-bottom: 20px;
 }
 
-.g-full {
-  margin-bottom: 20px;
-}
-
 .heatmap {
   display: grid;
   grid-template-columns: 88px repeat(3, 1fr);
@@ -587,7 +583,7 @@ body {
 }
 
 #ticket-list {
-  max-height: 320px;
+  max-height: 260px;
   overflow-y: auto;
   padding-right: 4px;
 }
@@ -709,7 +705,9 @@ body {
 
 .cve-table-wrapper {
   width: 100%;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: 320px;
 }
 
 .cve-table .pill {
