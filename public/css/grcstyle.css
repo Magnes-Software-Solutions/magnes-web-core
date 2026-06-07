@@ -704,11 +704,20 @@ body {
   overflow: hidden;
   text-overflow: ellipsis; 
   white-space: nowrap;
+  max-width: 0;
 }
 
 .cve-table-wrapper {
   width: 100%;
   overflow: hidden;
+}
+
+.cve-table .pill {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block; 
 }
 
 .cve-id {
