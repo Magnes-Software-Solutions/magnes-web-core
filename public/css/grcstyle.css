@@ -206,8 +206,6 @@ body {
   height: 20px;
 }
 
-.mugungaza{}
-
 .page {
   max-width: 1400px;
   margin: 0 auto;
@@ -645,7 +643,10 @@ body {
 
 .cve-table {
   width: 100%;
+  min-width: 600px;
   border-collapse: collapse;
+  table-layout: fixed;
+  word-break: break-word;
 }
 
 .cve-table th {
@@ -658,12 +659,31 @@ body {
   border-bottom: 1px solid #1d3557;
 }
 
+.cve-table th {
+  text-align: left;
+  font-size: 10px;
+  font-weight: 600;
+  color: #5a7a9c;
+  text-transform: uppercase;
+  padding: 0 8px 12px;
+  border-bottom: 1px solid #1d3557;
+  white-space: nowrap; 
+}
+
 .cve-table td {
   padding: 12px 8px;
   border-bottom: 1px solid #1d3557;
   font-size: 12px;
   vertical-align: middle;
   color: #e2e8f2;
+  overflow: hidden;
+  text-overflow: ellipsis; 
+}
+
+.cve-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .cve-id {
@@ -829,6 +849,7 @@ canvas {
   }
 
   .card {
+    overflow: hidden;
     padding: 1rem;
     border-radius: 14px;
   }
