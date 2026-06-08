@@ -41,10 +41,6 @@
                                     <img src="../assets/imgs/dashboard.svg" alt="Simbolo de Dashboard">
                                     <a class="nav-link">Dashboard</a>
                                 </li>
-                                <li class="nav-item navLi" onclick="window.location.href='telaAlertas.html'">
-                                    <img src="../assets/imgs/alert.svg" alt="Simbolo de Alerta">
-                                    <a class="nav-link">Alerta</a>
-                                </li>
                                 <li class="nav-item navLi navLiLogout" onclick="limparSessao()">
                                     <img src="../assets/imgs/box-arrow-left.svg" alt="" class="navItemIcon" />
                                     <a class="nav-link">Logout</a>
@@ -139,13 +135,6 @@
 <script src="../js/sessao.js"></script>
 <script src="../js/operacional.js"></script>
 <script>
-    // Adicinando cor nas tags
-    // const elementos = document.querySelectorAll("#oscilacao");
-
-    // elementos.forEach(elemento => {
-    //     elemento.classList.add("corCritico");
-    // });
-
     function pegarDashboard() {
         var idUsuario = sessionStorage.ID_USUARIO;
         fetch(`/dash/PegarDashboard/${idUsuario}`)
