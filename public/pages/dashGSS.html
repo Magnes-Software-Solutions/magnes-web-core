@@ -67,17 +67,14 @@
         </div>
         <div class="offcanvas-body offcanvasBody">
           <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 navBarNav">
-            <li class="nav-item navLi" onclick="window.location.href='dashAnalistaGestor.html'">
-              <img src="../assets/imgs/dashboard.svg" alt="Simbolo de Dashboard">
-              <a class="nav-link">Dashboard</a>
-            </li>
+
             <li class="nav-item navLi navLiActive" onclick="window.location.href='dashBoardGSS.html'">
               <img src="../assets/imgs/dashboard.svg" alt="" class="navItemIcon" />
               <a class="nav-link">Dashboard supervisor</a>
             </li>
-            <li class="nav-item navLi" onclick="window.location.href='dashGestor.html'">
-              <img src="../assets/imgs/bar.svg" alt="" class="navItemIcon" />
-              <a class="nav-link">Relatório</a>
+            <li class="nav-item navLi navLiActive" onclick="window.location.href='dashOperacional.html'">
+              <img src="../assets/imgs/dashboard.svg" alt="" class="navItemIcon" />
+              <a class="nav-link">Dashboard Analista</a>
             </li>
             <li class="nav-item navLi" onclick="window.location.href='cadastroAnalista.html'">
               <img src="../assets/imgs/person.svg" alt="" class="navItemIcon" />
@@ -96,8 +93,8 @@
         <div class="offcanvas-header perfil" onclick="window.location.href='dashUsuarioGestor.html'">
           <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Simbolo de perfil">
           <div class="textosPerfil">
-            <h5 class="offcanvas-title" id="spanNome">(nome do banco)</h5>
-            <p id="cargoUsuarioNav">(cargo do banco)</p>
+            <h5 class="offcanvas-title" id="spanNome"></h5>
+            <p id="cargoUsuarioNav"></p>
           </div>
           <img class="perfilConfig" src="../assets/imgs/gear.svg" alt="Simbolo de configurações">
         </div>
@@ -382,7 +379,7 @@
     // Função para atualizar a dashboard, chamada ao clicar no botão de atualizar ou ao selecionar uma máquina
     async function atualizarDashboard() {
 
-  
+
 
       await receberAlertasJira();
 
@@ -911,7 +908,27 @@
         .innerText = macAlvo;
     }
 
-
+    function pegarDashboard() {
+      var idUsuario = sessionStorage.ID_USUARIO;
+      fetch(`/dash/PegarDashboard/${idUsuario}`)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data)
+          spanNome.innerHTML = data[0].nome;
+          const fkSupervisor = data[0].fkSupervisor;
+          console.log(fkSupervisor)
+          if (fkSupervisor === null) {
+            cargo = "Supervisor de Sistemas";
+          } else {
+            cargo = "Analista de Sistemas";
+          }
+          cargoUsuarioNav.innerHTML = cargo;
+        })
+        .catch(error => {
+          console.error("Erro ao pegar dashboard:", error);
+        });
+    }
+    window.onload = pegarDashboard;
 
     // AUTO UPDATE
 
