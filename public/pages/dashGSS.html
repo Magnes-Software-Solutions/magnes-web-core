@@ -317,9 +317,10 @@
 
     var hospitalSelecionado = null;
     var maquinaSelecionada = null;
-
+    var servidorLocal = "localhost";
     var servidor = "32.196.169.135";
 
+    // HISTÓRICO DAS MÉTRICAS - Funções para salvar e obter o histórico de métricas das máquinas usando localStorage, permitindo análise de dados ao longo do tempo mesmo após atualizações ou mudanças de máquina selecionada
 
     function obterHistorico() {
 
@@ -381,9 +382,7 @@
     // Função para atualizar a dashboard, chamada ao clicar no botão de atualizar ou ao selecionar uma máquina
     async function atualizarDashboard() {
 
-      localStorage.removeItem(
-        "historicoMaquinas"
-      );
+  
 
       await receberAlertasJira();
 
@@ -539,26 +538,24 @@
 
     // Função para fechar o dialog
 
-
     function fecharDialog() {
+      hospitalSelecionado = document.getElementById("select_rede").value;
 
-      hospitalSelecionado =
-        document.getElementById("select_rede").value;
+      if (!hospitalSelecionado) {
+        alert("Por favor, selecione uma rede hospitalar antes de continuar.");
+        return;
+      }
 
       document.getElementById("dialogEmpesa").close();
 
       maquinaSelecionada = null;
 
-      document.getElementById("paginaInteira_div")
-        .style.display = "block";
-      localStorage.removeItem(
-        "historicoMaquinas"
-      );
+      document.getElementById("paginaInteira_div").style.display = "block";
+      localStorage.removeItem("historicoMaquinas");
       receberAlertasJira();
       carregarDados();
       carregarMaquinas();
     }
-
 
 
     // Função para carregar as máquinas da empresa selecionada e preencher o select de máquinas
