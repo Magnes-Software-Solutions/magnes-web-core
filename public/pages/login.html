@@ -91,7 +91,11 @@
     }
 
     if (usuario.fkSupervisor == null) {
-      return "dashGestor.html";
+      return "dashGSS.html";
+    }
+
+    if (usuario.supervisorFinanceiro == true || usuario.supervisorFinanceiro == 1) {
+      return "dashboardGRC.html";
     }
 
     return "dashAnalista.html";
@@ -135,6 +139,7 @@
           sessionStorage.EMAIL_USUARIO = json.email;
           sessionStorage.FK_SUPERVISOR = json.fkSupervisor;
           sessionStorage.FK_REDE_HOSPITAL = json.fkRedeHospital;
+          sessionStorage.SUPERVISOR_FINANCEIRO = json.supervisorFinanceiro;
 
           var destino = obterDestinoLogin(emailVar, json);
           setTimeout(function () {
