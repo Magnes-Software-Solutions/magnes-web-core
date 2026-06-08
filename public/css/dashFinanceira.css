@@ -152,132 +152,84 @@ body {
     }
 
     .kpi-row {
-        padding: 16px 16px 12px 16px;
+        flex-wrap: wrap !important;
+        padding: 16px;
         gap: 12px;
     }
 
     .kpi-card {
+        flex: 0 0 calc(50% - 6px);
         width: calc(50% - 6px);
         min-width: unset;
         padding: 16px;
     }
 
     .kpi-icon-box {
-        width: 25%;
-        padding: 5%;
-    }
-
-    .kpi-value {
-        font-size: 28px;
-    }
-
-    .kpi-label {
-        font-size: 12px;
-    }
-
-    .kpi-trend {
-        font-size: 11px;
-    }
-
-    .grid-dashboard {
-        padding: 0 16px 12px;
-        gap: 12px;
-    }
-
-    .panel,
-    .machines-panel,
-    .grafico-extra-panel {
-        padding: 15px;
-    }
-
-    .machine-card {
-        flex-direction: column;
-        text-align: center;
-        gap: 8px;
-    }
-
-    .badge {
-        align-self: center;
-    }
-
-    .exibicao-grafico {
-        margin: 0 16px 20px;
-        padding: 16px;
-    }
-
-    .input-exibicao {
-        width: 100%;
-        margin-right: 0;
-        margin-bottom: 10px;
-    }
-
-    .select-metricas {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .select-metricas select,
-    .select-metricas button {
-        width: 100%;
-    }
-
-    .machines-header {
-        flex-direction: column;
-        gap: 8px;
-        text-align: center;
-    }
-
-    .legend {
-        justify-content: center;
-    }
-
-    .panel-title {
-        text-align: center;
-    }
-
-    .relatorios-cards-area {
-        padding: 0 16px 24px;
-        flex-direction: column;
-    }
-
-    .histContainer {
-        width: calc(100% - 32px);
-        margin: 0 16px 24px;
-    }
-}
-
-@media (max-width: 480px) {
-    .kpi-card {
-        width: 100%;
+        width: 40px;
+        height: 40px;
+        padding: 8px;
     }
 
     .kpi-value {
         font-size: 24px;
     }
 
-    .kpi-icon-box {
-        width: 20%;
+    .kpi-label {
+        font-size: 11px;
     }
 
-    .chart-container {
-        height: 160px;
+    .events-table-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .col-md-6.d-flex.justify-content-md-end {
+        justify-content: flex-start !important;
+        flex-wrap: wrap;
+        margin-top: 15px;
+    }
+
+    .col-md-6.d-flex>div {
+        max-width: 100% !important;
+        flex: 1 1 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .kpi-card {
+        flex: 0 0 100%;
+        width: 100%;
+    }
+
+    .kpi-value {
+        font-size: 22px;
+    }
+
+    .chart-container,
+    .chart-wrapper,
+    .chart-wrapper-waterfall {
+        height: 250px !important;
     }
 
     canvas {
-        max-height: 200px;
-    }
-
-    .machine-card strong {
-        font-size: 13px;
-    }
-
-    .machine-card p {
-        font-size: 10px;
+        max-height: 250px;
     }
 
     .badge {
         font-size: 9px !important;
         padding: 3px 10px !important;
+    }
+
+
+    .caixa-informacao {
+        width: 200px;
+        right: -10px;
+    }
+
+    .events-table th,
+    .events-table td {
+        font-size: 11px;
+        padding: 8px 4px;
     }
 }
 
@@ -385,7 +337,7 @@ body {
     display: inline-block;
 }
 
-.badge-alerta   {
+.badge-alerta {
     background: rgba(251, 147, 36, 0.2);
     color: #fb9324;
     padding: 4px 10px;
@@ -455,18 +407,18 @@ body {
 
 .chart-panel {
     position: relative;
-  }
-  
-  .ajuda-container {
+}
+
+.ajuda-container {
     position: absolute;
     top: 15px;
     right: 15px;
     z-index: 999;
-  }
-  
-  .icone-interrogacao, 
-  .icone-interrogacao-impacto-financeiro, 
-  .icone-interrogacao-impacto-sla {
+}
+
+.icone-interrogacao,
+.icone-interrogacao-impacto-financeiro,
+.icone-interrogacao-impacto-sla {
     background-color: #1a3a5f;
     color: #38bdf8;
     border: 1px solid #10435f;
@@ -481,17 +433,17 @@ body {
     cursor: help;
     transition: all 0.2s ease-in-out;
     margin: 0;
-  }
-  
-  .icone-interrogacao:hover, 
-  .icone-interrogacao-impacto-financeiro:hover, 
-  .icone-interrogacao-impacto-sla:hover {
+}
+
+.icone-interrogacao:hover,
+.icone-interrogacao-impacto-financeiro:hover,
+.icone-interrogacao-impacto-sla:hover {
     background-color: #276e95;
     color: #fff;
     border-color: #38bdf8;
-  }
-  
-  .caixa-informacao {
+}
+
+.caixa-informacao {
     display: none;
     position: absolute;
     background-color: #0d1e36;
@@ -506,8 +458,8 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
     top: 30px;
     right: 0;
-  }
-  
-  .ajuda-container:hover .caixa-informacao {
+}
+
+.ajuda-container:hover .caixa-informacao {
     display: block;
-  }
+}

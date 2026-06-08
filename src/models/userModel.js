@@ -2,7 +2,7 @@ const database = require('../database/config.js')
 
 function autenticar(email, senha) {
     const instrucaoSql = `
-    SELECT idUsuario, nome, email, fkSupervisor, fkRedeHospital from usuario WHERE email = '${email}' AND senha = '${senha}'
+    SELECT idUsuario, nome, email, fkSupervisor, fkRedeHospital, supervisorFinanceiro from usuario WHERE email = '${email}' AND senha = '${senha}'
     `;
     return database.executar(instrucaoSql)
 }

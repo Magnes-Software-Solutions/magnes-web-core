@@ -23,7 +23,8 @@ function autenticar(req, res) {
                         email: resultadoAutenticar[0].email,
                         nome: resultadoAutenticar[0].nome,
                         fkSupervisor: resultadoAutenticar[0].fkSupervisor,
-                        fkRedeHospital: resultadoAutenticar[0].fkRedeHospital
+                        fkRedeHospital: resultadoAutenticar[0].fkRedeHospital,
+                        supervisorFinanceiro: resultadoAutenticar[0].supervisorFinanceiro
                     });
                 } else if (resultadoAutenticar.length == 0) {
                     res.status(403).send("Email e/ou senha inválido(s)");

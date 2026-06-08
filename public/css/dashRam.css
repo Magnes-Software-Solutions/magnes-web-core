@@ -9,9 +9,10 @@ body {
     background-color: #0a1628;
     color: #fff;
     font-family: 'DM Sans', sans-serif;
-    padding-top: 35px;
-    height: 100vh;
-    overflow: hidden;
+    padding-top: 70px;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 .tituloCorpo {
@@ -94,14 +95,11 @@ body {
 
 /* ── KPI ROW ── */
 .kpi-row {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    width: 100%;
-    gap: 48px;
-    padding: 16px 28px 10px;
-    margin-top: 26px;
-    height: auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding: 15px 40px;
+    margin-top: 10px;
 }
 
 .kpi-card {
@@ -112,8 +110,8 @@ body {
     align-items: center;
     background: #132943;
     border-radius: 16px;
-    width: 20%;
-    min-width: 180px;
+    width: 100%;
+    min-width: 0;
     border: 1px solid #10435f;
     padding: 16px 20px;
     transition: transform 0.2s;
@@ -468,9 +466,10 @@ canvas {
 /* ── GRÁFICOS EXTRAS (Gargalos + Eventos) ── */
 .graficos-extras {
     display: grid;
-    grid-template-columns: 300px 1fr;
-    gap: 16px;
-    padding: 0 40px 12px;
+    grid-template-columns: 290px 1fr;
+    gap: 15px;
+    padding: 0 40px;
+    height: calc(100vh - 250px);
 }
 
 .grafico-extra-panel {
@@ -478,11 +477,10 @@ canvas {
     border: 1px solid #10435f;
     border-radius: 16px;
     padding: 16px 18px;
-    width: 101%;
+    width: 100%;
     box-sizing: border-box;
-    max-height: calc(100vh - 245px);
+    height: 100%;
     overflow-y: auto;
-    height: 96%;
 }
 
 .grafico-extra-panel h6 {
@@ -529,14 +527,13 @@ canvas {
 
 /* ── TABELA DE EVENTOS ── */
 .events-table-wrapper {
-    overflow-x: auto;
     width: 100%;
-    min-height: 270px;
+    height: calc(100% - 35px);
 }
 
 .events-table-wrapper canvas {
     width: 100% !important;
-    height: 270px !important;
+    height: 100% !important;
 }
 
 .grafico-vazio {
@@ -867,158 +864,102 @@ canvas {
     width: 8%;
 }
 
-/* ── RESPONSIVIDADE ── */
-@media (max-width: 992px) {
-    .grid-dashboard {
-        flex-direction: column;
-    }
+@media (max-width: 1366px) {
 
-    .grafico-status {
-        flex: 1;
-        width: 100%;
-    }
-
-    .machines-panel {
-        width: 100%;
+    .kpi-row {
+        gap: 15px;
+        padding: 12px 20px;
     }
 
     .graficos-extras {
-        grid-template-columns: 1fr;
-        padding: 0 20px 16px;
-    }
-}
-
-@media (max-width: 768px) {
-    body {
-        padding-top: 75px;
-    }
-
-    .kpi-row {
-        padding: 16px 16px 12px 16px;
-        gap: 12px;
+        grid-template-columns: 260px 1fr;
+        height: calc(100vh - 220px);
+        padding: 0 20px;
     }
 
     .kpi-card {
-        width: calc(50% - 6px);
-        min-width: unset;
-        padding: 16px;
-    }
-
-    .kpi-icon-box {
-        width: 25%;
-        padding: 5%;
-    }
-
-    .kpi-value {
-        font-size: 28px;
+        padding: 14px;
     }
 
     .kpi-label {
         font-size: 12px;
     }
 
-    .kpi-trend {
-        font-size: 11px;
+    .kpi-value {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 992px) {
+
+    body {
+        overflow-y: auto;
     }
 
-    .grid-dashboard {
-        padding: 0 16px 12px;
-        gap: 12px;
+    .kpi-row {
+        grid-template-columns: repeat(2, 1fr);
     }
 
-    .panel,
-    .machines-panel,
+    .graficos-extras {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+
     .grafico-extra-panel {
-        padding: 15px;
+        min-height: 350px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    body {
+        overflow-y: auto;
     }
 
-    .machine-card {
-        flex-direction: column;
-        text-align: center;
-        gap: 8px;
-    }
-
-    .badge {
-        align-self: center;
-    }
-
-    .exibicao-grafico {
-        margin: 0 16px 20px;
+    .kpi-row {
+        grid-template-columns: 1fr;
         padding: 16px;
     }
 
-    .input-exibicao {
-        width: 100%;
-        margin-right: 0;
-        margin-bottom: 10px;
+    .tituloLogo {
+        font-size: 16px;
     }
 
-    .select-metricas {
-        flex-direction: column;
-        align-items: stretch;
+    .grafico-extra-panel {
+        min-height: 320px;
     }
 
-    .select-metricas select,
-    .select-metricas button {
-        width: 100%;
-    }
-
-    .machines-header {
-        flex-direction: column;
-        gap: 8px;
-        text-align: center;
-    }
-
-    .legend {
-        justify-content: center;
-    }
-
-    .panel-title {
-        text-align: center;
-    }
-
-    .relatorios-cards-area {
-        padding: 0 16px 24px;
-        flex-direction: column;
-    }
-
-    .histContainer {
-        width: calc(100% - 32px);
-        margin: 0 16px 24px;
+    .navBarTop .container-fluid img:first-child {
+        width: 45px !important;
+        height: 45px !important;
     }
 }
 
 @media (max-width: 480px) {
-    .kpi-card {
-        width: 100%;
+
+    .tituloLogo {
+        font-size: 14px;
     }
 
-    .kpi-value {
-        font-size: 24px;
+    .kpi-card {
+        padding: 12px;
     }
 
     .kpi-icon-box {
-        width: 20%;
+        width: 50px;
+        height: 50px;
     }
 
-    .chart-container {
-        height: 160px;
+    .kpi-icon-box svg {
+        width: 22px;
+        height: 22px;
     }
 
-    canvas {
-        max-height: 200px;
+    .kpi-value {
+        font-size: 14px;
     }
 
-    .machine-card strong {
-        font-size: 13px;
-    }
-
-    .machine-card p {
+    .kpi-trend {
         font-size: 10px;
-    }
-
-    .badge {
-        font-size: 9px !important;
-        padding: 3px 10px !important;
     }
 }

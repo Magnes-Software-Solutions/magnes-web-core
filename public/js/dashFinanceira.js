@@ -123,9 +123,9 @@ function inicializarGraficos() {
     instDonut = new Chart(ctxDonut, {
         type: "doughnut",
         data: {
-            labels: ["Normal (< 80%)", 
-                "Moderado (≥ 80%)", 
-                "Alto (≥ 90%)", 
+            labels: ["Normal (< 80%)",
+                "Moderado (≥ 80%)",
+                "Alto (≥ 90%)",
                 "Crítico (= 100%)"],
             datasets: [
                 {
@@ -468,3 +468,36 @@ document.addEventListener("DOMContentLoaded", function () {
     buscarDadosS3();
     setInterval(buscarDadosS3, REFRESH_INTERVAL_MS);
 });
+
+// Funções auxiliares
+function pegarDashboard() {
+    var idUsuario = sessionStorage.ID_USUARIO;
+    fetch(`/dash/PegarDashboard/${idUsuario}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            spanNome.innerHTML = data[0].nome;
+            const fkSupervisor = data[0].fkSupervisor;
+            const supervisorFinanceiro = data[0].supervisorFinanceiro;
+            console.log(fkSupervisor)
+            if(supervisorFinanceiro == TRUE || supervisorFinanceiro == 1) {
+                cargo = "Supervisor de Governança";
+            }
+            else if (fkSupervisor === null) {
+                cargo = "Supervisor de Sistemas";
+            } 
+            else {
+                cargo = "Analista de Sistemas";
+            }
+            cargoUsuarioNav.innerHTML = cargo;
+        })
+        .catch(error => {
+            console.error("Erro ao pegar dashboard:", error);
+        });
+}
+
+function limparSessao() {
+    console.log("Logout acionado");
+}
+
+window.onload = pegarDashboard;
