@@ -314,7 +314,7 @@
 
     var hospitalSelecionado = null;
     var maquinaSelecionada = null;
-  
+
 
     // HISTÓRICO DAS MÉTRICAS - Funções para salvar e obter o histórico de métricas das máquinas usando localStorage, permitindo análise de dados ao longo do tempo mesmo após atualizações ou mudanças de máquina selecionada
 
@@ -928,11 +928,12 @@
         });
     }
     window.onload = function () {
-  pegarDashboard();
+      pegarDashboard();
+    }
 
-  document.getElementById("dialogEmpesa")
-    .showModal();
-};
+    document.getElementById("dialogEmpesa")
+      .showModal();
+
 
     // AUTO UPDATE
 
