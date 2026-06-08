@@ -90,8 +90,9 @@
                 <div class="row align-items-end px-3 mb-2">
                     <div class="col-md-6 mb-3 mb-md-0">
                         <h2 class="text-white m-0" style="font-size: 20px; font-weight: 500;">Dashboard Financeira</h2>
-                        <p class="text" style="font-size: 15px; color:#8ea1b4; font-weight: normal;"><p>
-                            <span id="info-bairro">N/A</span>, 
+                        <p class="text" style="font-size: 15px; color:#8ea1b4; font-weight: normal;">
+                        <p>
+                            <span id="info-bairro">N/A</span>,
                             <span id="info-cidade">N/A</span>
                         </p>
                     </div>
@@ -99,7 +100,7 @@
                         <div style="width: 100%; max-width: 250px; margin-bottom: 16px;">
                             <label for="selectFiltroEquipamento" class="filtro-legenda">Filtrar por Workstation</label>
                             <select id="selectFiltroEquipamento" class="form-select text-white"
-                            style="background: #132943; border: 1px solid #10435f;">
+                                style="background: #132943; border: 1px solid #10435f;">
                             </select>
                         </div>
                         <div style="width: 100%; max-width: 160px">
@@ -184,7 +185,8 @@
                 <div class="col-12 col-lg-6 mb-3">
                     <div class="chart-panel">
                         <h5 class="chart-panel-title">Análise de Impacto Financeiro <small
-                                style="font-size: 11px; color:#8ea1b4; font-weight: normal;">(Fluxo de impacto financeiro e economia preditiva)</small></h5>
+                                style="font-size: 11px; color:#8ea1b4; font-weight: normal;">(Fluxo de impacto
+                                financeiro e economia preditiva)</small></h5>
                         <div class="chart-wrapper" style="height: 250px;">
                             <div class="ajuda-container">
                                 <span class="icone-interrogacao-impacto-financeiro">?</span>
@@ -192,11 +194,17 @@
                                     <strong>Análise de Impacto Financeiro:</strong><br>
                                     Mapeia a composição do prejuízo operacional em três estágios (barras):<br><br>
                                     <strong>Componentes do Gráfico:</strong><br>
-                                    • <strong>1. Perda Total (Bruta):</strong> Soma o prejuízo gerado pelo tempo que a workstation ficou offline (indisponibilidade) com a perda de produtividade gerada por gargalos (lentidão).<br>
-                                    • <strong>2. Valor Evitado:</strong> O montante financeiro que a manutenção preditiva da Magnes conseguiu mitigar ao agir antes que uma falha catastrófica/multa de SLA acontecesse.<br>
-                                    • <strong>3. Perda Residual (Real):</strong> O impacto financeiro final verificado (Perda Total menos o Valor Evitado). É o prejuízo que de fato sobrou após a atuação preditiva.
+                                    • <strong>1. Perda Total (Bruta):</strong> Soma o prejuízo gerado pelo tempo que a
+                                    workstation ficou offline (indisponibilidade) com a perda de produtividade gerada
+                                    por gargalos (lentidão).<br>
+                                    • <strong>2. Valor Evitado:</strong> O montante financeiro que a manutenção
+                                    preditiva da Magnes conseguiu mitigar ao agir antes que uma falha catastrófica/multa
+                                    de SLA acontecesse.<br>
+                                    • <strong>3. Perda Residual (Real):</strong> O impacto financeiro final verificado
+                                    (Perda Total menos o Valor Evitado). É o prejuízo que de fato sobrou após a atuação
+                                    preditiva.
                                 </div>
-                              </div>
+                            </div>
                             <canvas id="chartWaterfall"></canvas>
                         </div>
                     </div>
@@ -230,9 +238,13 @@
                             <span class="icone-interrogacao">?</span>
                             <div class="caixa-informacao">
                                 <strong>Tempo de Atividade vs Meta de SLA:</strong><br>
-                                Demonstra a saúde contratual de disponibilidade (Uptime) da infraestrutura hospitalar.<br><br>
+                                Demonstra a saúde contratual de disponibilidade (Uptime) da infraestrutura
+                                hospitalar.<br><br>
                                 <strong>Como é calculado?</strong><br>
-                                Calcula o tempo offline acumulado do ativo em relação ao período operacional total. Se a estabilidade cair por estados Críticos ou Altos de sobrecarga de hardware, o índice sofre penalizações automáticas. A linha de corte exibe a meta de conformidade mínima exigida pela governança.
+                                Calcula o tempo offline acumulado do ativo em relação ao período operacional total. Se a
+                                estabilidade cair por estados Críticos ou Altos de sobrecarga de hardware, o índice
+                                sofre penalizações automáticas. A linha de corte exibe a meta de conformidade mínima
+                                exigida pela governança.
                             </div>
                         </div>
                         <div class="chart-wrapper" style="height: 280px;">
@@ -248,21 +260,23 @@
                             <span class="icone-interrogacao">?</span>
                             <div class="caixa-informacao">
                                 <strong>Níveis de Severidade:</strong><br>
-                                Distribuição quantitativa do estado de operação das máquinas monitoradas na rede.<br><br>
+                                Distribuição quantitativa do estado de operação das máquinas monitoradas na
+                                rede.<br><br>
                                 <strong>Como é classificado?</strong><br>
                                 Os ativos são agrupados dinamicamente via Score de Risco matemático:<br>
-                                • <strong>CRÍTICO (Score ≥ 70):</strong> Alto risco de quebra imediata ou travamento.<br>
+                                • <strong>CRÍTICO (Score ≥ 70):</strong> Alto risco de quebra imediata ou
+                                travamento.<br>
                                 • <strong>ALTO (Score ≥ 40):</strong> Gargalo severo de hardware ativo.<br>
                                 • <strong>MODERADO (Score ≥ 15):</strong> Oscilação fora do desvio padrão comum.<br>
                                 • <strong>NORMAL (Score &lt; 15):</strong> Operação estável e dentro dos limites.
                             </div>
-                          </div>   
+                        </div>
                         <div class="chart-wrapper" style="height: 240px;">
-                            <canvas id="canvasPerda"></canvas> 
+                            <canvas id="canvasPerda"></canvas>
                         </div>
                     </div>
                 </div>
-            </div>             
+            </div>
 
         </div>
     </div>
