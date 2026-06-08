@@ -94,7 +94,7 @@
 
                     <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 navBarNav">
 
-                        <li class="nav-item navLi navLiActive" onclick="window.location.href='dashOperacional.html'">
+                        <li class="nav-item navLi" onclick="window.location.href='dashOperacional.html'">
 
                             <img
                                 src="../assets/imgs/dashboard.svg"
@@ -102,18 +102,6 @@
 
                             <a class="nav-link">
                                 Workstations
-                            </a>
-
-                        </li>
-
-                        <li class="nav-item navLi" onclick="window.location.href='telaAlertas.html'">
-
-                            <img
-                                src="../assets/imgs/alert.svg"
-                                alt="Alertas">
-
-                            <a class="nav-link">
-                                Alertas
                             </a>
 
                         </li>
@@ -134,7 +122,7 @@
 
                 </div>
 
-                <div class="offcanvas-header perfil">
+                <div class="offcanvas-header perfil" onclick="window.location.href='dashUsuario.html'">
 
                     <img
                         class="perfilImage"
@@ -143,11 +131,11 @@
 
                     <div class="textosPerfil">
 
-                        <h5>
+                        <h5 id="spanNome">
                             Usuário
                         </h5>
 
-                        <p>
+                        <p id="cargoUsuarioNav">
                             Analista
                         </p>
 
@@ -1458,7 +1446,36 @@
 
         }
 
+        //PEGAR NOME E CARGO DO USUÁRIO
+
+        const spanNome = document.getElementById("spanNome");
+        const cargoUsuarioNav = document.getElementById("cargoUsuarioNav");
+
+        function pegarDashboard() {
+            var idUsuario = sessionStorage.ID_USUARIO;
+            fetch(`/dash/PegarDashboard/${idUsuario}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    spanNome.innerHTML = data[0].nome;
+                    const fkSupervisor = data[0].fkSupervisor;
+                    console.log(fkSupervisor)
+                    if (fkSupervisor === null) {
+                        cargo = "Supervisor de Sistemas";
+                    } else {
+                        cargo = "Analista de Sistemas";
+                    }
+                    cargoUsuarioNav.innerHTML = cargo;
+                })
+                .catch(error => {
+                    console.error("Erro ao pegar dashboard:", error);
+                });
+        }
+    
+
         // PRIMEIRA EXECUÇÃO
+
+        pegarDashboard();
 
         atualizarDashboard();
 

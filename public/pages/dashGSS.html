@@ -67,17 +67,14 @@
         </div>
         <div class="offcanvas-body offcanvasBody">
           <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 navBarNav">
-            <li class="nav-item navLi" onclick="window.location.href='dashAnalistaGestor.html'">
-              <img src="../assets/imgs/dashboard.svg" alt="Simbolo de Dashboard">
-              <a class="nav-link">Dashboard</a>
-            </li>
+
             <li class="nav-item navLi navLiActive" onclick="window.location.href='dashBoardGSS.html'">
               <img src="../assets/imgs/dashboard.svg" alt="" class="navItemIcon" />
               <a class="nav-link">Dashboard supervisor</a>
             </li>
-            <li class="nav-item navLi" onclick="window.location.href='dashGestor.html'">
-              <img src="../assets/imgs/bar.svg" alt="" class="navItemIcon" />
-              <a class="nav-link">Relatório</a>
+            <li class="nav-item navLi navLiActive" onclick="window.location.href='dashOperacional.html'">
+              <img src="../assets/imgs/dashboard.svg" alt="" class="navItemIcon" />
+              <a class="nav-link">Dashboard Analista</a>
             </li>
             <li class="nav-item navLi" onclick="window.location.href='cadastroAnalista.html'">
               <img src="../assets/imgs/person.svg" alt="" class="navItemIcon" />
@@ -96,8 +93,8 @@
         <div class="offcanvas-header perfil" onclick="window.location.href='dashUsuarioGestor.html'">
           <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Simbolo de perfil">
           <div class="textosPerfil">
-            <h5 class="offcanvas-title" id="spanNome">(nome do banco)</h5>
-            <p id="cargoUsuarioNav">(cargo do banco)</p>
+            <h5 class="offcanvas-title" id="spanNome"></h5>
+            <p id="cargoUsuarioNav"></p>
           </div>
           <img class="perfilConfig" src="../assets/imgs/gear.svg" alt="Simbolo de configurações">
         </div>
@@ -317,40 +314,72 @@
 
     var hospitalSelecionado = null;
     var maquinaSelecionada = null;
-
+    var servidorLocal = "localhost";
     var servidor = "32.196.169.135";
 
-    // HISTÓRICO DAS MÉTRICAS
+    // HISTÓRICO DAS MÉTRICAS - Funções para salvar e obter o histórico de métricas das máquinas usando localStorage, permitindo análise de dados ao longo do tempo mesmo após atualizações ou mudanças de máquina selecionada
 
-    function salvarHistorico(novosDados) {
+    function obterHistorico() {
 
-      var historico = JSON.parse(
-        localStorage.getItem("historicoMaquinas") || "[]"
+      return JSON.parse(
+        localStorage.getItem(
+          "historicoMaquinas"
+        ) || "[]"
       );
 
-      for (var i = 0; i < novosDados.length; i++) {
+    }
+    // HISTÓRICO DAS MÉTRICAS
 
-        historico.push(novosDados[i]);
+    function salvarHistorico(dadosNovos) {
+
+      var historico =
+        JSON.parse(
+          localStorage.getItem("historicoMaquinas")
+          || "[]"
+        );
+
+      for (var i = 0; i < dadosNovos.length; i++) {
+
+        var novo = dadosNovos[i];
+
+        var existe = false;
+
+        for (var j = 0; j < historico.length; j++) {
+
+          if (
+            historico[j].macAddress == novo.macAddress &&
+            historico[j].horario == novo.horario
+          ) {
+
+            existe = true;
+            break;
+          }
+        }
+
+        if (!existe) {
+
+          historico.push(novo);
+
+        }
       }
+      if (historico.length > 100) {
 
+        historico =
+          historico.slice(
+            historico.length - 100
+          );
+
+      }
       localStorage.setItem(
         "historicoMaquinas",
         JSON.stringify(historico)
       );
     }
 
-    function obterHistorico() {
-
-      return JSON.parse(
-        localStorage.getItem("historicoMaquinas") || "[]"
-      );
-    }
     // Função para atualizar a dashboard, chamada ao clicar no botão de atualizar ou ao selecionar uma máquina
     async function atualizarDashboard() {
 
-      localStorage.removeItem(
-        "historicoMaquinas"
-      );
+
 
       await receberAlertasJira();
 
@@ -506,26 +535,24 @@
 
     // Função para fechar o dialog
 
-
     function fecharDialog() {
+      hospitalSelecionado = document.getElementById("select_rede").value;
 
-      hospitalSelecionado =
-        document.getElementById("select_rede").value;
+      if (!hospitalSelecionado) {
+        alert("Por favor, selecione uma rede hospitalar antes de continuar.");
+        return;
+      }
 
       document.getElementById("dialogEmpesa").close();
 
       maquinaSelecionada = null;
 
-      document.getElementById("paginaInteira_div")
-        .style.display = "block";
-      localStorage.removeItem(
-        "historicoMaquinas"
-      );
+      document.getElementById("paginaInteira_div").style.display = "block";
+      localStorage.removeItem("historicoMaquinas");
       receberAlertasJira();
       carregarDados();
       carregarMaquinas();
     }
-
 
 
     // Função para carregar as máquinas da empresa selecionada e preencher o select de máquinas
@@ -725,6 +752,12 @@
           registrosMaquina.push(resultado[i]);
         }
       }
+      registrosMaquina.sort(function (a, b) {
+
+        return new Date(a.horario)
+          - new Date(b.horario);
+
+      });
 
       // Variavel para armazenar o último horário de atualização encontrado nos registros da máquina alvo
       var ultimo =
@@ -845,7 +878,7 @@
         var m = registrosMaquina[i];
 
         labels.push(
-          m.horario.substring(11, 16)
+          m.horario.substring(11, 19)
         );
 
         cpu.push(
@@ -875,7 +908,27 @@
         .innerText = macAlvo;
     }
 
-
+    function pegarDashboard() {
+      var idUsuario = sessionStorage.ID_USUARIO;
+      fetch(`/dash/PegarDashboard/${idUsuario}`)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data)
+          spanNome.innerHTML = data[0].nome;
+          const fkSupervisor = data[0].fkSupervisor;
+          console.log(fkSupervisor)
+          if (fkSupervisor === null) {
+            cargo = "Supervisor de Sistemas";
+          } else {
+            cargo = "Analista de Sistemas";
+          }
+          cargoUsuarioNav.innerHTML = cargo;
+        })
+        .catch(error => {
+          console.error("Erro ao pegar dashboard:", error);
+        });
+    }
+    window.onload = pegarDashboard;
 
     // AUTO UPDATE
 
