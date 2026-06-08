@@ -123,9 +123,9 @@ function inicializarGraficos() {
     instDonut = new Chart(ctxDonut, {
         type: "doughnut",
         data: {
-            labels: ["Normal (< 80%)", 
-                "Moderado (≥ 80%)", 
-                "Alto (≥ 90%)", 
+            labels: ["Normal (< 80%)",
+                "Moderado (≥ 80%)",
+                "Alto (≥ 90%)",
                 "Crítico (= 100%)"],
             datasets: [
                 {
