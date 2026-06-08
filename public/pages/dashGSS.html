@@ -72,7 +72,7 @@
               <img src="../assets/imgs/dashboard.svg" alt="" class="navItemIcon" />
               <a class="nav-link">Dashboard supervisor</a>
             </li>
-            <li class="nav-item navLi navLiActive" onclick="window.location.href='dashOperacional.html'">
+            <li class="nav-item navLi" onclick="window.location.href='dashOperacional.html'">
               <img src="../assets/imgs/dashboard.svg" alt="" class="navItemIcon" />
               <a class="nav-link">Dashboard Analista</a>
             </li>
@@ -314,8 +314,7 @@
 
     var hospitalSelecionado = null;
     var maquinaSelecionada = null;
-    var servidorLocal = "localhost";
-    var servidor = "32.196.169.135";
+  
 
     // HISTÓRICO DAS MÉTRICAS - Funções para salvar e obter o histórico de métricas das máquinas usando localStorage, permitindo análise de dados ao longo do tempo mesmo após atualizações ou mudanças de máquina selecionada
 
@@ -428,7 +427,7 @@
       try {
 
         var resposta =
-          await fetch(`http://${servidor}:3333/jira/tickets`);
+          await fetch(`http://${DB_HOST}:3333/jira/tickets`);
 
         var issues = await resposta.json();
 
@@ -505,7 +504,7 @@
         document.getElementById("select_rede");
 
       var resposta =
-        await fetch(`http://${servidor}:3333/client`);
+        await fetch(`http://${DB_HOST}:3333/client`);
 
       var respostaJson = await resposta.json();
       var dados = respostaJson.maquinas;
@@ -561,7 +560,7 @@
     async function carregarMaquinas() {
 
       var resposta =
-        await fetch(`http://${servidor}:3333/client`);
+        await fetch(`http://${DB_HOST}:3333/client`);
 
       var respostaJson = await resposta.json();
       var dados = respostaJson.maquinas;
@@ -686,7 +685,7 @@
 
     async function carregarDados() {
       var resposta =
-        await fetch(`http://${servidor}:3333/client`);
+        await fetch(`http://${DB_HOST}:3333/client`);
 
       var respostaJson = await resposta.json();
 
@@ -928,7 +927,12 @@
           console.error("Erro ao pegar dashboard:", error);
         });
     }
-    window.onload = pegarDashboard;
+    window.onload = function () {
+  pegarDashboard();
+
+  document.getElementById("dialogEmpesa")
+    .showModal();
+};
 
     // AUTO UPDATE
 
