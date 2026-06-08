@@ -449,17 +449,17 @@ function plotarGrafico(maquina) {
                                         borderWidth: 2,
 
                                         label: {
-                                        content: `Reta de previsão`,
-                                        font: {
-                                            size: 12
-                                        },
-                                        enabled: true,
-                                        position: 'start',
-                                        backgroundColor: '#104c68',
-                                        color: '#rgba(0, 212, 249, 1)',
-                                        borderWidth: 0.3,
-                                        borderColor: '#rgba(0, 212, 249, 1)'
-                                    }
+                                            content: `Reta de previsão`,
+                                            font: {
+                                                size: 12
+                                            },
+                                            enabled: true,
+                                            position: 'start',
+                                            backgroundColor: '#104c68',
+                                            color: '#rgba(0, 212, 249, 1)',
+                                            borderWidth: 0.3,
+                                            borderColor: '#rgba(0, 212, 249, 1)'
+                                        }
                                     }
                                 }
                                 : {}
@@ -688,10 +688,11 @@ function plotarGrafico(maquina) {
                     },
                     plugins: {
                         annotation: {
-                            annotations: maquina.ram.previsao.reta.length >= 2 && maquina.cpu.previsao.r2 > 0
+                            annotations: maquina.ram.previsao.reta.length >= 2 && maquina.ram.previsao.r2 > 0
                                 ? {
                                     linhaRegressao: {
                                         type: 'line',
+                                        // drawTime: 'beforeDatasetsDraw',
                                         xMin: formatarHora(maquina.ram.previsao.reta[0].x),
                                         yMin: maquina.ram.previsao.reta[0].y,
 
@@ -701,16 +702,16 @@ function plotarGrafico(maquina) {
                                         borderWidth: 2,
 
                                         label: {
-                                        content: `Reta de previsão`,
-                                        font: {
-                                            size: 12
-                                        },
-                                        enabled: true,
-                                        position: 'start',
-                                        backgroundColor: '#104c68',
-                                        color: '#rgba(0, 212, 249, 1)',
-                                        borderWidth: 0.3,
-                                        borderColor: '#rgba(0, 212, 249, 1)'
+                                            content: `Reta de previsão`,
+                                            font: {
+                                                size: 12
+                                            },
+                                            enabled: true,
+                                            position: 'start',
+                                            backgroundColor: '#104c68',
+                                            color: '#rgba(0, 212, 249, 1)',
+                                            borderWidth: 0.3,
+                                            borderColor: '#rgba(0, 212, 249, 1)'
                                         }
                                     }
                                 }
@@ -939,7 +940,7 @@ function plotarGrafico(maquina) {
                     },
                     plugins: {
                         annotation: {
-                            annotations: maquina.disco.previsao.reta.length >= 2 && maquina.cpu.previsao.r2 > 0
+                            annotations: maquina.disco.previsao.reta.length >= 2 && maquina.disco.previsao.r2 > 0
                                 ? {
                                     linhaRegressao: {
                                         type: 'line',
@@ -952,16 +953,16 @@ function plotarGrafico(maquina) {
                                         borderWidth: 2,
 
                                         label: {
-                                        content: `Reta de previsão`,
-                                        font: {
-                                            size: 12
-                                        },
-                                        enabled: true,
-                                        position: 'start',
-                                        backgroundColor: '#104c68',
-                                        color: '#rgba(0, 212, 249, 1)',
-                                        borderWidth: 0.3,
-                                        borderColor: '#rgba(0, 212, 249, 1)'
+                                            content: `Reta de previsão`,
+                                            font: {
+                                                size: 12
+                                            },
+                                            enabled: true,
+                                            position: 'start',
+                                            backgroundColor: '#104c68',
+                                            color: '#rgba(0, 212, 249, 1)',
+                                            borderWidth: 0.3,
+                                            borderColor: '#rgba(0, 212, 249, 1)'
                                         }
                                     }
                                 }
@@ -1130,7 +1131,7 @@ function criarCards(maquinas) {
                                 </div>
                             </div>
                         </div>
-                        <p><a href="dashboard_auxiliar_Andrei_AWS.html" onclick="pegarMac('${maquina.macAddress}')">Clique para descobrir a possível causa</a></p>
+                        <p><a href="dashboard_auxiliar_Andrei_AWS.html" onclick="pegarMac('${maquina.macAddress}')">Clique para analisar possível interferência externa</a></p>
                         <hr>
                         <div class="dialog-tituloComponente">
                             <p class="tituloComponente">RAM</p>
@@ -1210,7 +1211,7 @@ function criarCards(maquinas) {
                                 </div>
                             </div>
                         </div>
-                        <p><a href="dashRam.html">Clique para descobrir a possível causa</a></p>
+                        <p><a href="dashRam.html">Clique aqui para ver análise avançada</a></p>
                         <hr>
                         <div class="dialog-tituloComponente">
                             <p class="tituloComponente">Disco</p>
