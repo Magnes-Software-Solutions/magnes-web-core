@@ -429,8 +429,4 @@ function pegarDashboard() {
         });
 }
 
-function limparSessao() {
-    console.log("Logout acionado");
-}
-
 window.onload = pegarDashboard;

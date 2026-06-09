@@ -479,7 +479,7 @@ canvas {
     padding: 16px 18px;
     width: 100%;
     box-sizing: border-box;
-    height: 100%;
+    height: 95%;
     overflow-y: auto;
 }
 
