@@ -330,7 +330,6 @@
       );
 
     }
-    // HISTÓRICO DAS MÉTRICAS
 
     function salvarHistorico(dadosNovos) {
       // Obtém o histórico existente do localStorage ou inicia um array vazio se não houver histórico
@@ -340,6 +339,7 @@
       for (var i = 0; i < dadosNovos.length; i++) {
         var novo = dadosNovos[i];
 
+        // Adiciona ao histórico apenas registros que possuem pelo menos um recurso (CPU, RAM ou Disco) com uso registrado, garantindo que o histórico mantenha apenas registros relevantes para análise e exibição na dashboard
         if (!novo.cpu && !novo.ram && !novo.disco) continue;
         var existe = false;
         for (var j = 0; j < historico.length; j++) {
@@ -370,7 +370,8 @@
 
         selecionarMaquina();
       }
-    } // LINK JIRA
+    } 
+    // LINK JIRA
 
 
     function linkJira() {
@@ -491,6 +492,7 @@
       var respostaJson = await resposta.json();
       var dados = respostaJson.maquinas;
 
+        // Variável para armazenar as empresas já adicionadas ao select, evitando duplicações no dropdown de seleção de rede hospitalar
       var empresasAdicionadas = [];
 
       for (var i = 0; i < dados.length; i++) {
@@ -690,7 +692,7 @@
 
             var reg = item.registros[k];
 
-            // Adiciona ao array de dados novos apenas os registros que possuem pelo menos um recurso (CPU, RAM ou Disco) com uso registrado, garantindo que o histórico mantenha apenas registros relevantes para análise e exibição na dashboard
+          
             dadosNovos.push({
               macAddress: item.macAddress,
               empresa: empresa,
@@ -763,6 +765,7 @@
           registrosMaquina.push(resultado[i]);
         }
       }
+      // Ordena os registros da máquina alvo por horário para garantir que o gráfico e a análise de status considerem a sequência correta dos dados ao longo do tempo, especialmente importante para identificar o último horário de atualização e a evolução dos recursos monitorados
       registrosMaquina.sort(function (a, b) {
 
         return new Date(a.horario)
