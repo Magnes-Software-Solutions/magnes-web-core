@@ -8,37 +8,36 @@
     <link rel="stylesheet" href="../bootstrap-5.3.8-dist/css/bootstrap.css" />
     <link rel="shortcut icon" href="../assets/imgs/Logo.png" type="image/x-icon" />
     <link rel="stylesheet" href="../css/dashRam.css">
+    <link rel="stylesheet" href="../css/headerDash.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body style="background-color: #0a1628;">
-
     <nav class="navbar fixed-top navBarTop">
         <div class="container-fluid">
             <img src="../assets/imgs/Logo.png" alt="" width="5%" height="85%">
             <div class="titulo">
-                <p class="tituloLogo">MAGNES/DASHRAM</p>
+                <p class="tituloLogo">MAGNES</p>
+                <p class="textoLogo">WORKSTATION MONITOR</p>
             </div>
             <button class="navbar-toggler navBarToggler" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar"
+                aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon navBarTogglerIcon"></span>
             </button>
             <div class="offcanvas offcanvas-end offCanvas" tabindex="-1" id="offcanvasNavbar"
                 aria-labelledby="offcanvasNavbarLabel">
                 <div class="offcanvas-header">
-                    <h5 class="offcanvas-title offCanvasTitle" id="offcanvasNavbarLabel">MAGNES/DASHRAM</h5>
+                    <h5 class="offcanvas-title offCanvasTitle" id="offcanvasNavbarLabel">MAGNES</h5>
                     <button type="button" class="btn-close offCanvasButton" data-bs-dismiss="offcanvas"
                         aria-label="Close"></button>
                 </div>
                 <div class="offcanvas-body offcanvasBody">
                     <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 navBarNav">
-                        <li class="nav-item navLi navLiActive" onclick="window.location.href='dashAnalista.html'">
+                        <li class="nav-item navLi"
+                            onclick="window.location.href='dashOperacional.html'">
                             <img src="../assets/imgs/dashboard.svg" alt="Simbolo de Dashboard">
                             <a class="nav-link">Dashboard</a>
-                        </li>
-                        <li class="nav-item navLi" onclick="window.location.href='telaAlertas.html'">
-                            <img src="../assets/imgs/alert.svg" alt="Simbolo de Alerta">
-                            <a class="nav-link">Alerta</a>
                         </li>
                         <li class="nav-item navLi navLiLogout" onclick="limparSessao()">
                             <img src="../assets/imgs/box-arrow-left.svg" alt="" class="navItemIcon" />
@@ -46,7 +45,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="offcanvas-header perfil" onclick="window.location.href='dashUsuarioGestor.html'">
+                <div class="offcanvas-header perfil" onclick="window.location.href='dashUsuario.html'">
                     <img class="perfilImage" src="../assets/imgs/person-circle.svg" alt="Simbolo de perfil">
                     <div class="textosPerfil">
                         <h5 class="offcanvas-title" id="spanNome">(nome do banco)</h5>
@@ -159,16 +158,14 @@
             </div>
         </div>
     </div>
-
-
-    <script src="../bootstrap-5.3.8-dist/js/bootstrap.js"></script>
-    <script src="../services/api.js"></script>
-    <script src="../services/maquinaService.js"></script>
-    <script src="../js/sessao.js"></script>
-    <script src="../js/dashRam.js"></script>
 </body>
-
 </html>
+
+<script src="../bootstrap-5.3.8-dist/js/bootstrap.js"></script>
+<script src="../services/api.js"></script>
+<script src="../services/maquinaService.js"></script>
+<script src="../js/sessao.js"></script>
+<script src="../js/dashRam.js"></script>
 <script>
     function buscar() {
         var grafico1 = document.querySelector(".histContainer");

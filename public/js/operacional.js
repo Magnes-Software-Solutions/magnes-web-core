@@ -1201,7 +1201,7 @@ function criarCards(maquinas) {
                                 </div>
                                 <div class="informacoes">
                                     <div class="dialogComponentes-corpo">
-                                        <p>Últimas 2 horas:</p>&nbsp
+                                        <p>Tendência recente:</p>&nbsp
                                         <p class="ultimas2h_ram client">${maquina.ram.degradacao}</p>
                                     </div>
                                     <div class="dialogComponentes-corpo">
@@ -1274,7 +1274,7 @@ function criarCards(maquinas) {
                                 </div>
                                 <div class="informacoes">
                                     <div class="dialogComponentes-corpo">
-                                        <p>Últimas 2 horas:</p>&nbsp
+                                        <p>Tendência recente:</p>&nbsp
                                         <p class="ultimas2h_disco client">${maquina.disco.degradacao}</p>
                                     </div>
                                     <div class="dialogComponentes-corpo">
@@ -1320,7 +1320,7 @@ function criarCards(maquinas) {
                                             <p class="oscilacao_cpu client">${maquina.cpu.oscilacao}</p>
                                         </div>
                                         <div class="componentes-corpo">
-                                            <p>Últimas 2 horas:</p>&nbsp
+                                            <p>Tendência recente:</p>&nbsp
                                             <p class="ultimas2h_cpu client">${maquina.cpu.degradacao}</p>
                                         </div>
                                         <div class="componentes-corpo">
@@ -1347,7 +1347,7 @@ function criarCards(maquinas) {
                                             <p class="oscilacao_ram client">${maquina.ram.oscilacao}</p>
                                         </div>
                                         <div class="componentes-corpo">
-                                            <p>Últimas 2 horas:</p>&nbsp
+                                            <p>Tendência recente:</p>&nbsp
                                             <p class="ultimas2h_ram client">${maquina.ram.degradacao}</p>
                                         </div>
                                         <div class="componentes-corpo">
@@ -1370,7 +1370,7 @@ function criarCards(maquinas) {
                                     </div>
                                     <div>
                                         <div class="componentes-corpo">
-                                            <p>Últimas 2 horas:</p>&nbsp
+                                            <p>Tendência recente:</p>&nbsp
                                             <p class="ultimas2h_disco client">${maquina.disco.degradacao}</p>
                                         </div>
                                         <div class="componentes-corpo">
