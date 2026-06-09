@@ -212,7 +212,7 @@
       <h3>Workstations em Alerta</h3>
 
       <p>
-        Máquinas com uso acima de 70% em pelo menos um recurso
+        Máquinas com uso acima de 40% em pelo menos um recurso
         (CPU, RAM ou Disco), exigindo atenção preventiva.
       </p>
 
@@ -227,7 +227,7 @@
     <h3>Workstations Estáveis</h3>
 
     <p>
-      Máquinas com uso de CPU, RAM e Disco abaixo de 70%,
+      Máquinas com uso de CPU, RAM e Disco abaixo de 40%,
       operando normalmente sem riscos imediatos.
     </p>
 
@@ -241,7 +241,7 @@
     <h3>Workstations Críticas</h3>
 
     <p>
-      Máquinas com uso acima de 90% em CPU, RAM ou Disco,
+      Máquinas com uso acima de 70% em CPU, RAM ou Disco,
       apresentando alto risco de falha ou indisponibilidade.
     </p>
 
@@ -813,8 +813,8 @@
         var disco =
           ultimo.disco ? ultimo.disco.uso : 0;
 
-        // CRÍTICA - Qualquer recurso acima de 90% é considerado crítico
-        if (cpu >= 90 || ram >= 90 || disco >= 90) {
+        // CRÍTICA - Qualquer recurso acima de 70% é considerado crítico
+        if (cpu >= 70 || ram >= 70 || disco >= 70) {
 
           criticas++;
 
@@ -843,9 +843,9 @@
 
         // ALERTA
         else if (
-          cpu >= 70 ||
-          ram >= 70 ||
-          disco >= 70
+          cpu >= 40 ||
+          ram >= 40 ||
+          disco >= 40
         ) {
 
           alerta++;
