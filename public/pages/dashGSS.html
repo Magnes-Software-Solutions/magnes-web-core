@@ -333,49 +333,28 @@
     // HISTÓRICO DAS MÉTRICAS
 
     function salvarHistorico(dadosNovos) {
+      // Obtém o histórico existente do localStorage ou inicia um array vazio se não houver histórico
+      var historico = JSON.parse(localStorage.getItem("historicoMaquinas") || "[]");
 
-      var historico =
-        JSON.parse(
-          localStorage.getItem("historicoMaquinas")
-          || "[]"
-        );
-
+      // Itera sobre os novos dados recebidos e adiciona ao histórico apenas se não houver um registro com o mesmo macAddress e horário, garantindo que o histórico mantenha registros únicos e relevantes
       for (var i = 0; i < dadosNovos.length; i++) {
-
         var novo = dadosNovos[i];
 
+        if (!novo.cpu && !novo.ram && !novo.disco) continue;
         var existe = false;
-
         for (var j = 0; j < historico.length; j++) {
-
-          if (
-            historico[j].macAddress == novo.macAddress &&
-            historico[j].horario == novo.horario
-          ) {
-
+          if (historico[j].macAddress == novo.macAddress && historico[j].horario == novo.horario) {
             existe = true;
             break;
           }
         }
 
-        if (!existe) {
-
-          historico.push(novo);
-
-        }
+        if (!existe) historico.push(novo);
       }
-      if (historico.length > 100) {
 
-        historico =
-          historico.slice(
-            historico.length - 100
-          );
+      if (historico.length > 100) historico = historico.slice(historico.length - 100);
 
-      }
-      localStorage.setItem(
-        "historicoMaquinas",
-        JSON.stringify(historico)
-      );
+      localStorage.setItem("historicoMaquinas", JSON.stringify(historico));
     }
 
     // Função para atualizar a dashboard, chamada ao clicar no botão de atualizar ou ao selecionar uma máquina
@@ -546,11 +525,10 @@
       }
 
       document.getElementById("dialogEmpesa").close();
-
       maquinaSelecionada = null;
-
       document.getElementById("paginaInteira_div").style.display = "block";
-      localStorage.removeItem("historicoMaquinas");
+
+      localStorage.removeItem("historicoMaquinas"); // limpa registros corrompidos
       receberAlertasJira();
       carregarDados();
       carregarMaquinas();
@@ -687,15 +665,46 @@
 
 
     async function carregarDados() {
-      var resposta =
-        await fetch(`/client`);
-
+      var resposta = await fetch(`/client`);
       var respostaJson = await resposta.json();
+      var dadosNovos = respostaJson.maquinas;
 
-      var dadosNovos =
-        respostaJson.maquinas;
+      if (respostaJson.historico) {
 
-      // salva os dados recebidos
+        for (var i = 0; i < respostaJson.historico.length; i++) {
+
+          var item = respostaJson.historico[i];
+
+          var empresa = hospitalSelecionado;
+
+          for (var j = 0; j < dadosNovos.length; j++) {
+
+            if (dadosNovos[j].macAddress == item.macAddress) {
+
+              empresa = dadosNovos[j].empresa;
+              break;
+            }
+          }
+
+          for (var k = 0; k < item.registros.length; k++) {
+
+            var reg = item.registros[k];
+
+            // Adiciona ao array de dados novos apenas os registros que possuem pelo menos um recurso (CPU, RAM ou Disco) com uso registrado, garantindo que o histórico mantenha apenas registros relevantes para análise e exibição na dashboard
+            dadosNovos.push({
+              macAddress: item.macAddress,
+              empresa: empresa,
+              horario: reg.horario,
+              cpu: reg.cpuUso != null ? { uso: reg.cpuUso } : null,
+              ram: reg.ramUso != null ? { uso: reg.ramUso } : null,
+              disco: reg.discoUso != null ? { uso: reg.discoUso } : null
+            });
+
+          }
+
+        }
+
+      }
       salvarHistorico(dadosNovos);
 
       // usa o histórico completo
@@ -965,15 +974,6 @@
         });
     }
 
-    window.onload = function () {
-
-      pegarDashboard();
-
-      document.getElementById("dialogEmpesa")
-        .showModal();
-
-    }
-
 
     // AUTO UPDATE
 
@@ -992,15 +992,13 @@
     // INICIALIZAÇÃO
 
 
-    carregarEmpresas();
 
-    receberAlertasJira();
 
     window.onload = function () {
-
-      document.getElementById("dialogEmpesa")
-        .showModal();
-
+      pegarDashboard();
+      carregarEmpresas();
+      receberAlertasJira();
+      document.getElementById("dialogEmpesa").showModal();
     };
   </script>
 </body>
