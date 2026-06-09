@@ -1298,7 +1298,7 @@ function criarCards(maquinas) {
                             </div>
                             <div class="localizacao">
                                         <img src="../assets/imgs/loc.svg" alt="">
-                                        <p class="endereco">${maquina.empresa}</p>
+                                        <p class="endereco">${maquina.empresa} - ${maquina.financeiro.localizacao.bairro}</p>
                                     </div>
                             <div class="bodyMaquina-body">
                                 <p class="ultimaAtualizacao">Última atualização às ${hora}</p>
