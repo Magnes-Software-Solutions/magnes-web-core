@@ -310,11 +310,14 @@
 
 
 
-    // Definindo as variáveis globais para armazenar a empresa e máquina selecionadas
+    // Definindo as variáveis globais para armazenar a empresa e máquina selecionadas na dashboard, permitindo que as funções de atualização e análise de dados saibam qual contexto exibir e analisar com base na seleção do usuário
 
     var hospitalSelecionado = null;
     var maquinaSelecionada = null;
-
+    var spanNome =
+      document.getElementById("spanNome");
+    var cargoUsuarioNav =
+      document.getElementById("cargoUsuarioNav");
 
     // HISTÓRICO DAS MÉTRICAS - Funções para salvar e obter o histórico de métricas das máquinas usando localStorage, permitindo análise de dados ao longo do tempo mesmo após atualizações ou mudanças de máquina selecionada
 
@@ -799,7 +802,7 @@
           ultimo.disco ? ultimo.disco.uso : 0;
 
         // CRÍTICA - Qualquer recurso acima de 90% é considerado crítico
-        if (cpu > 90 || ram > 90 || disco > 90) {
+        if (cpu >= 90 || ram >= 90 || disco >= 90) {
 
           criticas++;
 
@@ -828,9 +831,9 @@
 
         // ALERTA
         else if (
-          cpu > 70 ||
-          ram > 70 ||
-          disco > 70
+          cpu >= 70 ||
+          ram >= 70 ||
+          disco >= 70
         ) {
 
           alerta++;
@@ -875,7 +878,7 @@
       for (var i = 0; i < registrosMaquina.length; i++) {
 
         var m = registrosMaquina[i];
-
+        // Extrai o horário para exibir no eixo X do gráfico, considerando apenas a parte de tempo (HH:MM:SS)
         labels.push(
           m.horario.substring(11, 19)
         );
@@ -907,32 +910,69 @@
         .innerText = macAlvo;
     }
 
+    // Função para pegar os dados do dashboard do usuário logado e atualizar o nome e cargo na navbar
     function pegarDashboard() {
-      var idUsuario = sessionStorage.ID_USUARIO;
+
+      var idUsuario =
+        sessionStorage.getItem("ID_USUARIO");
+
+      console.log(idUsuario);
+
       fetch(`/dash/PegarDashboard/${idUsuario}`)
+
         .then(response => response.json())
+
         .then(data => {
-          console.log(data)
-          spanNome.innerHTML = data[0].nome;
-          const fkSupervisor = data[0].fkSupervisor;
-          console.log(fkSupervisor)
-          if (fkSupervisor === null) {
-            cargo = "Supervisor de Sistemas";
-          } else {
-            cargo = "Analista de Sistemas";
+
+          console.log(data);
+
+          if (!data || data.length == 0) {
+
+            console.log(
+              "Nenhum usuário encontrado"
+            );
+
+            return;
           }
-          cargoUsuarioNav.innerHTML = cargo;
+
+          document.getElementById("spanNome")
+            .innerHTML = data[0].nome;
+
+          var cargo = "";
+
+          if (data[0].fkSupervisor == null) {
+
+            cargo =
+              "Supervisor de Sistemas";
+
+          } else {
+
+            cargo =
+              "Analista de Sistemas";
+
+          }
+
+          document.getElementById(
+            "cargoUsuarioNav"
+          ).innerHTML = cargo;
+
         })
+
         .catch(error => {
-          console.error("Erro ao pegar dashboard:", error);
+
+          console.error(error);
+
         });
     }
-    window.onload = function () {
-      pegarDashboard();
-    }
 
-    document.getElementById("dialogEmpesa")
-      .showModal();
+    window.onload = function () {
+
+      pegarDashboard();
+
+      document.getElementById("dialogEmpesa")
+        .showModal();
+
+    }
 
 
     // AUTO UPDATE
