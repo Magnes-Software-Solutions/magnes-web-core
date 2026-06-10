@@ -141,14 +141,15 @@ async function puxarDadosRanking() {
         document.getElementById('ranking').innerHTML = '';
 
         console.log("Resposta do bucket:", dados);
+        
         for (var i = 0; i < dados.ranking.length; i++) {
             var item = dados.ranking[i];
-            if (item.ramUso >= 70) {
+            if (item.ramUso >= dados.maquinas[0].ram.limite) {
                 document.getElementById('ranking').innerHTML += `
                   <strong>${i + 1}º- MAQUINA:</strong> <span style='color: red;'>${item.macAddress}</span><br> <strong>USO DA RAM:</strong> <span style='color: red;'>${item.ramUso}%</span><hr style="border: 1px solid white;">
                 `;
             }
-            else if (item.ramUso >= 40) {
+            else if (item.ramUso >= Number(dados.maquinas[0].ram.limite) * 0.8) {
                 document.getElementById('ranking').innerHTML += `
                   <strong>${i + 1}º- MAQUINA:</strong> <span style='color: yellow;'>${item.macAddress}</span><br> <strong>USO DA RAM:</strong> <span style='color: yellow;'>${item.ramUso}%</span><hr style="border: 1px solid white;">
                 `;
